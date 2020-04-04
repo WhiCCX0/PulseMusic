@@ -17,7 +17,7 @@ public class MediaHelper {
                 String name = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
                 String artist = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
                 String album = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-                int duration = Integer.valueOf(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+                int duration = Integer.parseInt(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
                 mmr.release();
                 return new MusicModel(-1, name, artist, path, album, -1, null, duration);
             }
