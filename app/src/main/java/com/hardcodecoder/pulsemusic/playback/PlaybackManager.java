@@ -7,9 +7,8 @@ import android.media.MediaMetadata;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
-import android.util.Log;
 
-import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
@@ -25,7 +24,6 @@ public class PlaybackManager implements Playback.Callback {
     public static final String METADATA_ALBUM_ART = MediaMetadata.METADATA_KEY_ALBUM_ART;
     public static final short ACTION_PLAY_NEXT = 1;
     public static final short ACTION_PLAY_PREV = -1;
-    private static final String TAG = "PlaybackManager";
     private final PlaybackState.Builder mStateBuilder = new PlaybackState.Builder();
     private final MediaMetadata.Builder mMetadataBuilder = new MediaMetadata.Builder();
     private Playback mPlayback;
@@ -134,8 +132,7 @@ public class PlaybackManager implements Playback.Callback {
             InputStream is = mContext.getContentResolver().openInputStream(uri);
             return BitmapFactory.decodeStream(is);
         } catch (Exception e) {
-            Log.w(TAG, "Album art not found");
-            return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_album_art);
+            return BitmapFactory.decodeResource(mContext.getResources(), MediaArtHelper.getMediaErrorArtId());
         }
     }
 
