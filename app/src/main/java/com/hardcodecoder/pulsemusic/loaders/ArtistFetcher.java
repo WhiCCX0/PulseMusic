@@ -54,7 +54,7 @@ public class ArtistFetcher extends AsyncTask<Void, Void, List<ArtistModel>> {
                 int num_albums = cursor.getInt(albumCountColumnIndex);
                 int num_tracks = cursor.getInt(trackCountColumnIndex);
 
-                data.add(new ArtistModel(id, artist, num_albums, num_tracks));
+                data.add(new ArtistModel(id, num_albums, num_tracks, artist));
             } while (cursor.moveToNext());
             cursor.close();
         }

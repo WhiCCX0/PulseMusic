@@ -55,7 +55,7 @@ public class AlbumFetcher extends AsyncTask<Void, Void, List<AlbumModel>> {
                 String albumArt = ContentUris.withAppendedId(sArtworkUri, albumId).toString();
                 int num = cursor.getInt(songCountColumnIndex);
 
-                data.add(new AlbumModel(id, album, num, albumArt));
+                data.add(new AlbumModel(id, num, albumId, album, albumArt));
             } while (cursor.moveToNext());
             cursor.close();
         }
