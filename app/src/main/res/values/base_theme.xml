@@ -55,8 +55,9 @@
     <style name="AppTheme.Light" parent="ThemeLight">
         <item name="android:windowBackground">@color/window_background_light</item>
 
-        <item name="colorPrimary">@color/primary_color_light_variant</item>
-        <item name="colorPrimaryDark">@color/primary_color_light_variant</item>
+        <item name="primaryColor">@color/primary_color_light_variant</item>
+        <item name="colorPrimary">?primaryColor</item>
+        <item name="colorPrimaryDark">?primaryColor</item>
         <item name="colorOnPrimary">@color/on_primary_light_variant</item>
 
         <item name="windowBackgroundColor">@color/window_background_light</item>
@@ -91,8 +92,9 @@
     <style name="AppTheme.Dark" parent="ThemeDark">
         <item name="android:windowBackground">@color/window_background_dark</item>
 
-        <item name="colorPrimary">@color/primary_color_dark_variant</item>
-        <item name="colorPrimaryDark">@color/primary_color_dark_variant</item>
+        <item name="primaryColor">@color/primary_color_dark_variant</item>
+        <item name="colorPrimary">?primaryColor</item>
+        <item name="colorPrimaryDark">?primaryColor</item>
         <item name="colorOnPrimary">@color/on_primary_dark_variant</item>
 
         <item name="windowBackgroundColor">@color/window_background_dark</item>
