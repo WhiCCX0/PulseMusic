@@ -62,6 +62,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         return 0;
     }
 
+    public enum LayoutStyle {
+        CIRCLE,
+        ROUNDED_RECTANGLE
+    }
+
     /*
      * Custom View holder class
      */
@@ -90,7 +95,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId()));//.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId()));
+                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_4dp));
                             return true;
                         }
 
@@ -104,10 +109,5 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);
         }
-    }
-
-    public enum LayoutStyle {
-        CIRCLE,
-        ROUNDED_RECTANGLE
     }
 }

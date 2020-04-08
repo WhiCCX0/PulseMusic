@@ -23,25 +23,28 @@ import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
+import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.AsyncTaskCallback;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
 import java.util.List;
 
 public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCallback.Simple, LibraryItemClickListener {
 
-    private String title;
-    private List<MusicModel> mList;
-    private TrackManager tm;
     public static final String KEY_ART_URL = "art";
     public static final String KEY_TITLE = "title";
+    public static final String ALBUM_ID = "id";
     public static final String KEY_ITEM_CATEGORY = "category";
     public static final int CATEGORY_ALBUM = 1;
     public static final int CATEGORY_ARTIST = 2;
+    private String title;
+    private List<MusicModel> mList;
+    private TrackManager tm;
+    private Long mAlbumId;
     private int mCategory;
 
     @Override
@@ -53,17 +56,19 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
         String art = getIntent().getStringExtra(KEY_ART_URL);
         title = getIntent().getStringExtra(KEY_TITLE);
         mCategory = getIntent().getIntExtra(KEY_ITEM_CATEGORY, -1);
-
+        mAlbumId = getIntent().getLongExtra(ALBUM_ID, 0);
         ImageView iv = findViewById(R.id.details_activity_art);
 
         GlideApp.with(this)
                 .load(art)
-                .error(getDrawable(mCategory == CATEGORY_ALBUM ? R.drawable.ic_album_art : R.drawable.ic_artist_art))
                 .addListener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         supportStartPostponedEnterTransition();
-                        return false;
+                        iv.setImageDrawable(mCategory == CATEGORY_ALBUM ?
+                                MediaArtHelper.getMediaArtDrawable(iv.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_2dp) :
+                                getDrawable(R.drawable.ic_artist_art));
+                        return true;
                     }
 
                     @Override
@@ -91,7 +96,7 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
             TextView temp = findViewById(R.id.details_activity_title);
             temp.setText(title);
             temp = findViewById(R.id.details_activity_title_sub);
-            temp.setText(getString(R.string.num_tracks).concat(" "+mList.size() + " ").concat(getString(R.string.tracks_num)));
+            temp.setText(getString(R.string.num_tracks).concat(" " + mList.size() + " ").concat(getString(R.string.tracks_num)));
 
             RecyclerView rv = findViewById(R.id.details_activity_rv);
             rv.setVisibility(View.VISIBLE);
@@ -122,7 +127,7 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
                 .setOnClickListener(v -> {
                     tm.playNext(mList.get(pos));
                     Toast.makeText(v.getContext(), getString(R.string.play_next_toast), Toast.LENGTH_SHORT).show();
-                    if(bottomSheetDialog.isShowing())
+                    if (bottomSheetDialog.isShowing())
                         bottomSheetDialog.dismiss();
                 });
 
@@ -130,7 +135,7 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
                 .setOnClickListener(v -> {
                     tm.addToActiveQueue(mList.get(pos));
                     Toast.makeText(v.getContext(), getString(R.string.add_to_queue_toast), Toast.LENGTH_SHORT).show();
-                    if(bottomSheetDialog.isShowing())
+                    if (bottomSheetDialog.isShowing())
                         bottomSheetDialog.dismiss();
                 });
 

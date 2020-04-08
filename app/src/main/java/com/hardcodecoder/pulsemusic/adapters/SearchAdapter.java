@@ -115,6 +115,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         list.addAll(newItems);
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        t.quitSafely();
+        mMainHandler = null;
+        mBackgroundHandler = null;
+        pendingUpdates.clear();
+        list.clear();
+    }
+
     /*
      * Custom View holder class
      */
@@ -139,7 +149,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId()));
+                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_8dp));
                             return true;
                         }
 
@@ -151,16 +161,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     .transform(GlideConstantArtifacts.getRoundingRadiusSmall())
                     .into(albumArt);
         }
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        t.quitSafely();
-        mMainHandler = null;
-        mBackgroundHandler = null;
-        pendingUpdates.clear();
-        list.clear();
     }
 }
 

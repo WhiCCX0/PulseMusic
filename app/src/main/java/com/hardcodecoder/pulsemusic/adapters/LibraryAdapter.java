@@ -89,11 +89,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
             artist.setText(md.getArtist());
             GlideApp.with(itemView)
                     .load(md.getAlbumArtUrl())
-                    //.error(R.drawable.media_error_art_1)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId()));//.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId()));
+                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_8dp));
                             return true;
                         }
 

@@ -74,7 +74,7 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            iv.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), am.getAlbumId()));//.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), am.getAlbumId()));
+                            iv.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), am.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_4dp));
                             return true;
                         }
 
