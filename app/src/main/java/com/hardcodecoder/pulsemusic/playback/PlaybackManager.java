@@ -121,18 +121,18 @@ public class PlaybackManager implements Playback.Callback {
             mMetadataBuilder.putString(METADATA_TITLE_KEY, md.getSongName());
             mMetadataBuilder.putString(METADATA_ARTIST_KEY, md.getArtist());
             mMetadataBuilder.putString(METADATA_ALBUM_KEY, md.getAlbum());
-            mMetadataBuilder.putBitmap(METADATA_ALBUM_ART, loadAlbumArt(md.getAlbumArtUrl()));
+            mMetadataBuilder.putBitmap(METADATA_ALBUM_ART, loadAlbumArt(md.getAlbumArtUrl(), md.getAlbumId()));
             mServiceCallback.onMetaDataChanged(mMetadataBuilder.build());
         }
     }
 
-    private Bitmap loadAlbumArt(String path) {
+    private Bitmap loadAlbumArt(String path, long albumId) {
         try {
             Uri uri = Uri.parse(path);
             InputStream is = mContext.getContentResolver().openInputStream(uri);
             return BitmapFactory.decodeStream(is);
         } catch (Exception e) {
-            return BitmapFactory.decodeResource(mContext.getResources(), MediaArtHelper.getMediaErrorArtId());
+            return MediaArtHelper.getMediaArtBitmap(mContext, albumId, MediaArtHelper.RoundingRadius.RADIUS_4dp);
         }
     }
 
