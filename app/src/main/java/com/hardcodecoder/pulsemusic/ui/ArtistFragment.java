@@ -27,8 +27,8 @@ import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
-import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.loaders.ArtistFetcher;
+import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.List;
@@ -40,10 +40,6 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
     private int spanCount;
     private int currentConfig;
     private GridLayoutManager layoutManager;
-    private enum ID {
-        PORTRAIT,
-        LANDSCAPE
-    }
 
     public ArtistFragment() {
     }
@@ -139,15 +135,14 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
         return true;
     }
 
-    private void updateGridSize(ID id, int spanCount){
-        if(id == ID.PORTRAIT) {
+    private void updateGridSize(ID id, int spanCount) {
+        if (id == ID.PORTRAIT) {
             AppSettings.savePortraitGridSpanCount(getContext(), spanCount);
-            if(currentConfig == Configuration.ORIENTATION_PORTRAIT)
+            if (currentConfig == Configuration.ORIENTATION_PORTRAIT)
                 layoutManager.setSpanCount(spanCount);
-        }
-        else {
+        } else {
             AppSettings.saveLandscapeGridSpanCount(getContext(), spanCount);
-            if(currentConfig == Configuration.ORIENTATION_LANDSCAPE)
+            if (currentConfig == Configuration.ORIENTATION_LANDSCAPE)
                 layoutManager.setSpanCount(spanCount);
         }
     }
@@ -169,9 +164,15 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
     @Override
     public void onClickItem(int pos) {
         Intent i = new Intent(getContext(), DetailsActivity.class);
-        i.putExtra(DetailsActivity.KEY_ART_URL, String.valueOf(R.drawable.ic_album_art));
-        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(pos).getArtistName());
+        i.putExtra(DetailsActivity.ALBUM_ID, 0);//No albumId for artists
         i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
+        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(pos).getArtistName());
+        i.putExtra(DetailsActivity.KEY_ART_URL, String.valueOf(R.drawable.ic_artist_art));
         startActivity(i);
+    }
+
+    private enum ID {
+        PORTRAIT,
+        LANDSCAPE
     }
 }
