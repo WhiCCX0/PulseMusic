@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic;
 import android.app.Application;
 
 import com.hardcodecoder.pulsemusic.themes.ThemeManager;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 public class PulseApp extends Application {
 
@@ -10,8 +11,7 @@ public class PulseApp extends Application {
     public void onCreate() {
         super.onCreate();
         ThemeManager.init(getApplicationContext());
-        int radius = getResources().getDimensionPixelSize(R.dimen.rounding_radius_default);
-        int small = getResources().getDimensionPixelSize(R.dimen.rounding_radius_small);
-        GlideConstantArtifacts.init(new int[]{radius, small});
+        DimensionsUtil.init(this);
+        GlideConstantArtifacts.init();
     }
 }
