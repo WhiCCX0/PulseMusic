@@ -44,15 +44,15 @@ import com.hardcodecoder.pulsemusic.adapters.HomeAdapterAlbum;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterArtist;
 import com.hardcodecoder.pulsemusic.helper.MediaHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
-import com.hardcodecoder.pulsemusic.model.AlbumModel;
-import com.hardcodecoder.pulsemusic.model.ArtistModel;
-import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.loaders.AlbumFetcher;
 import com.hardcodecoder.pulsemusic.loaders.ArtistFetcher;
 import com.hardcodecoder.pulsemusic.loaders.ShuffledListProvider;
 import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage;
 import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage.Sort;
+import com.hardcodecoder.pulsemusic.model.AlbumModel;
+import com.hardcodecoder.pulsemusic.model.ArtistModel;
+import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.utils.UserInfo;
 import com.hardcodecoder.pulsemusic.viewmodel.HomeContentVM;
 
@@ -64,9 +64,9 @@ public class HomeFragment extends Fragment {
 
     private static final int PICK_AVATAR = 1500;
     private static final int PICK_MUSIC = 1600;
+    private final Handler mHandler = new Handler();
     private TrackManager tm;
     private MediaController.TransportControls mTransportControl;
-    private final Handler mHandler = new Handler();
     private PopupMenu pm;
     private ImageView profilePic;
 
@@ -119,54 +119,49 @@ public class HomeFragment extends Fragment {
         return true;
     }
 
-    private void updateUi(View view){
+    private void updateUi(View view) {
         mYouMayLikeList = mModel.getYourMayLikeList();
         mNewInLibraryList = mModel.getNewInLibrary();
         mAlbumList = mModel.getAlbumsList();
         mArtistList = mModel.getArtistList();
 
-        if(null == mYouMayLikeList) {
+        if (null == mYouMayLikeList) {
             new ShuffledListProvider(list -> {
                 mYouMayLikeList = list;
                 mModel.setYourMayLikeList(mYouMayLikeList);
                 loadRecycleView(view, R.id.home_suggested_rv, mYouMayLikeList, LayoutStyle.CIRCLE);
             }).execute();
-        }
-        else loadRecycleView(view, R.id.home_suggested_rv, mYouMayLikeList, LayoutStyle.CIRCLE);
+        } else loadRecycleView(view, R.id.home_suggested_rv, mYouMayLikeList, LayoutStyle.CIRCLE);
 
 
-        if(null == mNewInLibraryList && null != getContext()) {
+        if (null == mNewInLibraryList && null != getContext()) {
             new TrackFetcherFromStorage(getContext().getContentResolver(), list -> {
                 mNewInLibraryList = list;
                 mModel.setNewInLibrary(mNewInLibraryList);
                 loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
             }, Sort.DATE_ADDED_DESC).execute();
-        }
-        else loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
+        } else
+            loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
 
 
-        if(null == mArtistList && null != getContext()){
+        if (null == mArtistList && null != getContext()) {
             new ArtistFetcher(getContext().getContentResolver(), data -> {
                 Collections.shuffle(data);
-                mArtistList = data.subList(0, ((int) (data.size()*0.15))); // sublist top 15%
-                Collections.shuffle(mArtistList);
-               mModel.setArtistList(mArtistList);
-               loadArtistRv(view);
+                mArtistList = data.subList(0, ((int) (data.size() * 0.15))); // sublist top 15%
+                mModel.setArtistList(mArtistList);
+                loadArtistRv(view);
             }, null).execute();
-        }
-        else loadArtistRv(view);
+        } else loadArtistRv(view);
 
 
-        if(null == mAlbumList && null != getContext()) {
+        if (null == mAlbumList && null != getContext()) {
             new AlbumFetcher(getContext().getContentResolver(), data -> {
                 Collections.shuffle(data);
-                mAlbumList = data.subList(0, ((int) (data.size()*0.15))); // sublist top 15%
-                Collections.shuffle(mAlbumList);
+                mAlbumList = data.subList(0, ((int) (data.size() * 0.15))); // sublist top 15%
                 mModel.setAlbumsList(mAlbumList);
                 loadAlbumCard(view);
             }, null).execute();
-        }
-        else loadAlbumCard(view);
+        } else loadAlbumCard(view);
     }
 
     private void loadRecycleView(View view, @IdRes int id, List<MusicModel> dataList, LayoutStyle style) {
@@ -191,35 +186,36 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void loadArtistRv(View v){
+    private void loadArtistRv(View v) {
         mHandler.post(() -> {
-           RecyclerView rv = v.findViewById(R.id.home_recent_artist_rv);
-           rv.setVisibility(View.VISIBLE);
-           rv.setHasFixedSize(true);
-           rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
-           HomeAdapterArtist adapter = new HomeAdapterArtist(getLayoutInflater(), mArtistList, new ItemClickListener.Simple() {
-               @Override
-               public void onItemClick(int pos) {
+            RecyclerView rv = v.findViewById(R.id.home_recent_artist_rv);
+            rv.setVisibility(View.VISIBLE);
+            rv.setHasFixedSize(true);
+            rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
+            HomeAdapterArtist adapter = new HomeAdapterArtist(getLayoutInflater(), mArtistList, new ItemClickListener.Simple() {
+                @Override
+                public void onItemClick(int pos) {
 
-               }
+                }
 
-               @Override
-               public void onOptionsClick(View view, int pos) {
-                   Intent i = new Intent(getContext(), DetailsActivity.class);
-                   i.putExtra(DetailsActivity.KEY_ART_URL, String.valueOf(R.drawable.ic_album_art));
-                   i.putExtra(DetailsActivity.KEY_TITLE, mArtistList.get(pos).getArtistName());
-                   i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-                   Bundle b = null;
-                   if(null != getActivity())
-                       b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, getString(R.string.home_iv_st)).toBundle();
-                   startActivity(i, b);
-               }
-           });
-           rv.setAdapter(adapter);
+                @Override
+                public void onOptionsClick(View view, int pos) {
+                    Intent i = new Intent(getContext(), DetailsActivity.class);
+                    i.putExtra(DetailsActivity.ALBUM_ID, 0);//No album id for artists
+                    i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
+                    i.putExtra(DetailsActivity.KEY_TITLE, mArtistList.get(pos).getArtistName());
+                    i.putExtra(DetailsActivity.KEY_ART_URL, "");
+                    Bundle b = null;
+                    if (null != getActivity())
+                        b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, getString(R.string.home_iv_st)).toBundle();
+                    startActivity(i, b);
+                }
+            });
+            rv.setAdapter(adapter);
         });
     }
 
-    private void loadAlbumCard(View v){
+    private void loadAlbumCard(View v) {
         mHandler.post(() -> {
             RecyclerView rv = v.findViewById(R.id.home_albums_rv);
             rv.setVisibility(View.VISIBLE);
@@ -233,12 +229,13 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onOptionsClick(View view, int pos) {
                     Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra(DetailsActivity.KEY_ART_URL, mAlbumList.get(pos).getAlbumArt());
-                    i.putExtra(DetailsActivity.KEY_TITLE, mAlbumList.get(pos).getAlbumName());
+                    i.putExtra(DetailsActivity.ALBUM_ID, mAlbumList.get(pos).getAlbumId());
                     i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
+                    i.putExtra(DetailsActivity.KEY_TITLE, mAlbumList.get(pos).getAlbumName());
+                    i.putExtra(DetailsActivity.KEY_ART_URL, mAlbumList.get(pos).getAlbumArt());
                     Bundle b = null;
-                    if(null != getActivity())
-                    b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, getString(R.string.home_iv_st)).toBundle();
+                    if (null != getActivity())
+                        b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, getString(R.string.home_iv_st)).toBundle();
                     startActivity(i, b);
                 }
             });
@@ -277,11 +274,11 @@ public class HomeFragment extends Fragment {
         bottomSheetDialog.setContentView(v);
 
         TextView tv = v.findViewById(R.id.home_greeting);
-        if(null != getContext())
+        if (null != getContext())
             tv.setText(UserInfo.getUserName(getContext()));
         tv.findViewById(R.id.home_greeting).setOnClickListener(v1 -> {
             addUserName();
-            if(bottomSheetDialog.isShowing()) bottomSheetDialog.dismiss();
+            if (bottomSheetDialog.isShowing()) bottomSheetDialog.dismiss();
         });
 
         profilePic = v.findViewById(R.id.user_profile);
@@ -326,7 +323,7 @@ public class HomeFragment extends Fragment {
         startActivityForResult(chooserIntent, PICK_AVATAR);
     }
 
-    private void pickMedia(){
+    private void pickMedia() {
         Intent intent_upload = new Intent();
         intent_upload.setType("audio/*");
         intent_upload.setAction(Intent.ACTION_GET_CONTENT);
@@ -335,7 +332,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (/*requestCode == PICK_AVATAR && */resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == PICK_AVATAR) {
                 if (null == data) {
                     Toast.makeText(getContext(), "Cannot retrieve image", Toast.LENGTH_SHORT).show();
@@ -347,7 +344,7 @@ public class HomeFragment extends Fragment {
                 }
             } else if (requestCode == PICK_MUSIC) {
                 MusicModel md = MediaHelper.buildMusicModelFrom(getContext(), data);
-                if(md != null){
+                if (md != null) {
                     List<MusicModel> singlePickedItemList = new ArrayList<>();
                     singlePickedItemList.add(md);
                     tm.buildDataList(singlePickedItemList, 0);
