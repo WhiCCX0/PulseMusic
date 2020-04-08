@@ -25,6 +25,7 @@
         android:background="?imageViewBackgroundDrawable"
         android:contentDescription="@string/iv_content_desc"
         android:scaleType="centerCrop"
+        android:cropToPadding="true"
         android:transitionName="@string/home_iv_st"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

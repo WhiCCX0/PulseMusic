@@ -30,6 +30,7 @@
         android:contentDescription="@string/iv_content_desc"
         android:padding="@dimen/bck_iv_sh_src_padding"
         android:scaleType="centerCrop"
+        android:cropToPadding="true"
         android:transitionName="@string/home_iv_st"
         tools:src="@drawable/def_avatar" />
 

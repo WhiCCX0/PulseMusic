@@ -17,6 +17,7 @@
         android:background="@drawable/bck_circle_border_artist"
         android:padding="10dp"
         android:scaleType="centerCrop"
+        android:cropToPadding="true"
         android:src="@drawable/ic_artist_art"
         android:transitionName="@string/home_iv_st"
         tools:ignore="contentDescription" />
