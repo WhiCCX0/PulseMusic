@@ -12,6 +12,5 @@ public class PulseApp extends Application {
         super.onCreate();
         ThemeManager.init(getApplicationContext());
         DimensionsUtil.init(this);
-        GlideConstantArtifacts.init();
     }
 }

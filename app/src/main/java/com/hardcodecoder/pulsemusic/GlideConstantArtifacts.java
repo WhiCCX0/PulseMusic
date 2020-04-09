@@ -6,22 +6,36 @@ import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 public class GlideConstantArtifacts {
 
-    private static RoundedCorners rc;
-    private static RoundedCorners smallRR;
+    private static RoundedCorners mRadius2dp, mRadius4dp, mRadius8dp, mRadius16dp;
     private static CircleCrop mCircleCrop;
 
-    static void init() {
-        rc = new RoundedCorners(DimensionsUtil.getRoundingRadiusPixelSize18dp());
-        smallRR = new RoundedCorners(DimensionsUtil.getRoundingRadiusPixelSize8dp());
-        mCircleCrop = new CircleCrop();
+    public static RoundedCorners getRadius2dp() {
+        if (null == mRadius2dp)
+            mRadius2dp = new RoundedCorners(DimensionsUtil.getRoundingRadiusPixelSize2dp());
+        return mRadius2dp;
     }
 
-    public static RoundedCorners getDefaultRoundingRadius() {
-        return rc;
+    public static RoundedCorners getRadius4dp() {
+        if (null == mRadius4dp)
+            mRadius4dp = new RoundedCorners(DimensionsUtil.getRoundingRadiusPixelSize4dp());
+        return mRadius4dp;
     }
 
-    public static RoundedCorners getRoundingRadiusSmall () { return smallRR; }
+    public static RoundedCorners getRadius8dp() {
+        if (null == mRadius8dp)
+            mRadius8dp = new RoundedCorners(DimensionsUtil.getRoundingRadiusPixelSize8dp());
+        return mRadius8dp;
+    }
 
-    public static CircleCrop getCircleCrop () { return mCircleCrop; }
+    public static RoundedCorners getRadius16dp() {
+        if (null == mRadius16dp)
+            mRadius16dp = new RoundedCorners(DimensionsUtil.getRoundingRadiusPixelSize16dp());
+        return mRadius16dp;
+    }
+
+    public static CircleCrop getCircleCrop() {
+        if (null == mCircleCrop) mCircleCrop = new CircleCrop();
+        return mCircleCrop;
+    }
 
 }
