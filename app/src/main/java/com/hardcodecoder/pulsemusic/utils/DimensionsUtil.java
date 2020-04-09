@@ -10,7 +10,7 @@ public class DimensionsUtil {
     private static int mRoundingRadius2dp;
     private static int mRoundingRadius4dp;
     private static int mRoundingRadius8dp;
-    private static int mRoundingRadius18dp;
+    private static int mRoundingRadius16dp;
 
 
     public static void init(Context context) {
@@ -18,7 +18,7 @@ public class DimensionsUtil {
         mRoundingRadius2dp = resources.getDimensionPixelSize(R.dimen.rounding_radius_2dp);
         mRoundingRadius4dp = resources.getDimensionPixelSize(R.dimen.rounding_radius_4dp);
         mRoundingRadius8dp = resources.getDimensionPixelSize(R.dimen.rounding_radius_8dp);
-        mRoundingRadius18dp = resources.getDimensionPixelSize(R.dimen.rounding_radius_18dp);
+        mRoundingRadius16dp = resources.getDimensionPixelSize(R.dimen.rounding_radius_16dp);
     }
 
 
@@ -34,7 +34,7 @@ public class DimensionsUtil {
         return mRoundingRadius8dp;
     }
 
-    public static int getRoundingRadiusPixelSize18dp() {
-        return mRoundingRadius18dp;
+    public static int getRoundingRadiusPixelSize16dp() {
+        return mRoundingRadius16dp;
     }
 }

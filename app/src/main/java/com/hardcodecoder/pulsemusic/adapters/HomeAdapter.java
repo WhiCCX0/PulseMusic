@@ -105,7 +105,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                         }
                     })
                     .transform(style == LayoutStyle.ROUNDED_RECTANGLE ?
-                            GlideConstantArtifacts.getDefaultRoundingRadius() : GlideConstantArtifacts.getCircleCrop())
+                            GlideConstantArtifacts.getRadius16dp() : GlideConstantArtifacts.getCircleCrop())
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);
         }

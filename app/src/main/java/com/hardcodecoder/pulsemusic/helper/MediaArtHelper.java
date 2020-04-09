@@ -39,23 +39,30 @@ public class MediaArtHelper {
         return MediaArtGenerator.generateMediaArtBitmap(context, getValue(albumId), r);
     }
 
+    public enum RoundingRadius {
+        RADIUS_2dp,
+        RADIUS_4dp,
+        RADIUS_8dp,
+        RADIUS_16dp
+    }
+
     private static class MediaArtGenerator {
 
         private static Bitmap mBitmap;
         private static Canvas mCanvas;
         private static TypedArray mMediaArtColors;
 
-        private static int getRoundingRadius(RoundingRadius r){
-            switch(r){
+        private static int getRoundingRadius(RoundingRadius r) {
+            switch (r) {
                 case RADIUS_2dp:
                     return DimensionsUtil.getRoundingRadiusPixelSize2dp();
                 case RADIUS_4dp:
                     return DimensionsUtil.getRoundingRadiusPixelSize4dp();
                 case RADIUS_8dp:
                     return DimensionsUtil.getRoundingRadiusPixelSize8dp();
-                case RADIUS_18dp:
+                case RADIUS_16dp:
                 default:
-                    return DimensionsUtil.getRoundingRadiusPixelSize18dp();
+                    return DimensionsUtil.getRoundingRadiusPixelSize16dp();
             }
         }
 
@@ -63,12 +70,14 @@ public class MediaArtHelper {
         static Drawable generateMediaArtDrawable(Context context, int index, RoundingRadius r) {
             if (null == mMediaArtColors)
                 mMediaArtColors = context.getResources().obtainTypedArray(R.array.album_art_colors);
+            //To match image view background with 100px x 100 px and 18 rounding radius
+            //Drawable with 24dp x 24dp with 4 dp rounding radius is required
+            //which scales proportionally : 96dp x 96dp with 16 dp rounding radius
             GradientDrawable background = new GradientDrawable();
-            Drawable icon = context.getDrawable(R.drawable.ic_media_error_art);
             background.setShape(GradientDrawable.RECTANGLE);
             background.setCornerRadius(getRoundingRadius(r));
             background.setColor(mMediaArtColors.getColor(index, 0));
-            return new LayerDrawable(new Drawable[]{background, icon});
+            return new LayerDrawable(new Drawable[]{background, context.getDrawable(R.drawable.ic_media_error_art)});
         }
 
         @NonNull
@@ -83,11 +92,5 @@ public class MediaArtHelper {
             return mBitmap;
         }
 
-    }
-    public enum RoundingRadius{
-        RADIUS_2dp,
-        RADIUS_4dp,
-        RADIUS_8dp,
-        RADIUS_18dp
     }
 }

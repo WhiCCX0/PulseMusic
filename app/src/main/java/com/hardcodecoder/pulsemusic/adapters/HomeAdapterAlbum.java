@@ -83,7 +83,7 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
                             return false;
                         }
                     })
-                    .transform(new CenterCrop(), GlideConstantArtifacts.getDefaultRoundingRadius())
+                    .transform(new CenterCrop(), GlideConstantArtifacts.getRadius16dp())
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(iv);
             tv.setText(am.getAlbumName());

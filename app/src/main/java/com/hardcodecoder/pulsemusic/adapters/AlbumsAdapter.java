@@ -73,7 +73,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            art.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), am.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_18dp));
+                            art.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), am.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_16dp));
                             return true;
                         }
 
@@ -82,7 +82,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                             return false;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getDefaultRoundingRadius())
+                    .transform(GlideConstantArtifacts.getRadius16dp())
                     .into(art);
             title.setText(am.getAlbumName());
         }

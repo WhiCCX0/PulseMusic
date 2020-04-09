@@ -107,7 +107,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            art.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_8dp));
+                            art.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_4dp));
                             return true;
                         }
 
@@ -116,7 +116,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
                             return false;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getRoundingRadiusSmall())
+                    .transform(GlideConstantArtifacts.getRadius8dp())
                     .into(art);
             title.setText(md.getSongName());
             artist.setText(md.getArtist());
