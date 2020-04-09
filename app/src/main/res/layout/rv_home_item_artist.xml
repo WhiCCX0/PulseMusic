@@ -15,7 +15,7 @@
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:background="@drawable/bck_circle_border_artist"
-        android:padding="10dp"
+        android:padding="16dp"
         android:scaleType="centerCrop"
         android:cropToPadding="true"
         android:src="@drawable/ic_artist_art"
