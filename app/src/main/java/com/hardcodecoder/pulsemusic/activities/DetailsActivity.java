@@ -66,7 +66,7 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         supportStartPostponedEnterTransition();
                         iv.setImageDrawable(mCategory == CATEGORY_ALBUM ?
-                                MediaArtHelper.getMediaArtDrawable(iv.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_2dp) :
+                                MediaArtHelper.getMediaArtDrawable(iv.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_4dp) :
                                 getDrawable(R.drawable.ic_artist_art));
                         return true;
                     }
@@ -77,7 +77,7 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
                         return false;
                     }
                 })
-                .transform(GlideConstantArtifacts.getDefaultRoundingRadius())
+                .transform(GlideConstantArtifacts.getRadius16dp())
                 .into(iv);
 
         findViewById(R.id.details_activity_btn_close).setOnClickListener(v -> finishAfterTransition());

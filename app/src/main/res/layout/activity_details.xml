@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
     android:paddingTop="24dp">
 
     <ImageView
@@ -19,8 +18,8 @@
 
     <ImageView
         android:id="@+id/details_activity_art"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:padding="@dimen/bck_iv_sh_src_padding"
         android:background="?imageViewBackgroundDrawable"
         android:contentDescription="@string/iv_content_desc"
