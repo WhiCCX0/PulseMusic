@@ -12,14 +12,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage;
-import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.TaskRunner;
+import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
-import java.util.List;
 
-
-public class SplashActivity extends PMBActivity implements TrackFetcherFromStorage.TaskDelegate {
+public class SplashActivity extends PMBActivity {
 
     private static final int REQUEST_CODE = 69;
 
@@ -53,12 +52,6 @@ public class SplashActivity extends PMBActivity implements TrackFetcherFromStora
         }
     }
 
-    @Override
-    public void onTaskCompleted(List<MusicModel> list) {
-        TrackManager.getInstance().setMainList(list);
-        startHomeActivity();
-    }
-
     private void startHomeActivity() {
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
@@ -68,8 +61,10 @@ public class SplashActivity extends PMBActivity implements TrackFetcherFromStora
     }
 
     private void startMusicLoader() {
-        TrackFetcherFromStorage ml = new TrackFetcherFromStorage(getContentResolver(), this, TrackFetcherFromStorage.Sort.TITLE_ASC);
-        ml.execute();
+        TaskRunner.getInstance().executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
+            TrackManager.getInstance().setMainList(data);
+            startHomeActivity();
+        });
     }
 }
 

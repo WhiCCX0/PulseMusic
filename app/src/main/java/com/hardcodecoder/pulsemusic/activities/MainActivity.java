@@ -14,9 +14,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
+import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage;
-import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage.Sort;
 import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 import com.hardcodecoder.pulsemusic.ui.AlbumFragment;
 import com.hardcodecoder.pulsemusic.ui.ArtistFragment;
@@ -53,8 +54,10 @@ public class MainActivity extends MediaSessionActivity {
     private Fragment activeFrag = null;
     private MediaBrowser mMediaBrowser;
     private Fragment artistFrag = null;
-    @StyleRes private int mCurrentTheme;
-    @StyleRes private int mCurrentAccent;
+    @StyleRes
+    private int mCurrentTheme;
+    @StyleRes
+    private int mCurrentAccent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,10 @@ public class MainActivity extends MediaSessionActivity {
         setContentView(R.layout.activity_main);
 
         if (TrackManager.getInstance().getMainList() == null) {
-            TrackFetcherFromStorage ml = new TrackFetcherFromStorage(getContentResolver(), list -> {
-                TrackManager.getInstance().setMainList(list);
+            TaskRunner.getInstance().executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
+                TrackManager.getInstance().setMainList(data);
                 setUpMainContents(savedInstanceState);
-            }, Sort.TITLE_ASC);
-            ml.execute();
+            });
         } else setUpMainContents(savedInstanceState);
     }
 

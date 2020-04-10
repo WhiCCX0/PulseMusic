@@ -2,33 +2,42 @@ package com.hardcodecoder.pulsemusic.loaders;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 
-import com.hardcodecoder.pulsemusic.interfaces.ArtistDataFetchCompletionCallback;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public class ArtistFetcher extends AsyncTask<Void, Void, List<ArtistModel>> {
+public class ArtistsLoader implements Callable<List<ArtistModel>> {
 
-    private ArtistDataFetchCompletionCallback mCallback;
-    private List<ArtistModel> data = new ArrayList<>();
     private ContentResolver mContentResolver;
-    private String mSort = null;
+    private String mSortOrder;
 
-    public ArtistFetcher(ContentResolver mContentResolver, ArtistDataFetchCompletionCallback mCallback, SORT sort) {
-        this.mCallback = mCallback;
+    public ArtistsLoader(ContentResolver mContentResolver, SortOrder.ARTIST sortOrder) {
         this.mContentResolver = mContentResolver;
-        if(sort == SORT.TITLE_ASC)
-            mSort = MediaStore.Audio.Artists.ARTIST + " ASC";
-        else if(sort == SORT.NUM_OF_TRACKS_DESC)
-            mSort = MediaStore.Audio.Artists.NUMBER_OF_TRACKS + " DESC";
+        switch (sortOrder) {
+            case TITLE_ASC:
+                mSortOrder = MediaStore.Audio.Artists.ARTIST + " ASC";
+                break;
+            case TITLE_DESC:
+                mSortOrder = MediaStore.Audio.Artists.ARTIST + " DESC";
+                break;
+            case NUM_OF_TRACKS_ASC:
+                mSortOrder = MediaStore.Audio.Artists.NUMBER_OF_TRACKS + " ASC";
+                break;
+            case NUM_OF_TRACKS_DESC:
+                mSortOrder = MediaStore.Audio.Artists.NUMBER_OF_TRACKS + " DESC";
+                break;
+            default:
+                mSortOrder = null;
+        }
     }
 
     @Override
-    protected List<ArtistModel> doInBackground(Void... voids) {
+    public List<ArtistModel> call() {
+        List<ArtistModel> artistList = new ArrayList<>();
         String[] col = {MediaStore.Audio.Albums._ID,
                 MediaStore.Audio.Albums._ID,
                 MediaStore.Audio.Artists.ARTIST,
@@ -40,7 +49,7 @@ public class ArtistFetcher extends AsyncTask<Void, Void, List<ArtistModel>> {
                 col,
                 null,
                 null,
-                mSort);
+                mSortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
             int idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Artists._ID);
@@ -54,21 +63,10 @@ public class ArtistFetcher extends AsyncTask<Void, Void, List<ArtistModel>> {
                 int num_albums = cursor.getInt(albumCountColumnIndex);
                 int num_tracks = cursor.getInt(trackCountColumnIndex);
 
-                data.add(new ArtistModel(id, num_albums, num_tracks, artist));
+                artistList.add(new ArtistModel(id, num_albums, num_tracks, artist));
             } while (cursor.moveToNext());
             cursor.close();
         }
-        return data;
+        return artistList;
     }
-
-    @Override
-    protected void onPostExecute(List<ArtistModel> albumModels) {
-        mCallback.onTaskComplete(albumModels);
-    }
-
-    public enum SORT {
-        TITLE_ASC,
-        NUM_OF_TRACKS_DESC
-    }
-
 }

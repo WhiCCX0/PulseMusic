@@ -4,38 +4,42 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public class TrackFetcherFromStorage extends AsyncTask<Void, Void, List<MusicModel>> {
+public class LibraryLoader implements Callable<List<MusicModel>> {
 
     private ContentResolver contentResolver;
-    private TaskDelegate mtd;
     private String mSortOrder;
-    private int itemToScan;
 
-
-    public TrackFetcherFromStorage(ContentResolver contentResolver, TaskDelegate td, Sort sort) {
+    public LibraryLoader(ContentResolver contentResolver, SortOrder sortOrder) {
         this.contentResolver = contentResolver;
-        mtd = td;
-        if (sort == Sort.TITLE_ASC) {
-            mSortOrder = MediaStore.Audio.Media.TITLE + " ASC";
-            itemToScan = -1; // Scans all media items
-        } else if (sort == Sort.DATE_ADDED_DESC) {
-            mSortOrder = MediaStore.Audio.Media.DATE_MODIFIED + " DESC";
-            itemToScan = 20; // Scans only 20 items
+        switch (sortOrder) {
+            case TITLE_ASC:
+                mSortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+                break;
+            case TITLE_DESC:
+                mSortOrder = MediaStore.Audio.Media.TITLE + " DESC";
+                break;
+            case DATE_MODIFIED_ASC:
+                mSortOrder = MediaStore.Audio.Media.DATE_MODIFIED + " ASC";
+                break;
+            case DATE_MODIFIED_DESC:
+                mSortOrder = MediaStore.Audio.Media.DATE_MODIFIED + " DESC";
+                break;
+            default:
+                mSortOrder = null;
         }
     }
 
     @Override
-    protected List<MusicModel> doInBackground(Void... voids) {
-        int c = 0;
-        List<MusicModel> allSongs = new ArrayList<>();
+    public List<MusicModel> call() {
+        List<MusicModel> libraryList = new ArrayList<>();
         final Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         final String[] cursor_cols = {
                 MediaStore.Audio.Media._ID,
@@ -64,10 +68,6 @@ public class TrackFetcherFromStorage extends AsyncTask<Void, Void, List<MusicMod
             final Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
 
             do {
-                if (c == itemToScan) //if itemToScan == -1 then this will never execute since @link{id} is a +ve integer
-                    break;
-                c++;
-
                 int _id = cursor.getInt(idColumnIndex);
                 String songName = cursor.getString(titleColumnIndex);
                 String artist = cursor.getString(artistColumnIndex);
@@ -77,11 +77,11 @@ public class TrackFetcherFromStorage extends AsyncTask<Void, Void, List<MusicMod
                 int duration = cursor.getInt(durationColumnIndex);
                 String albumArt = ContentUris.withAppendedId(sArtworkUri, albumId).toString();
 
-                allSongs.add(new MusicModel(_id, songName, artist, songPath, album, albumId, albumArt, duration));
+                libraryList.add(new MusicModel(_id, songName, artist, songPath, album, albumId, albumArt, duration));
             } while (cursor.moveToNext());
             cursor.close();
         }
-        return allSongs;
+        return libraryList;
     }
 
     private String getSelection() {
@@ -96,19 +96,5 @@ public class TrackFetcherFromStorage extends AsyncTask<Void, Void, List<MusicMod
 
     private String[] getSelectionArgs() {
         return new String[]{"1", "0", "0", "0", "0"};
-    }
-
-    @Override
-    protected void onPostExecute(List<MusicModel> loadedList) {
-        mtd.onTaskCompleted(loadedList);
-    }
-
-    public interface TaskDelegate {
-        void onTaskCompleted(List<MusicModel> list);
-    }
-
-    public enum Sort {
-        TITLE_ASC,
-        DATE_ADDED_DESC,
     }
 }

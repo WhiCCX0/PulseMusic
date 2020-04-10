@@ -4,33 +4,48 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 
-import com.hardcodecoder.pulsemusic.interfaces.AlbumDataFetchCompletionCallback;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public class AlbumFetcher extends AsyncTask<Void, Void, List<AlbumModel>> {
+public class AlbumsLoader implements Callable<List<AlbumModel>> {
 
-    private AlbumDataFetchCompletionCallback mCallback;
-    private List<AlbumModel> data = new ArrayList<>();
     private ContentResolver mContentResolver;
-    private String mSort = null;
+    private String mSortOrder;
 
-    public AlbumFetcher(ContentResolver mContentResolver, AlbumDataFetchCompletionCallback mCallback, SORT sort) {
-        this.mCallback = mCallback;
+    public AlbumsLoader(ContentResolver mContentResolver, SortOrder.ALBUMS sortOrder) {
         this.mContentResolver = mContentResolver;
-        if (sort == SORT.TITLE_ASC)
-            mSort = MediaStore.Audio.Albums.ALBUM + " ASC";
-        else if (sort == SORT.DATE_ASC)
-            mSort = MediaStore.Audio.Albums.FIRST_YEAR + " ASC";
+        switch (sortOrder) {
+            case TITLE_ASC:
+                mSortOrder = MediaStore.Audio.Albums.ALBUM + " ASC";
+                break;
+            case TITLE_DESC:
+                mSortOrder = MediaStore.Audio.Albums.ALBUM + " DESC";
+                break;
+            case ALBUM_DATE_FIRST_YEAR_ASC:
+                mSortOrder = MediaStore.Audio.Albums.FIRST_YEAR + " ASC";
+                break;
+            case ALBUM_DATE_FIRST_YEAR_DESC:
+                mSortOrder = MediaStore.Audio.Albums.FIRST_YEAR + " DESC";
+                break;
+            case ALBUM_DATE_LAST_YEAR_ASC:
+                mSortOrder = MediaStore.Audio.Albums.LAST_YEAR + " ASC";
+                break;
+            case ALBUM_DATE_LAST_YEAR_DESC:
+                mSortOrder = MediaStore.Audio.Albums.LAST_YEAR + " DESC";
+                break;
+            default:
+                mSortOrder = null;
+        }
     }
 
     @Override
-    protected List<AlbumModel> doInBackground(Void... voids) {
+    public List<AlbumModel> call() {
+        List<AlbumModel> albumsList = new ArrayList<>();
         String[] col = {MediaStore.Audio.Albums._ID,
                 MediaStore.Audio.Albums.ALBUM,
                 MediaStore.Audio.Albums._ID,
@@ -40,7 +55,7 @@ public class AlbumFetcher extends AsyncTask<Void, Void, List<AlbumModel>> {
                 col,
                 null,
                 null,
-                mSort);
+                mSortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
             int idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID);
@@ -55,21 +70,10 @@ public class AlbumFetcher extends AsyncTask<Void, Void, List<AlbumModel>> {
                 String albumArt = ContentUris.withAppendedId(sArtworkUri, albumId).toString();
                 int num = cursor.getInt(songCountColumnIndex);
 
-                data.add(new AlbumModel(id, num, albumId, album, albumArt));
+                albumsList.add(new AlbumModel(id, num, albumId, album, albumArt));
             } while (cursor.moveToNext());
             cursor.close();
         }
-        return data;
+        return albumsList;
     }
-
-    @Override
-    protected void onPostExecute(List<AlbumModel> albumModels) {
-        mCallback.onTaskComplete(albumModels);
-    }
-
-    public enum SORT {
-        TITLE_ASC,
-        DATE_ASC
-    }
-
 }

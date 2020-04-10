@@ -21,13 +21,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
-import com.hardcodecoder.pulsemusic.loaders.ArtistFetcher;
+import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
@@ -71,19 +73,18 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
     }
 
     private void setRv(View view) {
-        if (null != getActivity())
-            new ArtistFetcher(getActivity().getContentResolver(), data -> {
-                if (null != data && data.size() > 0) {
-                    mList = data;
-                    RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
-                    rv.setVisibility(View.VISIBLE);
-                    layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
-                    rv.setLayoutManager(layoutManager);
-                    rv.setHasFixedSize(true);
-                    adapter = new ArtistAdapter(mList, getLayoutInflater(), this);
-                    rv.setAdapter(adapter);
-                }
-            }, ArtistFetcher.SORT.TITLE_ASC).execute();
+        if (null != getContext()) {
+            TaskRunner.getInstance().executeAsync(new ArtistsLoader(getContext().getContentResolver(), SortOrder.ARTIST.TITLE_ASC), (data) -> {
+                mList = data;
+                RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
+                rv.setVisibility(View.VISIBLE);
+                layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
+                rv.setLayoutManager(layoutManager);
+                rv.setHasFixedSize(true);
+                adapter = new ArtistAdapter(mList, getLayoutInflater(), this);
+                rv.setAdapter(adapter);
+            });
+        }
     }
 
     @Override

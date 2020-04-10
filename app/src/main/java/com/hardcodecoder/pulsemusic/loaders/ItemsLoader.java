@@ -1,36 +1,28 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
-import com.hardcodecoder.pulsemusic.interfaces.AsyncTaskCallback;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public class ItemsLoader extends AsyncTask<Void, Void, List<MusicModel>> {
+public class ItemsLoader implements Callable<List<MusicModel>> {
 
-    private AsyncTaskCallback.Simple mCallback;
     private String title;
     private int choice;
 
 
-    public ItemsLoader(AsyncTaskCallback.Simple mCallback, String itemToSearch, int choice) {
-        this.mCallback = mCallback;
+    public ItemsLoader(String itemToSearch, int choice) {
         this.title = itemToSearch;
         this.choice = choice;
     }
 
     @Override
-    protected void onPostExecute(List<MusicModel> itemsModels) {
-        mCallback.onTaskComplete(itemsModels);
-    }
-
-    @Override
-    protected List<MusicModel> doInBackground(Void... voids) {
+    public List<MusicModel> call() {
         List<MusicModel> listToWorkOn = TrackManager.getInstance().getMainList();
         List<MusicModel> listToReturn = null;
         if (null != listToWorkOn) {

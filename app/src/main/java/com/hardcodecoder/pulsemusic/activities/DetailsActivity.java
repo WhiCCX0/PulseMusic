@@ -22,9 +22,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.AsyncTaskCallback;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -33,7 +33,7 @@ import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
 import java.util.List;
 
-public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCallback.Simple, LibraryItemClickListener {
+public class DetailsActivity extends MediaSessionActivity implements LibraryItemClickListener {
 
     public static final String KEY_ART_URL = "art";
     public static final String KEY_TITLE = "title";
@@ -85,29 +85,26 @@ public class DetailsActivity extends MediaSessionActivity implements AsyncTaskCa
     }
 
     private void loadItems() {
-        new ItemsLoader(this, title, mCategory).execute();
-    }
+        TaskRunner.getInstance().executeAsync(new ItemsLoader(title, mCategory), (data) -> {
+            if (data.size() > 0) {
+                mList = data;
 
-    @Override
-    public void onTaskComplete(List<MusicModel> list) {
-        if (list.size() > 0) {
-            mList = list;
+                TextView temp = findViewById(R.id.details_activity_title);
+                temp.setText(title);
+                temp = findViewById(R.id.details_activity_title_sub);
+                temp.setText(getString(R.string.num_tracks).concat(" " + mList.size() + " ").concat(getString(R.string.tracks_num)));
 
-            TextView temp = findViewById(R.id.details_activity_title);
-            temp.setText(title);
-            temp = findViewById(R.id.details_activity_title_sub);
-            temp.setText(getString(R.string.num_tracks).concat(" " + mList.size() + " ").concat(getString(R.string.tracks_num)));
-
-            RecyclerView rv = findViewById(R.id.details_activity_rv);
-            rv.setVisibility(View.VISIBLE);
-            rv.setHasFixedSize(true);
-            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(rv.getContext(), R.anim.item_slide_up_animation);
-            rv.setLayoutAnimation(controller);
-            rv.setVerticalFadingEdgeEnabled(true);
-            rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
-            DetailsAdapter adapter = new DetailsAdapter(list, this, getLayoutInflater());
-            rv.setAdapter(adapter);
-        }
+                RecyclerView rv = findViewById(R.id.details_activity_rv);
+                rv.setVisibility(View.VISIBLE);
+                rv.setHasFixedSize(true);
+                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(rv.getContext(), R.anim.item_slide_up_animation);
+                rv.setLayoutAnimation(controller);
+                rv.setVerticalFadingEdgeEnabled(true);
+                rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
+                DetailsAdapter adapter = new DetailsAdapter(mList, this, getLayoutInflater());
+                rv.setAdapter(adapter);
+            }
+        });
     }
 
     @Override

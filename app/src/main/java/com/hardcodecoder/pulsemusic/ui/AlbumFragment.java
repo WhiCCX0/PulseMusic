@@ -21,13 +21,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
-import com.hardcodecoder.pulsemusic.loaders.AlbumFetcher;
+import com.hardcodecoder.pulsemusic.loaders.AlbumsLoader;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
@@ -146,18 +148,18 @@ public class AlbumFragment extends Fragment implements ItemClickListener.SingleE
     }
 
     private void setRv(View view) {
-        if (null != getActivity()) new AlbumFetcher(getActivity().getContentResolver(), list -> {
-            if (null != list && list.size() > 0) {
-                mList = list;
+        if (null != getContext()) {
+            TaskRunner.getInstance().executeAsync(new AlbumsLoader(getContext().getContentResolver(), SortOrder.ALBUMS.TITLE_ASC), (data) -> {
+                mList = data;
                 RecyclerView rv = view.findViewById(R.id.rv_album_fragment);
                 rv.setVisibility(View.VISIBLE);
                 layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
                 rv.setLayoutManager(layoutManager);
                 rv.setHasFixedSize(true);
-                adapter = new AlbumsAdapter(list, getLayoutInflater(), this);
+                adapter = new AlbumsAdapter(mList, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
-            }
-        }, AlbumFetcher.SORT.TITLE_ASC).execute();
+            });
+        }
     }
 
     @Override

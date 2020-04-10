@@ -1,12 +1,14 @@
 package com.hardcodecoder.pulsemusic.ui;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.media.session.MediaController;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +34,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.AppInfo;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
@@ -44,11 +47,10 @@ import com.hardcodecoder.pulsemusic.adapters.HomeAdapterAlbum;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterArtist;
 import com.hardcodecoder.pulsemusic.helper.MediaHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
-import com.hardcodecoder.pulsemusic.loaders.AlbumFetcher;
-import com.hardcodecoder.pulsemusic.loaders.ArtistFetcher;
-import com.hardcodecoder.pulsemusic.loaders.ShuffledListProvider;
-import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage;
-import com.hardcodecoder.pulsemusic.loaders.TrackFetcherFromStorage.Sort;
+import com.hardcodecoder.pulsemusic.loaders.AlbumsLoader;
+import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
+import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -120,48 +122,53 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateUi(View view) {
+        mAlbumList = mModel.getAlbumsList();
         mYouMayLikeList = mModel.getYourMayLikeList();
         mNewInLibraryList = mModel.getNewInLibrary();
-        mAlbumList = mModel.getAlbumsList();
         mArtistList = mModel.getArtistList();
 
-        if (null == mYouMayLikeList) {
-            new ShuffledListProvider(list -> {
-                mYouMayLikeList = list;
-                mModel.setYourMayLikeList(mYouMayLikeList);
+        if (null != getContext()) {
+            ContentResolver contentResolver = getContext().getContentResolver();
+
+            if (null == mAlbumList) {
+                TaskRunner.getInstance().executeAsync(new AlbumsLoader(contentResolver, SortOrder.ALBUMS.TITLE_ASC), (data) -> {
+                    mAlbumList = data.subList(0, ((int) (data.size() * 0.2))); // sublist top 20%
+                    Collections.shuffle(mAlbumList);
+                    mModel.setAlbumsList(mAlbumList);
+                    loadAlbumCard(view);
+                });
+            } else loadAlbumCard(view);
+
+
+            if (null == mYouMayLikeList) {
+                TaskRunner.getInstance().executeAsync(new LibraryLoader(contentResolver, SortOrder.TITLE_ASC), (data) -> {
+                    mYouMayLikeList = data.subList(0, (int) (data.size() * 0.2));  //show only top 20%
+                    Collections.shuffle(mYouMayLikeList);
+                    mModel.setYourMayLikeList(mYouMayLikeList);
+                    loadRecycleView(view, R.id.home_suggested_rv, mYouMayLikeList, LayoutStyle.CIRCLE);
+                });
+            } else
                 loadRecycleView(view, R.id.home_suggested_rv, mYouMayLikeList, LayoutStyle.CIRCLE);
-            }).execute();
-        } else loadRecycleView(view, R.id.home_suggested_rv, mYouMayLikeList, LayoutStyle.CIRCLE);
 
 
-        if (null == mNewInLibraryList && null != getContext()) {
-            new TrackFetcherFromStorage(getContext().getContentResolver(), list -> {
-                mNewInLibraryList = list;
-                mModel.setNewInLibrary(mNewInLibraryList);
+            if (null == mNewInLibraryList) {
+                TaskRunner.getInstance().executeAsync(new LibraryLoader(contentResolver, SortOrder.DATE_MODIFIED_DESC), (data) -> {
+                    mNewInLibraryList = data.subList(0, (int) (data.size() * 0.2)); //show only top 20%
+                    mModel.setNewInLibrary(mNewInLibraryList);
+                    loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
+                });
+            } else
                 loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
-            }, Sort.DATE_ADDED_DESC).execute();
-        } else
-            loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
 
-
-        if (null == mArtistList && null != getContext()) {
-            new ArtistFetcher(getContext().getContentResolver(), data -> {
-                Collections.shuffle(data);
-                mArtistList = data.subList(0, ((int) (data.size() * 0.15))); // sublist top 15%
-                mModel.setArtistList(mArtistList);
-                loadArtistRv(view);
-            }, null).execute();
-        } else loadArtistRv(view);
-
-
-        if (null == mAlbumList && null != getContext()) {
-            new AlbumFetcher(getContext().getContentResolver(), data -> {
-                Collections.shuffle(data);
-                mAlbumList = data.subList(0, ((int) (data.size() * 0.15))); // sublist top 15%
-                mModel.setAlbumsList(mAlbumList);
-                loadAlbumCard(view);
-            }, null).execute();
-        } else loadAlbumCard(view);
+            if (null == mArtistList) {
+                TaskRunner.getInstance().executeAsync(new ArtistsLoader(contentResolver, SortOrder.ARTIST.NUM_OF_TRACKS_DESC), (data) -> {
+                    mArtistList = data.subList(0, ((int) (data.size() * 0.2))); // sublist top 20%
+                    Collections.shuffle(mArtistList);
+                    mModel.setArtistList(mArtistList);
+                    loadArtistRv(view);
+                });
+            } else loadArtistRv(view);
+        } else Log.e("HomeFragment", "Context is null unable to fetch data");
     }
 
     private void loadRecycleView(View view, @IdRes int id, List<MusicModel> dataList, LayoutStyle style) {
