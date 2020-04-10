@@ -22,7 +22,6 @@
         android:id="@+id/details_activity_art"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?imageViewBackgroundDrawable"
         android:contentDescription="@string/iv_content_desc"
         android:padding="@dimen/bck_iv_sh_src_padding"
         android:scaleType="centerCrop"

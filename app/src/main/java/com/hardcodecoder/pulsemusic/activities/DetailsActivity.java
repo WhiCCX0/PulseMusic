@@ -1,8 +1,10 @@
 package com.hardcodecoder.pulsemusic.activities;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -47,6 +49,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
     private Long mAlbumId;
     private int mCategory;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         supportPostponeEnterTransition();
@@ -58,6 +61,11 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         mCategory = getIntent().getIntExtra(KEY_ITEM_CATEGORY, -1);
         mAlbumId = getIntent().getLongExtra(ALBUM_ID, 0);
         ImageView iv = findViewById(R.id.details_activity_art);
+        if (mCategory == CATEGORY_ALBUM) {
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.imageViewBackgroundDrawable, typedValue, true);
+            iv.setBackgroundResource(typedValue.resourceId);
+        } else iv.setBackgroundResource(R.drawable.bck_circle_border_artist);
 
         GlideApp.with(this)
                 .load(art)

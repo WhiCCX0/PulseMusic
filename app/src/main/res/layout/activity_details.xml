@@ -21,7 +21,6 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:padding="@dimen/bck_iv_sh_src_padding"
-        android:background="?imageViewBackgroundDrawable"
         android:contentDescription="@string/iv_content_desc"
         android:scaleType="centerCrop"
         android:cropToPadding="true"
