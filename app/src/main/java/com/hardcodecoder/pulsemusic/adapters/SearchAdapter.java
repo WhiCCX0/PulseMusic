@@ -149,7 +149,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_4dp));
+                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), md.getAlbumId(),
+                                    MediaArtHelper.RoundingRadius.RADIUS_4dp,
+                                    drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
 

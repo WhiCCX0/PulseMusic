@@ -35,6 +35,10 @@ public class TaskRunner {
         });
     }
 
+    public void executeAsync(Runnable runnable) {
+        CUSTOM_THREAD_POOL_EXECUTOR.execute(runnable);
+    }
+
     public interface Callback<V> {
         void onComplete(V result);
     }

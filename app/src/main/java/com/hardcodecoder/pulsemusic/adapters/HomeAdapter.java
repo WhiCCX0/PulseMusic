@@ -95,7 +95,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            albumArt.setImageDrawable(MediaArtHelper.getMediaArtDrawable(itemView.getContext(), md.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_4dp));
+                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), md.getAlbumId(),
+                                    style == LayoutStyle.ROUNDED_RECTANGLE ?
+                                            MediaArtHelper.RoundingRadius.RADIUS_4dp :
+                                            MediaArtHelper.RoundingRadius.RADIUS_16dp,
+                                    drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
 

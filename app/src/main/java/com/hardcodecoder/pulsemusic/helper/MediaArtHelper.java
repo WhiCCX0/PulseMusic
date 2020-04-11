@@ -7,10 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 import java.util.Hashtable;
@@ -18,6 +22,7 @@ import java.util.Hashtable;
 public class MediaArtHelper {
 
     private static Hashtable<Long, Integer> table = new Hashtable<>();
+    private static final Handler handler = new Handler(Looper.getMainLooper());
 
     private static Integer generateValue(long albumId) {
         int index = (int) albumId % 10;
@@ -31,12 +36,22 @@ public class MediaArtHelper {
         return generateValue(albumId);
     }
 
-    public static Drawable getMediaArtDrawable(Context context, long albumId, RoundingRadius r) {
-        return MediaArtGenerator.generateMediaArtDrawable(context, getValue(albumId), r);
-    }
-
     public static Bitmap getMediaArtBitmap(Context context, long albumId, RoundingRadius r) {
         return MediaArtGenerator.generateMediaArtBitmap(context, getValue(albumId), r);
+    }
+
+    public static void getMediaArtBitmapAsync(Context context, long albumId, RoundingRadius r, TaskRunner.Callback<Bitmap> callback) {
+        TaskRunner.getInstance().executeAsync(() -> {
+            Bitmap bitmap = MediaArtGenerator.generateMediaArtBitmap(context, getValue(albumId), r);
+            handler.post(() -> callback.onComplete(bitmap));
+        });
+    }
+
+    public static void getMediaArtDrawableAsync(Context context, long albumId, RoundingRadius r, TaskRunner.Callback<Drawable> callback) {
+        TaskRunner.getInstance().executeAsync(() -> {
+            Drawable drawable = MediaArtGenerator.generateMediaArtDrawable(context, getValue(albumId), r);
+            handler.post(() -> callback.onComplete(drawable));
+        });
     }
 
     public enum RoundingRadius {
@@ -77,6 +92,7 @@ public class MediaArtHelper {
             background.setShape(GradientDrawable.RECTANGLE);
             background.setCornerRadius(getRoundingRadius(r));
             background.setColor(mMediaArtColors.getColor(index, 0));
+            Log.e("MediaArtGenerator", "Current thread = "+Thread.currentThread().getName());
             return new LayerDrawable(new Drawable[]{background, context.getDrawable(R.drawable.ic_media_error_art)});
         }
 
@@ -91,6 +107,5 @@ public class MediaArtHelper {
             d.draw(mCanvas);
             return mBitmap;
         }
-
     }
 }
