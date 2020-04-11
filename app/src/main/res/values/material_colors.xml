@@ -20,15 +20,16 @@
     <!-- White -->
     <color name="md_white">#FFFFFF</color>
 
-    <color name="color_1">#5d84ff</color>
-    <color name="color_2">#5f84ff</color>
-    <color name="color_3">#7098ff</color>
-    <color name="color_4">#dee8fc</color>
-    <color name="color_5">#ff9e68</color>
-    <color name="color_6">#e9ffe2</color>
-    <color name="color_7">#95d87d</color>
+    <color name="color_btn_background_1">#CBE3FF</color>
+    <color name="color_btn_1">#1A73E7</color>
+    <color name="color_btn_background_2">#FBF4D7</color>
+    <color name="color_btn_2">#F3C531</color>
+    <color name="color_btn_background_3">#FADBD9</color>
+    <color name="color_btn_3">#D85044</color>
+    <color name="color_btn_background_4">#E5DDF4</color>
+    <color name="color_btn_4">#7A5BA9</color>
 
-    <color name="color_8">#FFC4F5</color>
-    <color name="color_9">#FFDDA2</color>
+    <color name="logo_start_f">#C898FF</color>
+    <color name="logo_end">#5E20FF</color>
 
 </resources>
