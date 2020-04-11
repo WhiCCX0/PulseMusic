@@ -73,9 +73,10 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         supportStartPostponedEnterTransition();
-                        iv.setImageDrawable(mCategory == CATEGORY_ALBUM ?
-                                MediaArtHelper.getMediaArtDrawable(iv.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_4dp) :
-                                getDrawable(R.drawable.ic_artist_art));
+                        if (mCategory == CATEGORY_ALBUM)
+                            MediaArtHelper.getMediaArtDrawableAsync(iv.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_4dp, iv::setImageDrawable);
+                        else
+                            iv.setImageResource(R.drawable.ic_artist_art);
                         return true;
                     }
 
