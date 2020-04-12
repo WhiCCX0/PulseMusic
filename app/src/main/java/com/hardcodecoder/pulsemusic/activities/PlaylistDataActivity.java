@@ -19,13 +19,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.PlaylistDataAdapter;
+import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
+import com.hardcodecoder.pulsemusic.helper.TrackPickerHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ClickDragRvListener;
 import com.hardcodecoder.pulsemusic.interfaces.RecyclerViewGestures;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.helper.TrackPickerHelper;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.utils.PlaylistStorageManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,10 +40,8 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
     private PlaylistDataAdapter adapter;
     private boolean isPlaylistDataModified = false;
     private int mPlaylistCardIndex;
-    //private MediaBrowser mMediaBrowser;
     private TrackManager tm;
     private ItemTouchHelper itemTouchHelper;
-    //private MediaController mController;
     private String playlistName;
     private boolean isFavPlaylist = false;
 
@@ -65,7 +63,7 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
     }
 
     private void updateData() {
-        if (isCurrentQueue && null != tm.getActiveQueue())
+        /*if (isCurrentQueue && null != tm.getActiveQueue())
             mList.addAll(tm.getActiveQueue());
         else if (isFavPlaylist)
             mList = PlaylistStorageManager.getFavorite(this);
@@ -74,17 +72,38 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
 
         FloatingActionButton fab = findViewById(R.id.open_track_picker_btn);
         fab.setOnClickListener(v -> startActivity(new Intent(this, TrackPickerActivity.class)));
-        setRv();
+        setRv();*/
+
+        if (isCurrentQueue && null != tm.getActiveQueue()) {
+            mList.addAll(tm.getActiveQueue());
+            setRv(mList);
+        } else {
+            if (isFavPlaylist) {
+                //mList = PlaylistStorageManager.getFavorite(this);
+                DataManager.getSavedFavoriteTracksAsync(this, favorites -> {
+                    mList = favorites;
+                    setRv(mList);
+                });
+            } else if (!isCurrentQueue) {
+                ///mList = PlaylistStorageManager.getPlaylistTrackAtPosition(this, mPlaylistCardIndex - 2);
+                DataManager.getPlaylistDataAtAsync(this, mPlaylistCardIndex - 2, playlist -> {
+                    mList = playlist;
+                    setRv(mList);
+                });
+            }
+        }
+        FloatingActionButton fab = findViewById(R.id.open_track_picker_btn);
+        fab.setOnClickListener(v -> startActivity(new Intent(this, TrackPickerActivity.class)));
     }
 
-    private void setRv() {
+    private void setRv(List<MusicModel> list) {
         RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
         recyclerView.setLayoutAnimation(controller);
-        adapter = new PlaylistDataAdapter(this, getLayoutInflater());
+        adapter = new PlaylistDataAdapter(list, this, getLayoutInflater());
         recyclerView.setAdapter(adapter);
 
         /*
@@ -100,7 +119,7 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
     @Override
     public void onItemClick(int position) {
         tm.buildDataList(mList, position);
-        play();
+        playMedia();
     }
 
     @Override
@@ -162,41 +181,9 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
         viewHolder.itemView.setBackground(recyclerView.getResources().getDrawable(android.R.color.transparent));
     }
 
-    private void play() {
-        /*if (mController != null)
-            mController.getTransportControls().play();*/
-        playMedia();
-    }
-
     @Override
     public void onMediaServiceConnected(MediaController controller) {
     }
-
-    /*private void connectToSession() {
-        mMediaBrowser = new MediaBrowser(this,
-                new ComponentName(this, PMS.class),
-                // Which MediaBrowserService
-                new MediaBrowser.ConnectionCallback() {
-                    @Override
-                    public void onConnected() {
-                        try {
-                            // Ah, here’s our Token again
-                            MediaSession.Token token = mMediaBrowser.getSessionToken();
-                            // This is what gives us access to everything
-                            mController = new MediaController(PlaylistDataActivity.this, token);
-                            // Convenience method to allow you to use
-                            // MediaControllerCompat.getMediaController() anywhere
-                            setMediaController(mController);
-                            //mController.registerCallback(mCallback);
-                        } catch (Exception e) {
-                            Log.e(PlaylistDataActivity.class.getSimpleName(), "Error creating controller", e);
-                        }
-                    }
-
-                },
-                null); // optional Bundle
-        mMediaBrowser.connect();
-    }*/
 
     @Override
     protected void onStart() {
@@ -212,12 +199,19 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
 
     @Override
     protected void onStop() {
-        if (isPlaylistDataModified && isFavPlaylist) {
+        /*if (isPlaylistDataModified && isFavPlaylist) {
             PlaylistStorageManager.saveFavorite(this, mList);
             isPlaylistDataModified = false;
         }
         if (isPlaylistDataModified && !isCurrentQueue) {
             PlaylistStorageManager.updatePlaylistTracks(this, mList, mPlaylistCardIndex - 2);
+            isPlaylistDataModified = false;
+        }*/
+        if (isPlaylistDataModified && isFavPlaylist) {
+            DataManager.addFavoritesList(this, mList);
+            isPlaylistDataModified = false;
+        } else if (isPlaylistDataModified && !isCurrentQueue) {
+            DataManager.updatePlaylistTrackAt(this, mList, mPlaylistCardIndex - 2);
             isPlaylistDataModified = false;
         }
         super.onStop();
@@ -226,9 +220,6 @@ public class PlaylistDataActivity extends MediaSessionActivity implements ClickD
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*if (mMediaBrowser != null) {
-            mMediaBrowser.disconnect();
-        }*/
         disconnectFromMediaSession();
     }
 }

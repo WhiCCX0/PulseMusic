@@ -34,10 +34,10 @@ import com.hardcodecoder.pulsemusic.activities.PlaylistDataActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.CardsAdapter;
+import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.interfaces.RecyclerViewGestures;
-import com.hardcodecoder.pulsemusic.utils.PlaylistStorageManager;
 
 import java.util.List;
 
@@ -65,8 +65,12 @@ public class PlaylistCardFragment extends Fragment implements ItemClickListener.
         FloatingActionButton fab = view.findViewById(R.id.btn_add_playlist);
         fab.setOnClickListener(v -> openBottomDialog(false, -1));
 
-        playlistNames = PlaylistStorageManager.getPlaylistTitles(mContext);
-        addPendingPlaylistTiles(view);
+        /*playlistNames = PlaylistStorageManager.getPlaylistTitles(mContext);
+        addPendingPlaylistTiles(view);*/
+        DataManager.getPlaylistTitlesListAsync(mContext, titlesList -> {
+            playlistNames = titlesList;
+            addPendingPlaylistTiles(view);
+        });
 
         Toolbar t = view.findViewById(R.id.toolbar);
         t.setTitle(R.string.playlist_nav);
@@ -123,7 +127,7 @@ public class PlaylistCardFragment extends Fragment implements ItemClickListener.
     public void onItemSwiped(int itemAdapterPosition) {
         //First two item in the list are the playing queue and favourites,
         //which should not be user deletable
-        if(itemAdapterPosition <= 1){
+        if (itemAdapterPosition <= 1) {
             Toast.makeText(mContext, "Cannot delete delete playlist card", Toast.LENGTH_SHORT).show();
             adapter.notifyItemChanged(itemAdapterPosition);
             return;
@@ -133,7 +137,8 @@ public class PlaylistCardFragment extends Fragment implements ItemClickListener.
         //Explicitly deleting list of tracks playlist card holds
         //because playlist title info gets updated at #onStop method
         //but playlist card data is not
-        PlaylistStorageManager.dropPlaylistCardDataAt(mContext, itemAdapterPosition);
+        DataManager.deletePlaylistCardAt(mContext, itemAdapterPosition);
+        //PlaylistStorageManager.dropPlaylistCardDataAt(mContext, itemAdapterPosition);
 
         Toast.makeText(getContext(), "Playlist deleted", Toast.LENGTH_SHORT).show();
         //adapter.notifyItemRemoved(itemAdapterPosition);
@@ -230,7 +235,8 @@ public class PlaylistCardFragment extends Fragment implements ItemClickListener.
     @Override
     public void onStop() {
         if (playlistNames.size() > 0 && isPlaylistNamesModified) {
-            PlaylistStorageManager.savePlaylistTitles(mContext, playlistNames);
+            //PlaylistStorageManager.savePlaylistTitles(mContext, playlistNames);
+            DataManager.addPlaylistTitles(mContext, playlistNames);
             isPlaylistNamesModified = false;
         }
 
@@ -238,7 +244,8 @@ public class PlaylistCardFragment extends Fragment implements ItemClickListener.
          * If all the playlist cards are removed then drop all playlist info
          * see @PlaylistStorageManager.dropAllPlaylistData for info
          */
-        else if (isPlaylistNamesModified) PlaylistStorageManager.dropAllPlaylistData(mContext);
+        else if (isPlaylistNamesModified)
+            DataManager.deleteAllPlaylists(mContext);//PlaylistStorageManager.dropAllPlaylistData(mContext);
 
         super.onStop();
     }

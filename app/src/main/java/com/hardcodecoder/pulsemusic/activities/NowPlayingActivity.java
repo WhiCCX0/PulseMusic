@@ -21,10 +21,10 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.utils.PlaylistStorageManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private TextView startTime;
     private TextView endTime;
     private SeekBar seekBar;
-    private final Runnable mUpdateProgressTask = this::updateProgress;
     private ImageButton mPlayPause;
     private MediaController mController;
     private TextView artistAlbums;
@@ -54,7 +53,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private ImageView mRepeatBtn;
     private TrackManager tm;
     private boolean animateSeekBar = false;
-
+    private final Runnable mUpdateProgressTask = this::updateProgress;
     /*
      * Components for seek bar progress update
      */
@@ -110,7 +109,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
             }
         });
         initButtons();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) animateSeekBar = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) animateSeekBar = true;
     }
 
     private void initButtons() {
@@ -140,7 +139,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     private void setFavoriteButtonState() {
-        if (null == favourites) favourites = PlaylistStorageManager.getFavorite(this);
+        /*if (null == favourites) favourites = PlaylistStorageManager.getFavorite(this);
         boolean contains = false;
         if (null != favourites) for (MusicModel md : favourites) {
             if (md.getSongName().equals(TrackManager.getInstance().getActiveQueueItem().getSongName())) {
@@ -154,7 +153,26 @@ public class NowPlayingActivity extends MediaSessionActivity {
         } else {
             mFavBtn.setImageResource(R.drawable.ic_favorite);
             isFav = false;
-        }
+        }*/
+        if (null == favourites)
+            DataManager.getSavedFavoriteTracksAsync(this, favoriteList -> {
+                boolean contains = false;
+                favourites = favoriteList;
+                String currentSongTitle = TrackManager.getInstance().getActiveQueueItem().getSongName();
+                if (null != favourites) for (MusicModel md : favourites) {
+                    if (md.getSongName().equals(currentSongTitle)) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (contains) {
+                    mFavBtn.setImageResource(R.drawable.ic_favorite_active);
+                    isFav = true;
+                } else {
+                    mFavBtn.setImageResource(R.drawable.ic_favorite);
+                    isFav = false;
+                }
+            });
     }
 
     private void addToFavorite() {
@@ -196,18 +214,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
             seekBar.setMax((int) sec);
             endTime.setText(DateUtils.formatElapsedTime(sec));
 
-            /*artistAlbums.setText("");
-            String s = metadata.getString(PlaybackManager.METADATA_ARTIST_KEY);
-            if (s.length() > 35)
-                s = s.substring(0, 36);
-            artistAlbums.append("Artist \u25CF ");
-            artistAlbums.append(s);
-
-            s = metadata.getString(PlaybackManager.METADATA_ALBUM_KEY);
-            if (s.length() > 25)
-                s = s.substring(0, 25);
-            artistAlbums.append("\nAlbum \u25CF ");
-            artistAlbums.append(s);*/
             artistAlbums.setText(metadata.getString(PlaybackManager.METADATA_ARTIST_KEY));
 
             toolbarSongTitle.setText(metadata.getText(PlaybackManager.METADATA_TITLE_KEY));
@@ -258,7 +264,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
         updateMetaData(mController.getMetadata());
         mState = mController.getPlaybackState();
         if (null != mState) {
-            long elapsedProgressSec = mState.getPosition()/1000; /// 250;
+            long elapsedProgressSec = mState.getPosition() / 1000; /// 250;
             progress = (int) elapsedProgressSec;
             setSeekBarProgress();
 
@@ -273,8 +279,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
                     Drawable d = getDrawable(R.drawable.pause_to_play);
                     mPlayPause.setImageDrawable(d);
                     if (d instanceof AnimatedVectorDrawable) ((AnimatedVectorDrawable) d).start();
-                }
-                else {
+                } else {
                     mController.getTransportControls().play();
                     Drawable d = getDrawable(R.drawable.play_to_pause_linear_out_slow_in);
                     mPlayPause.setImageDrawable(d);
@@ -285,8 +290,9 @@ public class NowPlayingActivity extends MediaSessionActivity {
         PlaybackState state = mController.getPlaybackState();
         updatePlaybackState(state);
 
-        if (null != state){
-            if(state.getState() == PlaybackState.STATE_PLAYING) mPlayPause.setImageResource(R.drawable.ic_round_pause);
+        if (null != state) {
+            if (state.getState() == PlaybackState.STATE_PLAYING)
+                mPlayPause.setImageResource(R.drawable.ic_round_pause);
             else mPlayPause.setImageResource(R.drawable.ic_round_play);
 
         }
@@ -323,7 +329,8 @@ public class NowPlayingActivity extends MediaSessionActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mFavListModified) PlaylistStorageManager.saveFavorite(this, favourites);
+        //if (mFavListModified) PlaylistStorageManager.saveFavorite(this, favourites);
+        if (mFavListModified) DataManager.addFavoritesList(this, favourites);
     }
 
     @Override

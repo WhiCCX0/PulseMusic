@@ -32,7 +32,8 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
     private List<MusicModel> mList;
     private int deletedPosition;
 
-    public PlaylistDataAdapter(ClickDragRvListener mListener, LayoutInflater inflater) {
+    public PlaylistDataAdapter(List<MusicModel> list, ClickDragRvListener mListener, LayoutInflater inflater) {
+        this.mList = list;
         this.mListener = mListener;
         this.mInflater = inflater;
     }

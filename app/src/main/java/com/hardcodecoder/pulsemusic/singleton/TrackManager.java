@@ -2,9 +2,9 @@ package com.hardcodecoder.pulsemusic.singleton;
 
 import android.content.Context;
 
+import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
-import com.hardcodecoder.pulsemusic.utils.PlaylistStorageManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,12 +28,12 @@ public class TrackManager {
         return ourInstance;
     }
 
-    public void setMainList(final List<MusicModel> mainList) {
-        mMainList = mainList;
-    }
-
     public List<MusicModel> getMainList() {
         return mMainList;
+    }
+
+    public void setMainList(final List<MusicModel> mainList) {
+        mMainList = mainList;
     }
 
     public void buildDataList(List<MusicModel> newList, int index) {
@@ -43,12 +43,12 @@ public class TrackManager {
         setActiveIndex(index);
     }
 
-    private void setActiveIndex(int index) {
-        mIndex = index;
-    }
-
     public int getActiveIndex() {
         return mIndex;
+    }
+
+    private void setActiveIndex(int index) {
+        mIndex = index;
     }
 
     public List<MusicModel> getActiveQueue() {
@@ -112,7 +112,7 @@ public class TrackManager {
     public void removeItemFromActiveQueue(int position) {
         mDeletedQueueIndex = position;
         mDeletedQueueItem = mActiveList.remove(position);
-        if(position < getActiveIndex())
+        if (position < getActiveIndex())
             mIndex--;
     }
 
@@ -121,37 +121,7 @@ public class TrackManager {
     }
 
     public void addToHistory(Context context) {
-        PlaylistStorageManager.addToRecentTracks(context, getActiveQueueItem());
+        //PlaylistStorageManager.addToRecentTracks(context, getActiveQueueItem());
+        DataManager.addTrackToHistory(context, getActiveQueueItem());
     }
-
-    /*public void saveTracks(Context mContext) {
-        if (mNewHistory.size() > 0) {
-            List<MusicModel> history = PlaylistStorageManager.getRecentTracks(mContext);
-            if (history.size() > 0) mNewHistory.addAll(0, history);
-            //mNewHistory = removeDuplicates();
-            removeDuplicates();
-            int s = mNewHistory.size();
-            if (s > 15) mNewHistory = new ArrayList<>(mNewHistory.subList(s - 15, s));
-            Log.e("TrackManager", "Saving recent tracks");
-            PlaylistStorageManager.saveRecentTracks(mContext, mNewHistory);
-
-            /* newHistory has been saved to Storage clear the list
-             * So any further calls to saveTracks only saves the new tracks added after previous saveTrack call
-             * Also this prevents from passing already saved tracks via getCurrentPlayedTracks
-            mNewHistory.clear();
-
-        }
-    }
-
-    private void removeDuplicates() {
-        int size = mNewHistory.size(), lastIndex = size - 1;
-        String name;
-        HashMap<String, Boolean> hm = new HashMap<>();
-        while (lastIndex >= 0) {
-            name = mNewHistory.get(lastIndex).getSongName();
-            if (hm.containsKey(name)) mNewHistory.remove(lastIndex);
-            else hm.put(name, true);
-            lastIndex--;
-        }
-    }*/
 }
