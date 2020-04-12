@@ -1,0 +1,7 @@
+# Default ignored files
+/.gradle/
+/.idea/
+/app/build/
+/app/app.iml
+/PulseMusic.iml
+/local.properties
