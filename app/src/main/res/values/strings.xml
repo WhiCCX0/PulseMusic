@@ -16,14 +16,14 @@
 
     <string name="settings">Settings</string>
     <string name="select_tracks">Select tracks</string>
-    <string name="random">Mix match</string>
-    <string name="new_in_library">Additions to your collection</string>
+    <string name="random">For you</string>
+    <string name="new_in_library">New in store</string>
     <string name="tracks_num">tracks</string>
     <string name="recent">Recent tracks</string>
     <string name="no_recent_tracks">Listen to some music and check back in</string>
     <string name="select_track">Select track</string>
     <string name="recent_artist">Haven\'t heard them in a while </string>
-    <string name="nostalgic">Feeling nostalgic</string>
+    <string name="nostalgic">Your albums</string>
     <string name="playlist_nav">Playlist</string>
     <string name="equalizer">Equalizer</string>
     <string name="columns">Columns</string>
