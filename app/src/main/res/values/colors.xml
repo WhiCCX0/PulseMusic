@@ -3,10 +3,6 @@
 
     <!-- ********************************************* -->
     <!-- *********** COLORS FOR LIGHT MODE *********** -->
-    <color name="color_primary_light">@color/window_background_light</color>
-    <!-- For a flat ui design status bar and window background must be same -->
-    <color name="color_primary_variant_light">@color/window_background_light</color>
-
 
     <color name="primary_color_light_variant">@color/purple</color>
     <!-- Color that appear over primary -->
@@ -48,11 +44,6 @@
     <!-- ********************************************* -->
     <!-- ************ COLORS FOR DARK MODE *********** -->
 
-    <color name="color_primary_dark">@color/window_background_dark</color>
-    <!-- For a flat ui design status bar and window background must be same -->
-    <color name="color_primary_variant_dark">@color/window_background_dark</color>
-
-
     <color name="primary_color_dark_variant">@color/purple_dark</color>
     <!-- Color that appear over primary -->
     <color name="on_primary_dark_variant">@color/md_grey_1100</color>
@@ -79,7 +70,6 @@
     <color name="color_stroke_dark">@color/md_grey_800</color>
 
     <!-- High-emphasis text opacity of 90% -->
-    <color name="primary_text_dark">@color/primary_color_on_background_dark</color>
 
     <!-- Medium-emphasis text opacity of 70% -->
     <color name="secondary_text_dark">@color/secondary_color_on_background_dark</color>
@@ -101,19 +91,11 @@
     <!--4dp elevated surface 9% alpha over white -->
     <color name="surface_color_kinda_dark">#36323B</color>
 
-    <color name="color_primary_kinda_dark">@color/window_background_kinda_dark</color>
-
     <!-- For a flat ui design status bar and window background must be same -->
-    <color name="color_primary_variant_kinda_dark">@color/window_background_kinda_dark</color>
-
 
 
     <!-- ******************************************************** -->
     <!-- *************** COLORS FOR CHARCOAL ******************** -->
-    <color name="color_primary_black_dark">@color/window_background_black_dark</color>
-
-    <!-- For a flat ui design status bar and window background must be same -->
-    <color name="color_primary_variant_black_dark">@color/window_background_black_dark</color>
 
     <color name="window_background_black_dark">#000000</color>
 

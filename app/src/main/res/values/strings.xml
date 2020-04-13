@@ -80,9 +80,6 @@
     <string name="select_light_theme">Set preferred light theme</string>
     <string name="select_dark_theme">Set preferred dark theme</string>
     <string name="change_accent_color">Change accent color</string>
-    <string name="def_theme_light">Just light</string>
-    <string name="black_and_white">Bright morning</string>
-    <string name="sweet_morning_light">Sweet Morning</string>
     <string name="portrait">Portrait Mode</string>
     <string name="landscape">Landscape Mode</string>
     <string name="two">Two</string>
@@ -93,7 +90,6 @@
     <string name="def_theme_dark">Dark</string>
     <string name="app_dark_theme">Accented dark</string>
     <string name="pitch_dark">Pure black</string>
-    <string name="fragment_transition">Select fragment transition style</string>
 
     <!-- Details Activity -->
     <string name="details_activity_rv_title">Tracks</string>
