@@ -9,7 +9,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -21,8 +20,8 @@ import java.util.Hashtable;
 
 public class MediaArtHelper {
 
-    private static Hashtable<Long, Integer> table = new Hashtable<>();
     private static final Handler handler = new Handler(Looper.getMainLooper());
+    private static Hashtable<Long, Integer> table = new Hashtable<>();
 
     private static Integer generateValue(long albumId) {
         int index = (int) albumId % 10;
@@ -92,15 +91,16 @@ public class MediaArtHelper {
             background.setShape(GradientDrawable.RECTANGLE);
             background.setCornerRadius(getRoundingRadius(r));
             background.setColor(mMediaArtColors.getColor(index, 0));
-            Log.e("MediaArtGenerator", "Current thread = "+Thread.currentThread().getName());
             return new LayerDrawable(new Drawable[]{background, context.getDrawable(R.drawable.ic_media_error_art)});
         }
 
         @NonNull
         static Bitmap generateMediaArtBitmap(Context context, int index, RoundingRadius r) {
             Drawable d = generateMediaArtDrawable(context, index, r);
-            if (null == mBitmap)
-                mBitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            if (null == mBitmap) {
+                int sides = context.getResources().getDimensionPixelSize(R.dimen.now_playing_media_art_iv);
+                mBitmap = Bitmap.createBitmap(sides, sides, Bitmap.Config.ARGB_8888);
+            }
             if (null == mCanvas)
                 mCanvas = new Canvas(mBitmap);
             d.setBounds(0, 0, mCanvas.getWidth(), mCanvas.getHeight());

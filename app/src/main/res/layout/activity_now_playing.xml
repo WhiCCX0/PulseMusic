@@ -33,13 +33,13 @@
     -->
     <ImageView
         android:id="@+id/activity_np_album_art"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="@dimen/now_playing_media_art_iv"
+        android:layout_height="@dimen/now_playing_media_art_iv"
         android:layout_marginStart="48dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="48dp"
         android:background="?circleImageViewBackgroundDrawable"
-        android:padding="32dp"
+        android:padding="@dimen/now_playing_media_art_iv_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"

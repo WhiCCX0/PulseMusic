@@ -34,6 +34,7 @@
         android:layout_marginBottom="56dp"
         android:background="?circleImageViewBackgroundDrawable"
         android:contentDescription="@string/iv_content_desc"
+        android:padding="@dimen/now_playing_media_art_iv_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/activity_np_btn_repeat"

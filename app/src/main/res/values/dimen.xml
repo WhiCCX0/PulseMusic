@@ -16,5 +16,8 @@
     <dimen name="rounding_radius_8dp">8dp</dimen>
     <dimen name="rounding_radius_16dp">16dp</dimen>
 
+    <!-- Now playing screen -->
+    <dimen name="now_playing_media_art_iv">320dp</dimen>
+    <dimen name="now_playing_media_art_iv_padding">32dp</dimen>
 
 </resources>
