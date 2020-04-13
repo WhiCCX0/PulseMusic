@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
-ext.versionMajor = 1
-ext.versionMinor = 1
-ext.versionPatch = 5
+ext.versionMajor = 2
+ext.versionMinor = 0
+ext.versionPatch = 0
 ext.minimumSdkVersion = 21
-ext.isSnapshot = true
+ext.isSnapshot = false
 
 android {
     compileSdkVersion 29
