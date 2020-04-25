@@ -6,16 +6,16 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/ic_recent"
+        android:id="@+id/ic_favorite"
         style="@style/ButtonStyle24"
-        android:src="@drawable/ic_history"
         android:background="@drawable/plain_circle"
         android:backgroundTint="@color/color_btn_background_3"
+        android:contentDescription="@string/iv_content_desc"
+        android:src="@drawable/ic_favorite"
         android:tint="@color/color_btn_3"
-        app:layout_constraintEnd_toStartOf="@+id/ic_folder"
+        app:layout_constraintEnd_toStartOf="@id/ic_recent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/iv_content_desc"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         style="@style/HomeItemTitle.Sub"
@@ -26,16 +26,36 @@
         app:layout_constraintTop_toBottomOf="@id/ic_recent" />
 
     <ImageView
+        android:id="@+id/ic_recent"
+        style="@style/ButtonStyle24"
+        android:background="@drawable/plain_circle"
+        android:backgroundTint="@color/color_btn_background_2"
+        android:contentDescription="@string/iv_content_desc"
+        android:src="@drawable/ic_history"
+        android:tint="@color/color_btn_2"
+        app:layout_constraintEnd_toStartOf="@id/ic_folder"
+        app:layout_constraintStart_toEndOf="@id/ic_favorite"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/HomeItemTitle.Sub"
+        android:layout_marginTop="8dp"
+        android:text="@string/favorite_playlist"
+        app:layout_constraintEnd_toEndOf="@id/ic_favorite"
+        app:layout_constraintStart_toStartOf="@id/ic_favorite"
+        app:layout_constraintTop_toBottomOf="@id/ic_favorite" />
+
+    <ImageView
         android:id="@+id/ic_folder"
         style="@style/ButtonStyle24"
-        android:src="@drawable/ic_folder"
         android:background="@drawable/plain_circle"
         android:backgroundTint="@color/color_btn_background_4"
+        android:contentDescription="@string/iv_content_desc"
+        android:src="@drawable/ic_folder"
         android:tint="@color/color_btn_4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ic_recent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/iv_content_desc"/>
+        app:layout_constraintStart_toEndOf="@+id/ic_recent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         style="@style/HomeItemTitle.Sub"
@@ -44,6 +64,5 @@
         app:layout_constraintEnd_toEndOf="@id/ic_folder"
         app:layout_constraintStart_toStartOf="@id/ic_folder"
         app:layout_constraintTop_toBottomOf="@id/ic_folder" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
