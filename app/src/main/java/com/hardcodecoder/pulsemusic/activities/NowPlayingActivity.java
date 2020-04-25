@@ -21,10 +21,10 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.storage.DataManager;
 
 import java.util.ArrayList;
 import java.util.List;

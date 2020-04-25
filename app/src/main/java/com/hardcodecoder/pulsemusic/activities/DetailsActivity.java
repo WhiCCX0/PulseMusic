@@ -94,7 +94,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
     }
 
     private void loadItems() {
-        TaskRunner.getInstance().executeAsync(new ItemsLoader(title, mCategory), (data) -> {
+        TaskRunner.executeAsync(new ItemsLoader(title, mCategory), (data) -> {
             if (data.size() > 0) {
                 mList = data;
 

@@ -74,7 +74,7 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
 
     private void setRv(View view) {
         if (null != getContext()) {
-            TaskRunner.getInstance().executeAsync(new ArtistsLoader(getContext().getContentResolver(), SortOrder.ARTIST.TITLE_ASC), (data) -> {
+            TaskRunner.executeAsync(new ArtistsLoader(getContext().getContentResolver(), SortOrder.ARTIST.TITLE_ASC), (data) -> {
                 mList = data;
                 RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
                 rv.setVisibility(View.VISIBLE);

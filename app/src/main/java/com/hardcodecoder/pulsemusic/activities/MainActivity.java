@@ -69,7 +69,7 @@ public class MainActivity extends MediaSessionActivity {
         setContentView(R.layout.activity_main);
 
         if (TrackManager.getInstance().getMainList() == null) {
-            TaskRunner.getInstance().executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
+            TaskRunner.executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
                 TrackManager.getInstance().setMainList(data);
                 setUpMainContents(savedInstanceState);
             });

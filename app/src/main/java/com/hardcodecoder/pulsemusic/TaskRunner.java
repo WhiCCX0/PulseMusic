@@ -14,17 +14,11 @@ public class TaskRunner {
     private static final Executor CUSTOM_THREAD_POOL_EXECUTOR =
             new ThreadPoolExecutor(2, 10, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
     private static final Handler handler = new Handler(Looper.getMainLooper());
-    private static TaskRunner mInstance;
 
     private TaskRunner() {
     }
 
-    public static TaskRunner getInstance() {
-        if (null == mInstance) mInstance = new TaskRunner();
-        return mInstance;
-    }
-
-    public <V> void executeAsync(Callable<V> callable, Callback<V> callback) {
+    public static <V> void executeAsync(Callable<V> callable, Callback<V> callback) {
         CUSTOM_THREAD_POOL_EXECUTOR.execute(() -> {
             try {
                 final V result = callable.call();
@@ -35,7 +29,7 @@ public class TaskRunner {
         });
     }
 
-    public void executeAsync(Runnable runnable) {
+    public static void executeAsync(Runnable runnable) {
         CUSTOM_THREAD_POOL_EXECUTOR.execute(runnable);
     }
 

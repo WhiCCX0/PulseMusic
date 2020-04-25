@@ -2,9 +2,9 @@ package com.hardcodecoder.pulsemusic.singleton;
 
 import android.content.Context;
 
-import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
+import com.hardcodecoder.pulsemusic.storage.DataManager;
 
 import java.util.ArrayList;
 import java.util.Collections;

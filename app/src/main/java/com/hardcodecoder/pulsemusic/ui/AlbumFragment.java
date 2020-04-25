@@ -149,7 +149,7 @@ public class AlbumFragment extends Fragment implements ItemClickListener.SingleE
 
     private void setRv(View view) {
         if (null != getContext()) {
-            TaskRunner.getInstance().executeAsync(new AlbumsLoader(getContext().getContentResolver(), SortOrder.ALBUMS.TITLE_ASC), (data) -> {
+            TaskRunner.executeAsync(new AlbumsLoader(getContext().getContentResolver(), SortOrder.ALBUMS.TITLE_ASC), (data) -> {
                 mList = data;
                 RecyclerView rv = view.findViewById(R.id.rv_album_fragment);
                 rv.setVisibility(View.VISIBLE);

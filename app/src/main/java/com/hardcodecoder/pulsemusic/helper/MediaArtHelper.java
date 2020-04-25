@@ -40,14 +40,14 @@ public class MediaArtHelper {
     }
 
     public static void getMediaArtBitmapAsync(Context context, long albumId, RoundingRadius r, TaskRunner.Callback<Bitmap> callback) {
-        TaskRunner.getInstance().executeAsync(() -> {
+        TaskRunner.executeAsync(() -> {
             Bitmap bitmap = MediaArtGenerator.generateMediaArtBitmap(context, getValue(albumId), r);
             handler.post(() -> callback.onComplete(bitmap));
         });
     }
 
     public static void getMediaArtDrawableAsync(Context context, long albumId, RoundingRadius r, TaskRunner.Callback<Drawable> callback) {
-        TaskRunner.getInstance().executeAsync(() -> {
+        TaskRunner.executeAsync(() -> {
             Drawable drawable = MediaArtGenerator.generateMediaArtDrawable(context, getValue(albumId), r);
             handler.post(() -> callback.onComplete(drawable));
         });

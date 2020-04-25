@@ -37,6 +37,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.AppInfo;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
+import com.hardcodecoder.pulsemusic.activities.FavoritesActivity;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.RecentActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
@@ -107,6 +108,7 @@ public class HomeFragment extends Fragment {
 
         view.findViewById(R.id.ic_recent).setOnClickListener(v -> startActivity(new Intent(getContext(), RecentActivity.class)));
         view.findViewById(R.id.ic_folder).setOnClickListener(v -> pickMedia());
+        view.findViewById(R.id.ic_favorite).setOnClickListener(v -> startActivity(new Intent(getContext(), FavoritesActivity.class)));
     }
 
     @Override
@@ -131,7 +133,7 @@ public class HomeFragment extends Fragment {
             ContentResolver contentResolver = getContext().getContentResolver();
 
             if (null == mAlbumList) {
-                TaskRunner.getInstance().executeAsync(new AlbumsLoader(contentResolver, SortOrder.ALBUMS.TITLE_ASC), (data) -> {
+                TaskRunner.executeAsync(new AlbumsLoader(contentResolver, SortOrder.ALBUMS.TITLE_ASC), (data) -> {
                     mAlbumList = data.subList(0, ((int) (data.size() * 0.2))); // sublist top 20%
                     Collections.shuffle(mAlbumList);
                     mModel.setAlbumsList(mAlbumList);
@@ -141,7 +143,7 @@ public class HomeFragment extends Fragment {
 
 
             if (null == mYouMayLikeList) {
-                TaskRunner.getInstance().executeAsync(new LibraryLoader(contentResolver, SortOrder.TITLE_ASC), (data) -> {
+                TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.TITLE_ASC), (data) -> {
                     mYouMayLikeList = data.subList(0, (int) (data.size() * 0.2));  //show only top 20%
                     Collections.shuffle(mYouMayLikeList);
                     mModel.setYourMayLikeList(mYouMayLikeList);
@@ -152,7 +154,7 @@ public class HomeFragment extends Fragment {
 
 
             if (null == mNewInLibraryList) {
-                TaskRunner.getInstance().executeAsync(new LibraryLoader(contentResolver, SortOrder.DATE_MODIFIED_DESC), (data) -> {
+                TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.DATE_MODIFIED_DESC), (data) -> {
                     mNewInLibraryList = data.subList(0, (int) (data.size() * 0.2)); //show only top 20%
                     mModel.setNewInLibrary(mNewInLibraryList);
                     loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
@@ -161,7 +163,7 @@ public class HomeFragment extends Fragment {
                 loadRecycleView(view, R.id.new_in_library_rv, mNewInLibraryList, LayoutStyle.ROUNDED_RECTANGLE);
 
             if (null == mArtistList) {
-                TaskRunner.getInstance().executeAsync(new ArtistsLoader(contentResolver, SortOrder.ARTIST.NUM_OF_TRACKS_DESC), (data) -> {
+                TaskRunner.executeAsync(new ArtistsLoader(contentResolver, SortOrder.ARTIST.NUM_OF_TRACKS_DESC), (data) -> {
                     mArtistList = data.subList(0, ((int) (data.size() * 0.2))); // sublist top 20%
                     Collections.shuffle(mArtistList);
                     mModel.setArtistList(mArtistList);

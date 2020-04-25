@@ -61,7 +61,7 @@ public class SplashActivity extends PMBActivity {
     }
 
     private void startMusicLoader() {
-        TaskRunner.getInstance().executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
+        TaskRunner.executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
             TrackManager.getInstance().setMainList(data);
             startHomeActivity();
         });
