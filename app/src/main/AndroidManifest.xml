@@ -46,9 +46,6 @@
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask" />
 
-        <activity
-            android:name=".activities.PlaylistDataActivity"
-            android:launchMode="singleTask" />
 
         <activity
             android:name=".activities.TrackPickerActivity"
@@ -67,6 +64,9 @@
             android:launchMode="singleTop" />
 
         <activity android:name=".activities.RecentActivity" />
+        <activity android:name=".activities.FavoritesActivity" />
+        <activity android:name=".activities.CurrentPlaylist" />
+        <activity android:name=".activities.PlaylistDetailsActivity" />
 
         <service
             android:name=".PMS"
