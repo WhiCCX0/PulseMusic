@@ -2,7 +2,6 @@ package com.hardcodecoder.pulsemusic.adapters;
 
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.bumptech.glide.request.target.Target;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.DiffCb;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
@@ -37,17 +37,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     private Deque<List<MusicModel>> pendingUpdates = new ArrayDeque<>();
     private ItemClickListener.Simple mListener;
     private LayoutInflater mInflater;
-    private Handler mBackgroundHandler;
     private Handler mMainHandler = new Handler();
-    private HandlerThread t;
 
     public SearchAdapter(LayoutInflater inflater, ItemClickListener.Simple clickListener) {
         this.mListener = clickListener;
         this.mInflater = inflater;
-        t = new HandlerThread("SearchingThread");
-        t.setPriority(Thread.MAX_PRIORITY);
-        t.start();
-        mBackgroundHandler = new Handler(t.getLooper());
     }
 
     @NonNull
@@ -69,8 +63,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             return 0;
     }
 
-    // The Fragment or Activity will call this method
-    // when new data becomes available
     public void updateItems(final List<MusicModel> newItems) {
         pendingUpdates.push(newItems);
         if (pendingUpdates.size() > 1) {
@@ -79,24 +71,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         updateItemsInternal(newItems);
     }
 
-    // This method does the heavy lifting of
-    // pushing the work to the background thread
+
     private void updateItemsInternal(final List<MusicModel> newItems) {
-
-        //final Handler handler = new Handler();
-        /*new Thread(() -> {
+        /*mBackgroundHandler.post(() -> {
+            final List<MusicModel> oldItems = new ArrayList<>(this.list);
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCb(oldItems, newItems));
-            handler.post(() -> applyDiffResult(newItems, diffResult));
-        }).start();*/
-
-        mBackgroundHandler.post(() -> {
+            mMainHandler.post(() -> applyDiffResult(newItems, diffResult));
+        });*/
+        TaskRunner.executeAsync(() -> {
             final List<MusicModel> oldItems = new ArrayList<>(this.list);
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCb(oldItems, newItems));
             mMainHandler.post(() -> applyDiffResult(newItems, diffResult));
         });
     }
 
-    // This method is called when the background work is done
     private void applyDiffResult(List<MusicModel> newItems, DiffUtil.DiffResult diffResult) {
         pendingUpdates.remove(newItems);
         dispatchUpdates(newItems, diffResult);
@@ -107,8 +95,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         }
     }
 
-    // This method does the work of actually updating
-    // the backing data and notifying the adapter
     private void dispatchUpdates(List<MusicModel> newItems, DiffUtil.DiffResult diffResult) {
         diffResult.dispatchUpdatesTo(this);
         list.clear();
@@ -118,9 +104,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        t.quitSafely();
-        mMainHandler = null;
-        mBackgroundHandler = null;
         pendingUpdates.clear();
         list.clear();
     }
