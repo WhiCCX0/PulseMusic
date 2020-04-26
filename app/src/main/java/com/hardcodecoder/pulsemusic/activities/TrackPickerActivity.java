@@ -1,8 +1,10 @@
 package com.hardcodecoder.pulsemusic.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -13,27 +15,33 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.TrackPickerAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.helper.TrackPickerHelper;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TrackPickerActivity extends PMBActivity implements ItemClickListener.Selector {
 
-    private List<MusicModel> pickedTracks = new ArrayList<>();
-    private List<MusicModel> masterList;
+    public static final String ID_PICKED_TRACKS = "picked_tracks";
+    public static final int REQUEST_CODE = 100;
+    //public static final String PLAYLIST_ID = "playlist_id";
+    private ArrayList<String> pickedTracks = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_track_picker);
 
         findViewById(R.id.btn_done).setOnClickListener(v -> {
-            dispatchUpdatedTrack();
+            Toast.makeText(this, "Saving tracks... please wait", Toast.LENGTH_SHORT).show();
+            /*DataManager.savePlaylistTracks(this, playlistName, pickedTracks, result -> {
+                setResult(RESULT_OK, null);
+                finish();
+                overrideActivityTransition();
+            });*/
+            Intent i = new Intent();
+            i.putExtra(ID_PICKED_TRACKS, pickedTracks);
+            setResult(RESULT_OK, i);
             finish();
             overrideActivityTransition();
         });
@@ -45,13 +53,22 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
             overrideActivityTransition();
         });
 
-        masterList = TrackManager.getInstance().getMainList();
         RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
         recyclerView.setLayoutAnimation(controller);
-        TrackPickerAdapter adapter = new TrackPickerAdapter(masterList, getLayoutInflater(), this);
+        TrackPickerAdapter adapter = new TrackPickerAdapter(TrackManager.getInstance().getMainList(), getLayoutInflater(), this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onSelected(MusicModel md) {
+        pickedTracks.add(md.getSongName());
+    }
+
+    @Override
+    public void onUnselected(MusicModel md) {
+        pickedTracks.remove(md.getSongName());
     }
 
     private void overrideActivityTransition() {
@@ -63,21 +80,4 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
         super.onBackPressed();
         overrideActivityTransition();
     }
-
-    @Override
-    public void onSelected(MusicModel md) {
-        pickedTracks.add(md);
-    }
-
-    @Override
-    public void onUnselected(MusicModel md) {
-        pickedTracks.remove(md);
-    }
-
-    private void dispatchUpdatedTrack() {
-        if (pickedTracks.size() > 0)
-            TrackPickerHelper.getInstance().holdPickedTracks(pickedTracks);
-        masterList = null;
-    }
-
 }

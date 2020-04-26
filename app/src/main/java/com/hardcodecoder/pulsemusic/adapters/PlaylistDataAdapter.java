@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,27 +24,35 @@ import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ClickDragRvListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapter.PlaylistDataSVH> {
 
-    private ClickDragRvListener mListener;
     private LayoutInflater mInflater;
-    private List<MusicModel> mList;
-    private int deletedPosition;
+    private List<MusicModel> mPlaylistTracks = new ArrayList<>();
+    private ClickDragRvListener mListener;
+    private int lastPosition = -1;
 
-    public PlaylistDataAdapter(List<MusicModel> list, ClickDragRvListener mListener, LayoutInflater inflater) {
-        this.mList = list;
-        this.mListener = mListener;
+    public PlaylistDataAdapter(List<MusicModel> playlistTracks, LayoutInflater inflater, ClickDragRvListener mListener) {
+        this.mPlaylistTracks.addAll(playlistTracks);
         this.mInflater = inflater;
+        this.mListener = mListener;
+    }
+
+    public void addItems(final List<MusicModel> list) {
+        int startIndex = mPlaylistTracks.size();
+        mPlaylistTracks.addAll(list);
+        notifyItemRangeInserted(startIndex, list.size());
     }
 
     public void removeItem(int pos) {
-        deletedPosition = pos;
+        mPlaylistTracks.remove(pos);
         notifyItemRemoved(pos);
     }
 
-    public void restoreItem() {
+    public void restoreItem(MusicModel musicModel, int deletedPosition) {
+        mPlaylistTracks.add(deletedPosition, musicModel);
         notifyItemInserted(deletedPosition);
     }
 
@@ -55,27 +64,15 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlaylistDataSVH holder, int position) {
-        holder.updateView(mList.get(position));
+        holder.updateView(mPlaylistTracks.get(position));
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),
+                (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top));
+        lastPosition = position;
     }
 
     @Override
     public int getItemCount() {
-        if (mList != null)
-            return mList.size();
-        else
-            return 0;
-    }
-
-    // The Fragment or Activity will call this method
-    // when new data becomes available
-    public void addItems(List<MusicModel> list) {
-        if (list.size() > 0) {
-            int oldSize = 0;
-            if (mList != null)
-                oldSize = mList.size();
-            mList = list;
-            notifyItemRangeInserted(oldSize, mList.size() - 1);
-        }
+        return mPlaylistTracks.size();
     }
 
     static class PlaylistDataSVH extends RecyclerView.ViewHolder {
