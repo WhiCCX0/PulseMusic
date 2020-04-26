@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
-import com.hardcodecoder.pulsemusic.helper.DataManager;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.storage.DataManager;
 import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
 import java.util.List;
@@ -31,21 +32,9 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recent);
+        setContentView(R.layout.vertical_list);
 
         tm = TrackManager.getInstance();
-        /*data = PlaylistStorageManager.getRecentTracks(this);
-        if(data.size() > 0) {
-            RecyclerView rv = findViewById(R.id.rv_recently_played);
-            rv.setVisibility(View.VISIBLE);
-            rv.setHasFixedSize(true);
-            rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
-            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(rv.getContext(), R.anim.item_slide_up_animation);
-            rv.setLayoutAnimation(controller);
-            LibraryAdapter adapter = new LibraryAdapter(data, getLayoutInflater(), this);
-            rv.setAdapter(adapter);
-        }
-        else findViewById(R.id.no_tracks_fount_tv).setVisibility(View.VISIBLE);*/
         DataManager.getSavedHistoryAsync(this, history -> {
             data = history;
             if (data.size() > 0) {
@@ -63,6 +52,8 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
         Toolbar t = findViewById(R.id.toolbar);
         t.setTitle(R.string.recent);
         t.setNavigationOnClickListener(v -> finish());
+        TextView tv = findViewById(R.id.no_tracks_fount_tv);
+        tv.setText(getString(R.string.no_recent_tracks));
     }
 
     @Override
