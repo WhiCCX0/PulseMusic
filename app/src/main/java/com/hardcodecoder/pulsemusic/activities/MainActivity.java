@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
@@ -24,7 +25,7 @@ import com.hardcodecoder.pulsemusic.ui.ArtistFragment;
 import com.hardcodecoder.pulsemusic.ui.ControlsFragment;
 import com.hardcodecoder.pulsemusic.ui.HomeFragment;
 import com.hardcodecoder.pulsemusic.ui.LibraryFragment;
-import com.hardcodecoder.pulsemusic.ui.PlaylistCardFragment;
+import com.hardcodecoder.pulsemusic.ui.PlaylistFragment;
 
 
 public class MainActivity extends MediaSessionActivity {
@@ -40,6 +41,9 @@ public class MainActivity extends MediaSessionActivity {
     private final FragmentManager fm = getSupportFragmentManager();
     private Fragment homeFrag = null;
     private Fragment libraryFrag = null;
+    private Fragment artistFrag = null;
+    private Fragment albumsFrag = null;
+    private Fragment activeFrag = null;
     private Fragment playlistCardFrag = null;
     private Fragment controlsFrag = null;
     private final MediaController.Callback mCallback = new MediaController.Callback() {
@@ -48,12 +52,8 @@ public class MainActivity extends MediaSessionActivity {
             showControlsFragment();
         }
     };
-
-    private Fragment albumsFrag = null;
     private MediaController mController;
-    private Fragment activeFrag = null;
     private MediaBrowser mMediaBrowser;
-    private Fragment artistFrag = null;
     @StyleRes
     private int mCurrentTheme;
     @StyleRes
@@ -132,7 +132,7 @@ public class MainActivity extends MediaSessionActivity {
                     break;
 
                 case PLAYLIST_CARDS:
-                    playlistCardFrag = new PlaylistCardFragment();
+                    playlistCardFrag = new PlaylistFragment();
                     switchTo = playlistCardFrag;
                     break;
 
@@ -257,7 +257,7 @@ public class MainActivity extends MediaSessionActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(ACTIVE, activeFrag.getTag());
     }
