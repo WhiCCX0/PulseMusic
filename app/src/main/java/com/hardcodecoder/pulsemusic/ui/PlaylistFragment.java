@@ -30,7 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.activities.CurrentPlaylist;
+import com.hardcodecoder.pulsemusic.activities.CurrentPlaylistActivity;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.PlaylistDetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
@@ -38,17 +38,17 @@ import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.CardsAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
-import com.hardcodecoder.pulsemusic.interfaces.RecyclerViewGestures;
-import com.hardcodecoder.pulsemusic.storage.DataManager;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
+import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistFragment extends Fragment implements ItemClickListener.Cards, RecyclerViewGestures.GestureCallback {
+public class PlaylistFragment extends Fragment implements ItemClickListener.Cards, SimpleGestureCallback {
 
     private CardsAdapter mAdapter;
     private Context mContext;
-    private List<String> mPlaylistNames = new ArrayList<>();
+    private List<String> mPlaylistNames;
 
     @Nullable
     @Override
@@ -64,9 +64,11 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
         FloatingActionButton fab = view.findViewById(R.id.btn_add_playlist);
         fab.setOnClickListener(v -> createPlaylist(false, -1 /*Creating new item*/));
 
-        mPlaylistNames.add("Current Queue");
-        DataManager.getPlaylists(mContext, titlesList -> {
-            mPlaylistNames.addAll(titlesList);
+        mPlaylistNames = new ArrayList<>();
+        mPlaylistNames.add(getString(R.string.playlist_current_queue));
+
+        StorageHelper.getPlaylists(mContext, result -> {
+            mPlaylistNames.addAll(result);
             loadPlaylistCards(view);
         });
 
@@ -110,13 +112,13 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
         recyclerView.setLayoutAnimation(controller);
-        mAdapter = new CardsAdapter(mPlaylistNames, this, getLayoutInflater());
+        mAdapter = new CardsAdapter(mPlaylistNames, getLayoutInflater(), this, this);
         recyclerView.setAdapter(mAdapter);
 
         /*
          * Adding swipe gesture to delete playlist card
          */
-        ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(this/*, mActivity*/);
+        ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
@@ -124,7 +126,7 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
     private void addNewPlaylist(String playlistName) {
         mPlaylistNames.add(playlistName);
         mAdapter.notifyItemInserted(mPlaylistNames.size() - 1);
-        DataManager.savePlaylist(mContext, playlistName);
+        StorageHelper.savePlaylist(mContext, playlistName);
     }
 
     private void createPlaylist(boolean isEdit, int pos) {
@@ -147,9 +149,11 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
             create.setOnClickListener(v -> {
                 if (et.getText() != null && et.getText().toString().length() > 0) {
                     if (isEdit) {
-                        mPlaylistNames.remove(pos);
-                        mPlaylistNames.add(pos, et.getText().toString());
+                        String oldName = mPlaylistNames.remove(pos);
+                        String newName = et.getText().toString();
+                        mPlaylistNames.add(pos, newName);
                         mAdapter.notifyItemChanged(pos);
+                        StorageHelper.renamePlaylist(mContext, oldName, newName);
                     } else addNewPlaylist(et.getText().toString());
                 } else {
                     Toast.makeText(mContext, "Please enter playlist's name", Toast.LENGTH_SHORT).show();
@@ -171,7 +175,7 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
     @Override
     public void onItemClick(int pos) {
         if (pos == 0)
-            startActivity(new Intent(mContext, CurrentPlaylist.class));
+            startActivity(new Intent(mContext, CurrentPlaylistActivity.class));
         else {
             Intent i = new Intent(mContext, PlaylistDetailsActivity.class);
             i.putExtra(PlaylistDetailsActivity.KEY_TITLE, mPlaylistNames.get(pos));
@@ -184,12 +188,12 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
         createPlaylist(true, pos);
     }
 
-    @Override
+    /*@Override
     public void onItemSwiped(int itemAdapterPosition) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
                 .setTitle("Delete Playlist: " + mPlaylistNames.get(itemAdapterPosition) + " ?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    DataManager.deletePlaylist(mContext, mPlaylistNames.get(itemAdapterPosition));
+                    StorageHelper.deletePlaylist(mContext, mPlaylistNames.get(itemAdapterPosition));
                     Toast.makeText(getContext(), "Playlist deleted", Toast.LENGTH_SHORT).show();
                 }).setNegativeButton("NO", (dialog, which) -> mAdapter.notifyItemChanged(itemAdapterPosition));
         alertDialog.create().show();
@@ -205,5 +209,20 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
 
     @Override
     public void onClearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+    }*/
+
+    @Override
+    public void onItemDismissed(int position) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
+                .setTitle("Delete Playlist: " + mPlaylistNames.get(position) + " ?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    StorageHelper.deletePlaylist(mContext, mPlaylistNames.get(position));
+                    Toast.makeText(getContext(), "Playlist deleted", Toast.LENGTH_SHORT).show();
+                }).setNegativeButton("NO", (dialog, which) -> mAdapter.notifyItemChanged(position));
+        alertDialog.create().show();
+    }
+
+    @Override
+    public void onItemMoved(int fromPosition, int toPosition) {
     }
 }
