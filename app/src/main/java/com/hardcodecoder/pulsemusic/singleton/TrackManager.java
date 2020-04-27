@@ -2,23 +2,24 @@ package com.hardcodecoder.pulsemusic.singleton;
 
 import android.content.Context;
 
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
-import com.hardcodecoder.pulsemusic.storage.DataManager;
+import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TrackManager {
 
     private static final TrackManager ourInstance = new TrackManager();
+    private Map<String, MusicModel> modelMap = new HashMap<>();
     private List<MusicModel> mActiveList = new ArrayList<>();
     private List<MusicModel> mMainList;
     private int mIndex = -1;
-    private int mActiveListSize = -1;
-    private MusicModel mDeletedQueueItem;
-    private int mDeletedQueueIndex;
     private boolean mRepeatCurrentTrack = false;
 
     private TrackManager() {
@@ -34,12 +35,20 @@ public class TrackManager {
 
     public void setMainList(final List<MusicModel> mainList) {
         mMainList = mainList;
+        TaskRunner.executeAsync(() -> {
+            for (MusicModel musicModel : mainList) {
+                modelMap.put(musicModel.getSongName(), musicModel);
+            }
+        });
+    }
+
+    public Map<String, MusicModel> getModelMap() {
+        return modelMap;
     }
 
     public void buildDataList(List<MusicModel> newList, int index) {
         mActiveList.clear();
         mActiveList.addAll(newList);
-        mActiveListSize = mActiveList.size();
         setActiveIndex(index);
     }
 
@@ -76,52 +85,44 @@ public class TrackManager {
             mRepeatCurrentTrack = false;
             return true;
         }
-        if (direction == PlaybackManager.ACTION_PLAY_NEXT && mIndex < mActiveListSize - 1) {
+        if (direction == PlaybackManager.ACTION_PLAY_NEXT && mIndex < mActiveList.size() - 1) {
             setActiveIndex(++mIndex);
             return true;
         } else if (direction == PlaybackManager.ACTION_PLAY_PREV && mIndex > 0) {
             setActiveIndex(--mIndex);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void playNext(MusicModel md) {
-        if (mIndex + 1 < mActiveListSize) {
+        if (mIndex + 1 < mActiveList.size()) {
             if (mActiveList.get(mIndex + 1).getId() != md.getId()) {
                 mActiveList.add(mIndex + 1, md);
-                ++mActiveListSize;
             }
-        } else {
+        } else
             mActiveList.add(mIndex + 1, md);
-            ++mActiveListSize;
-        }
-
     }
 
     public void addToActiveQueue(MusicModel md) {
         mActiveList.add(md);
-        ++mActiveListSize;
     }
 
     public boolean canRemoveItem(int position) {
-        return position > -1 && position < mActiveListSize;
+        return position != mIndex;
     }
 
     public void removeItemFromActiveQueue(int position) {
-        mDeletedQueueIndex = position;
-        mDeletedQueueItem = mActiveList.remove(position);
+        mActiveList.remove(position);
         if (position < getActiveIndex())
             mIndex--;
     }
 
-    public void restoreItem() {
-        mActiveList.add(mDeletedQueueIndex, mDeletedQueueItem);
+    public void restoreItem(int deletedQueueIndex, MusicModel musicModel) {
+        mActiveList.add(deletedQueueIndex, musicModel);
     }
 
     public void addToHistory(Context context) {
-        //PlaylistStorageManager.addToRecentTracks(context, getActiveQueueItem());
-        DataManager.addTrackToHistory(context, getActiveQueueItem());
+        StorageHelper.addTrackToHistory(context, getActiveQueueItem());
     }
 }
