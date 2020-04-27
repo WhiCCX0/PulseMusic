@@ -1,6 +1,7 @@
 package com.hardcodecoder.pulsemusic.adapters;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,23 +22,32 @@ import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.ClickDragRvListener;
+import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperAdapter;
+import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperViewHolder;
+import com.hardcodecoder.pulsemusic.interfaces.PlaylistItemListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapter.PlaylistDataSVH> {
+public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapter.PlaylistDataSVH> implements ItemTouchHelperAdapter {
+
 
     private LayoutInflater mInflater;
-    private List<MusicModel> mPlaylistTracks = new ArrayList<>();
-    private ClickDragRvListener mListener;
+    private List<MusicModel> mPlaylistTracks;
+    private SimpleGestureCallback mCallback;
+    private PlaylistItemListener mListener;
     private int lastPosition = -1;
+    private MusicModel deletedItem;
+    private int deletedIndex;
 
-    public PlaylistDataAdapter(List<MusicModel> playlistTracks, LayoutInflater inflater, ClickDragRvListener mListener) {
-        this.mPlaylistTracks.addAll(playlistTracks);
+
+    public PlaylistDataAdapter(List<MusicModel> playlistTracks, LayoutInflater inflater, PlaylistItemListener mListener, @Nullable SimpleGestureCallback callback) {
+        this.mPlaylistTracks = playlistTracks;
         this.mInflater = inflater;
         this.mListener = mListener;
+        this.mCallback = callback;
     }
 
     public void addItems(final List<MusicModel> list) {
@@ -46,14 +56,34 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
         notifyItemRangeInserted(startIndex, list.size());
     }
 
-    public void removeItem(int pos) {
-        mPlaylistTracks.remove(pos);
-        notifyItemRemoved(pos);
+
+    public void restoreItem() {
+        mPlaylistTracks.add(deletedIndex, deletedItem);
+        notifyItemInserted(deletedIndex);
     }
 
-    public void restoreItem(MusicModel musicModel, int deletedPosition) {
-        mPlaylistTracks.add(deletedPosition, musicModel);
-        notifyItemInserted(deletedPosition);
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mPlaylistTracks, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemMoved(int fromPosition, int toPosition) {
+        if (null != mCallback)
+            mCallback.onItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        deletedItem = mPlaylistTracks.remove(position);
+        deletedIndex = position;
+        Log.e("CurrentPlaylistActivity", "onItemSwiped deleted item = " + deletedItem.getSongName());
+        notifyItemRemoved(position);
+        Log.e("PlaylistDataAdapter", "size of playlist Tracks = " + mPlaylistTracks.size());
+        if (null != mCallback)
+            mCallback.onItemDismissed(position);
     }
 
     @NonNull
@@ -75,12 +105,12 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
         return mPlaylistTracks.size();
     }
 
-    static class PlaylistDataSVH extends RecyclerView.ViewHolder {
+    static class PlaylistDataSVH extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         private TextView title;
         private ImageView art;
 
-        PlaylistDataSVH(@NonNull View itemView, ClickDragRvListener listener) {
+        PlaylistDataSVH(@NonNull View itemView, PlaylistItemListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.library_item_tv1);
             art = itemView.findViewById(R.id.library_item_iv1);
@@ -89,7 +119,7 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
             itemView.findViewById(R.id.btn_handle)
                     .setOnTouchListener((v, event) -> {
                         if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_UP)
-                            listener.initiateDrag(this);
+                            listener.onStartDrag(this);
                         return true;
                     });
         }
@@ -115,6 +145,16 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
                     })
                     .transform(GlideConstantArtifacts.getRadius8dp())
                     .into(art);
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackground(itemView.getContext().getDrawable(R.drawable.active_item_background));
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackground(itemView.getContext().getDrawable(android.R.color.transparent));
         }
     }
 }

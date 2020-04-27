@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -23,8 +22,7 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
 
     public static final String ID_PICKED_TRACKS = "picked_tracks";
     public static final int REQUEST_CODE = 100;
-    //public static final String PLAYLIST_ID = "playlist_id";
-    private ArrayList<String> pickedTracks = new ArrayList<>();
+    private ArrayList<MusicModel> mSelectedTracks = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,14 +31,8 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
         setContentView(R.layout.activity_track_picker);
 
         findViewById(R.id.btn_done).setOnClickListener(v -> {
-            Toast.makeText(this, "Saving tracks... please wait", Toast.LENGTH_SHORT).show();
-            /*DataManager.savePlaylistTracks(this, playlistName, pickedTracks, result -> {
-                setResult(RESULT_OK, null);
-                finish();
-                overrideActivityTransition();
-            });*/
             Intent i = new Intent();
-            i.putExtra(ID_PICKED_TRACKS, pickedTracks);
+            i.putExtra(ID_PICKED_TRACKS, mSelectedTracks);
             setResult(RESULT_OK, i);
             finish();
             overrideActivityTransition();
@@ -63,12 +55,12 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
 
     @Override
     public void onSelected(MusicModel md) {
-        pickedTracks.add(md.getSongName());
+        mSelectedTracks.add(md);
     }
 
     @Override
     public void onUnselected(MusicModel md) {
-        pickedTracks.remove(md.getSongName());
+        mSelectedTracks.remove(md);
     }
 
     private void overrideActivityTransition() {
