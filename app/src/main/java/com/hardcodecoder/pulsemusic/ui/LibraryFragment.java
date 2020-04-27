@@ -10,8 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -99,8 +97,6 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
             recyclerView.setHasFixedSize(true);
-            /*LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_slide_up_animation);
-            recyclerView.setLayoutAnimation(controller);*/
             LibraryAdapter adapter = new LibraryAdapter(mList, getLayoutInflater(), this);
             recyclerView.setAdapter(adapter);
         }
