@@ -17,4 +17,12 @@ public class DataModelHelper {
         }
         return modelList;
     }
+
+    public static List<String> getTitleFromModel(List<MusicModel> modelList) {
+        List<String> titlesList = new ArrayList<>();
+        for (MusicModel musicModel : modelList) {
+            titlesList.add(musicModel.getSongName());
+        }
+        return titlesList;
+    }
 }
