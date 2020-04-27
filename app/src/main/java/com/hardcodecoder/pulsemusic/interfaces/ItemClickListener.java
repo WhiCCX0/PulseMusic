@@ -58,7 +58,7 @@ public interface ItemClickListener {
         /**
          * @param pos Passes the Adapter position of that item clicked
          */
-        void onClickItem(int pos);
+        void onItemClick(int pos);
     }
 
 }

@@ -2,7 +2,7 @@ package com.hardcodecoder.pulsemusic.interfaces;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public interface ClickDragRvListener {
+public interface PlaylistItemListener {
     /**
      * called when a recycler view item is clicked
      *
@@ -15,6 +15,6 @@ public interface ClickDragRvListener {
      *
      * @param holder is required for @Link ItemTouchListener#onStartDrag to work
      */
-    void initiateDrag(RecyclerView.ViewHolder holder);
+    void onStartDrag(RecyclerView.ViewHolder holder);
 
 }

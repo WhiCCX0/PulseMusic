@@ -24,7 +24,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.DataManager;
+import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +155,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
             isFav = false;
         }*/
         if (null == favourites)
-            DataManager.getSavedFavoriteTracksAsync(this, favoriteList -> {
+            StorageHelper.getSavedFavoriteTracks(this, favoriteList -> {
                 boolean contains = false;
                 favourites = favoriteList;
                 String currentSongTitle = TrackManager.getInstance().getActiveQueueItem().getSongName();
@@ -330,7 +330,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
     protected void onStop() {
         super.onStop();
         //if (mFavListModified) PlaylistStorageManager.saveFavorite(this, favourites);
-        if (mFavListModified) DataManager.addFavoritesList(this, favourites);
+        if (mFavListModified) StorageHelper.addFavoritesList(this, favourites);
     }
 
     @Override
