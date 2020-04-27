@@ -51,7 +51,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistSVH>
         ArtistSVH(@NonNull View itemView, ItemClickListener.SingleEvent mListener) {
             super(itemView);
             title = itemView.findViewById(R.id.grid_item_artist_tv);
-            itemView.setOnClickListener(v -> mListener.onClickItem(getAdapterPosition()));
+            itemView.setOnClickListener(v -> mListener.onItemClick(getAdapterPosition()));
         }
 
         void setData(ArtistModel am) {

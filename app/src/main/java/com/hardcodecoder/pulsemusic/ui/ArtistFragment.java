@@ -163,7 +163,7 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
     }
 
     @Override
-    public void onClickItem(int pos) {
+    public void onItemClick(int pos) {
         Intent i = new Intent(getContext(), DetailsActivity.class);
         i.putExtra(DetailsActivity.ALBUM_ID, 0);//No albumId for artists
         i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);

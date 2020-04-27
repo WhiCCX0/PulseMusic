@@ -163,7 +163,7 @@ public class AlbumFragment extends Fragment implements ItemClickListener.SingleE
     }
 
     @Override
-    public void onClickItem(int pos) {
+    public void onItemClick(int pos) {
         Intent i = new Intent(getContext(), DetailsActivity.class);
         i.putExtra(DetailsActivity.ALBUM_ID, mList.get(pos).getAlbumId());
         i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);

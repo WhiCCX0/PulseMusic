@@ -63,7 +63,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
             super(itemView);
             art = itemView.findViewById(R.id.grid_item_iv);
             title = itemView.findViewById(R.id.grid_item_tv);
-            itemView.setOnClickListener(v -> mListener.onClickItem(getAdapterPosition()));
+            itemView.setOnClickListener(v -> mListener.onItemClick(getAdapterPosition()));
         }
 
         void setData(AlbumModel am) {
