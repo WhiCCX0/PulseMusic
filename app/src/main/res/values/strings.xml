@@ -21,6 +21,9 @@
     <string name="tracks_num">tracks</string>
     <string name="recent">Recent tracks</string>
     <string name="no_recent_tracks">Listen to some music and check back in</string>
+    <string name="favorites">Your favorites</string>
+    <string name="no_favorites_tracks">No tracks found, please add some</string>
+    <string name="empty_playlist">Playlist is empty\nClick on + to add tracks</string>
     <string name="select_track">Select track</string>
     <string name="recent_artist">Haven\'t heard them in a while </string>
     <string name="nostalgic">Your albums</string>
