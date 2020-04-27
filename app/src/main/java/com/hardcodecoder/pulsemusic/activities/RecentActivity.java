@@ -19,14 +19,15 @@ import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.DataManager;
+import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecentActivity extends MediaSessionActivity implements LibraryItemClickListener {
 
-    private List<MusicModel> data;
+    private List<MusicModel> mRecentTracks;
     private TrackManager tm;
 
     @Override
@@ -35,16 +36,16 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
         setContentView(R.layout.vertical_list);
 
         tm = TrackManager.getInstance();
-        DataManager.getSavedHistoryAsync(this, history -> {
-            data = history;
-            if (data.size() > 0) {
+        StorageHelper.getSavedHistory(this, result -> {
+            if (null != result && result.size() > 0) {
+                mRecentTracks = new ArrayList<>(result);
                 RecyclerView rv = findViewById(R.id.rv_recently_played);
                 rv.setVisibility(View.VISIBLE);
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(rv.getContext(), R.anim.item_slide_up_animation);
                 rv.setLayoutAnimation(controller);
-                LibraryAdapter adapter = new LibraryAdapter(data, getLayoutInflater(), this);
+                LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else findViewById(R.id.no_tracks_fount_tv).setVisibility(View.VISIBLE);
         });
@@ -58,13 +59,13 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
 
     @Override
     public void onItemClick(int pos) {
-        tm.buildDataList(data, pos);
+        tm.buildDataList(mRecentTracks, pos);
         playMedia();
     }
 
     @Override
     public void onOptionsClick(int pos) {
-        showMenuItems(data.get(pos));
+        showMenuItems(mRecentTracks.get(pos));
     }
 
     private void showMenuItems(MusicModel md) {

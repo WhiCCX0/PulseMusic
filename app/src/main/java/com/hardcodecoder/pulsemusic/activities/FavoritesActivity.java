@@ -19,15 +19,16 @@ import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.DataManager;
+import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesActivity extends MediaSessionActivity implements LibraryItemClickListener {
 
     private TrackManager tm;
-    private List<MusicModel> favoritesList = null;
+    private List<MusicModel> favoritesList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +37,9 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
 
         tm = TrackManager.getInstance();
 
-        DataManager.getSavedFavoriteTracksAsync(this, result -> {
-            favoritesList = result;
-            if (favoritesList.size() > 0) {
+        StorageHelper.getSavedFavoriteTracks(this, result -> {
+            if (null != result && result.size() > 0) {
+                favoritesList = new ArrayList<>(result);
                 RecyclerView rv = findViewById(R.id.rv_recently_played);
                 rv.setVisibility(View.VISIBLE);
                 rv.setHasFixedSize(true);
