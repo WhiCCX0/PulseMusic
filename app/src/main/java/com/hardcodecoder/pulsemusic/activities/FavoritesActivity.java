@@ -1,7 +1,11 @@
 package com.hardcodecoder.pulsemusic.activities;
 
+import android.graphics.Color;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -48,16 +52,20 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
                 rv.setLayoutAnimation(controller);
                 LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
-            } else findViewById(R.id.no_tracks_fount_tv).setVisibility(View.VISIBLE);
+            } else {
+                TextView tv = findViewById(R.id.no_tracks_fount_tv);
+                tv.setVisibility(View.VISIBLE);
+                String text = getString(R.string.no_favorites_tracks);
+                SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);
+                stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.length() - 1, text.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                tv.setText(stringBuilder);
+            }
         });
 
 
         Toolbar t = findViewById(R.id.toolbar);
         t.setTitle(R.string.favorites);
         t.setNavigationOnClickListener(v -> finish());
-
-        TextView tv = findViewById(R.id.no_tracks_fount_tv);
-        tv.setText(getString(R.string.no_favorites_tracks));
     }
 
     @Override

@@ -29,11 +29,11 @@
 
     <!-- Favorites Playlist Activity-->
     <string name="favorites">Your favorites</string>
-    <string name="no_favorites_tracks">No tracks found\nadd some thing to favorites  \u2665</string>
+    <string name="no_favorites_tracks">No tracks found\nadd some tracks to favorites\n\u2665</string>
 
 
     <!-- Recent Activity-->
-    <string name="no_recent_tracks">Nothing to show \u2639</string>
+    <string name="no_recent_tracks">Nothing to show \n\u2639</string>
 
 
     <!-- Home drawer contents -->

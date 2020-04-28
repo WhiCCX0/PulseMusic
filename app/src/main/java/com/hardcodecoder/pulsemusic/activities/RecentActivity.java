@@ -1,7 +1,12 @@
 package com.hardcodecoder.pulsemusic.activities;
 
+import android.graphics.Typeface;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -47,14 +52,21 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
                 rv.setLayoutAnimation(controller);
                 LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
-            } else findViewById(R.id.no_tracks_fount_tv).setVisibility(View.VISIBLE);
+            } else {
+                TextView tv = findViewById(R.id.no_tracks_fount_tv);
+                tv.setVisibility(View.VISIBLE);
+                String text = getString(R.string.no_recent_tracks);
+                int len = text.length();
+                SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);
+                stringBuilder.setSpan(new StyleSpan(Typeface.BOLD), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                stringBuilder.setSpan(new AbsoluteSizeSpan((int) (tv.getTextSize() * 3.0)), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                tv.setText(stringBuilder);
+            }
         });
 
         Toolbar t = findViewById(R.id.toolbar);
         t.setTitle(R.string.recent);
         t.setNavigationOnClickListener(v -> finish());
-        TextView tv = findViewById(R.id.no_tracks_fount_tv);
-        tv.setText(getString(R.string.no_recent_tracks));
     }
 
     @Override
