@@ -46,7 +46,7 @@ import com.hardcodecoder.pulsemusic.adapters.HomeAdapter;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapter.LayoutStyle;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterAlbum;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterArtist;
-import com.hardcodecoder.pulsemusic.helper.MediaHelper;
+import com.hardcodecoder.pulsemusic.helper.DataModelHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.AlbumsLoader;
 import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
@@ -326,7 +326,7 @@ public class HomeFragment extends Fragment {
         Intent pickIntent = new Intent(Intent.ACTION_PICK);
         pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        Intent chooserIntent = Intent.createChooser(getIntent, getString(R.string.select_image));
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
 
         startActivityForResult(chooserIntent, PICK_AVATAR);
@@ -344,7 +344,7 @@ public class HomeFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == PICK_AVATAR) {
                 if (null == data) {
-                    Toast.makeText(getContext(), "Cannot retrieve image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.error_select_image_toast), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (null != getContext()) {
@@ -352,7 +352,7 @@ public class HomeFragment extends Fragment {
                     loadProfilePic();
                 }
             } else if (requestCode == PICK_MUSIC) {
-                MusicModel md = MediaHelper.buildMusicModelFrom(getContext(), data);
+                MusicModel md = DataModelHelper.buildMusicModelFrom(getContext(), data);
                 if (md != null) {
                     List<MusicModel> singlePickedItemList = new ArrayList<>();
                     singlePickedItemList.add(md);
