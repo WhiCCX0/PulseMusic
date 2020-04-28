@@ -58,26 +58,6 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
     }
 
     private void loadPlaylist(List<MusicModel> list) {
-        /*StorageManager.getPlaylistTracks(this, playListTitle, result -> TaskRunner.executeAsync(() -> {
-            if (null != result && result.size() > 0) {
-                List<MusicModel> modelList = DataModelHelper.getModelFromTitle(result);
-                mPlaylistTracks.addAll(modelList);
-                mHandler.post(() -> {
-                    RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    mAdapter = new PlaylistDataAdapter(mPlaylistTracks, getLayoutInflater(), this);
-                    recyclerView.setAdapter(mAdapter);
-
-                    ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(this);
-                    itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
-                    itemTouchHelper.attachToRecyclerView(recyclerView);
-                });
-            } else
-                mHandler.post(() -> findViewById(R.id.no_tracks_found_tv).setVisibility(View.VISIBLE));
-        }));*/
-
         if (null != list && list.size() > 0) {
             mPlaylistTracks = new ArrayList<>(list);
             RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);

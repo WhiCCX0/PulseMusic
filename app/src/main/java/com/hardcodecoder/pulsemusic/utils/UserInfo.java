@@ -3,6 +3,8 @@ package com.hardcodecoder.pulsemusic.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.hardcodecoder.pulsemusic.R;
+
 public class UserInfo {
 
     private static final String NAME_KEY = "UserName";
@@ -16,7 +18,7 @@ public class UserInfo {
     }
 
     public static String getUserName(Context context) {
-        return  context.getSharedPreferences(NAME_KEY, Context.MODE_PRIVATE).getString(NAME_KEY, "User");
+        return context.getSharedPreferences(NAME_KEY, Context.MODE_PRIVATE).getString(NAME_KEY, context.getString(R.string.def_user_name));
     }
 
     public static void saveUserProfilePic(Context context, String path) {

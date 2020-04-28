@@ -73,11 +73,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
 
     private void updateItemsInternal(final List<MusicModel> newItems) {
-        /*mBackgroundHandler.post(() -> {
-            final List<MusicModel> oldItems = new ArrayList<>(this.list);
-            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCb(oldItems, newItems));
-            mMainHandler.post(() -> applyDiffResult(newItems, diffResult));
-        });*/
         TaskRunner.executeAsync(() -> {
             final List<MusicModel> oldItems = new ArrayList<>(this.list);
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCb(oldItems, newItems));

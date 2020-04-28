@@ -15,16 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.helper.HomeWalliProvider;
-import com.hardcodecoder.pulsemusic.helper.HomeWalliProvider.Day;
 import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 import com.hardcodecoder.pulsemusic.themes.ThemeStore;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
+import com.hardcodecoder.pulsemusic.utils.DayTimeUtils;
 
 public class SettingsActivity extends PMBActivity {
 
-    /*private final short ID_LIGHT = 10;
-    private final short ID_DARK = 20;*/
     private boolean autoModeEnable;
     private boolean darkModeEnable;
     private boolean optionChanged = false;
@@ -95,14 +92,12 @@ public class SettingsActivity extends PMBActivity {
         });
 
         findViewById(R.id.accents_options).setOnClickListener(this::openAccentPicker);
-        //findViewById(R.id.light_theme_options).setOnClickListener(v -> openThemeSelector(v, ID_LIGHT));
         findViewById(R.id.dark_theme_options).setOnClickListener(this::openDarkThemeSelector);
     }
 
-    private void openAccentPicker (View view) {
-        View windowView = View.inflate(this, R.layout.accent_color_picker , null);
+    private void openAccentPicker(View view) {
+        View windowView = View.inflate(this, R.layout.accent_color_picker, null);
         PopupWindow window = new PopupWindow(windowView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
-
         RadioGroup radioGroup = windowView.findViewById(R.id.radio_group);
 
         int currentAccent = AppSettings.getSelectedAccentColor(this);
@@ -133,7 +128,7 @@ public class SettingsActivity extends PMBActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> isAccentChanged = true);
 
         windowView.findViewById(R.id.btn_set).setOnClickListener(v -> {
-            if(isAccentChanged) {
+            if (isAccentChanged) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.rd_btn_1:
                         ThemeManager.setSelectedAccentColor(this, ThemeStore.CINNAMON);
@@ -158,7 +153,7 @@ public class SettingsActivity extends PMBActivity {
                         break;
                 }
                 isAccentChanged = false;
-                if(window.isShowing())
+                if (window.isShowing())
                     window.dismiss();
                 restart();
             }
@@ -169,51 +164,25 @@ public class SettingsActivity extends PMBActivity {
         dimBackgroundOnPopupWindow(window);
     }
 
-    private void openDarkThemeSelector(View view){
+    private void openDarkThemeSelector(View view) {
         View windowView = View.inflate(this, R.layout.dark_theme_picker, null);
         PopupWindow window = new PopupWindow(windowView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
 
         RadioGroup radioGroup = windowView.findViewById(R.id.radio_group);
 
         int currentTheme = AppSettings.getSelectedDarkTheme(this);
-        //if(id == ID_LIGHT) currentTheme = AppSettings.getSelectedLightTheme(this);
-        //else currentTheme = AppSettings.getSelectedDarkTheme(this);
 
         switch (currentTheme) {
-            //case ThemeStore.LIGHT_THEME_1:
             case ThemeStore.DARK_THEME_1:
                 ((RadioButton) radioGroup.findViewById(R.id.rd_btn_1)).setChecked(true);
                 break;
-            //case ThemeStore.LIGHT_THEME_2:
             case ThemeStore.DARK_THEME_2:
                 ((RadioButton) radioGroup.findViewById(R.id.rd_btn_2)).setChecked(true);
                 break;
-            //case ThemeStore.LIGHT_THEME_3:
             case ThemeStore.DARK_THEME_3:
                 ((RadioButton) radioGroup.findViewById(R.id.rd_btn_3)).setChecked(true);
                 break;
         }
-
-        /*RadioButton tempBtn = radioGroup.findViewById(R.id.rd_btn_1);
-        if (id == ID_LIGHT) {
-            ((TextView) windowView.findViewById(R.id.radio_group_title)).setText(R.string.select_light_theme);
-            tempBtn.setText(R.string.def_theme_light);
-
-            tempBtn = radioGroup.findViewById(R.id.rd_btn_2);
-            tempBtn.setText(R.string.black_and_white);
-
-            tempBtn = radioGroup.findViewById(R.id.rd_btn_3);
-            tempBtn.setText(R.string.sweet_morning_light);
-        } else {
-            ((TextView) windowView.findViewById(R.id.radio_group_title)).setText(R.string.select_dark_theme);
-            tempBtn.setText(R.string.def_theme_dark);
-
-            tempBtn = radioGroup.findViewById(R.id.rd_btn_2);
-            tempBtn.setText(R.string.app_dark_theme);
-
-            tempBtn = radioGroup.findViewById(R.id.rd_btn_3);
-            tempBtn.setText(R.string.pitch_dark);
-        }*/
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> optionChanged = true);
 
@@ -221,21 +190,6 @@ public class SettingsActivity extends PMBActivity {
             if (window.isShowing())
                 window.dismiss();
             if (optionChanged) {
-                /*switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.rd_btn_1:
-                        if (id == ID_LIGHT) ThemeManager.setSelectedLightTheme(this, ThemeStore.LIGHT_THEME_1);
-                        else ThemeManager.setSelectedDarkTheme(this, ThemeStore.DARK_THEME_1);
-                        break;
-                    case R.id.rd_btn_2:
-                        if (id == ID_LIGHT) ThemeManager.setSelectedLightTheme(this, ThemeStore.LIGHT_THEME_2);
-                        else ThemeManager.setSelectedDarkTheme(this, ThemeStore.DARK_THEME_2);
-                        break;
-                    case R.id.rd_btn_3:
-                        if (id == ID_LIGHT) ThemeManager.setSelectedLightTheme(this, ThemeStore.LIGHT_THEME_3);
-                        else ThemeManager.setSelectedDarkTheme(this, ThemeStore.DARK_THEME_3);
-                        break;
-                }*/
-
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.rd_btn_1:
                         ThemeManager.setSelectedDarkTheme(this, ThemeStore.DARK_THEME_1);
@@ -248,13 +202,8 @@ public class SettingsActivity extends PMBActivity {
                         break;
                 }
 
-                if (autoModeEnable) {
-                    /*if (id == ID_LIGHT && !isNight()) restart();
-                    else */if (/*id == ID_DARK && */isNight()) restart();
-                } else {
-                    /*if (id == ID_LIGHT && !darkModeEnable) restart();
-                    else*/ if (/*id == ID_DARK && */darkModeEnable) restart();
-                }
+                if (autoModeEnable && isNight()) restart();
+                else if (darkModeEnable) restart();
                 optionChanged = false;
             }
         });
@@ -272,7 +221,7 @@ public class SettingsActivity extends PMBActivity {
         WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
         p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         p.dimAmount = 0.70f;
-        if(null != wm)
+        if (null != wm)
             wm.updateViewLayout(container, p);
     }
 
@@ -281,8 +230,7 @@ public class SettingsActivity extends PMBActivity {
     }
 
     private boolean isNight() {
-        Day d = HomeWalliProvider.getTimeOfDay();
-        return (d == Day.EVENING || d == Day.NIGHT);
+        return (DayTimeUtils.getTimeOfDay() == DayTimeUtils.DayTime.NIGHT);
     }
 
     private void restart() {

@@ -1,7 +1,6 @@
 package com.hardcodecoder.pulsemusic.adapters;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,9 +78,7 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
     public void onItemDismiss(int position) {
         deletedItem = mPlaylistTracks.remove(position);
         deletedIndex = position;
-        Log.e("CurrentPlaylistActivity", "onItemSwiped deleted item = " + deletedItem.getSongName());
         notifyItemRemoved(position);
-        Log.e("PlaylistDataAdapter", "size of playlist Tracks = " + mPlaylistTracks.size());
         if (null != mCallback)
             mCallback.onItemDismissed(position);
     }

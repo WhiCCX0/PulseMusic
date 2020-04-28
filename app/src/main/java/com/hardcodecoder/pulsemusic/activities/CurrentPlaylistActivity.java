@@ -3,7 +3,6 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.content.Intent;
 import android.media.session.MediaController;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -81,13 +80,13 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
             tm.removeItemFromActiveQueue(position);
 
             Snackbar sb = Snackbar.make(findViewById(R.id.playlist_data_root_view), R.string.item_removed, Snackbar.LENGTH_SHORT);
-            sb.setAction("UNDO", v -> {
-                Log.e("CurrentPlaylistActivity", "onItemSwiped restored position = " + position);
+            sb.setAction(getString(R.string.snack_bar_action_undo), v -> {
                 mAdapter.restoreItem();
                 tm.restoreItem(position, mCurrentList.get(position));
             });
             sb.show();
-        } else Toast.makeText(this, "Cannot remove active item", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this, getString(R.string.cannot_remove_active_item), Toast.LENGTH_SHORT).show();
     }
 
     @Override
