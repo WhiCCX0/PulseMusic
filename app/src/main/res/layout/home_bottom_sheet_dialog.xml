@@ -19,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/home_greeting"
-            android:textAppearance="@style/Headline20TextAppearance"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
             android:layout_marginTop="0dp"
-            android:singleLine="true" />
+            android:layout_marginBottom="16dp"
+            android:singleLine="true"
+            android:textAppearance="@style/Headline20TextAppearance" />
 
         <TextView
             style="@style/MenuItemTextStyle"
