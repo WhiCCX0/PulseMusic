@@ -42,11 +42,15 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
         t.setTitle(R.string.playlist_current_queue);
         t.setNavigationOnClickListener(v -> finish());
 
+        findViewById(R.id.open_track_picker_btn).setOnClickListener(v ->
+                startActivityForResult(new Intent(this, TrackPickerActivity.class), TrackPickerActivity.REQUEST_CODE));
+
         loadPlaylist(tm.getActiveQueue());
     }
 
     private void loadPlaylist(List<MusicModel> list) {
         if (null != list && list.size() > 0) {
+            findViewById(R.id.no_tracks_found_tv).setVisibility(View.GONE);
             mCurrentList = new ArrayList<>(list);
             RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
             recyclerView.setVisibility(View.VISIBLE);

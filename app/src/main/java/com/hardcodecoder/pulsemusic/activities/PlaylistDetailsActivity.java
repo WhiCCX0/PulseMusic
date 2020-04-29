@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.PlaylistDataAdapter;
@@ -53,12 +52,13 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
         toolbar.setTitle(playListTitle);
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        FloatingActionButton fab = findViewById(R.id.open_track_picker_btn);
-        fab.setOnClickListener(v -> startActivityForResult(new Intent(this, TrackPickerActivity.class), TrackPickerActivity.REQUEST_CODE));
+        findViewById(R.id.open_track_picker_btn).setOnClickListener(v ->
+                startActivityForResult(new Intent(this, TrackPickerActivity.class), TrackPickerActivity.REQUEST_CODE));
     }
 
     private void loadPlaylist(List<MusicModel> list) {
         if (null != list && list.size() > 0) {
+            findViewById(R.id.no_tracks_found_tv).setVisibility(View.GONE);
             mPlaylistTracks = new ArrayList<>(list);
             RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
