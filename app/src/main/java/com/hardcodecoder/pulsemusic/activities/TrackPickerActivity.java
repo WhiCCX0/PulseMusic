@@ -12,17 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.TrackPickerAdapter;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.helper.RecyclerViewSelectorHelper;
+import com.hardcodecoder.pulsemusic.interfaces.TrackPickerListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TrackPickerActivity extends PMBActivity implements ItemClickListener.Selector {
+public class TrackPickerActivity extends PMBActivity implements TrackPickerListener {
 
     public static final String ID_PICKED_TRACKS = "picked_tracks";
     public static final int REQUEST_CODE = 100;
+    private RecyclerViewSelectorHelper mSelectorHelper;
     private ArrayList<MusicModel> mSelectedTracks = new ArrayList<>();
+    private List<MusicModel> mMainList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
             Intent i = new Intent();
             i.putExtra(ID_PICKED_TRACKS, mSelectedTracks);
             setResult(RESULT_OK, i);
+            finishActivity(REQUEST_CODE);
             finish();
             overrideActivityTransition();
         });
@@ -45,22 +50,25 @@ public class TrackPickerActivity extends PMBActivity implements ItemClickListene
             overrideActivityTransition();
         });
 
+        mMainList = new ArrayList<>(TrackManager.getInstance().getMainList());
         RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
         recyclerView.setLayoutAnimation(controller);
-        TrackPickerAdapter adapter = new TrackPickerAdapter(TrackManager.getInstance().getMainList(), getLayoutInflater(), this);
+        TrackPickerAdapter adapter = new TrackPickerAdapter(mMainList, getLayoutInflater(), this);
         recyclerView.setAdapter(adapter);
+        mSelectorHelper = new RecyclerViewSelectorHelper(adapter);
     }
 
     @Override
-    public void onSelected(MusicModel md) {
-        mSelectedTracks.add(md);
-    }
-
-    @Override
-    public void onUnselected(MusicModel md) {
-        mSelectedTracks.remove(md);
+    public void onItemClick(RecyclerView.ViewHolder viewHolder, int position, boolean isSelected) {
+        if (isSelected) {
+            mSelectedTracks.remove(mMainList.get(position));
+            mSelectorHelper.onItemUnSelected(viewHolder, position);
+        } else {
+            mSelectedTracks.add(mMainList.get(position));
+            mSelectorHelper.onItemSelected(viewHolder, position);
+        }
     }
 
     private void overrideActivityTransition() {
