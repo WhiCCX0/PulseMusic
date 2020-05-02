@@ -68,10 +68,6 @@ public class TrackManager {
         return mActiveList.get(mIndex);
     }
 
-    public void updateActiveQueue(int from, int to) {
-        Collections.swap(mActiveList, from, to);
-    }
-
     public void repeatCurrentTrack(boolean b) {
         mRepeatCurrentTrack = b;
     }
@@ -112,10 +108,22 @@ public class TrackManager {
         return position != mIndex;
     }
 
+    public void updateActiveQueue(int from, int to) {
+        if (mActiveList.size() > 0) {
+            Collections.swap(mActiveList, from, to);
+            if (mIndex == from)
+                mIndex = to;
+            else if (mIndex == to)
+                mIndex = from;
+        }
+    }
+
     public void removeItemFromActiveQueue(int position) {
-        mActiveList.remove(position);
-        if (position < getActiveIndex())
-            mIndex--;
+        if (mActiveList.size() > 0) {
+            mActiveList.remove(position);
+            if (position < getActiveIndex())
+                mIndex--;
+        }
     }
 
     public void restoreItem(int deletedQueueIndex, MusicModel musicModel) {
