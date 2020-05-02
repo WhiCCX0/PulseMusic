@@ -58,8 +58,9 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull TrackPickerSVH holder, int position) {
-        final boolean isSelected = mSelectedItemState.get(position, false);
-        holder.itemView.setOnClickListener(v -> mListener.onItemClick(holder, holder.getAdapterPosition(), isSelected));
+        boolean isSelected = mSelectedItemState.get(position, false);
+        holder.itemView.setOnClickListener(v ->
+                mListener.onItemClick(holder, holder.getAdapterPosition(), mSelectedItemState.get(holder.getAdapterPosition(), false)));
 
         if (isSelected)
             holder.itemView.setBackground(holder.itemView.getContext().getDrawable(R.drawable.selected_item_background));
