@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,7 @@ import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.loaders.AlbumsLoader;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
@@ -35,7 +36,7 @@ import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.List;
 
-public class AlbumFragment extends Fragment implements ItemClickListener.SingleEvent {
+public class AlbumFragment extends Fragment implements SimpleTransitionClickListener {
 
     private List<AlbumModel> mList;
     private AlbumsAdapter adapter;
@@ -163,12 +164,12 @@ public class AlbumFragment extends Fragment implements ItemClickListener.SingleE
     }
 
     @Override
-    public void onItemClick(int pos) {
+    public void onItemClick(ImageView imageView, int position) {
         Intent i = new Intent(getContext(), DetailsActivity.class);
-        i.putExtra(DetailsActivity.ALBUM_ID, mList.get(pos).getAlbumId());
+        i.putExtra(DetailsActivity.ALBUM_ID, mList.get(position).getAlbumId());
         i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
-        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(pos).getAlbumName());
-        i.putExtra(DetailsActivity.KEY_ART_URL, mList.get(pos).getAlbumArt());
+        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(position).getAlbumName());
+        i.putExtra(DetailsActivity.KEY_ART_URL, mList.get(position).getAlbumArt());
         startActivity(i);
     }
 

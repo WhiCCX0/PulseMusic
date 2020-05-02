@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,7 @@ import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
@@ -35,7 +36,7 @@ import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.List;
 
-public class ArtistFragment extends Fragment implements ItemClickListener.SingleEvent {
+public class ArtistFragment extends Fragment implements SimpleTransitionClickListener {
 
     private List<ArtistModel> mList;
     private ArtistAdapter adapter;
@@ -163,12 +164,10 @@ public class ArtistFragment extends Fragment implements ItemClickListener.Single
     }
 
     @Override
-    public void onItemClick(int pos) {
+    public void onItemClick(ImageView imageView, int position) {
         Intent i = new Intent(getContext(), DetailsActivity.class);
-        i.putExtra(DetailsActivity.ALBUM_ID, 0);//No albumId for artists
         i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(pos).getArtistName());
-        i.putExtra(DetailsActivity.KEY_ART_URL, String.valueOf(R.drawable.ic_artist_art));
+        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(position).getArtistName());
         startActivity(i);
     }
 

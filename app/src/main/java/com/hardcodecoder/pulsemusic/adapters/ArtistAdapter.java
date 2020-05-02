@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.List;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistSVH> {
 
     private List<ArtistModel> data;
-    private ItemClickListener.SingleEvent mListener;
     private LayoutInflater mInflater;
+    private SimpleTransitionClickListener mListener;
 
-    public ArtistAdapter(List<ArtistModel> list, LayoutInflater mInflater, ItemClickListener.SingleEvent mListener) {
+    public ArtistAdapter(List<ArtistModel> list, LayoutInflater mInflater, SimpleTransitionClickListener mListener) {
+        this.data = list;
         this.mInflater = mInflater;
         this.mListener = mListener;
-        this.data = list;
     }
 
     @NonNull
@@ -48,10 +48,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistSVH>
 
         private TextView title;
 
-        ArtistSVH(@NonNull View itemView, ItemClickListener.SingleEvent mListener) {
+        ArtistSVH(@NonNull View itemView, SimpleTransitionClickListener mListener) {
             super(itemView);
             title = itemView.findViewById(R.id.grid_item_artist_tv);
-            itemView.setOnClickListener(v -> mListener.onItemClick(getAdapterPosition()));
+            itemView.setOnClickListener(v -> mListener.onItemClick(itemView.findViewById(R.id.grid_item_artist_iv), getAdapterPosition()));
         }
 
         void setData(ArtistModel am) {
