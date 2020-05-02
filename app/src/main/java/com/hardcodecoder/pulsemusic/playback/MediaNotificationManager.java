@@ -169,6 +169,9 @@ public class MediaNotificationManager extends BroadcastReceiver {
                     CHANNEL_ID,
                     mService.getString(R.string.channel_name),
                     NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription("no sound");
+            notificationChannel.enableVibration(false);
+            notificationChannel.setSound(null, null);
             mNotificationManager.createNotificationChannel(notificationChannel);
         }
     }
@@ -195,7 +198,6 @@ public class MediaNotificationManager extends BroadcastReceiver {
                     .setAutoCancel(false)
                     .setDeleteIntent(mStopIntent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            //mStarted = true;
             return notificationBuilder.build();
         }
         return null;
