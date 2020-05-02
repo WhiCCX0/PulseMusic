@@ -37,14 +37,14 @@ import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.CardsAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.PlaylistCardListener;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistFragment extends Fragment implements ItemClickListener.Cards, SimpleGestureCallback {
+public class PlaylistFragment extends Fragment implements PlaylistCardListener, SimpleGestureCallback {
 
     private CardsAdapter mAdapter;
     private Context mContext;
@@ -156,7 +156,7 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
                         StorageHelper.renamePlaylist(mContext, oldName, newName);
                     } else addNewPlaylist(et.getText().toString());
                 } else {
-                    Toast.makeText(mContext, "Please enter playlist's name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.create_playlist_hint), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (sheetDialog.isShowing())
@@ -184,42 +184,24 @@ public class PlaylistFragment extends Fragment implements ItemClickListener.Card
     }
 
     @Override
-    public void onEdit(int pos) {
+    public void onItemEdit(int pos) {
         createPlaylist(true, pos);
     }
 
-    /*@Override
-    public void onItemSwiped(int itemAdapterPosition) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
-                .setTitle("Delete Playlist: " + mPlaylistNames.get(itemAdapterPosition) + " ?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    StorageHelper.deletePlaylist(mContext, mPlaylistNames.get(itemAdapterPosition));
-                    Toast.makeText(getContext(), "Playlist deleted", Toast.LENGTH_SHORT).show();
-                }).setNegativeButton("NO", (dialog, which) -> mAdapter.notifyItemChanged(itemAdapterPosition));
-        alertDialog.create().show();
-    }
-
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-    }
-
-    @Override
-    public void onItemMoved(int fromPos, int toPos) {
-    }
-
-    @Override
-    public void onClearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-    }*/
-
     @Override
     public void onItemDismissed(int position) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
-                .setTitle("Delete Playlist: " + mPlaylistNames.get(position) + " ?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    StorageHelper.deletePlaylist(mContext, mPlaylistNames.get(position));
-                    Toast.makeText(getContext(), "Playlist deleted", Toast.LENGTH_SHORT).show();
-                }).setNegativeButton("NO", (dialog, which) -> mAdapter.notifyItemChanged(position));
-        alertDialog.create().show();
+        if (position == 0) {
+            Toast.makeText(mContext, getString(R.string.cannot_delete_default_playlist), Toast.LENGTH_SHORT).show();
+            mAdapter.notifyItemChanged(position);
+        } else {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
+                    .setMessage(getString(R.string.playlist_delete_dialog_title))
+                    .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                        StorageHelper.deletePlaylist(mContext, mPlaylistNames.get(position));
+                        Toast.makeText(getContext(), getString(R.string.playlist_deleted_toast), Toast.LENGTH_SHORT).show();
+                    }).setNegativeButton(getString(R.string.no), (dialog, which) -> mAdapter.notifyItemChanged(position));
+            alertDialog.create().show();
+        }
     }
 
     @Override

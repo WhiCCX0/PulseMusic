@@ -10,9 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperViewHolder;
+import com.hardcodecoder.pulsemusic.interfaces.PlaylistCardListener;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
 
 import java.util.List;
@@ -20,11 +20,11 @@ import java.util.List;
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsSVH> implements ItemTouchHelperAdapter {
 
     private List<String> mPlaylistNames;
-    private ItemClickListener.Cards mListener;
+    private PlaylistCardListener mListener;
     private LayoutInflater mInflater;
     private SimpleGestureCallback mCallback;
 
-    public CardsAdapter(List<String> playlistNames, LayoutInflater inflater, ItemClickListener.Cards mListener, @Nullable SimpleGestureCallback callback) {
+    public CardsAdapter(List<String> playlistNames, LayoutInflater inflater, PlaylistCardListener mListener, @Nullable SimpleGestureCallback callback) {
         this.mPlaylistNames = playlistNames;
         this.mInflater = inflater;
         this.mListener = mListener;
@@ -68,11 +68,11 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsSVH> im
 
         private TextView title;
 
-        CardsSVH(@NonNull View itemView, ItemClickListener.Cards listener) {
+        CardsSVH(@NonNull View itemView, PlaylistCardListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.playlist_title);
 
-            itemView.findViewById(R.id.edit_btn).setOnClickListener(v -> listener.onEdit(getAdapterPosition()));
+            itemView.findViewById(R.id.edit_btn).setOnClickListener(v -> listener.onItemEdit(getAdapterPosition()));
 
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
         }
