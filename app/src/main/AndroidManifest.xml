@@ -12,13 +12,14 @@
     <application
         android:name=".PulseApp"
         android:allowBackup="false"
+        android:appCategory="audio"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="false"
         android:theme="@style/ActivityThemeDark"
-        tools:targetApi="O"
-        android:appCategory="audio">
+        android:hardwareAccelerated="true"
+        tools:targetApi="Q">
 
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
@@ -34,34 +35,20 @@
         <activity
             android:name=".activities.MainActivity"
             android:clearTaskOnLaunch="true"
-            android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask" />
-
-        <activity
-            android:name=".activities.NowPlayingActivity"
-            android:launchMode="singleTop" />
+            android:configChanges="orientation|screenSize" />
 
         <activity
             android:name=".activities.SearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask" />
+            android:configChanges="orientation|screenSize" />
 
         <activity
             android:name=".activities.TrackPickerActivity"
-            android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask" />
+            android:configChanges="orientation|screenSize" />
 
-        <activity
-            android:name=".activities.SettingsActivity"/>
-
-        <activity
-            android:name=".activities.DetailsActivity"
-            android:launchMode="singleTop" />
-
-        <activity
-            android:name=".activities.AppInfo"
-            android:launchMode="singleTop" />
-
+        <activity android:name=".activities.NowPlayingActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.DetailsActivity" />
+        <activity android:name=".activities.AppInfo" />
         <activity android:name=".activities.RecentActivity" />
         <activity android:name=".activities.FavoritesActivity" />
         <activity android:name=".activities.CurrentPlaylistActivity" />
