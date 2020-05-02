@@ -61,6 +61,7 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
             findViewById(R.id.no_tracks_found_tv).setVisibility(View.GONE);
             mPlaylistTracks = new ArrayList<>(list);
             RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
+            recyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -11,7 +11,8 @@
 
     <include
         android:id="@+id/playlist_data_rv"
-        layout="@layout/recycler_view_vertical" />
+        layout="@layout/recycler_view_vertical"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/no_tracks_found_tv"

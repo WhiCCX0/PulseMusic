@@ -14,7 +14,8 @@
 
     <include
         android:id="@+id/playlist_cards_rv"
-        layout="@layout/recycler_view_vertical" />
+        layout="@layout/recycler_view_vertical"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_playlist"

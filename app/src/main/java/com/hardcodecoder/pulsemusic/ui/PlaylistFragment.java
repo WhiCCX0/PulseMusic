@@ -43,6 +43,7 @@ import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlaylistFragment extends Fragment implements PlaylistCardListener, SimpleGestureCallback {
 
@@ -109,6 +110,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
 
     private void loadPlaylistCards(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.playlist_cards_rv);
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
         recyclerView.setLayoutAnimation(controller);
@@ -179,7 +181,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
         else {
             Intent i = new Intent(mContext, PlaylistDetailsActivity.class);
             i.putExtra(PlaylistDetailsActivity.KEY_TITLE, mPlaylistNames.get(pos));
-            startActivity(i);
+            Objects.requireNonNull(getActivity()).startActivityFromFragment(this, i, 100);
         }
     }
 
