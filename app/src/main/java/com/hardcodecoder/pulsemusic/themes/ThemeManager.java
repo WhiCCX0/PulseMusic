@@ -20,7 +20,7 @@ public class ThemeManager {
         else mDarkMode = AppSettings.isDarkModeEnabled(context);
 
         if (mDarkMode) mThemeId = AppSettings.getSelectedDarkTheme(context);
-        else mThemeId = ThemeStore.LIGHT_THEME_1;
+        else mThemeId = ThemeStore.LIGHT_THEME;
         mAccentId = AppSettings.getSelectedAccentColor(context);
     }
 
