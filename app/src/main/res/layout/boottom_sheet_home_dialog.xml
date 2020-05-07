@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_rounded_corners">
+
+    <ImageView
+        android:id="@+id/drawer_user_logo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="@id/drawer_user_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="contentDescription"
+        tools:src="@tools:sample/avatars" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/drawer_welcome_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/drawer_welcome_message"
+        android:textAppearance="@style/TextViewBody2"
+        android:textColor="?attr/secondaryTextColor"
+        app:layout_constraintStart_toEndOf="@id/drawer_user_logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/drawer_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:drawableEnd="@drawable/ic_round_edit"
+        android:requiresFadingEdge="horizontal"
+        android:singleLine="true"
+        android:textAppearance="@style/TextViewHeadline6"
+        android:textColor="?attr/primaryTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/drawer_user_logo"
+        app:layout_constraintTop_toBottomOf="@id/drawer_welcome_text"
+        tools:text="@tools:sample/full_names" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/drawer_option_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="?selectableItemBackground"
+        android:drawableStart="@drawable/ic_settings"
+        android:drawablePadding="16dp"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="16dp"
+        android:text="@string/drawer_settings_option"
+        android:textAppearance="@style/TextViewBody1"
+        app:drawableTint="?attr/unFocusedColor"
+        app:layout_constraintTop_toBottomOf="@id/drawer_user_name" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/drawer_option_equalizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:drawableStart="@drawable/ic_info"
+        android:drawablePadding="16dp"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="16dp"
+        android:text="@string/drawer_equalizer_option"
+        android:textAppearance="@style/TextViewBody1"
+        app:drawableTint="?attr/unFocusedColor"
+        app:layout_constraintTop_toBottomOf="@id/drawer_option_settings" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/drawer_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/note"
+        android:textAppearance="@style/TextViewCaption"
+        app:layout_constraintTop_toBottomOf="@id/drawer_option_equalizer" />
+</androidx.constraintlayout.widget.ConstraintLayout>
