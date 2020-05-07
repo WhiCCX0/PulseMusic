@@ -1,5 +1,6 @@
 package com.hardcodecoder.pulsemusic.activities;
 
+import android.content.Intent;
 import android.media.MediaMetadata;
 import android.media.browse.MediaBrowser;
 import android.media.session.MediaController;
@@ -13,9 +14,11 @@ import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
+import com.hardcodecoder.pulsemusic.dialog.HomeBottomSheetFragment;
 import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
@@ -27,7 +30,6 @@ import com.hardcodecoder.pulsemusic.ui.HomeFragment;
 import com.hardcodecoder.pulsemusic.ui.LibraryFragment;
 import com.hardcodecoder.pulsemusic.ui.PlaylistFragment;
 
-
 public class MainActivity extends MediaSessionActivity {
 
     public static final String TAG = "MainActivity";
@@ -37,7 +39,6 @@ public class MainActivity extends MediaSessionActivity {
     private static final String PLAYLIST_CARDS = "PlaylistCardFragment";
     private static final String ARTIST = "ArtistFragment";
     private static final String ACTIVE = "ActiveFragment";
-
     private final FragmentManager fm = getSupportFragmentManager();
     private Fragment homeFrag = null;
     private Fragment libraryFrag = null;
@@ -65,15 +66,25 @@ public class MainActivity extends MediaSessionActivity {
         mCurrentAccent = ThemeManager.getAccentToApply();
 
         super.onCreate(null); // Pass null to prevent restoration of fragments on activity recreate
-
         setContentView(R.layout.activity_main);
-
+        setUpToolbar();
         if (TrackManager.getInstance().getMainList() == null) {
             TaskRunner.executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
                 TrackManager.getInstance().setMainList(data);
                 setUpMainContents(savedInstanceState);
             });
         } else setUpMainContents(savedInstanceState);
+    }
+
+
+    private void setUpToolbar() {
+        MaterialToolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> {
+            HomeBottomSheetFragment homeBottomSheetFragment = HomeBottomSheetFragment.newInstance();
+            homeBottomSheetFragment.show(getSupportFragmentManager(), HomeBottomSheetFragment.TAG);
+        });
+        toolbar.setOnClickListener(v -> startActivity(new Intent(this, SearchActivity.class)));
     }
 
     private void setUpMainContents(Bundle savedInstanceState) {
@@ -83,7 +94,7 @@ public class MainActivity extends MediaSessionActivity {
     }
 
     private void setUpBottomNavigationView() {
-        BottomNavigationView bottomNavigation = findViewById(R.id.google_bottom_nav);
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setOnNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             switch (id) {
@@ -173,48 +184,6 @@ public class MainActivity extends MediaSessionActivity {
         activeFrag = switchTo;
     }
 
-    /*private void connectToSession() {
-        mMediaBrowser = new MediaBrowser(this, new ComponentName(MainActivity.this, PMS.class),
-                // Which MediaBrowserService
-                new MediaBrowser.ConnectionCallback() {
-                    @Override
-                    public void onConnected() {
-                        try {
-                            // Ah, here’s our Token again
-                            MediaSession.Token token = mMediaBrowser.getSessionToken();
-
-                            // This is what gives us access to everything
-                            mController = new MediaController(MainActivity.this, token);
-
-                            // Convenience method to allow you to use
-                            // MediaControllerCompat.getMediaController() anywhere
-                            setMediaController(mController);
-
-                            //Register callback to receive metadata changes
-                            mController.registerCallback(mCallback);
-
-                            if (mController.getMetadata() != null)
-                                showControlsFragment();
-                        } catch (Exception e) {
-                            Log.e(MainActivity.class.getSimpleName(), "Error creating controller", e);
-                        }
-                    }
-
-                }, null); // optional Bundle
-        mMediaBrowser.connect();
-    }*/
-
-    @Override
-    public void onMediaServiceConnected(MediaController controller) {
-        mController = controller;
-        mMediaBrowser = getMediaBrowser();
-        //Register callback to receive metadata changes
-        mController.registerCallback(mCallback);
-
-        if (mController.getMetadata() != null)
-            showControlsFragment();
-    }
-
     private void showControlsFragment() {
         if (controlsFrag == null) {
             controlsFrag = new ControlsFragment();
@@ -224,6 +193,16 @@ public class MainActivity extends MediaSessionActivity {
                     .replace(R.id.controls_fragment_container, controlsFrag)
                     .commit();
         }
+    }
+
+    @Override
+    public void onMediaServiceConnected(MediaController controller) {
+        mController = controller;
+        mMediaBrowser = getMediaBrowser();
+        mController.registerCallback(mCallback);
+
+        if (mController.getMetadata() != null)
+            showControlsFragment();
     }
 
     @Override
@@ -245,15 +224,6 @@ public class MainActivity extends MediaSessionActivity {
         super.onStop();
         if (null != mController)
             mController.unregisterCallback(mCallback);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (getMediaController() != null)
-            getMediaController().unregisterCallback(mCallback);
-        if (mMediaBrowser != null)
-            mMediaBrowser.disconnect();
     }
 
     @Override

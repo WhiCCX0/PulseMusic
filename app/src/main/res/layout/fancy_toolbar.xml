@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:elevation="0dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
     android:background="@android:color/transparent"
+    android:elevation="0dp"
     app:elevation="0dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/search_background"
-        android:elevation="2dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/toolbarBackground"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:navigationIcon="@drawable/ic_menu"
         app:popupTheme="@style/ToolbarPopupTheme"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        tools:title="Toolbar" />
+        app:title="@string/searchHint"
+        app:titleTextAppearance="@style/ToolbarTextAppearanceSearch"
+        app:titleTextColor="?android:attr/textColorPrimary" />
 
 </com.google.android.material.appbar.AppBarLayout>
