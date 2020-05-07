@@ -1,66 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/fancy_toolbar" />
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <include layout="@layout/home_top_content" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="16dp"
+            android:text="@string/top_albums"
+            android:textAppearance="@style/TextViewHeadline6"
+            android:textStyle="bold" />
 
-            <TextView
-                style="@style/HomeCategoryHeading"
-                android:layout_marginTop="24dp"
-                android:text="@string/nostalgic" />
+        <include
+            android:id="@+id/home_albums_rv"
+            layout="@layout/recycler_view_home" />
 
-            <include
-                android:id="@+id/home_albums_rv"
-                layout="@layout/recycler_view_home" />
 
-            <include layout="@layout/home_custom"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/random"
+            android:textAppearance="@style/TextViewHeadline6"
+            android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginEnd="36dp"
-                android:background="?attr/colorStroke" />
+        <include
+            android:id="@+id/home_suggested_rv"
+            layout="@layout/recycler_view_home" />
 
-            <TextView
-                style="@style/HomeCategoryHeading"
-                android:text="@string/random" />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/new_in_library"
+            android:textAppearance="@style/TextViewHeadline6" />
 
-            <include
-                android:id="@+id/home_suggested_rv"
-                layout="@layout/recycler_view_home" />
+        <include
+            android:id="@+id/new_in_library_rv"
+            layout="@layout/recycler_view_home" />
 
-            <TextView
-                style="@style/HomeCategoryHeading"
-                android:text="@string/new_in_library" />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/top_artist"
+            android:textAppearance="@style/TextViewHeadline6"
+            android:textStyle="bold" />
 
-            <include
-                android:id="@+id/new_in_library_rv"
-                layout="@layout/recycler_view_home" />
+        <include
+            android:id="@+id/home_recent_artist_rv"
+            layout="@layout/recycler_view_home" />
 
-            <TextView
-                style="@style/HomeCategoryHeading"
-                android:text="@string/recent_artist" />
-
-            <include
-                android:id="@+id/home_recent_artist_rv"
-                layout="@layout/recycler_view_home" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
