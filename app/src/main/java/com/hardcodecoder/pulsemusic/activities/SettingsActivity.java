@@ -1,41 +1,88 @@
 package com.hardcodecoder.pulsemusic.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.themes.ThemeManager;
-import com.hardcodecoder.pulsemusic.themes.ThemeStore;
-import com.hardcodecoder.pulsemusic.utils.AppSettings;
-import com.hardcodecoder.pulsemusic.utils.DayTimeUtils;
+
 
 public class SettingsActivity extends PMBActivity {
 
+    /*private static final String TAG = "SettingsActivity";
     private boolean autoModeEnable;
     private boolean darkModeEnable;
     private boolean optionChanged = false;
     private boolean isAccentChanged = false;
+    private MaterialToolbar mToolbar;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        setUpDefaultStates();
-        findViewById(R.id.settings_close_btn).setOnClickListener(v -> finish());
+        //setUpDefaultStates();
+        //findViewById(R.id.settings_close_btn).setOnClickListener(v -> finish());
+        MaterialToolbar mToolbar = findViewById(R.id.material_toolbar);
+        setSupportActionBar(mToolbar);
+
+
+        /*mToolbar.setNavigationOnClickListener(v -> backTrackFragments());
+        if(null == savedInstanceState)
+            swapFragment(SettingsMainFragment.TAG);*/
+
+        findViewById(R.id.themeSettings).setOnClickListener(v -> startActivity(new Intent(this, ThemeActivity.class)));
+        findViewById(R.id.nowPlayingSettings).setOnClickListener(v -> {
+        });
+        findViewById(R.id.contributorsSettings).setOnClickListener(v -> {
+        });
+        findViewById(R.id.aboutSettings).setOnClickListener(v -> {
+        });
     }
 
-    private void setUpDefaultStates() {
+    /*private void setToolbarTitle(String title){
+        mToolbar.setTitle(title);
+    }*/
+
+    /*@Override
+    public void changeFragment(String fragmentTag) {
+        Log.e(TAG, "Received callback to changed fragment");
+        swapFragment(fragmentTag);
+    }
+
+    private void swapFragment(String fragmentTag){
+        String title = "";
+        switch (fragmentTag){
+            case SettingsMainFragment.TAG:
+                switchToFragment = SettingsMainFragment.getInstance();
+                title= SettingsMainFragment.TITLE;
+                break;
+            case SettingsThemeFragment.TAG:
+                switchToFragment = SettingsThemeFragment.getInstance();
+                title = SettingsThemeFragment.TITLE;
+                break;
+        }
+        if(null != switchToFragment) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(switchToFragment, fragmentTag)
+                    .replace(R.id.settings_container, switchToFragment, fragmentTag)
+                    .addToBackStack(SettingsMainFragment.TAG)
+                    .commit();
+            setToolbarTitle(title);
+        }
+    }
+
+    private void backTrackFragments(){
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+            finish();
+            return;
+        }
+        getSupportFragmentManager().popBackStack();
+    }*/
+
+    /*private void setUpDefaultStates() {
         TextView darkModeTextView = findViewById(R.id.setting_switch_1_title);
         Switch darkThemeToggle = findViewById(R.id.settings_toggle_dark_theme);
         TextView autoThemeTextView = findViewById(R.id.settings_switch_2_title);
@@ -93,9 +140,9 @@ public class SettingsActivity extends PMBActivity {
 
         findViewById(R.id.accents_options).setOnClickListener(this::openAccentPicker);
         findViewById(R.id.dark_theme_options).setOnClickListener(this::openDarkThemeSelector);
-    }
+    }*/
 
-    private void openAccentPicker(View view) {
+    /*private void openAccentPicker(View view) {
         View windowView = View.inflate(this, R.layout.accent_color_picker, null);
         PopupWindow window = new PopupWindow(windowView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
         RadioGroup radioGroup = windowView.findViewById(R.id.radio_group);
@@ -162,9 +209,9 @@ public class SettingsActivity extends PMBActivity {
         window.setBackgroundDrawable(getDrawable(R.drawable.popup_menu_background));
         window.showAtLocation(view, Gravity.CENTER, 0, 0);
         dimBackgroundOnPopupWindow(window);
-    }
+    }*/
 
-    private void openDarkThemeSelector(View view) {
+   /* private void openDarkThemeSelector(View view) {
         View windowView = View.inflate(this, R.layout.dark_theme_picker, null);
         PopupWindow window = new PopupWindow(windowView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
 
@@ -238,5 +285,6 @@ public class SettingsActivity extends PMBActivity {
         startActivity(new Intent(this, SettingsActivity.class));
         overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
         finish();
-    }
+    }*/
+
 }

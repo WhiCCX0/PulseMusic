@@ -1,119 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="?windowBackgroundColor"
+        app:liftOnScroll="true">
 
-        <ImageView
-            android:id="@+id/settings_close_btn"
-            style="@style/ButtonStyle24"
-            android:contentDescription="@string/iv_content_desc"
-            android:src="@drawable/ic_close"
-            app:layout_constraintBottom_toTopOf="@id/settings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/material_toolbar"
+            style="@style/Toolbar"
+            app:layout_scrollFlags="noScroll"
+            app:navigationIcon="@drawable/ic_keyboard_backspace"
+            app:popupTheme="@style/ToolbarPopupTheme"
+            app:title="@string/settings"
+            app:titleTextAppearance="@style/ToolbarTextAppearanceNormal" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/start_guide"
-            android:layout_width="wrap_content"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp" />
+            android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/end_guide"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp" />
+            <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+                android:id="@+id/themeSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingItemIcon="@drawable/ic_theme_palette"
+                app:settingItemIconColor="@color/md_blue_A400"
+                app:settingItemText="Look and feel"
+                app:settingItemTitle="@string/look_and_feel" />
 
-        <TextView
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/product_black"
-            android:text="@string/settings"
-            android:textStyle="bold"
-            android:textColor="?attr/primaryTextColor"
-            android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="@id/start_guide"
-            app:layout_constraintTop_toBottomOf="@id/settings_close_btn" />
+            <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+                android:id="@+id/nowPlayingSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingItemIcon="@drawable/ic_play_circle"
+                app:settingItemIconColor="@color/md_red_A400"
+                app:settingItemText="@string/now_playing_desc"
+                app:settingItemTitle="@string/now_playing_title" />
 
-        <TextView
-            android:id="@+id/settings_theme_title"
-            style="@style/SettingItemHeadline18"
-            android:layout_marginTop="16dp"
-            android:padding="8dp"
-            android:text="@string/select_theme_title"
-            app:layout_constraintStart_toStartOf="@id/start_guide"
-            app:layout_constraintTop_toBottomOf="@id/settings" />
+            <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+                android:id="@+id/contributorsSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingItemIcon="@drawable/ic_people"
+                app:settingItemIconColor="@color/md_deep_purple_A400"
+                app:settingItemText="@string/contributors_desc"
+                app:settingItemTitle="@string/contributors" />
 
-        <TextView
-            android:id="@+id/setting_switch_1_title"
-            style="@style/SettingItemTextStyle"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/end_guide"
-            app:layout_constraintStart_toStartOf="@id/start_guide"
-            app:layout_constraintTop_toBottomOf="@id/settings_theme_title" />
-
-        <Switch
-            android:id="@+id/settings_toggle_dark_theme"
-            style="@style/SettingItemSwitchStyle"
-            app:layout_constraintBottom_toBottomOf="@id/setting_switch_1_title"
-            app:layout_constraintEnd_toEndOf="@id/end_guide"
-            app:layout_constraintTop_toTopOf="@id/setting_switch_1_title" />
-
-        <TextView
-            android:id="@+id/settings_switch_2_title"
-            style="@style/SettingItemTextStyle"
-            android:text="@string/auto_theme_disabled"
-            app:layout_constraintEnd_toEndOf="@id/end_guide"
-            app:layout_constraintStart_toStartOf="@id/start_guide"
-            app:layout_constraintTop_toBottomOf="@id/setting_switch_1_title" />
-
-        <Switch
-            android:id="@+id/settings_toggle_auto_theme"
-            style="@style/SettingItemSwitchStyle"
-            app:layout_constraintBottom_toBottomOf="@id/settings_switch_2_title"
-            app:layout_constraintEnd_toEndOf="@id/end_guide"
-            app:layout_constraintTop_toTopOf="@id/settings_switch_2_title" />
-
-        <TextView
-            android:id="@+id/accents_options"
-            style="@style/SettingItemTextStyle"
-            android:text="@string/change_accent_color"
-            app:layout_constraintEnd_toEndOf="@id/end_guide"
-            app:layout_constraintStart_toStartOf="@id/start_guide"
-            app:layout_constraintTop_toBottomOf="@id/settings_toggle_auto_theme" />
-
-        <!-- <TextView
-            android:id="@+id/settings_theme_title"
-            style="@style/SettingItemHeadline18"
-            app:layout_constraintTop_toBottomOf="@id/accents_options"
-            android:text="@string/select_theme_title"
-            android:layout_marginTop="16dp"
-            android:padding="8dp"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/light_theme_options"
-            style="@style/SettingItemTextStyle"
-            android:text="@string/select_light_theme"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_theme_title" /> -->
-
-        <TextView
-            android:id="@+id/dark_theme_options"
-            style="@style/SettingItemTextStyle"
-            android:text="@string/select_dark_theme"
-            app:layout_constraintEnd_toEndOf="@id/end_guide"
-            app:layout_constraintStart_toStartOf="@id/start_guide"
-            app:layout_constraintTop_toBottomOf="@id/accents_options" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.core.widget.NestedScrollView>
+            <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+                android:id="@+id/aboutSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:settingItemIcon="@drawable/ic_info"
+                app:settingItemIconColor="@color/md_green_A700"
+                app:settingItemText="@string/about_desc"
+                app:settingItemTitle="@string/about" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

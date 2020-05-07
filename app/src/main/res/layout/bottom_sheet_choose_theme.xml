@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_rounded_corners"
+    android:padding="32dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/select_dark_theme"
+        android:textAppearance="@style/TextViewBody1"
+        android:textColor="?attr/primaryColor"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/radio_button_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_btn_dark_theme_gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"
+            android:text="@string/dark_theme_name_gray"
+            android:textAppearance="@style/TextViewSubtitle2"
+            android:textColor="?primaryTextColor" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_btn_dark_theme_kinda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"
+            android:text="@string/dark_theme_name_kinda_dark"
+            android:textAppearance="@style/TextViewSubtitle2"
+            android:textColor="?primaryTextColor" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_btn_dark_theme_pure_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"
+            android:text="@string/dark_theme_name_pure_black"
+            android:textAppearance="@style/TextViewSubtitle2"
+            android:textColor="?primaryTextColor" />
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/choose_theme_cancel_btn"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radio_button_group"
+        android:layout_toStartOf="@id/choose_theme_set_btn"
+        android:text="@string/cancel" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/choose_theme_set_btn"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radio_button_group"
+        android:layout_alignParentEnd="true"
+        android:text="@string/set" />
+</RelativeLayout>
