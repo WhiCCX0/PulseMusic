@@ -3,17 +3,19 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.content.Intent;
 import android.media.session.MediaController;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.PlaylistDataAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
@@ -26,7 +28,7 @@ import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistDetailsActivity extends MediaSessionActivity implements PlaylistItemListener, SimpleGestureCallback {
+public class PlaylistTracksActivity extends MediaSessionActivity implements PlaylistItemListener, SimpleGestureCallback {
 
     public static final String KEY_TITLE = "playlist name";
     private PlaylistDataAdapter mAdapter;
@@ -39,7 +41,7 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playlist_data);
+        setContentView(R.layout.activity_playlist_tracks);
 
         tm = TrackManager.getInstance();
 
@@ -48,8 +50,9 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
 
         StorageHelper.getPlaylistTracks(this, playListTitle, this::loadPlaylist);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
         toolbar.setTitle(playListTitle);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
 
         findViewById(R.id.open_track_picker_btn).setOnClickListener(v ->
@@ -60,7 +63,7 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
         if (null != list && list.size() > 0) {
             findViewById(R.id.no_tracks_found_tv).setVisibility(View.GONE);
             mPlaylistTracks = new ArrayList<>(list);
-            RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
+            RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
             recyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
@@ -71,7 +74,14 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
             ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
             itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
             itemTouchHelper.attachToRecyclerView(recyclerView);
-        } else findViewById(R.id.no_tracks_found_tv).setVisibility(View.VISIBLE);
+        } else {
+            MaterialTextView textView = findViewById(R.id.no_tracks_found_tv);
+            textView.setVisibility(View.VISIBLE);
+            String str = getString(R.string.no_playlist_tracks_found);
+            SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
+            stringBuilder.setSpan(new AbsoluteSizeSpan((int) (textView.getTextSize() * 4.0)), 0, 1, SpannableStringBuilder.SPAN_INCLUSIVE_INCLUSIVE);
+            textView.setText(stringBuilder);
+        }
     }
 
 
@@ -88,16 +98,8 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
 
     @Override
     public void onItemDismissed(int position) {
-        Log.e("PlaylistDetailsActivity", "onItemSwiped position = " + position);
-        //final MusicModel deletedItem = mPlaylistTracks.remove(itemAdapterPosition);
-        //final int deletedIndex = itemAdapterPosition;
-        //mAdapter.removeItem(position);
         Snackbar sb = Snackbar.make(findViewById(R.id.playlist_data_root_view), R.string.item_removed, Snackbar.LENGTH_SHORT);
-        sb.setAction("UNDO", v -> {
-            Log.e("PlaylistDetailsActivity", "onItemSwiped restored position = " + position);
-            //mPlaylistTracks.add(deletedIndex, deletedItem);
-            mAdapter.restoreItem();
-        });
+        sb.setAction(getString(R.string.snack_bar_action_undo), v -> mAdapter.restoreItem());
         isPlaylistModified = true;
         sb.show();
     }
@@ -106,45 +108,6 @@ public class PlaylistDetailsActivity extends MediaSessionActivity implements Pla
     public void onItemMoved(int fromPosition, int toPosition) {
         isPlaylistModified = true;
     }
-
-    /*@Override
-    public void initiateDrag(RecyclerView.ViewHolder holder) {
-        itemTouchHelper.startDrag(holder);
-        holder.itemView.setBackground(getDrawable(R.drawable.active_item_background));
-    }*/
-
-    /*@Override
-    public void onItemSwiped(int itemAdapterPosition) {
-        Log.e("PlaylistDetailsActivity", "onItemSwiped position = "+itemAdapterPosition);
-        //final MusicModel deletedItem = mPlaylistTracks.remove(itemAdapterPosition);
-        //final int deletedIndex = itemAdapterPosition;
-        mAdapter.removeItem(itemAdapterPosition);
-        Snackbar sb = Snackbar.make(findViewById(R.id.playlist_data_root_view), R.string.item_removed, Snackbar.LENGTH_SHORT);
-        sb.setAction("UNDO", v -> {
-            Log.e("PlaylistDetailsActivity", "onItemSwiped restored position = "+itemAdapterPosition);
-            //mPlaylistTracks.add(deletedIndex, deletedItem);
-            mAdapter.restoreItem();
-        });
-        isPlaylistModified = true;
-        sb.show();
-
-    }*/
-
-    /*@Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mPlaylistTracks, fromPosition, toPosition);
-        mAdapter.notifyItemMoved(fromPosition, toPosition);
-    }*/
-
-    /*@Override
-    public void onItemMoved(int fromPos, int toPos) {
-        isPlaylistModified = true;
-    }*/
-
-    /*@Override
-    public void onClearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        viewHolder.itemView.setBackground(getDrawable(android.R.color.transparent));
-    }*/
 
     @SuppressWarnings("unchecked")
     @Override
