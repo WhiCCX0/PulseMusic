@@ -16,13 +16,13 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="3dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/playlist_title"
-        style="@style/RecyclerViewItemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
         android:text="@string/playlist_current_queue"
-        android:textSize="18sp" />
+        android:textAppearance="@style/TextViewHeadline6" />
 
     <ImageView
         android:id="@+id/edit_btn"

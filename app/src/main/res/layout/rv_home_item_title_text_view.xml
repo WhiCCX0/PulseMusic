@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rv_item_title"
-    style="@style/HomeItemTitle"
+    android:layout_width="124dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
-    tools:text="Song name can be very long" />
+    android:gravity="center_horizontal"
+    android:maxLines="1"
+    android:textAppearance="@style/TextViewSubtitle1"
+    android:textColor="?primaryTextColor"
+    tools:text="@tools:sample/lorem/random" />
