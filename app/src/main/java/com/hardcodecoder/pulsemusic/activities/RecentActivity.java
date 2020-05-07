@@ -10,15 +10,15 @@ import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
@@ -38,13 +38,13 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.vertical_list);
+        setContentView(R.layout.activity_playlist_tracks);
 
         tm = TrackManager.getInstance();
         StorageHelper.getSavedHistory(this, result -> {
             if (null != result && result.size() > 0) {
                 mRecentTracks = new ArrayList<>(result);
-                RecyclerView rv = findViewById(R.id.rv_recently_played);
+                RecyclerView rv = findViewById(R.id.rv_playlist_tracks);
                 rv.setVisibility(View.VISIBLE);
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
@@ -53,7 +53,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
                 LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else {
-                TextView tv = findViewById(R.id.no_tracks_fount_tv);
+                MaterialTextView tv = findViewById(R.id.no_tracks_found_tv);
                 tv.setVisibility(View.VISIBLE);
                 String text = getString(R.string.no_recent_tracks);
                 int len = text.length();
@@ -64,9 +64,11 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
             }
         });
 
-        Toolbar t = findViewById(R.id.toolbar);
-        t.setTitle(R.string.recent);
-        t.setNavigationOnClickListener(v -> finish());
+        MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
+        toolbar.setTitle(getString(R.string.recent));
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
+        findViewById(R.id.open_track_picker_btn).setVisibility(View.GONE);
     }
 
     @Override

@@ -2,14 +2,15 @@ package com.hardcodecoder.pulsemusic.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.TrackPickerAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewSelectorHelper;
@@ -43,8 +44,9 @@ public class TrackPickerActivity extends PMBActivity implements TrackPickerListe
             overrideActivityTransition();
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
         toolbar.setTitle(getString(R.string.select_tracks));
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overrideActivityTransition();
@@ -52,6 +54,7 @@ public class TrackPickerActivity extends PMBActivity implements TrackPickerListe
 
         mMainList = new ArrayList<>(TrackManager.getInstance().getMainList());
         RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
         recyclerView.setLayoutAnimation(controller);
