@@ -18,4 +18,8 @@
     <dimen name="now_playing_media_art_iv">320dp</dimen>
     <dimen name="now_playing_media_art_iv_padding">32dp</dimen>
 
+    <!-- Material  button padding -->
+    <dimen name="button_padding_vertical">10dp</dimen>
+    <dimen name="button_margin_horizontal">16dp</dimen>
+
 </resources>
