@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColoredIconView">
+        <attr name="icon" format="reference" />
+        <attr name="iconColor" format="reference" />
+        <attr name="iconBackgroundColor" format="reference" />
+        <attr name="desaturatedColorInDarkMode" format="boolean" />
+    </declare-styleable>
+</resources>
