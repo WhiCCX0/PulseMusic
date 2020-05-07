@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -86,7 +86,7 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
     @NonNull
     @Override
     public PlaylistDataSVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PlaylistDataSVH(mInflater.inflate(R.layout.rv_playlist_item, parent, false), mListener);
+        return new PlaylistDataSVH(mInflater.inflate(R.layout.list_item_with_drag_handle, parent, false), mListener);
     }
 
     @Override
@@ -104,16 +104,17 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
 
     static class PlaylistDataSVH extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        private TextView title;
+        private MaterialTextView title, subTitle;
         private ImageView art;
 
         PlaylistDataSVH(@NonNull View itemView, PlaylistItemListener listener) {
             super(itemView);
-            title = itemView.findViewById(R.id.library_item_tv1);
-            art = itemView.findViewById(R.id.library_item_iv1);
+            title = itemView.findViewById(R.id.list_item_drag_title);
+            subTitle = itemView.findViewById(R.id.list_item_drag_sub_title);
+            art = itemView.findViewById(R.id.list_item_drag_album_art);
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
             //noinspection AndroidLintClickableViewAccessibility
-            itemView.findViewById(R.id.btn_handle)
+            itemView.findViewById(R.id.list_item_drag_drag_handle)
                     .setOnTouchListener((v, event) -> {
                         if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_UP)
                             listener.onStartDrag(this);
@@ -123,6 +124,7 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
 
         void updateView(MusicModel md) {
             title.setText(md.getSongName());
+            subTitle.setText(md.getArtist());
             GlideApp
                     .with(itemView.getContext())
                     .load(md.getAlbumArtUrl())

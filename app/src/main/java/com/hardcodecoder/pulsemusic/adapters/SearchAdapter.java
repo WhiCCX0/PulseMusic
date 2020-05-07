@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -47,7 +47,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolderLibrary onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolderLibrary(mInflater.inflate(R.layout.rv_search_item, parent, false), mListener);
+        return new MyViewHolderLibrary(mInflater.inflate(R.layout.list_item_with_options, parent, false), mListener);
     }
 
     @Override
@@ -108,20 +108,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
      */
     static class MyViewHolderLibrary extends RecyclerView.ViewHolder {
 
-        private TextView songName;
+        private MaterialTextView title, subTitle;
         private ImageView albumArt;
 
         MyViewHolderLibrary(View itemView, ItemClickListener.Simple listener) {
             super(itemView);
-            songName = itemView.findViewById(R.id.search_item_title);
-            albumArt = itemView.findViewById(R.id.search_item_art);
+            albumArt = itemView.findViewById(R.id.list_item_option_album_art);
+            title = itemView.findViewById(R.id.list_item_option_title);
+            subTitle = itemView.findViewById(R.id.list_item_option_sub_title);
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
-            itemView.findViewById(R.id.search_item_options_btn)
+            itemView.findViewById(R.id.list_item_option_options_btn)
                     .setOnClickListener(v -> listener.onOptionsClick(v, getAdapterPosition()));
         }
 
         void setItemData(MusicModel md) {
-            songName.setText(md.getSongName());
+            title.setText(md.getSongName());
+            subTitle.setText(md.getArtist());
             GlideApp.with(itemView.getContext())
                     .load(md.getAlbumArtUrl())
                     .listener(new RequestListener<Drawable>() {

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +15,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -53,7 +53,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
     @NonNull
     @Override
     public TrackPickerSVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TrackPickerSVH(mInflater.inflate(R.layout.rv_track_picker_item, parent, false));
+        return new TrackPickerSVH(mInflater.inflate(R.layout.list_item, parent, false));
     }
 
     @Override
@@ -85,13 +85,13 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
     static class TrackPickerSVH extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         private ImageView art;
-        private TextView title, artist;
+        private MaterialTextView title, artist;
 
         TrackPickerSVH(@NonNull View itemView) {
             super(itemView);
-            art = itemView.findViewById(R.id.album_art);
-            title = itemView.findViewById(R.id.track_title);
-            artist = itemView.findViewById(R.id.track_artist);
+            art = itemView.findViewById(R.id.list_item_album_art);
+            title = itemView.findViewById(R.id.list_item_title);
+            artist = itemView.findViewById(R.id.list_item_sub_title);
         }
 
         void updateViewData(MusicModel md) {

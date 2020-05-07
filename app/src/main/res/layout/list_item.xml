@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="0dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/list_item_album_art"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        tools:ignore="contentDescription"
+        tools:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/list_item_album_art"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/list_item_album_art"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?primaryTextColor"
+        tools:text="@tools:sample/lorem/random" />
+
+    <TextView
+        android:id="@+id/list_item_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_item_album_art"
+        android:layout_toEndOf="@id/list_item_album_art"
+        android:gravity="bottom"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?secondaryTextColor"
+        tools:text="@tools:sample/lorem/random" />
+</RelativeLayout>
