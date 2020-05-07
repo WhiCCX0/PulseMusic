@@ -41,7 +41,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
     @NonNull
     @Override
     public MyLibraryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyLibraryViewHolder(mInflater.inflate(R.layout.rv_library_item, parent, false), mListener);
+        return new MyLibraryViewHolder(mInflater.inflate(R.layout.list_item_with_options, parent, false), mListener);
     }
 
     @Override
@@ -75,13 +75,13 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
 
         MyLibraryViewHolder(View itemView, LibraryItemClickListener listener) {
             super(itemView);
-            songName = itemView.findViewById(R.id.library_item_tv1);
-            artist = itemView.findViewById(R.id.library_item_tv2);
-            albumArt = itemView.findViewById(R.id.library_item_iv1);
+            songName = itemView.findViewById(R.id.list_item_option_title);
+            artist = itemView.findViewById(R.id.list_item_option_sub_title);
+            albumArt = itemView.findViewById(R.id.list_item_option_album_art);
 
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
 
-            itemView.findViewById(R.id.library_item_iv2).setOnClickListener(v -> v.post(() -> listener.onOptionsClick(getAdapterPosition())));
+            itemView.findViewById(R.id.list_item_option_options_btn).setOnClickListener(v -> v.post(() -> listener.onOptionsClick(getAdapterPosition())));
         }
 
         void setItemData(MusicModel md) {
