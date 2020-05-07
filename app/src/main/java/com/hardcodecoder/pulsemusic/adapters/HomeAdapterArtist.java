@@ -3,13 +3,13 @@ package com.hardcodecoder.pulsemusic.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 
 import java.util.List;
@@ -17,12 +17,12 @@ import java.util.List;
 public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.AdapterSVH> {
 
     private List<ArtistModel> mList;
-    private ItemClickListener.Simple mListener;
     private LayoutInflater mInflater;
+    private SimpleTransitionClickListener mListener;
 
-    public HomeAdapterArtist(LayoutInflater inflater, List<ArtistModel> list, ItemClickListener.Simple listener) {
-        this.mInflater = inflater;
+    public HomeAdapterArtist(List<ArtistModel> list, LayoutInflater inflater, SimpleTransitionClickListener listener) {
         this.mList = list;
+        this.mInflater = inflater;
         this.mListener = listener;
     }
 
@@ -46,16 +46,17 @@ public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.Ad
 
     static class AdapterSVH extends RecyclerView.ViewHolder {
 
-        private TextView artistName, trackCount;
+        private MaterialTextView artistName, trackCount;
 
-        AdapterSVH(@NonNull View itemView, ItemClickListener.Simple listener) {
+        AdapterSVH(@NonNull View itemView, SimpleTransitionClickListener listener) {
             super(itemView);
             artistName = itemView.findViewById(R.id.rv_item_title);
             trackCount = itemView.findViewById(R.id.rv_item_artist);
-            itemView.setOnClickListener(v -> listener.onOptionsClick(itemView.findViewById(R.id.artist_home), getAdapterPosition()));
+            itemView.setOnClickListener(v -> listener.onItemClick(itemView.findViewById(R.id.artist_home), getAdapterPosition()));
         }
 
         void updateData(ArtistModel am) {
+            itemView.findViewById(R.id.artist_home).setTransitionName("shared_transition_artist_iv_" + getAdapterPosition());
             artistName.setText(am.getArtistName());
             trackCount.setText(String.format("%d " + itemView.getResources().getString(R.string.tracks_num ), am.getNumOfTracks()));
         }

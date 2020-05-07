@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,24 +16,25 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 
 import java.util.List;
 
 public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
 
-    private LayoutInflater mInflater;
     private List<AlbumModel> mList;
-    private ItemClickListener.Simple mListener;
+    private LayoutInflater mInflater;
+    private SimpleTransitionClickListener mListener;
 
-    public HomeAdapterAlbum(LayoutInflater inflater, List<AlbumModel> list, ItemClickListener.Simple listener) {
-        this.mInflater = inflater;
+    public HomeAdapterAlbum(List<AlbumModel> list, LayoutInflater inflater, SimpleTransitionClickListener listener) {
         this.mList = list;
+        this.mInflater = inflater;
         this.mListener = listener;
     }
 
@@ -59,16 +59,17 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
     static class AdapterSVH extends RecyclerView.ViewHolder {
 
         private ImageView iv;
-        private TextView tv;
+        private MaterialTextView tv;
 
-        AdapterSVH(@NonNull View itemView, ItemClickListener.Simple listener) {
+        AdapterSVH(@NonNull View itemView, SimpleTransitionClickListener listener) {
             super(itemView);
             tv = itemView.findViewById(R.id.rv_item_title);
             iv = itemView.findViewById(R.id.iv_album_card);
-            itemView.setOnClickListener(v -> listener.onOptionsClick(iv, getAdapterPosition()));
+            itemView.setOnClickListener(v -> listener.onItemClick(iv, getAdapterPosition()));
         }
 
         void updateData(AlbumModel am) {
+            iv.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
             GlideApp.with(iv)
                     .load(am.getAlbumArt())
                     .listener(new RequestListener<Drawable>() {
@@ -79,7 +80,6 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
                                     drawable -> iv.setImageDrawable(drawable));
                             return true;
                         }
-
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             return false;
