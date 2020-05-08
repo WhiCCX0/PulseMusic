@@ -3,81 +3,34 @@
 
     <!-- ********************************************* -->
     <!-- *********** COLORS FOR LIGHT MODE *********** -->
-
-    <color name="primary_color_light_variant">@color/purple</color>
-    <!-- Color that appear over primary -->
-    <color name="on_primary_light_variant">@color/md_white</color>
-
-
-    <color name="window_background_light">@color/md_white</color>
-    <!--Primary Color that appears over background color -->
-    <color name="primary_color_on_background_light">@color/md_grey_900</color>
-    <!--Secondary Color that appears over background color -->
-    <color name="secondary_color_on_background_light">@color/md_grey_600</color>
-
-
-    <!--  For light theme elevation shadow is dark so the surface color can be same as window background -->
-    <color name="surface_color_light">@color/window_background_light</color>
-    <!--Color that appears over surface -->
-    <color name="color_on_surface_light">@color/primary_color_on_background_light</color>
-
-
-    <color name="unfocused_drawable_light">@color/md_grey_700</color>
-    <color name="focused_drawable_light">@color/color_on_surface_light</color>
-
-
-    <color name="color_stroke_light">@color/md_grey_200</color>
-
-
-    <!-- High-emphasis text opacity of 87% -->
-    <color name="primary_text_light">@color/primary_color_on_background_light</color>
-
-    <!-- Medium-emphasis text opacity of 54% -->
-    <color name="secondary_text_light">@color/secondary_color_on_background_light</color>
-
-    <!-- Disabled/Hint text opacity of 38% -->
-    <color name="disabled_text_light">@color/md_grey_400</color>
-
-
+    <color name="lightColorPrimary">@color/purple</color>
+    <color name="lightColorOnPrimary">@color/md_white_1000</color>
+    <color name="lightColorBackground">@color/md_white_1000</color>
+    <color name="lightColorSurface">@color/md_white_1000</color>
+    <color name="lightColorOnSurface">@color/md_grey_900</color>
+    <color name="lightColorPrimaryText">#DE000000</color>
+    <color name="lightColorSecondaryText">#99000000</color>
+    <color name="lightColorDisabledText">#61000000</color>
+    <color name="lightColorUnFocused">#8A000000</color>
+    <color name="lightColorInactive">#61000000</color>
+    <color name="lightColorStroke">#1F000000</color>
+    <color name="lightColorOverlay">#0D000000</color>
 
 
     <!-- ********************************************* -->
-    <!-- ************ COLORS FOR DARK MODE *********** -->
-
-    <color name="primary_color_dark_variant">@color/purple_dark</color>
-    <!-- Color that appear over primary -->
-    <color name="on_primary_dark_variant">@color/md_grey_1100</color>
-
-
-    <!-- material design dark theme recommended background -->
-    <color name="window_background_dark">@color/md_grey_1100</color>
-    <!--Primary Color that appears over background color -->
-    <color name="primary_color_on_background_dark">@color/md_grey_50</color>
-    <!--Secondary Color that appears over background color -->
-    <color name="secondary_color_on_background_dark">@color/md_grey_500</color>
-
-
-    <!--  For dark theme shadow is dark so use a light surface color to show elevation-->
-    <color name="surface_color_dark">@color/md_grey_1000</color>
-    <!--Color that appears over surface -->
-    <color name="color_on_surface_dark">@color/md_blue_grey_50</color>
-
-
-    <color name="unfocused_drawable_dark">@color/md_grey_400</color>
-    <color name="focused_drawable_dark">@color/color_on_surface_dark</color>
-
-
-    <color name="color_stroke_dark">@color/md_grey_800</color>
-
-    <!-- High-emphasis text opacity of 90% -->
-
-    <!-- Medium-emphasis text opacity of 70% -->
-    <color name="secondary_text_dark">@color/secondary_color_on_background_dark</color>
-
-    <!-- Low-emphasis/Disabled/Hint text opacity of 50% -->
-    <color name="disabled_text_dark">@color/md_grey_600</color>
-
-
+    <!-- *********** COLORS FOR DARK GREY *********** -->
+    <color name="darkColorPrimary">@color/purple_dark</color>
+    <color name="darkColorOnPrimary">#202124</color>
+    <color name="darkColorBackground">#202124</color>
+    <color name="darkColorSurface">@color/md_grey_800</color>
+    <color name="darkColorOnSurface">#BBBCBD</color>
+    <color name="darkColorPrimaryText">#DEFFFFFF</color>
+    <color name="darkColorSecondaryText">#99FFFFFF</color>
+    <color name="darkColorDisabledText">#61FFFFFF</color>
+    <color name="darkColorUnFocused">#B3FFFFFF</color>
+    <color name="darkColorInactive">#61FFFFFF</color>
+    <color name="darkColorStroke">#1FFFFFFF</color>
+    <color name="darkColorOverlay">#0DFFFFFF</color>
 
 
     <!-- ******************************************************** -->
@@ -89,9 +42,8 @@
     <color name="window_background_kinda_dark">#1F1B24</color>
 
     <!--4dp elevated surface 9% alpha over white -->
-    <color name="surface_color_kinda_dark">#36323B</color>
+    <color name="surface_color_kinda_dark">#121F1B24</color>
 
-    <!-- For a flat ui design status bar and window background must be same -->
 
 
     <!-- ******************************************************** -->

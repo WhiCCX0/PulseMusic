@@ -1,135 +1,18 @@
 <resources>
 
     <!-- Specific Feed activity theme -->
-    <style name="ActivityThemeLight" parent="AppTheme.Light" />
+    <style name="ActivityThemeLight" parent="Theme.PulseMusic.Light" />
 
-    <style name="ActivityThemeDark" parent="AppTheme.Dark" />
+    <style name="ActivityThemeDark" parent="Theme.PulseMusic.Dark" />
 
-    <style name="ActivityThemeKindaDark" parent="AppTheme.Dark.Kinda" />
+    <style name="ActivityThemeKindaDark" parent="Theme.PulseMusic.Kinda" />
 
-    <style name="ActivityThemeBlack" parent="AppTheme.Dark.Black" />
-
-    <style name="PopupMenu">
-        <item name="android:textColor">?colorOnSurface</item>
-        <item name="android:popupBackground">@drawable/popup_menu_background</item>
-        <item name="android:popupElevation">@dimen/default_elevation</item>
-    </style>
-
-    <style name="NavBarActiveTextAppearance">
-        <item name="android:textColor">?primaryTextColor</item>
-    </style>
-    <style name="NavBarInActiveTextAppearance">
-        <item name="android:textColor">?disabledTextColor</item>
-    </style>
+    <style name="ActivityThemeBlack" parent="Theme.PulseMusic.Dark.BLACK" />
 
     <style name="ToolbarPopupTheme">
         <item name="android:popupBackground">?surfaceColor</item>
-    </style>
-
-    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">?colorOnSurface</item>
-        <item name="android:fontFamily">@font/product_black</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="Headline20TextAppearance">
-        <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">@font/product_medium</item>
-        <item name="android:textColor">?primaryTextColor</item>
-    </style>
-
-    <style name="HomeCategoryHeading">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginTop">@dimen/spacing_item_next_header</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_header_item</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">?secondaryColorOnBackground</item>
-        <item name="android:background">@drawable/capsule</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">6dp</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="ItemTitleTextAppearance">
-        <item name="android:textColor">?primaryTextColor</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="ItemSubTextAppearance">
-        <item name="android:textColor">?secondaryTextColor</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="RecyclerViewItemTitle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">32dp</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
-    </style>
-
-    <style name="RecyclerViewItemTitle.Sub">
-        <item name="android:textAppearance">@style/ItemSubTextAppearance</item>
-    </style>
-
-    <style name="HomeItemTitle">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">124dp</item> <!-- Width matches the image view width excluding padding -->
-        <item name="android:singleLine">true</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
-    </style>
-
-    <style name="HomeItemTitle.Sub">
-        <item name="android:textAppearance">@style/ItemSubTextAppearance</item>
-    </style>
-
-    <style name="SettingsStyleBlock">
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">14dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:background">@drawable/capsule</item>
-    </style>
-
-    <style name="SettingItemHeadline18">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">32dp</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
-    </style>
-
-    <style name="SettingItemTextStyle" parent="SettingsStyleBlock">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="SettingItemSwitchStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:padding">12dp</item>
-    </style>
-
-    <style name="RadioBtnText">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="android:tint">?unFocusedColor</item>
     </style>
 
     <style name="ButtonStyleBase">
@@ -139,6 +22,7 @@
         <item name="android:scaleType">fitXY</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
+        <item name="android:contentDescription">@string/icon_desc</item>
     </style>
 
     <style name="ButtonStyle48" parent="ButtonStyleBase" />
@@ -151,24 +35,11 @@
         <item name="android:padding">12dp</item>
     </style>
 
-    <style name="MenuItemTextStyle">
+    <style name="BottomDialogOptionsMenuTextStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:paddingStart">32dp</item>
-        <item name="android:paddingEnd">32dp</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:background">?selectableItemBackground</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <style name="LibraryItemMenuTextStyle">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:textAppearance">@style/ItemTitleTextAppearance</item>
+        <item name="android:textAppearance">@style/TextViewSubtitle2</item>
+        <item name="android:textColor">?primaryTextColor</item>
         <item name="android:padding">18dp</item>
         <item name="android:maxLines">1</item>
         <item name="android:background">?selectableItemBackground</item>
@@ -177,33 +48,109 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_rounded_corners</item>
     </style>
 
-    <style name="AppInfoTitleTextStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">24dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:textColor">?primaryTextColor</item>
-        <item name="android:fontFamily">@font/product_medium</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="AppInfoSubTitleTextStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColor">?secondaryTextColor</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MaterialButtonStyle.Default" parent="Widget.MaterialComponents.Button">
+    <style name="MaterialTextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextViewNormal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
     </style>
 
-    <style name="MaterialButtonStyle.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="MaterialButtonTheme" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">6dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textAppearance">@style/TextViewNormal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="layout_collapseMode">pin</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="titleMarginStart">16dp</item>
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="ToolbarTextAppearanceNormal">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.0125</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="ToolbarTextAppearanceSearch" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewNormal">
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextViewSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewSubtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewBody1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="lineHeightHint">24sp</item>
+    </style>
+
+    <style name="TextViewBody2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="lineHeightHint">24sp</item>
+    </style>
+
+    <style name="TextViewHeadline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewHeadline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewHeadline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewHeadline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewCaption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
+
+    <style name="TextViewOverline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:fontFamily">@font/circular</item>
+    </style>
 </resources>
 

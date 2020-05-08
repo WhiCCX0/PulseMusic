@@ -7,8 +7,7 @@
         <item name="android:statusBarColor">?attr/statusBarColor</item>
         <item name="android:windowLightStatusBar">?isLightMode</item>
         <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/window_background_light</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:navigationBarColor">@color/lightColorBackground</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
@@ -21,12 +20,10 @@
         <item name="android:statusBarColor">?attr/statusBarColor</item>
         <item name="android:windowLightStatusBar">?isLightMode</item>
         <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/window_background_dark</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:navigationBarColor">@color/darkColorBackground</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
     </style>
-
 </resources>

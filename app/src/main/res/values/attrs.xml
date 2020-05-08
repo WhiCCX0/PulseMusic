@@ -11,25 +11,21 @@
         <attr name="windowBackgroundColor" format="color|reference" />
         <attr name="primaryColorOnBackground" format="color|reference"/>
         <attr name="secondaryColorOnBackground" format="color|reference"/>
-
         <attr name="surfaceColor" format="color|reference" />
         <attr name="colorOnSurface" format="color|reference"/>
 
-        <attr name="focusedDrawableColor" format="color|reference" />
-        <attr name="unFocusedDrawableColor" format="color|reference" />
+        <attr name="unFocusedColor" format="color|reference" />
+        <attr name="inactiveColor" format="color|reference" />
 
         <attr name="colorStroke" format="color|reference" />
-
         <attr name="selectedItemBackground" format="color|reference" />
-
         <attr name="overlayColor" format="color|reference" />
-
         <attr name="statusBarColor" format="color|reference"/>
 
         <attr name="imageViewBackgroundDrawable" format="integer" />
         <attr name="circleImageViewBackgroundDrawable" format="integer" />
-        <attr name="iconOptions" format="integer" />
         <attr name="isLightMode" format="boolean" />
-
+        <attr name="lineHeightHint" format="dimension" />
+        <attr name="toolbarBackground" format="integer" />
     </declare-styleable>
 </resources>
