@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipToPadding="false"
     android:nestedScrollingEnabled="false"
     android:paddingStart="6dp"
     android:paddingEnd="6dp"
-    android:clipToPadding="false"
-    android:visibility="gone"/>
+    android:visibility="gone"
+    tools:listitem="@layout/rv_home_item_sq"
+    tools:visibility="visible" />

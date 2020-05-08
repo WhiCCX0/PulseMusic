@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarStyle="insideOverlay"
     android:paddingStart="0dp"
-    android:paddingEnd=".5dp"
-    android:scrollbars="vertical"
+    android:paddingEnd="1dp"
+    android:scrollbarStyle="insideOverlay"
     android:scrollbarThumbVertical="@drawable/recycler_view_scroll_thumb"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    android:scrollbars="vertical"
+    android:visibility="gone"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:listitem="@layout/list_item_with_options"
+    tools:visibility="visible" />
