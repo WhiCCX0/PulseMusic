@@ -21,7 +21,6 @@ import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
-import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 import com.hardcodecoder.pulsemusic.utils.UserInfo;
 
 
@@ -97,7 +96,7 @@ public class HomeBottomSheetFragment extends RoundedBottomSheetDialogFragment {
 
     private void addUserName() {
         View layout = View.inflate(getContext(), R.layout.bottom_dialog_edit_text, null);
-        BottomSheetDialog sheetDialog = new CustomBottomSheet(layout.getContext());
+        BottomSheetDialog sheetDialog = new RoundedBottomSheetDialog(layout.getContext());
         sheetDialog.setContentView(layout);
         sheetDialog.show();
 
