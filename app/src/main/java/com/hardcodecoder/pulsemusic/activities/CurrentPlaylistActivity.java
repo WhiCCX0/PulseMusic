@@ -3,16 +3,19 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.content.Intent;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.PlaylistDataAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
@@ -34,13 +37,14 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playlist_data);
+        setContentView(R.layout.activity_playlist_tracks);
 
         tm = TrackManager.getInstance();
 
-        Toolbar t = findViewById(R.id.toolbar);
-        t.setTitle(R.string.playlist_current_queue);
-        t.setNavigationOnClickListener(v -> finish());
+        MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
+        toolbar.setTitle(getString(R.string.playlist_current_queue));
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         findViewById(R.id.open_track_picker_btn).setOnClickListener(v ->
                 startActivityForResult(new Intent(this, TrackPickerActivity.class), TrackPickerActivity.REQUEST_CODE));
@@ -52,7 +56,7 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
         if (null != list && list.size() > 0) {
             findViewById(R.id.no_tracks_found_tv).setVisibility(View.GONE);
             mCurrentList = new ArrayList<>(list);
-            RecyclerView recyclerView = findViewById(R.id.playlist_data_rv);
+            RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -64,7 +68,14 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
             itemTouchHelper.attachToRecyclerView(recyclerView);
 
             recyclerView.scrollToPosition(TrackManager.getInstance().getActiveIndex());
-        } else findViewById(R.id.no_tracks_found_tv).setVisibility(View.VISIBLE);
+        } else {
+            MaterialTextView textView = findViewById(R.id.no_tracks_found_tv);
+            textView.setVisibility(View.VISIBLE);
+            String str = getString(R.string.no_playlist_tracks_found);
+            SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
+            stringBuilder.setSpan(new AbsoluteSizeSpan((int) (textView.getTextSize() * 4.0)), 0, 1, SpannableStringBuilder.SPAN_INCLUSIVE_INCLUSIVE);
+            textView.setText(stringBuilder);
+        }
     }
 
     @Override
@@ -106,7 +117,10 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
             if (null != data && null != data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS)) {
                 ArrayList<MusicModel> selectedTracks = (ArrayList<MusicModel>) data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS);
                 if (null != selectedTracks && selectedTracks.size() > 0) {
-                    if (null == mAdapter) loadPlaylist(selectedTracks);
+                    if (null == mAdapter) {
+                        loadPlaylist(selectedTracks);
+                        tm.buildDataList(selectedTracks, 0);
+                    }
                     else {
                         mCurrentList.addAll(selectedTracks);
                         mAdapter.addItems(selectedTracks);
