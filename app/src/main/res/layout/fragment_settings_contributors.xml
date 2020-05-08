@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lead_developer_title"
+        android:textAppearance="@style/TextViewOverline"
+        android:textColor="?primaryColor" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="?surfaceColor"
+        app:cardCornerRadius="4dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp">
+
+            <ImageView
+                android:id="@+id/lead_developer_profile_icon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:contentDescription="@string/iv_content_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lead_developer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:text="@string/lead_developer_1"
+                android:textAppearance="@style/TextViewHeadline6"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_profile_icon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lead_developer_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:paddingTop="0dp"
+                android:paddingBottom="32dp"
+                android:text="@string/lead_developer_user_name"
+                android:textAppearance="@style/TextViewSubtitle2"
+                android:textColor="?secondaryTextColor"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_name" />
+
+            <com.hardcodecoder.pulsemusic.views.ColoredIconView
+                android:id="@+id/github_logo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:icon="@drawable/ic_github"
+                app:iconColor="@color/md_green_A200"
+                app:layout_constraintEnd_toStartOf="@id/facebook_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
+
+            <com.hardcodecoder.pulsemusic.views.ColoredIconView
+                android:id="@+id/facebook_logo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:icon="@drawable/ic_facebook"
+                app:iconColor="@color/md_blue_A400"
+                app:layout_constraintEnd_toStartOf="@id/twitter_logo"
+                app:layout_constraintStart_toEndOf="@id/github_logo"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
+
+            <com.hardcodecoder.pulsemusic.views.ColoredIconView
+                android:id="@+id/twitter_logo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:icon="@drawable/ic_twitter"
+                app:iconColor="@color/md_deep_orange_A400"
+                app:layout_constraintEnd_toStartOf="@id/telegram_logo"
+                app:layout_constraintStart_toEndOf="@id/facebook_logo"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
+
+            <com.hardcodecoder.pulsemusic.views.ColoredIconView
+                android:id="@+id/telegram_logo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:icon="@drawable/ic_telegram"
+                app:iconColor="@color/md_deep_purple_A400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/twitter_logo"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/other_contributions_title"
+        android:textAppearance="@style/TextViewOverline"
+        android:textColor="?primaryColor" />
+</LinearLayout>

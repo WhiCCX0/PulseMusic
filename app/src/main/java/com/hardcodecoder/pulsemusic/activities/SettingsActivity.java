@@ -1,56 +1,75 @@
 package com.hardcodecoder.pulsemusic.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.fragments.SettingsMainFragment;
+import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
+import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 
+public class SettingsActivity extends PMBActivity implements SettingsFragmentsListener {
 
-public class SettingsActivity extends PMBActivity {
-
-    /*private static final String TAG = "SettingsActivity";
-    private boolean autoModeEnable;
-    private boolean darkModeEnable;
-    private boolean optionChanged = false;
-    private boolean isAccentChanged = false;
-    private MaterialToolbar mToolbar;*/
+    private MaterialToolbar mToolbar;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        //setUpDefaultStates();
-        //findViewById(R.id.settings_close_btn).setOnClickListener(v -> finish());
-        MaterialToolbar mToolbar = findViewById(R.id.material_toolbar);
+
+        mFragmentManager = getSupportFragmentManager();
+
+        //Setting up toolbar
+        mToolbar = findViewById(R.id.material_toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-
-        /*mToolbar.setNavigationOnClickListener(v -> backTrackFragments());
-        if(null == savedInstanceState)
-            swapFragment(SettingsMainFragment.TAG);*/
-
-        findViewById(R.id.themeSettings).setOnClickListener(v -> startActivity(new Intent(this, ThemeActivity.class)));
-        findViewById(R.id.nowPlayingSettings).setOnClickListener(v -> {
-        });
-        findViewById(R.id.contributorsSettings).setOnClickListener(v -> {
-        });
-        findViewById(R.id.aboutSettings).setOnClickListener(v -> {
-        });
+        if (null == savedInstanceState) {
+            //Set up the main fragment when activity is first created
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.settings_content_container, SettingsMainFragment.getInstance())
+                    .commit();
+            mToolbar.setTitle(R.string.settings_title);
+        }
     }
 
-    /*private void setToolbarTitle(String title){
-        mToolbar.setTitle(title);
-    }*/
+    @Override
+    public void changeFragment(Fragment fragment, @StringRes int titleId) {
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .replace(R.id.settings_content_container, fragment, fragment.getTag())
+                .addToBackStack(null)
+                .commit();
+        mToolbar.setTitle(titleId);
+    }
+
+    @Override
+    public void onThemeChanged() {
+        ThemeManager.init(this);
+        recreate();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFragmentManager.getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        } else {
+            mToolbar.setTitle(R.string.settings_title);
+            mFragmentManager.popBackStack();
+        }
+    }
 
     /*@Override
     public void changeFragment(String fragmentTag) {
         Log.e(TAG, "Received callback to changed fragment");
         swapFragment(fragmentTag);
     }
-
     private void swapFragment(String fragmentTag){
         String title = "";
         switch (fragmentTag){
@@ -73,7 +92,6 @@ public class SettingsActivity extends PMBActivity {
             setToolbarTitle(title);
         }
     }
-
     private void backTrackFragments(){
         if(getSupportFragmentManager().getBackStackEntryCount() == 1){
             finish();
@@ -87,21 +105,16 @@ public class SettingsActivity extends PMBActivity {
         Switch darkThemeToggle = findViewById(R.id.settings_toggle_dark_theme);
         TextView autoThemeTextView = findViewById(R.id.settings_switch_2_title);
         Switch autoThemeToggle = findViewById(R.id.settings_toggle_auto_theme);
-
         darkModeEnable = AppSettings.isDarkModeEnabled(this);
         darkModeTextView.setText(darkModeEnable ? R.string.dark_on : R.string.light_on);
         darkThemeToggle.setChecked(darkModeEnable);
-
         autoModeEnable = AppSettings.isAutoThemeEnabled(this);
         autoThemeTextView.setText(autoModeEnable ? R.string.auto_theme_enabled : R.string.auto_theme_disabled);
         autoThemeToggle.setChecked(autoModeEnable);
         darkThemeToggle.setEnabled(!autoModeEnable);
         findViewById(R.id.setting_switch_1_title).setEnabled(!autoModeEnable);
-
-
         darkThemeToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ThemeManager.enableDarkMode(this, isChecked);
-
             if (!ThemeManager.isDarkModeEnabled() && isChecked) {
                 // User wants Dark theme but Light theme is previously
                 // applied so restart the activity to apply Dark theme
@@ -112,12 +125,10 @@ public class SettingsActivity extends PMBActivity {
                 restart();
             }
         });
-
         autoThemeToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ThemeManager.enableAutoTheme(this, isChecked);
             darkThemeToggle.setEnabled(!isChecked);
             findViewById(R.id.setting_switch_1_title).setEnabled(!isChecked);
-
             if (isChecked && needToToggleTheme()) {
                 // User want auto theme based on time of day
                 // If its night/day and current theme is light/dark respectively
@@ -137,7 +148,6 @@ public class SettingsActivity extends PMBActivity {
                 }
             }
         });
-
         findViewById(R.id.accents_options).setOnClickListener(this::openAccentPicker);
         findViewById(R.id.dark_theme_options).setOnClickListener(this::openDarkThemeSelector);
     }*/
@@ -146,7 +156,6 @@ public class SettingsActivity extends PMBActivity {
         View windowView = View.inflate(this, R.layout.accent_color_picker, null);
         PopupWindow window = new PopupWindow(windowView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
         RadioGroup radioGroup = windowView.findViewById(R.id.radio_group);
-
         int currentAccent = AppSettings.getSelectedAccentColor(this);
         switch (currentAccent) {
             case ThemeStore.CINNAMON:
@@ -171,9 +180,7 @@ public class SettingsActivity extends PMBActivity {
                 ((RadioButton) radioGroup.findViewById(R.id.rd_btn_7)).setChecked(true);
                 break;
         }
-
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> isAccentChanged = true);
-
         windowView.findViewById(R.id.btn_set).setOnClickListener(v -> {
             if (isAccentChanged) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
@@ -205,7 +212,6 @@ public class SettingsActivity extends PMBActivity {
                 restart();
             }
         });
-
         window.setBackgroundDrawable(getDrawable(R.drawable.popup_menu_background));
         window.showAtLocation(view, Gravity.CENTER, 0, 0);
         dimBackgroundOnPopupWindow(window);
@@ -214,11 +220,8 @@ public class SettingsActivity extends PMBActivity {
    /* private void openDarkThemeSelector(View view) {
         View windowView = View.inflate(this, R.layout.dark_theme_picker, null);
         PopupWindow window = new PopupWindow(windowView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
-
         RadioGroup radioGroup = windowView.findViewById(R.id.radio_group);
-
         int currentTheme = AppSettings.getSelectedDarkTheme(this);
-
         switch (currentTheme) {
             case ThemeStore.DARK_THEME_1:
                 ((RadioButton) radioGroup.findViewById(R.id.rd_btn_1)).setChecked(true);
@@ -230,9 +233,7 @@ public class SettingsActivity extends PMBActivity {
                 ((RadioButton) radioGroup.findViewById(R.id.rd_btn_3)).setChecked(true);
                 break;
         }
-
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> optionChanged = true);
-
         windowView.findViewById(R.id.btn_set).setOnClickListener(v1 -> {
             if (window.isShowing())
                 window.dismiss();
@@ -248,18 +249,15 @@ public class SettingsActivity extends PMBActivity {
                         ThemeManager.setSelectedDarkTheme(this, ThemeStore.DARK_THEME_3);
                         break;
                 }
-
                 if (autoModeEnable && isNight()) restart();
                 else if (darkModeEnable) restart();
                 optionChanged = false;
             }
         });
-
         window.setBackgroundDrawable(getDrawable(R.drawable.popup_menu_background));
         window.showAtLocation(view, Gravity.CENTER, 0, 0);
         dimBackgroundOnPopupWindow(window);
     }
-
     private void dimBackgroundOnPopupWindow(PopupWindow window) {
         View container;
         if (null == window.getBackground()) container = (View) window.getContentView().getParent();
@@ -271,20 +269,16 @@ public class SettingsActivity extends PMBActivity {
         if (null != wm)
             wm.updateViewLayout(container, p);
     }
-
     private boolean needToToggleTheme() {
         return ((isNight() && !ThemeManager.isDarkModeEnabled()) || (!isNight() && ThemeManager.isDarkModeEnabled()));
     }
-
     private boolean isNight() {
         return (DayTimeUtils.getTimeOfDay() == DayTimeUtils.DayTime.NIGHT);
     }
-
     private void restart() {
         ThemeManager.init(getApplicationContext());
         startActivity(new Intent(this, SettingsActivity.class));
         overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
         finish();
     }*/
-
 }

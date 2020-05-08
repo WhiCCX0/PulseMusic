@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+            android:id="@+id/themeSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:settingItemIcon="@drawable/ic_theme_palette"
+            app:settingItemIconColor="@color/md_blue_A400"
+            app:settingItemText="Look and feel"
+            app:settingItemTitle="@string/look_and_feel" />
+
+        <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+            android:id="@+id/nowPlayingSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:settingItemIcon="@drawable/ic_play_circle"
+            app:settingItemIconColor="@color/md_red_A400"
+            app:settingItemText="@string/now_playing_desc"
+            app:settingItemTitle="@string/now_playing_title" />
+
+        <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+            android:id="@+id/contributorsSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:settingItemIcon="@drawable/ic_people"
+            app:settingItemIconColor="@color/md_deep_purple_A400"
+            app:settingItemText="@string/contributors_desc"
+            app:settingItemTitle="@string/contributors" />
+
+        <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
+            android:id="@+id/aboutSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:settingItemIcon="@drawable/ic_info"
+            app:settingItemIconColor="@color/md_green_A700"
+            app:settingItemText="@string/about_desc"
+            app:settingItemTitle="@string/about" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

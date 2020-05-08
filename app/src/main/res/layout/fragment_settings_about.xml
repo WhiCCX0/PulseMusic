@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="32dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="32dp"
+    android:paddingBottom="0dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_info"
+        android:textAppearance="@style/TextViewOverline"
+        android:textColor="?primaryColor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/about_app_version"
+        android:textAppearance="@style/TextViewSubtitle1" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/about_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_app_version_desc"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?secondaryTextColor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/about_app_release_date"
+        android:textAppearance="@style/TextViewSubtitle1" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/about_app_release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_app_release_date_desc"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?secondaryTextColor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/about_app_build_code"
+        android:textAppearance="@style/TextViewSubtitle1" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/about_app_build_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_app_build_code_desc"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?secondaryTextColor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/about_app_release_build_type"
+        android:textAppearance="@style/TextViewSubtitle1" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/about_app_build_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_app_release_build_type_desc"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?secondaryTextColor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/social_links"
+        android:textAppearance="@style/TextViewOverline"
+        android:textColor="?primaryColor" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/about_card_github_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="?surfaceColor"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/iv_content_desc"
+                android:src="@drawable/ic_github"
+                android:tint="?colorOnSurface" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/about_check_source_code"
+                android:textAppearance="@style/TextViewSubtitle2" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
