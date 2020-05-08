@@ -21,11 +21,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
+import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
-import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
 
     private void showMenuItems(MusicModel md) {
         View view = View.inflate(this, R.layout.library_item_menu, null);
-        BottomSheetDialog bottomSheetDialog = new CustomBottomSheet(view.getContext());
+        BottomSheetDialog bottomSheetDialog = new RoundedBottomSheetDialog(view.getContext());
 
         view.findViewById(R.id.track_play_next)
                 .setOnClickListener(v -> {
