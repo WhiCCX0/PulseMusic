@@ -12,13 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
 import com.hardcodecoder.pulsemusic.themes.ThemeStore;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
-
 public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDialogFragment {
+
 
     public static final String TAG = "ThemeChooserBottomSheetDialog";
     private boolean mOptionChanged = false;
@@ -37,6 +39,7 @@ public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDia
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mContext = getContext();
+        SettingsFragmentsListener mListener = (SettingsFragmentsListener) getActivity();
         RadioGroup radioGroup = view.findViewById(R.id.radio_button_group);
         int currentTheme = AppSettings.getSelectedDarkTheme(mContext);
 
@@ -67,10 +70,15 @@ public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDia
                         ThemeManager.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_PURE_BLACK);
                         break;
                 }
-                if (ThemeManagerUtils.needToApplyNewDarkTheme()) {
+                /*if (ThemeManagerUtils.needToApplyNewDarkTheme()) {
                     if (null != getActivity()) {
                         getActivity().recreate();
                     }
+                }*/
+                if (ThemeManagerUtils.needToApplyNewDarkTheme()) {
+                    //Theme need to be updated
+                    if (mListener instanceof SettingsActivity)
+                        mListener.onThemeChanged();
                 }
             }
             dismiss();
