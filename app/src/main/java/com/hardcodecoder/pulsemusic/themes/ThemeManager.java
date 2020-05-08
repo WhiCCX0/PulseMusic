@@ -10,13 +10,14 @@ import com.hardcodecoder.pulsemusic.utils.DayTimeUtils.DayTime;
 
 public class ThemeManager {
 
-    private static boolean mDarkMode = false;
+    private static boolean mAutoMode;
+    private static boolean mDarkMode;
     private static int mThemeId;
     private static int mAccentId;
 
     public static void init(Context context) {
-        boolean auto = AppSettings.isAutoThemeEnabled(context);
-        if (auto) mDarkMode = (DayTimeUtils.getTimeOfDay() == DayTime.NIGHT);
+        mAutoMode = AppSettings.isAutoThemeEnabled(context);
+        if (mAutoMode) mDarkMode = (DayTimeUtils.getTimeOfDay() == DayTime.NIGHT);
         else mDarkMode = AppSettings.isDarkModeEnabled(context);
 
         if (mDarkMode) mThemeId = AppSettings.getSelectedDarkTheme(context);
@@ -24,15 +25,20 @@ public class ThemeManager {
         mAccentId = AppSettings.getSelectedAccentColor(context);
     }
 
+    static boolean isAutoModeEnabled() {
+        return mAutoMode;
+    }
+
     public static boolean isDarkModeEnabled() {
         return mDarkMode;
     }
 
-    public static void enableDarkMode(Context context, boolean enable) {
+    static void enableDarkMode(Context context, boolean enable) {
         AppSettings.enableDarkMode(context, enable);
     }
 
-    public static void enableAutoTheme(Context context, boolean enable) {
+    static void enableAutoTheme(Context context, boolean enable) {
+        mAutoMode = enable;
         AppSettings.enableAutoTheme(context, enable);
     }
 
@@ -41,7 +47,7 @@ public class ThemeManager {
         AppSettings.saveSelectedDarkTheme(context, mThemeId);
     }
 
-    public static void setSelectedAccentColor(Context context, int id) {
+    static void setSelectedAccentColor(Context context, int id) {
         mAccentId = id;
         AppSettings.saveSelectedAccentColor(context, id);
     }
