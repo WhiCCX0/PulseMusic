@@ -1,36 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="12dp"
-    android:background="@android:color/transparent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rectangle_background"
-        android:elevation="4dp"
-        android:orientation="vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/track_play_next"
+        style="@style/BottomDialogOptionsMenuTextStyle"
+        android:text="@string/play_next" />
 
-        <TextView
-            android:id="@+id/track_play_next"
-            style="@style/LibraryItemMenuTextStyle"
-            android:text="@string/play_next" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/add_to_queue"
+        style="@style/BottomDialogOptionsMenuTextStyle"
+        android:text="@string/add_to_queue" />
 
-        <TextView
-            android:id="@+id/add_to_queue"
-            style="@style/LibraryItemMenuTextStyle"
-            android:text="@string/add_to_queue" />
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/BottomDialogOptionsMenuTextStyle"
+        android:text="@string/add_to_playlist" />
 
-        <TextView
-            style="@style/LibraryItemMenuTextStyle"
-            android:text="@string/add_to_playlist" />
-
-        <TextView
-            style="@style/LibraryItemMenuTextStyle"
-            android:text="@string/info" />
-
-    </LinearLayout>
-</FrameLayout>
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/BottomDialogOptionsMenuTextStyle"
+        android:text="@string/info" />
+</LinearLayout>

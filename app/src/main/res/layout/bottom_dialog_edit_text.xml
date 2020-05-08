@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_sheet_rounded_corners"
     android:clipToPadding="false"
     android:paddingStart="16dp"
     android:paddingTop="24dp"
     android:paddingEnd="16dp"
     android:paddingBottom="36dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Headline20TextAppearance"
+        android:textAppearance="@style/TextViewHeadline6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Create Playlist" />
+        tools:text="@tools:sample/full_names" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_text_container"
@@ -36,33 +34,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:textAppearance="@style/ItemTitleTextAppearance"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextViewBody1"
+            tools:text="@tools:sample/full_names" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_btn"
-        style="@style/MaterialButtonStyle.Outlined"
+        style="@style/MaterialTextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/cancel"
         app:layout_constraintEnd_toStartOf="@+id/confirm_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_container" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/confirm_btn"
-        style="@style/MaterialButtonStyle.Default"
+        style="@style/MaterialTextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/create"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cancel_btn"
         app:layout_constraintTop_toBottomOf="@id/edit_text_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
