@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/material_toolbar"
+    style="@style/Toolbar"
+    app:layout_scrollFlags="scroll|enterAlways|snapMargins"
+    app:navigationIcon="@drawable/ic_keyboard_backspace"
+    app:popupTheme="@style/ToolbarPopupTheme"
+    app:titleTextAppearance="@style/ToolbarTextAppearanceNormal"
+    tools:title="@tools:sample/full_names" />
