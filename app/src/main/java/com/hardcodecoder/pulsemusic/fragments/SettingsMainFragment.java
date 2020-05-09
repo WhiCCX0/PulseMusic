@@ -34,7 +34,7 @@ public class SettingsMainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mListener = (SettingsFragmentsListener) getActivity();
         view.findViewById(R.id.themeSettings).setOnClickListener(v -> openSettingsFragment(SettingsThemeFragment.getInstance(), R.string.look_and_feel));
-        //view.findViewById(R.id.nowPlayingSettings).setOnClickListener(v -> openSettingsFragment(""));
+        view.findViewById(R.id.nowPlayingSettings).setOnClickListener(v -> openSettingsFragment(SettingsNowPlayingFragment.getInstance(), R.string.now_playing_title));
         view.findViewById(R.id.contributorsSettings).setOnClickListener(v -> openSettingsFragment(SettingsContributorsFragment.getInstance(), R.string.contributors));
         view.findViewById(R.id.aboutSettings).setOnClickListener(v -> openSettingsFragment(SettingsAboutFragment.getInstance(), R.string.about));
     }
