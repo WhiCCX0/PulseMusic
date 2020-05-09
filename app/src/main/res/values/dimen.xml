@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Must be equal to or greater than half of {@floating_image_height}-->
-    <dimen name="default_elevation">8dp</dimen>
-
     <!-- Dimens for Home layout -->
     <dimen name="spacing_header_item">16dp</dimen>
-    <dimen name="spacing_item_next_header">32dp</dimen>
 
     <dimen name="bck_iv_sh_src_padding">16dp</dimen>
 
@@ -21,5 +17,7 @@
     <!-- Material  button padding -->
     <dimen name="button_padding_vertical">10dp</dimen>
     <dimen name="button_margin_horizontal">16dp</dimen>
+
+    <dimen name="icon_padding">12dp</dimen>
 
 </resources>
