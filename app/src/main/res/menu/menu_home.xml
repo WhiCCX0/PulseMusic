@@ -5,6 +5,6 @@
         android:id="@+id/menu_action_search"
         android:icon="@drawable/ic_mic"
         android:orderInCategory="1"
-        android:title="@string/search"
+        android:title="@string/searchHint"
         app:showAsAction="always" />
 </menu>
