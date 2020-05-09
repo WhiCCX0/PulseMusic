@@ -1,10 +1,13 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 apply plugin: 'com.android.application'
 
 ext.versionMajor = 2
 ext.versionMinor = 0
-ext.versionPatch = 0
+ext.versionPatch = 1
 ext.minimumSdkVersion = 21
-ext.isSnapshot = false
+ext.isSnapshot = true
 
 android {
     compileSdkVersion 29
@@ -20,7 +23,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "BUILD_DATE", getBuildTime()
+        }
         release {
+            buildConfigField "String", "BUILD_DATE", getBuildTime()
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -33,20 +40,30 @@ android {
     }
 }
 
+
 private Integer generateVersionCode() {
     return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
 }
 
+
 private String generateVersionName() {
     String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
     if (ext.isSnapshot) {
-        versionName += "-DEBUG"
+        versionName += "-Debug"
     }
 
     else {
         versionName += "-Release"
     }
     return versionName
+}
+
+
+private String getBuildTime() {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("E d MMMM yyyy HH:mm:ss")
+    LocalDateTime now = LocalDateTime.now()
+    String dateTime = dtf.format(now)
+    return "\"${dateTime}\""
 }
 
 dependencies {

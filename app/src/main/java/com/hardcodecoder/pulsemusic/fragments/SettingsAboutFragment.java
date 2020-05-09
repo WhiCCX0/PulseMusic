@@ -34,7 +34,8 @@ public class SettingsAboutFragment extends Fragment {
         MaterialTextView tempTextView = view.findViewById(R.id.about_app_version);
         tempTextView.setText(BuildConfig.VERSION_NAME);
 
-        //tempTextView = view.findViewById(R.id.about_app_release_date);
+        tempTextView = view.findViewById(R.id.about_app_release_date);
+        tempTextView.setText(BuildConfig.BUILD_DATE);
 
         tempTextView = view.findViewById(R.id.about_app_build_code);
         tempTextView.setText(String.valueOf(BuildConfig.VERSION_CODE));
