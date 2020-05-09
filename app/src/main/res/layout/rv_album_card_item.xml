@@ -25,13 +25,11 @@
         android:id="@+id/iv_album_card"
         android:layout_width="320dp"
         android:layout_height="210dp"
-        android:layout_gravity="center_horizontal"
-        android:background="?imageViewBackgroundDrawable"
-        android:contentDescription="@string/iv_content_desc"
         android:padding="@dimen/bck_iv_sh_src_padding"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/iv_content_desc"
         android:scaleType="centerCrop"
         android:cropToPadding="true"
-        android:transitionName="@string/home_iv_st"
         tools:src="@drawable/def_avatar" />
 
     <include
