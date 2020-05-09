@@ -9,10 +9,15 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 
 public class SettingsToggleableItem extends FrameLayout {
+
+    private MaterialTextView title;
+    private MaterialTextView text;
+    private SwitchMaterial switchButton;
 
     public SettingsToggleableItem(@NonNull Context context) {
         super(context);
@@ -31,13 +36,24 @@ public class SettingsToggleableItem extends FrameLayout {
 
     private void initialize(Context context, @Nullable AttributeSet attributeSet) {
         View view = View.inflate(context, R.layout.settings_toggleable_item_layout, this);
-        MaterialTextView title = view.findViewById(R.id.setting_toggleable_item_title);
-        MaterialTextView text = view.findViewById(R.id.setting_toggleable_item_text);
+        title = view.findViewById(R.id.setting_toggleable_item_title);
+        text = view.findViewById(R.id.setting_toggleable_item_text);
+        switchButton = view.findViewById(R.id.setting_toggleable_item_switch);
+        //Do not save state
+        switchButton.setSaveEnabled(false);
 
         TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.SettingsToggleableItem);
         title.setText(typedArray.getText(R.styleable.SettingsToggleableItem_settingToggleableItemTitle));
         text.setText(typedArray.getText(R.styleable.SettingsToggleableItem_settingToggleableItemText));
 
         typedArray.recycle();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        title.setEnabled(enabled);
+        text.setEnabled(enabled);
+        switchButton.setEnabled(enabled);
+        super.setEnabled(enabled);
     }
 }
