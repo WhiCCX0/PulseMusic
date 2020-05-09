@@ -1,57 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="10dp"
-    android:clipToPadding="false">
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/search_background"
-        android:elevation="2dp">
+        android:background="?attr/toolbarBackground">
 
         <ImageView
             android:id="@+id/search_activity_close_btn"
             style="@style/ButtonStyle24"
             android:layout_gravity="start|center_vertical"
             android:contentDescription="@string/iv_btn_close_description"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_keyboard_backspace"
+            android:tint="?attr/unFocusedColor" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            app:queryHint="@string/searchHint"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
             app:closeIcon="@drawable/ic_close"
             app:iconifiedByDefault="false"
+            app:queryHint="@string/searchHint"
+            app:searchIcon="@android:color/transparent"
             app:showDividers="none"
-            app:submitBackground="@drawable/active_item_background"
-            app:searchIcon="@android:color/transparent" />
-
+            app:submitBackground="@drawable/active_item_background" />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <include
         android:id="@+id/search_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        layout="@layout/recycler_view_vertical" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/result_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="48dp"
+        android:gravity="center"
         android:text="@string/search_null"
+        android:textAppearance="@style/TextViewHeadline6"
         android:textColor="?attr/secondaryTextColor"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        android:visibility="visible" />
-
+        android:visibility="visible"
+        tools:visibility="visible" />
 </LinearLayout>

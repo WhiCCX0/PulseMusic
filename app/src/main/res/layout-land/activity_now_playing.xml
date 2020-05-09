@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,8 +14,8 @@
         android:paddingTop="12dp"
         android:paddingEnd="148dp"
         android:text="@string/now_playing"
-        android:textAppearance="@style/Headline20TextAppearance"
-        android:textColor="?secondaryTextColor"
+        android:textAppearance="@style/TextViewHeadline6"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Background is a 9 patch drawable with
@@ -55,29 +55,33 @@
         app:layout_constraintStart_toStartOf="@id/activity_np_album_artist_name"
         app:layout_constraintTop_toTopOf="@id/activity_np_album_art" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_start_time"
-        style="@style/RecyclerViewItemTitle.Sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:paddingStart="6dp"
         android:paddingEnd="0dp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextViewSubtitle1"
+        android:textColor="?secondaryTextColor"
         app:layout_constraintStart_toStartOf="@id/activity_np_seekBar"
         app:layout_constraintTop_toBottomOf="@+id/activity_np_seekBar"
-        tools:text="00:00" />
+        tools:text="@tools:sample/date/hhmm" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_end_time"
-        style="@style/RecyclerViewItemTitle.Sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:paddingStart="0dp"
         android:paddingEnd="6dp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextViewSubtitle1"
+        android:textColor="?secondaryTextColor"
         app:layout_constraintEnd_toEndOf="@id/activity_np_seekBar"
         app:layout_constraintTop_toBottomOf="@+id/activity_np_seekBar"
-        tools:text="05:00" />
+        tools:text="@tools:sample/date/hhmm" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_song_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -86,24 +90,21 @@
         android:layout_marginEnd="56dp"
         android:gravity="center"
         android:maxLines="1"
-        android:textAppearance="@style/Headline20TextAppearance"
-        android:textColor="?primaryTextColor"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextViewHeadline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/activity_np_album_art"
         app:layout_constraintTop_toBottomOf="@+id/activity_np_start_time"
         tools:text="Song Name" />
 
-
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_album_artist_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:maxLines="1"
-        android:textAppearance="@style/ItemTitleTextAppearance"
+        android:textAppearance="@style/TextViewSubtitle2"
+        android:textColor="?secondaryTextColor"
         app:layout_constraintEnd_toEndOf="@id/activity_np_song_title"
         app:layout_constraintStart_toStartOf="@id/activity_np_song_title"
         app:layout_constraintTop_toBottomOf="@+id/activity_np_song_title"
@@ -146,7 +147,7 @@
         app:layout_constraintTop_toBottomOf="@id/activity_np_album_artist_name"
         app:layout_constraintVertical_bias="0.10"
         tools:ignore="contentDescription"
-        tools:src="@drawable/ic_round_pause_white" />
+        tools:src="@drawable/pause_to_play" />
 
     <ImageButton
         android:id="@+id/activity_np_skip_next_btn"
