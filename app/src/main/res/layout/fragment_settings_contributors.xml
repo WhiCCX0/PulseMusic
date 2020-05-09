@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:cardBackgroundColor="?surfaceColor"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="@dimen/rounding_radius_8dp"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,41 +64,41 @@
                 app:layout_constraintTop_toBottomOf="@id/lead_developer_name" />
 
             <com.hardcodecoder.pulsemusic.views.ColoredIconView
-                android:id="@+id/github_logo"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                app:icon="@drawable/ic_github"
-                app:iconColor="@color/md_green_A200"
-                app:layout_constraintEnd_toStartOf="@id/facebook_logo"
+                android:id="@+id/facebook_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_facebook"
+                app:iconColor="@color/md_blue_A400"
+                app:layout_constraintEnd_toStartOf="@id/github_logo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
 
             <com.hardcodecoder.pulsemusic.views.ColoredIconView
-                android:id="@+id/facebook_logo"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                app:icon="@drawable/ic_facebook"
-                app:iconColor="@color/md_blue_A400"
+                android:id="@+id/github_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_github"
+                app:iconColor="@color/md_deep_purple_A200"
                 app:layout_constraintEnd_toStartOf="@id/twitter_logo"
-                app:layout_constraintStart_toEndOf="@id/github_logo"
-                app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
-
-            <com.hardcodecoder.pulsemusic.views.ColoredIconView
-                android:id="@+id/twitter_logo"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                app:icon="@drawable/ic_twitter"
-                app:iconColor="@color/md_deep_orange_A400"
-                app:layout_constraintEnd_toStartOf="@id/telegram_logo"
                 app:layout_constraintStart_toEndOf="@id/facebook_logo"
                 app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
 
             <com.hardcodecoder.pulsemusic.views.ColoredIconView
+                android:id="@+id/twitter_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_twitter"
+                app:iconColor="@color/md_teal_A400"
+                app:layout_constraintEnd_toStartOf="@id/telegram_logo"
+                app:layout_constraintStart_toEndOf="@id/github_logo"
+                app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
+
+            <com.hardcodecoder.pulsemusic.views.ColoredIconView
                 android:id="@+id/telegram_logo"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 app:icon="@drawable/ic_telegram"
-                app:iconColor="@color/md_deep_purple_A400"
+                app:iconColor="@color/md_yellow_A400"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/twitter_logo"
                 app:layout_constraintTop_toBottomOf="@id/lead_developer_user_name" />
