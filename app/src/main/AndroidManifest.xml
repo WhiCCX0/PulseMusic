@@ -48,11 +48,10 @@
         <activity android:name=".activities.NowPlayingActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.DetailsActivity" />
-        <activity android:name=".activities.AppInfo" />
         <activity android:name=".activities.RecentActivity" />
         <activity android:name=".activities.FavoritesActivity" />
         <activity android:name=".activities.CurrentPlaylistActivity" />
-        <activity android:name=".activities.PlaylistDetailsActivity" />
+        <activity android:name=".activities.PlaylistTracksActivity" />
 
         <service
             android:name=".PMS"
