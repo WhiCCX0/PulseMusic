@@ -50,11 +50,9 @@ public class SettingsThemeFragment extends Fragment {
         // Get custom views
         SettingsToggleableItem enableDarkThemeLayout = view.findViewById(R.id.laf_enable_dark_mode);
         SwitchMaterial enableDarkThemeSwitch = enableDarkThemeLayout.findViewById(R.id.setting_toggleable_item_switch);
-        enableDarkThemeSwitch.setSaveEnabled(false);
 
         SettingsToggleableItem enableAutoThemeLayout = view.findViewById(R.id.laf_enable_auto_mode);
         SwitchMaterial enableAutoThemeSwitch = enableAutoThemeLayout.findViewById(R.id.setting_toggleable_item_switch);
-        enableAutoThemeSwitch.setSaveEnabled(false);
 
         // Configure state of views based on saved settings
         boolean darkModeEnable = AppSettings.isDarkModeEnabled(mContext);
@@ -62,18 +60,13 @@ public class SettingsThemeFragment extends Fragment {
 
         boolean autoModeEnable = AppSettings.isAutoThemeEnabled(mContext);
         enableAutoThemeSwitch.setChecked(autoModeEnable);
-        enableDarkThemeSwitch.setEnabled(!autoModeEnable);
         enableDarkThemeLayout.setEnabled(!autoModeEnable);
 
 
         //Add listeners to switch views
         enableDarkThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (buttonView.isPressed()) {
-                // Only detect changes for user interaction
-                // and not for state restoration
                 if (ThemeManagerUtils.toggleDarkTheme(mContext, isChecked))
                     applyTheme();
-            }
         });
         enableDarkThemeLayout.setOnClickListener(v -> {
             // Trigger switch enable/disable
@@ -81,12 +74,7 @@ public class SettingsThemeFragment extends Fragment {
         });
 
         enableAutoThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (buttonView.isPressed()) {
-                // Only detect changes for user interaction
-                // and not for state restoration
-
                 enableDarkThemeLayout.setEnabled(!isChecked);
-                enableDarkThemeSwitch.setEnabled(!isChecked);
                 if (ThemeManagerUtils.toggleAutoTheme(mContext, isChecked))
                     applyTheme();
                 else {
@@ -102,7 +90,6 @@ public class SettingsThemeFragment extends Fragment {
                         applyTheme();
                     }
                 }
-            }
         });
         enableAutoThemeLayout.setOnClickListener(v -> {
             // Trigger switch enable/disable
