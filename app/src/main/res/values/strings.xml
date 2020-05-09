@@ -162,6 +162,10 @@
     <string name="select_dark_theme">Set preferred dark theme</string>
     <string name="set">Set</string>
 
+
+    <!-- Now playing settings -->
+    <string name="now_playing_empty">Nothing to tweak\nwill be added in future for sure :p</string>
+
     <!-- Contributors -->
     <string name="lead_developer_title">Lead developers</string>
     <string name="lead_developer_1">Ashutosh Patoa</string>
@@ -173,7 +177,7 @@
     <!-- About -->
     <string name="about_app_version">App version</string>
     <string name="about_app_version_desc">v2.0.1</string>
-    <string name="about_app_release_date">Release date</string>
+    <string name="about_app_release_date">Build date</string>
     <string name="about_app_release_date_desc">2nd May 2020</string>
     <string name="about_app_release_build_type">Build type</string>
     <string name="about_app_release_build_type_desc">Stable</string>
@@ -182,7 +186,7 @@
     <string name="about_check_source_code">Source on github</string>
 
     <!-- Profile Links -->
-    <string name="profile_icon_link">https://twitter.com/hardcodecoder/photo</string>
+    <string name="profile_icon_link">https://pbs.twimg.com/profile_images/1159497870514376704/U5JEGSc6_400x400.jpg</string>
     <string name="social_links">Social links</string>
     <string name="github_link">https://github.com/HardcodeCoder</string>
     <string name="source_code_link">https://github.com/HardcodeCoder/PulseMusic</string>
