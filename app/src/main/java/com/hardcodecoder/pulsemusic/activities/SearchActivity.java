@@ -102,6 +102,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
 
     private void setRecyclerView() {
         RecyclerView rv = findViewById(R.id.search_rv);
+        rv.setVisibility(View.VISIBLE);
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rv.setItemAnimator(new DefaultItemAnimator());
         adapter = new SearchAdapter(getLayoutInflater(), this);
@@ -117,7 +118,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     @Override
     public void onOptionsClick(View v, int position) {
         PopupMenu pm = new PopupMenu(this, v);
-        pm.getMenuInflater().inflate(R.menu.item_overflow__menu, pm.getMenu());
+        pm.getMenuInflater().inflate(R.menu.menu_item_options, pm.getMenu());
         pm.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.id_play_next:

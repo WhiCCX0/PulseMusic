@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,9 +25,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.FavoritesActivity;
-import com.hardcodecoder.pulsemusic.activities.MainActivity;
 import com.hardcodecoder.pulsemusic.activities.RecentActivity;
-import com.hardcodecoder.pulsemusic.activities.SearchActivity;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapter;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapter.LayoutStyle;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterAlbum;
@@ -70,45 +64,19 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        postponeEnterTransition();
-        tm = TrackManager.getInstance();
-        setHasOptionsMenu(true);
-        mModel = HomeContentVM.getInstance();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.home);
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
+        tm = TrackManager.getInstance();
+        mModel = HomeContentVM.getInstance();
 
-        if (null != getActivity())
-            ((MainActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> {
-            //openDrawer()
-            HomeBottomSheetFragment homeBottomSheetFragment = HomeBottomSheetFragment.newInstance();
-            homeBottomSheetFragment.show(getActivity().getSupportFragmentManager(), HomeBottomSheetFragment.TAG);
-        });
-
-        startPostponedEnterTransition();
         new Handler().postDelayed(() -> updateUi(view), 400); //wait for animation to complete before loading all list
 
         view.findViewById(R.id.ic_recent).setOnClickListener(v -> startActivity(new Intent(getContext(), RecentActivity.class)));
         view.findViewById(R.id.ic_folder).setOnClickListener(v -> pickMedia());
         view.findViewById(R.id.ic_favorite).setOnClickListener(v -> startActivity(new Intent(getContext(), FavoritesActivity.class)));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_home_fragment, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.search)
-            startActivity(new Intent(getContext(), SearchActivity.class));
-        return true;
     }
 
     private void updateUi(View view) {
@@ -186,21 +154,14 @@ public class HomeFragment extends Fragment {
         rv.setVisibility(View.VISIBLE);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
-        HomeAdapterArtist adapter = new HomeAdapterArtist(getLayoutInflater(), mArtistList, new ItemClickListener.Simple() {
-            @Override
-            public void onItemClick(int pos) {
-            }
-
-            @Override
-            public void onOptionsClick(View view, int pos) {
-                Intent i = new Intent(getContext(), DetailsActivity.class);
-                i.putExtra(DetailsActivity.ALBUM_ID, 0);//No album id for artists
-                i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-                i.putExtra(DetailsActivity.KEY_TITLE, mArtistList.get(pos).getArtistName());
-                i.putExtra(DetailsActivity.KEY_ART_URL, "");
-                Bundle b = null;
-                if (null != getActivity())
-                    b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, getString(R.string.home_iv_st)).toBundle();
+        HomeAdapterArtist adapter = new HomeAdapterArtist(mArtistList, getLayoutInflater(), (imageView, position) -> {
+            Intent i = new Intent(getContext(), DetailsActivity.class);
+            i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
+            i.putExtra(DetailsActivity.KEY_TITLE, mArtistList.get(position).getArtistName());
+            if (null != getActivity()) {
+                String transitionName = imageView.getTransitionName();
+                i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
+                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName).toBundle();
                 startActivity(i, b);
             }
         });
@@ -212,21 +173,16 @@ public class HomeFragment extends Fragment {
         rv.setVisibility(View.VISIBLE);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv.setHasFixedSize(true);
-        HomeAdapterAlbum adapter = new HomeAdapterAlbum(getLayoutInflater(), mAlbumList, new ItemClickListener.Simple() {
-            @Override
-            public void onItemClick(int pos) {
-            }
-
-            @Override
-            public void onOptionsClick(View view, int pos) {
-                Intent i = new Intent(getContext(), DetailsActivity.class);
-                i.putExtra(DetailsActivity.ALBUM_ID, mAlbumList.get(pos).getAlbumId());
-                i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
-                i.putExtra(DetailsActivity.KEY_TITLE, mAlbumList.get(pos).getAlbumName());
-                i.putExtra(DetailsActivity.KEY_ART_URL, mAlbumList.get(pos).getAlbumArt());
-                Bundle b = null;
-                if (null != getActivity())
-                    b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, getString(R.string.home_iv_st)).toBundle();
+        HomeAdapterAlbum adapter = new HomeAdapterAlbum(mAlbumList, getLayoutInflater(), (imageView, position) -> {
+            Intent i = new Intent(getContext(), DetailsActivity.class);
+            i.putExtra(DetailsActivity.ALBUM_ID, mAlbumList.get(position).getAlbumId());
+            i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
+            i.putExtra(DetailsActivity.KEY_TITLE, mAlbumList.get(position).getAlbumName());
+            i.putExtra(DetailsActivity.KEY_ART_URL, mAlbumList.get(position).getAlbumArt());
+            if (null != getActivity()) {
+                String transitionName = imageView.getTransitionName();
+                i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
+                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName).toBundle();
                 startActivity(i, b);
             }
         });
@@ -236,7 +192,7 @@ public class HomeFragment extends Fragment {
     private void openMenu(MusicModel md, View v) {
         v.setBackground(v.getContext().getDrawable(R.drawable.active_item_background));
         PopupMenu pm = new PopupMenu(v.getContext(), v);
-        pm.getMenuInflater().inflate(R.menu.item_overflow__menu, pm.getMenu());
+        pm.getMenuInflater().inflate(R.menu.menu_item_options, pm.getMenu());
         pm.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.id_play_next:

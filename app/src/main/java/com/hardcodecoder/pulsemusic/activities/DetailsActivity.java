@@ -26,21 +26,22 @@ import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
+import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.ui.CustomBottomSheet;
 
 import java.util.List;
 
 public class DetailsActivity extends MediaSessionActivity implements LibraryItemClickListener {
 
-    public static final String KEY_ART_URL = "art";
-    public static final String KEY_TITLE = "title";
-    public static final String ALBUM_ID = "id";
     public static final String KEY_ITEM_CATEGORY = "category";
+    public static final String ALBUM_ID = "id";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_ART_URL = "art";
+    public static final String KEY_TRANSITION_NAME = "transition";
     public static final int CATEGORY_ALBUM = 1;
     public static final int CATEGORY_ARTIST = 2;
     private String title;
@@ -53,44 +54,57 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         supportPostponeEnterTransition();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
         tm = TrackManager.getInstance();
-        String art = getIntent().getStringExtra(KEY_ART_URL);
-        title = getIntent().getStringExtra(KEY_TITLE);
+
         mCategory = getIntent().getIntExtra(KEY_ITEM_CATEGORY, -1);
         mAlbumId = getIntent().getLongExtra(ALBUM_ID, 0);
-        ImageView iv = findViewById(R.id.details_activity_art);
-        if (mCategory == CATEGORY_ALBUM) {
-            TypedValue typedValue = new TypedValue();
-            getTheme().resolveAttribute(R.attr.imageViewBackgroundDrawable, typedValue, true);
-            iv.setBackgroundResource(typedValue.resourceId);
-        } else iv.setBackgroundResource(R.drawable.bck_circle_border_artist);
+        title = getIntent().getStringExtra(KEY_TITLE);
 
-        GlideApp.with(this)
-                .load(art)
-                .addListener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        supportStartPostponedEnterTransition();
-                        if (mCategory == CATEGORY_ALBUM)
-                            MediaArtHelper.getMediaArtDrawableAsync(iv.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_4dp, iv::setImageDrawable);
-                        else
-                            iv.setImageResource(R.drawable.ic_artist_art);
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        supportStartPostponedEnterTransition();
-                        return false;
-                    }
-                })
-                .transform(GlideConstantArtifacts.getRadius16dp())
-                .into(iv);
+        loadImage();
 
         findViewById(R.id.details_activity_btn_close).setOnClickListener(v -> finishAfterTransition());
         loadItems();
+    }
+
+    private void loadImage() {
+        String transitionName = getIntent().getStringExtra(KEY_TRANSITION_NAME);
+        String artUrl = getIntent().getStringExtra(KEY_ART_URL);
+        ImageView sharedImageView = findViewById(R.id.details_activity_art);
+        sharedImageView.setTransitionName(transitionName);
+        if (mCategory == CATEGORY_ALBUM) {
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.imageViewBackgroundDrawable, typedValue, true);
+            sharedImageView.setBackgroundResource(typedValue.resourceId);
+            GlideApp.with(this)
+                    .load(artUrl)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            MediaArtHelper.getMediaArtDrawableAsync(sharedImageView.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_4dp, drawable -> {
+                                sharedImageView.setImageDrawable(drawable);
+                                supportStartPostponedEnterTransition();
+                            });
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            sharedImageView.setImageDrawable(resource);
+                            supportStartPostponedEnterTransition();
+                            return true;
+                        }
+                    })
+                    .transform(GlideConstantArtifacts.getRadius16dp())
+                    .into(sharedImageView);
+        } else {
+            sharedImageView.setBackgroundResource(R.drawable.bck_circle_border_artist);
+            sharedImageView.setImageResource(R.drawable.ic_artist_art);
+            supportStartPostponedEnterTransition();
+        }
     }
 
     private void loadItems() {
@@ -127,7 +141,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
     @Override
     public void onOptionsClick(int pos) {
         View view = View.inflate(this, R.layout.library_item_menu, null);
-        BottomSheetDialog bottomSheetDialog = new CustomBottomSheet(view.getContext());
+        BottomSheetDialog bottomSheetDialog = new RoundedBottomSheetDialog(view.getContext());
 
         view.findViewById(R.id.track_play_next)
                 .setOnClickListener(v -> {
@@ -151,12 +165,6 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
 
     @Override
     public void onMediaServiceConnected(MediaController controller) {
-    }
-
-    @Override
-    public void onBackPressed() {
-        finishAfterTransition();
-        super.onBackPressed();
     }
 
     @Override

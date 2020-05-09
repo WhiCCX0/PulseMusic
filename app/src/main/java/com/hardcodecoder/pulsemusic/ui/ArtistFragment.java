@@ -2,9 +2,7 @@ package com.hardcodecoder.pulsemusic.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,9 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
-import com.hardcodecoder.pulsemusic.activities.MainActivity;
-import com.hardcodecoder.pulsemusic.activities.SearchActivity;
-import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
@@ -39,10 +32,10 @@ import java.util.List;
 public class ArtistFragment extends Fragment implements SimpleTransitionClickListener {
 
     private List<ArtistModel> mList;
+    private GridLayoutManager layoutManager;
     private ArtistAdapter adapter;
     private int spanCount;
     private int currentConfig;
-    private GridLayoutManager layoutManager;
 
     public ArtistFragment() {
     }
@@ -50,7 +43,6 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        postponeEnterTransition();
         setHasOptionsMenu(true);
         currentConfig = getResources().getConfiguration().orientation;
         return inflater.inflate(R.layout.fragment_artist, container, false);
@@ -58,22 +50,11 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Toolbar t = view.findViewById(R.id.toolbar);
-        t.setTitle(R.string.artist);
-
-        if (getActivity() != null)
-            ((MainActivity) getActivity()).setSupportActionBar(t);
-
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
             spanCount = AppSettings.getLandscapeGridSpanCount(getContext());
         else
             spanCount = AppSettings.getPortraitGridSpanCount(getContext());
 
-        new Handler().postDelayed(() -> setRv(view), 310);
-        startPostponedEnterTransition();
-    }
-
-    private void setRv(View view) {
         if (null != getContext()) {
             TaskRunner.executeAsync(new ArtistsLoader(getContext().getContentResolver(), SortOrder.ARTIST.TITLE_ASC), (data) -> {
                 mList = data;
@@ -88,32 +69,18 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
         }
     }
 
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_album_artist_fragment, menu);
+        inflater.inflate(R.menu.menu_album_artist, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_action_search:
-                startActivity(new Intent(getContext(), SearchActivity.class));
+            case R.id.sort_order:
                 break;
-
-            case R.id.menu_action_equalizer:
-                final Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
-                if (null != getContext()) {
-                    if ((intent.resolveActivity(getContext().getPackageManager()) != null))
-                        startActivityForResult(intent, 599);
-                    else
-                        Toast.makeText(getContext(), getString(R.string.equalizer_error), Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.menu_action_setting:
-                startActivity(new Intent(getContext(), SettingsActivity.class));
-                break;
-
             case R.id.two:
                 updateGridSize(ID.PORTRAIT, 2);
                 break;
@@ -123,7 +90,6 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
             case R.id.four:
                 updateGridSize(ID.PORTRAIT, 4);
                 break;
-
             case R.id.l_four:
                 updateGridSize(ID.LANDSCAPE, 4);
                 break;

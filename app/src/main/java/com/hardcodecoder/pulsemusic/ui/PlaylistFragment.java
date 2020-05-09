@@ -2,7 +2,6 @@ package com.hardcodecoder.pulsemusic.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,23 +18,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.CurrentPlaylistActivity;
-import com.hardcodecoder.pulsemusic.activities.MainActivity;
-import com.hardcodecoder.pulsemusic.activities.PlaylistDetailsActivity;
-import com.hardcodecoder.pulsemusic.activities.SearchActivity;
-import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.activities.PlaylistTracksActivity;
 import com.hardcodecoder.pulsemusic.adapters.CardsAdapter;
+import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
 import com.hardcodecoder.pulsemusic.interfaces.PlaylistCardListener;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
@@ -62,8 +57,6 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        FloatingActionButton fab = view.findViewById(R.id.btn_add_playlist);
-        fab.setOnClickListener(v -> createPlaylist(false, -1 /*Creating new item*/));
 
         mPlaylistNames = new ArrayList<>();
         mPlaylistNames.add(getString(R.string.playlist_current_queue));
@@ -72,38 +65,17 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             mPlaylistNames.addAll(result);
             loadPlaylistCards(view);
         });
-
-        Toolbar t = view.findViewById(R.id.toolbar);
-        t.setTitle(R.string.playlist_nav);
-        if (null != getActivity())
-            ((MainActivity) getActivity()).setSupportActionBar(t);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_playlist_card_fragment, menu);
+        inflater.inflate(R.menu.menu_playlist, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_action_search:
-                startActivity(new Intent(getContext(), SearchActivity.class));
-                break;
-
-            case R.id.menu_action_equalizer:
-                final Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
-                if (null != getContext()) {
-                    if ((intent.resolveActivity(getContext().getPackageManager()) != null))
-                        startActivityForResult(intent, 599);
-                    else
-                        Toast.makeText(getContext(), getString(R.string.equalizer_error), Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.menu_action_setting:
-                startActivity(new Intent(getContext(), SettingsActivity.class));
-                break;
+        if (item.getItemId() == R.id.menu_action_add_playlist) {
+            createPlaylist(false, -1);
         }
         return true;
     }
@@ -133,9 +105,9 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
 
     private void createPlaylist(boolean isEdit, int pos) {
         if (getContext() != null) {
-            View layout = View.inflate(mContext, R.layout.dialog_create_playlist, null);
+            View layout = View.inflate(mContext, R.layout.bottom_dialog_edit_text, null);
 
-            BottomSheetDialog sheetDialog = new CustomBottomSheet(mContext);
+            BottomSheetDialog sheetDialog = new RoundedBottomSheetDialog(mContext);
             sheetDialog.setContentView(layout);
             sheetDialog.show();
 
@@ -179,8 +151,8 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
         if (pos == 0)
             startActivity(new Intent(mContext, CurrentPlaylistActivity.class));
         else {
-            Intent i = new Intent(mContext, PlaylistDetailsActivity.class);
-            i.putExtra(PlaylistDetailsActivity.KEY_TITLE, mPlaylistNames.get(pos));
+            Intent i = new Intent(mContext, PlaylistTracksActivity.class);
+            i.putExtra(PlaylistTracksActivity.KEY_TITLE, mPlaylistNames.get(pos));
             Objects.requireNonNull(getActivity()).startActivityFromFragment(this, i, 100);
         }
     }

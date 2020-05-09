@@ -10,15 +10,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -37,21 +36,21 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
     private final Handler mHandler = new Handler();
     private final ScheduledExecutorService mExecutorService = Executors.newSingleThreadScheduledExecutor();
-    private TextView startTime;
-    private TextView endTime;
+    private ImageView mFavBtn;
+    private ImageView mRepeatBtn;
+    private ImageView mPlayPause;
     private SeekBar seekBar;
-    private ImageButton mPlayPause;
+    private MaterialTextView toolbarSongTitle;
+    private MaterialTextView startTime;
+    private MaterialTextView endTime;
+    private MaterialTextView artistAlbums;
     private MediaController mController;
-    private TextView artistAlbums;
     private PlaybackState mState;
-    private TextView toolbarSongTitle;
+    private List<MusicModel> favourites = null;
+    private TrackManager tm;
     private int progress = 0;
     private boolean isFav = false;
     private boolean mFavListModified = false;
-    private List<MusicModel> favourites = null;
-    private ImageView mFavBtn;
-    private ImageView mRepeatBtn;
-    private TrackManager tm;
     private boolean animateSeekBar = false;
     private final Runnable mUpdateProgressTask = this::updateProgress;
     /*
@@ -126,7 +125,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
     private void updateRepeatBtn() {
         mRepeatBtn.setImageResource(tm.isCurrentTrackInRepeatMode() ? R.drawable.ic_repeat_one : R.drawable.ic_repeat);
-
         mRepeatBtn.setOnClickListener(v -> {
             boolean b = tm.isCurrentTrackInRepeatMode();
             mRepeatBtn.setImageResource(b ? R.drawable.ic_repeat : R.drawable.ic_repeat_one);
@@ -139,21 +137,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     private void setFavoriteButtonState() {
-        /*if (null == favourites) favourites = PlaylistStorageManager.getFavorite(this);
-        boolean contains = false;
-        if (null != favourites) for (MusicModel md : favourites) {
-            if (md.getSongName().equals(TrackManager.getInstance().getActiveQueueItem().getSongName())) {
-                contains = true;
-                break;
-            }
-        }
-        if (contains) {
-            mFavBtn.setImageResource(R.drawable.ic_favorite_active);
-            isFav = true;
-        } else {
-            mFavBtn.setImageResource(R.drawable.ic_favorite);
-            isFav = false;
-        }*/
         if (null == favourites)
             StorageHelper.getSavedFavoriteTracks(this, favoriteList -> {
                 boolean contains = false;
@@ -292,8 +275,8 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
         if (null != state) {
             if (state.getState() == PlaybackState.STATE_PLAYING)
-                mPlayPause.setImageResource(R.drawable.ic_round_pause);
-            else mPlayPause.setImageResource(R.drawable.ic_round_play);
+                mPlayPause.setImageResource(R.drawable.pause_to_play);
+            else mPlayPause.setImageResource(R.drawable.play_to_pause_linear_out_slow_in);
 
         }
     }
@@ -329,7 +312,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //if (mFavListModified) PlaylistStorageManager.saveFavorite(this, favourites);
         if (mFavListModified) StorageHelper.addFavoritesList(this, favourites);
     }
 

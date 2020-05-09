@@ -9,21 +9,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.NowPlayingActivity;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 
 public class ControlsFragment extends Fragment {
 
-    private TextView tv1;
-    private ImageButton playPause;
+    private MaterialTextView tv1;
+    private ImageView playPause;
     private MediaController mController;
     private MediaController.TransportControls mTransportControl;
     private MediaMetadata mMetadata;
@@ -60,12 +60,11 @@ public class ControlsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
-        //iv = v.findViewById(R.id.cf_iv);
         tv1 = v.findViewById(R.id.song_name);
         tv1.setSelected(true);
         playPause = v.findViewById(R.id.cf_play_pause_btn);
-        ImageButton skipNext = v.findViewById(R.id.cf_skip_next_btn);
-        ImageButton skipPrev = v.findViewById(R.id.cf_skip_prev_btn);
+        ImageView skipNext = v.findViewById(R.id.cf_skip_next_btn);
+        ImageView skipPrev = v.findViewById(R.id.cf_skip_prev_btn);
 
         playPause.setOnClickListener(v1 -> {
             if (mState.getState() == PlaybackState.STATE_PLAYING)
