@@ -33,7 +33,8 @@ public class ColoredIconView extends AppCompatImageView {
     private void initialize(Context context, @Nullable AttributeSet attributeSet) {
         TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.ColoredIconView);
         setBackground(context.getDrawable(R.drawable.plain_circle));
-
+        int paddingPixels = context.getResources().getDimensionPixelSize(R.dimen.icon_padding);
+        setPadding(paddingPixels, paddingPixels, paddingPixels, paddingPixels);
         setImageResource(typedArray.getResourceId(R.styleable.ColoredIconView_icon, R.drawable.def_colored_icon_view_icon));
 
         int iconColor = typedArray.getColor(R.styleable.ColoredIconView_iconColor, Color.BLUE);
