@@ -26,8 +26,8 @@ class StorageManager {
         TaskRunner.executeAsync(() -> Writer.writeToHistory(filesDir, itemToAdd));
     }
 
-    static void addFavoritesList(String filesDir, List<String> listOfFavorites) {
-        TaskRunner.executeAsync(() -> Writer.writeFavorite(filesDir, listOfFavorites));
+    static void addTrackToFavorites(String filesDir, String itemToAdd) {
+        TaskRunner.executeAsync(() -> Writer.writeFavorite(filesDir, itemToAdd));
     }
 
     static void getSavedHistory(String filesDir, Callback<List<String>> callback) {
@@ -90,16 +90,13 @@ class StorageManager {
             }
         }
 
-        private static void writeFavorite(String filesDir, List<String> favoritesList) {
-            if (null != favoritesList && favoritesList.size() > 0) {
-                try {
-                    FileWriter writer = new FileWriter(StorageStructure.getAbsoluteFavoritesPath(filesDir), true);
-                    for (String str : favoritesList)
-                        writer.write(str + System.lineSeparator());
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        private static void writeFavorite(String filesDir, String itemToAdd) {
+            try {
+                FileWriter writer = new FileWriter(StorageStructure.getAbsoluteFavoritesPath(filesDir), true);
+                writer.write(itemToAdd + System.lineSeparator());
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 

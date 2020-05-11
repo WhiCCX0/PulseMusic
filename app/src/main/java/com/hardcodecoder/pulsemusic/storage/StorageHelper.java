@@ -8,38 +8,50 @@ import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.DataModelHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class StorageHelper {
 
     private static final Handler handler = new Handler(Looper.getMainLooper());
+    private static HashSet<String> favoritesSet;
+    private static HashSet<String> historySet;
 
     private StorageHelper() {
     }
 
     public static void getSavedHistory(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedHistory(context.getFilesDir().getAbsolutePath(), result -> {
+            if (historySet == null) {
+                // stores the saved history to the hash set for the first time
+                historySet = new HashSet<>();
+                historySet.addAll(result);
+            }
             List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(recentTracks));
         }));
     }
 
     public static void addTrackToHistory(Context context, MusicModel md) {
-        StorageManager.addTrackToHistory(context.getFilesDir().getAbsolutePath(), md.getSongName());
+        if (historySet.add(md.getSongName())) // Returns true if the song title is not present in the set
+            StorageManager.addTrackToHistory(context.getFilesDir().getAbsolutePath(), md.getSongName());
     }
 
     public static void getSavedFavoriteTracks(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedFavoriteTracks(context.getFilesDir().getAbsolutePath(), result -> {
+            if (null == favoritesSet) {
+                // stores the saved favorites to the hash set for the first time
+                favoritesSet = new HashSet<>();
+                favoritesSet.addAll(result);
+            }
             List<MusicModel> favoriteTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(favoriteTracks));
         }));
     }
 
-    public static void addFavoritesList(Context context, List<MusicModel> list) {
-        TaskRunner.executeAsync(() -> {
-            List<String> favoritesList = DataModelHelper.getTitlesListFromModelsObject(list);
-            StorageManager.addFavoritesList(context.getFilesDir().getAbsolutePath(), favoritesList);
-        });
+    public static void addTrackToFavorites(Context context, MusicModel md) {
+        if (favoritesSet.add(md.getSongName()))
+            StorageManager.addTrackToFavorites(context.getFilesDir().getAbsolutePath(), md.getSongName());
     }
 
     public static void getPlaylists(Context context, TaskRunner.Callback<List<String>> callback) {
