@@ -63,6 +63,10 @@ class StorageManager {
         TaskRunner.executeAsync(() -> callback.onComplete(Reader.readPlaylistContent(filesDir, playlistName)));
     }
 
+    static void deleteTrackFromFavoritesList(String filesDir, String itemToDelete) {
+        TaskRunner.executeAsync(() -> Writer.deleteTrackFavoritesList(filesDir, itemToDelete));
+    }
+
     static void deletePlaylist(String filesDir, String playlistName) {
         TaskRunner.executeAsync(() -> Writer.deletePlaylist(filesDir, playlistName));
     }
@@ -91,13 +95,18 @@ class StorageManager {
         }
 
         private static void writeFavorite(String filesDir, String itemToAdd) {
-            try {
-                FileWriter writer = new FileWriter(StorageStructure.getAbsoluteFavoritesPath(filesDir), true);
-                writer.write(itemToAdd + System.lineSeparator());
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
+            File favoritesDir = new File(favoritesDirPath);
+            if (favoritesDir.exists()) {
+                File favoriteItem = new File(favoritesDirPath + itemToAdd);
+                try {
+                    if (!favoriteItem.createNewFile())
+                        Log.e(TAG, "Error creating favorites item inside favorites directory");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (favoritesDir.mkdir())
+                writeFavorite(filesDir, itemToAdd);
         }
 
         private static boolean writePlaylist(String filesDir, String playListName) {
@@ -127,6 +136,12 @@ class StorageManager {
             }
         }
 
+        private static void deleteTrackFavoritesList(String filesDir, String itemToDelete) {
+            File file = new File(StorageStructure.getAbsoluteFavoritesPath(filesDir) + itemToDelete);
+            if (!file.delete())
+                Log.e(TAG, "Unable to delete favorite item file: " + itemToDelete);
+        }
+
         private static void deletePlaylist(String filesDir, String playlistName) {
             File playlist = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName);
             if (playlist.exists())
@@ -154,13 +169,14 @@ class StorageManager {
         @NonNull
         private static List<String> readSavedFavorites(String filesDir) {
             List<String> favoritesList = new ArrayList<>();
-            try {
-                Scanner s = new Scanner(new File(StorageStructure.getAbsoluteFavoritesPath(filesDir)));
-                while (s.hasNextLine())
-                    favoritesList.add(s.nextLine());
-                s.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
+            File favoritesDir = new File(favoritesDirPath);
+            if (favoritesDir.exists()) {
+                File[] files = favoritesDir.listFiles();
+                if (null != files) {
+                    for (File file : files)
+                        favoritesList.add(file.getName());
+                }
             }
             return favoritesList;
         }
