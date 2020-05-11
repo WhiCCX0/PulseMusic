@@ -121,11 +121,13 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private void addToFavorite() {
         StorageHelper.addTrackToFavorites(this, tm.getActiveQueueItem());
         updateFavoriteButtonState();
+        Toast.makeText(this, getString(R.string.added_to_fav), Toast.LENGTH_SHORT).show();
     }
 
     private void removeFromFavorite() {
         StorageHelper.removeTrackFromFavorites(this, tm.getActiveQueueItem());
         updateFavoriteButtonState();
+        Toast.makeText(this, getString(R.string.removed_from_fav), Toast.LENGTH_SHORT).show();
     }
 
     private void updateRepeatBtn() {
