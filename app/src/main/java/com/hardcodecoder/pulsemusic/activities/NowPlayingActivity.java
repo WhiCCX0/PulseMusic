@@ -20,13 +20,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -46,11 +43,9 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private MaterialTextView artistAlbums;
     private MediaController mController;
     private PlaybackState mState;
-    private List<MusicModel> favourites = null;
     private TrackManager tm;
     private int progress = 0;
-    private boolean isFav = false;
-    private boolean mFavListModified = false;
+    private boolean isTrackFavorite = false;
     private boolean animateSeekBar = false;
     private final Runnable mUpdateProgressTask = this::updateProgress;
     /*
@@ -67,7 +62,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
         @Override
         public void onMetadataChanged(MediaMetadata metadata) {
             updateMetaData(metadata);
-            setFavoriteButtonState();
+            updateFavoriteButtonState();
         }
     };
 
@@ -116,11 +111,21 @@ public class NowPlayingActivity extends MediaSessionActivity {
         findViewById(R.id.activity_np_skip_prev_btn).setOnClickListener(v -> mController.getTransportControls().skipToPrevious());
 
         mFavBtn.setOnClickListener(v -> {
-            if (isFav) removeFromFavorite();
+            if (isTrackFavorite) removeFromFavorite();
             else addToFavorite();
         });
-        setFavoriteButtonState();
+        updateFavoriteButtonState();
         updateRepeatBtn();
+    }
+
+    private void addToFavorite() {
+        StorageHelper.addTrackToFavorites(this, tm.getActiveQueueItem());
+        updateFavoriteButtonState();
+    }
+
+    private void removeFromFavorite() {
+        StorageHelper.removeTrackFromFavorites(this, tm.getActiveQueueItem());
+        updateFavoriteButtonState();
     }
 
     private void updateRepeatBtn() {
@@ -136,50 +141,10 @@ public class NowPlayingActivity extends MediaSessionActivity {
         });
     }
 
-    private void setFavoriteButtonState() {
-        if (null == favourites)
-            StorageHelper.getSavedFavoriteTracks(this, favoriteList -> {
-                boolean contains = false;
-                favourites = favoriteList;
-                String currentSongTitle = TrackManager.getInstance().getActiveQueueItem().getSongName();
-                if (null != favourites) for (MusicModel md : favourites) {
-                    if (md.getSongName().equals(currentSongTitle)) {
-                        contains = true;
-                        break;
-                    }
-                }
-                if (contains) {
-                    mFavBtn.setImageResource(R.drawable.ic_favorite_active);
-                    isFav = true;
-                } else {
-                    mFavBtn.setImageResource(R.drawable.ic_favorite);
-                    isFav = false;
-                }
-            });
-    }
-
-    private void addToFavorite() {
-        if (null == favourites)
-            favourites = new ArrayList<>();
-        favourites.add(TrackManager.getInstance().getActiveQueueItem());
-        isFav = true;
-        mFavListModified = true;
-        mFavBtn.setImageResource(R.drawable.ic_favorite_active);
-        Toast.makeText(this, getString(R.string.added_to_fav), Toast.LENGTH_SHORT).show();
-    }
-
-    private void removeFromFavorite() {
-        String title = TrackManager.getInstance().getActiveQueueItem().getSongName();
-        for (MusicModel md : favourites) {
-            if (md.getSongName().equals(title)) {
-                favourites.remove(md);
-                break;
-            }
-        }
-        isFav = false;
-        mFavListModified = true;
-        mFavBtn.setImageResource(R.drawable.ic_favorite);
-        Toast.makeText(this, getString(R.string.removed_from_fav), Toast.LENGTH_SHORT).show();
+    private void updateFavoriteButtonState() {
+        boolean value = StorageHelper.isTrackAlreadyInFavorites(tm.getActiveQueueItem());
+        mFavBtn.setSelected(value);
+        isTrackFavorite = value;
     }
 
     private void updateMetaData(MediaMetadata metadata) {
@@ -307,12 +272,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private void setSeekBarProgress() {
         if (animateSeekBar) seekBar.setProgress(progress, true);
         else seekBar.setProgress(progress);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mFavListModified) StorageHelper.addFavoritesList(this, favourites);
     }
 
     @Override

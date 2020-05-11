@@ -162,11 +162,11 @@
         android:id="@+id/activity_np_favourite_btn"
         style="@style/ButtonStyle24"
         android:layout_marginEnd="32dp"
+        android:src="@drawable/selector_favorites_button"
         app:layout_constraintBottom_toBottomOf="@id/activity_np_play_pause_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/activity_np_play_pause_btn"
-        tools:ignore="contentDescription"
-        tools:src="@drawable/ic_favorite" />
+        tools:ignore="contentDescription" />
 
     <ImageView
         android:id="@+id/activity_np_close_btn"

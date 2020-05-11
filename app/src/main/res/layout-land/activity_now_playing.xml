@@ -162,7 +162,7 @@
     <ImageButton
         android:id="@+id/activity_np_favourite_btn"
         style="@style/ButtonStyle24"
-        android:src="@drawable/ic_favorite"
+        android:src="@drawable/selector_favorites_button"
         app:layout_constraintBottom_toBottomOf="@id/activity_np_play_pause_btn"
         app:layout_constraintEnd_toEndOf="@id/activity_np_album_artist_name"
         app:layout_constraintTop_toTopOf="@id/activity_np_play_pause_btn"
