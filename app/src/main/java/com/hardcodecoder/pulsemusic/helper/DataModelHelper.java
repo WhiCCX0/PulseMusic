@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class DataModelHelper {
 
-    public static List<MusicModel> getModelFromTitle(List<String> titles) {
+    public static List<MusicModel> getModelsObjectFromTitlesList(List<String> titles) {
         List<MusicModel> modelList = new ArrayList<>();
         Map<String, MusicModel> modelMap = TrackManager.getInstance().getModelMap();
         for (String name : titles) {
@@ -22,7 +22,7 @@ public class DataModelHelper {
         return modelList;
     }
 
-    public static List<String> getTitleFromModel(List<MusicModel> modelList) {
+    public static List<String> getTitlesListFromModelsObject(List<MusicModel> modelList) {
         List<String> titlesList = new ArrayList<>();
         for (MusicModel musicModel : modelList) {
             titlesList.add(musicModel.getSongName());

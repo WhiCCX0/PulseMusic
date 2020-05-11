@@ -19,7 +19,7 @@ public class StorageHelper {
 
     public static void getSavedHistory(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedHistory(context.getFilesDir().getAbsolutePath(), result -> {
-            List<MusicModel> recentTracks = DataModelHelper.getModelFromTitle(result);
+            List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(recentTracks));
         }));
     }
@@ -30,14 +30,14 @@ public class StorageHelper {
 
     public static void getSavedFavoriteTracks(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedFavoriteTracks(context.getFilesDir().getAbsolutePath(), result -> {
-            List<MusicModel> favoriteTracks = DataModelHelper.getModelFromTitle(result);
+            List<MusicModel> favoriteTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(favoriteTracks));
         }));
     }
 
     public static void addFavoritesList(Context context, List<MusicModel> list) {
         TaskRunner.executeAsync(() -> {
-            List<String> favoritesList = DataModelHelper.getTitleFromModel(list);
+            List<String> favoritesList = DataModelHelper.getTitlesListFromModelsObject(list);
             StorageManager.addFavoritesList(context.getFilesDir().getAbsolutePath(), favoritesList);
         });
     }
@@ -52,14 +52,14 @@ public class StorageHelper {
 
     public static void getPlaylistTracks(Context context, String playlistName, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getPlaylistTracks(context.getFilesDir().getAbsolutePath(), playlistName, result -> {
-            List<MusicModel> playlistTracks = DataModelHelper.getModelFromTitle(result);
+            List<MusicModel> playlistTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(playlistTracks));
         }));
     }
 
     public static void addTracksToPlaylist(Context context, String playlistName, List<MusicModel> playlistTracks, TaskRunner.Callback<Boolean> callback) {
         TaskRunner.executeAsync(() -> {
-            List<String> tracksTitleList = DataModelHelper.getTitleFromModel(playlistTracks);
+            List<String> tracksTitleList = DataModelHelper.getTitlesListFromModelsObject(playlistTracks);
             StorageManager.addTracksToPlaylist(context.getFilesDir().getAbsolutePath(), playlistName, tracksTitleList);
             handler.post(() -> callback.onComplete(true));
         });
@@ -75,6 +75,6 @@ public class StorageHelper {
 
     public static void updatePlaylistTracks(Context context, String playlistName, List<MusicModel> newTracksList) {
         final String filesDir = context.getFilesDir().getAbsolutePath();
-        TaskRunner.executeAsync(() -> StorageManager.updatePlaylistTracks(filesDir, playlistName, DataModelHelper.getTitleFromModel(newTracksList)));
+        TaskRunner.executeAsync(() -> StorageManager.updatePlaylistTracks(filesDir, playlistName, DataModelHelper.getTitlesListFromModelsObject(newTracksList)));
     }
 }
