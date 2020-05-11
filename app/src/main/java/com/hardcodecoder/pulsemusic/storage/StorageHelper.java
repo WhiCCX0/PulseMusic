@@ -14,19 +14,15 @@ import java.util.List;
 public class StorageHelper {
 
     private static final Handler handler = new Handler(Looper.getMainLooper());
-    private static HashSet<String> favoritesSet;
-    private static HashSet<String> historySet;
+    private static HashSet<String> favoritesSet = new HashSet<>();
+    private static HashSet<String> historySet = new HashSet<>();
 
     private StorageHelper() {
     }
 
     public static void getSavedHistory(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedHistory(context.getFilesDir().getAbsolutePath(), result -> {
-            if (historySet == null) {
-                // stores the saved history to the hash set for the first time
-                historySet = new HashSet<>();
-                historySet.addAll(result);
-            }
+            historySet.addAll(result);
             List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(recentTracks));
         }));
@@ -39,11 +35,7 @@ public class StorageHelper {
 
     public static void getSavedFavoriteTracks(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedFavoriteTracks(context.getFilesDir().getAbsolutePath(), result -> {
-            if (null == favoritesSet) {
-                // stores the saved favorites to the hash set for the first time
-                favoritesSet = new HashSet<>();
-                favoritesSet.addAll(result);
-            }
+            favoritesSet.addAll(result);
             List<MusicModel> favoriteTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
             handler.post(() -> callback.onComplete(favoriteTracks));
         }));
@@ -52,6 +44,18 @@ public class StorageHelper {
     public static void addTrackToFavorites(Context context, MusicModel md) {
         if (favoritesSet.add(md.getSongName()))
             StorageManager.addTrackToFavorites(context.getFilesDir().getAbsolutePath(), md.getSongName());
+    }
+
+    public static void removeTrackFromFavorites(Context context, MusicModel md) {
+        if (favoritesSet.remove(md.getSongName())) {
+            // Item was previously added and has been removed successfully.
+            // Remove from database as well
+            StorageManager.deleteTrackFromFavoritesList(context.getFilesDir().getAbsolutePath(), md.getSongName());
+        }
+    }
+
+    public static boolean isTrackAlreadyInFavorites(MusicModel md) {
+        return favoritesSet.contains(md.getSongName());
     }
 
     public static void getPlaylists(Context context, TaskRunner.Callback<List<String>> callback) {
