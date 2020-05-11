@@ -1,6 +1,7 @@
 package com.hardcodecoder.pulsemusic.adapters;
 
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
@@ -18,22 +20,55 @@ import com.bumptech.glide.request.target.Target;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH> {
 
-    private List<AlbumModel> data;
+    private final Handler mHandler = new Handler();
+    private List<AlbumModel> mList;
     private SimpleTransitionClickListener mListener;
     private LayoutInflater mInflater;
 
     public AlbumsAdapter(List<AlbumModel> list, LayoutInflater mInflater, SimpleTransitionClickListener mListener) {
-        this.data = list;
+        this.mList = list;
         this.mInflater = mInflater;
         this.mListener = mListener;
+    }
+
+    public void updateSortOrder() {
+        TaskRunner.executeAsync(() -> {
+            List<AlbumModel> oldSortedTracks = new ArrayList<>(this.mList);
+            Collections.reverse(mList);
+            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+                @Override
+                public int getOldListSize() {
+                    return oldSortedTracks.size();
+                }
+
+                @Override
+                public int getNewListSize() {
+                    return mList.size();
+                }
+
+                @Override
+                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                    return oldSortedTracks.get(oldItemPosition).equals(mList.get(newItemPosition));
+                }
+
+                @Override
+                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                    return oldSortedTracks.get(oldItemPosition).getAlbumName().equals(mList.get(newItemPosition).getAlbumName());
+                }
+            });
+            mHandler.post(() -> diffResult.dispatchUpdatesTo(this));
+        });
     }
 
     @NonNull
@@ -44,13 +79,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
 
     @Override
     public void onBindViewHolder(@NonNull AlbumsSVH holder, int position) {
-        holder.setData(data.get(position));
+        holder.setData(mList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if (null != data)
-            return data.size();
+        if (null != mList)
+            return mList.size();
         return 0;
     }
 

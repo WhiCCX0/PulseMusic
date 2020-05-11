@@ -23,7 +23,7 @@ import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.loaders.AlbumsLoader;
-import com.hardcodecoder.pulsemusic.loaders.SortOrder;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder.ALBUMS;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
@@ -31,11 +31,14 @@ import java.util.List;
 
 public class AlbumFragment extends Fragment implements SimpleTransitionClickListener {
 
+    public static final int ALBUMS_SORT_ORDER_TITLE_ASC = 6000;
+    private static final int ALBUMS_SORT_ORDER_TITLE_DESC = 6001;
     private List<AlbumModel> mList;
     private AlbumsAdapter adapter;
     private int spanCount;
     private int currentConfig;
     private GridLayoutManager layoutManager;
+    private int mCurrentSortOrder;
 
     public AlbumFragment() {
     }
@@ -56,7 +59,10 @@ public class AlbumFragment extends Fragment implements SimpleTransitionClickList
             spanCount = AppSettings.getPortraitGridSpanCount(getContext());
 
         if (null != getContext()) {
-            TaskRunner.executeAsync(new AlbumsLoader(getContext().getContentResolver(), SortOrder.ALBUMS.TITLE_ASC), (data) -> {
+            mCurrentSortOrder = AppSettings.getAlbumsFragmentSortOrder(getContext());
+            ALBUMS sortOrder = (mCurrentSortOrder == ALBUMS_SORT_ORDER_TITLE_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
+
+            TaskRunner.executeAsync(new AlbumsLoader(getContext().getContentResolver(), sortOrder), (data) -> {
                 mList = data;
                 RecyclerView rv = view.findViewById(R.id.rv_album_fragment);
                 rv.setVisibility(View.VISIBLE);
@@ -69,6 +75,15 @@ public class AlbumFragment extends Fragment implements SimpleTransitionClickList
         }
     }
 
+    private void changeSortOrder(int newSortOrder) {
+        if (mCurrentSortOrder != newSortOrder) {
+            adapter.updateSortOrder();
+            mCurrentSortOrder = newSortOrder;
+            if (null != getContext())
+                AppSettings.saveAlbumsFragmentSortOrder(getContext(), newSortOrder);
+        }
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_album_artist, menu);
@@ -77,7 +92,11 @@ public class AlbumFragment extends Fragment implements SimpleTransitionClickList
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sort_order:
+            case R.id.menu_action_sort_asc:
+                changeSortOrder(ALBUMS_SORT_ORDER_TITLE_ASC);
+                break;
+            case R.id.menu_action_sort_desc:
+                changeSortOrder(ALBUMS_SORT_ORDER_TITLE_DESC);
                 break;
             case R.id.two:
                 updateGridSize(ID.PORTRAIT, 2);

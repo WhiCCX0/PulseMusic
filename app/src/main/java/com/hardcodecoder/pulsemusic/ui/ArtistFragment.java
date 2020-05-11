@@ -23,7 +23,7 @@ import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
-import com.hardcodecoder.pulsemusic.loaders.SortOrder;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder.ARTIST;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
@@ -31,11 +31,14 @@ import java.util.List;
 
 public class ArtistFragment extends Fragment implements SimpleTransitionClickListener {
 
+    public static final int ARTIST_SORT_ORDER_TITLE_ASC = 7000;
+    private static final int ARTIST_SORT_ORDER_TITLE_DESC = 7001;
     private List<ArtistModel> mList;
     private GridLayoutManager layoutManager;
     private ArtistAdapter adapter;
     private int spanCount;
     private int currentConfig;
+    private int mCurrentSortOrder;
 
     public ArtistFragment() {
     }
@@ -56,7 +59,10 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
             spanCount = AppSettings.getPortraitGridSpanCount(getContext());
 
         if (null != getContext()) {
-            TaskRunner.executeAsync(new ArtistsLoader(getContext().getContentResolver(), SortOrder.ARTIST.TITLE_ASC), (data) -> {
+            mCurrentSortOrder = AppSettings.getArtistFragmentSortOrder(getContext());
+            ARTIST sortOrder = (mCurrentSortOrder == ARTIST_SORT_ORDER_TITLE_DESC) ? ARTIST.TITLE_DESC : ARTIST.TITLE_ASC;
+
+            TaskRunner.executeAsync(new ArtistsLoader(getContext().getContentResolver(), sortOrder), (data) -> {
                 mList = data;
                 RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
                 rv.setVisibility(View.VISIBLE);
@@ -66,6 +72,15 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
                 adapter = new ArtistAdapter(mList, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             });
+        }
+    }
+
+    private void changeSortOrder(int newSortOrder) {
+        if (mCurrentSortOrder != newSortOrder) {
+            adapter.updateSortOrder();
+            mCurrentSortOrder = newSortOrder;
+            if (null != getContext())
+                AppSettings.saveArtistsFragmentSortOrder(getContext(), newSortOrder);
         }
     }
 
@@ -79,7 +94,11 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sort_order:
+            case R.id.menu_action_sort_asc:
+                changeSortOrder(ARTIST_SORT_ORDER_TITLE_ASC);
+                break;
+            case R.id.menu_action_sort_desc:
+                changeSortOrder(ARTIST_SORT_ORDER_TITLE_DESC);
                 break;
             case R.id.two:
                 updateGridSize(ID.PORTRAIT, 2);

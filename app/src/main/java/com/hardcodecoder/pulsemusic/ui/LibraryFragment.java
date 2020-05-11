@@ -23,14 +23,21 @@ import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LibraryFragment extends Fragment implements LibraryItemClickListener {
 
-    private TrackManager tm;
-    private List<MusicModel> mList = null;
+    public static final int LIBRARY_SORT_ORDER_TITLE_ASC = 5000;
+    private static final int LIBRARY_SORT_ORDER_TITLE_DESC = 5001;
     private MediaController.TransportControls mTransportControl;
+    private List<MusicModel> mList;
+    private LibraryAdapter mAdapter;
+    private TrackManager tm;
+    private int mCurrentSortOrder;
 
     public LibraryFragment() {
     }
@@ -45,14 +52,17 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mList = tm.getMainList();
-        if (null != mList) {
+        mList = new ArrayList<>(tm.getMainList());
+        mCurrentSortOrder = AppSettings.getLibraryFragmentSortOrder(view.getContext());
+        if (mCurrentSortOrder == LIBRARY_SORT_ORDER_TITLE_DESC)
+            Collections.reverse(mList);
+        if (mList.size() > 0) {
             RecyclerView recyclerView = view.findViewById(R.id.rv_library_fragment);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
             recyclerView.setHasFixedSize(true);
-            LibraryAdapter adapter = new LibraryAdapter(mList, getLayoutInflater(), this);
-            recyclerView.setAdapter(adapter);
+            mAdapter = new LibraryAdapter(mList, getLayoutInflater(), this);
+            recyclerView.setAdapter(mAdapter);
         }
     }
 
@@ -64,11 +74,25 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_action_sort:
+            case R.id.menu_action_sort_asc:
+                changeSortOrder(LIBRARY_SORT_ORDER_TITLE_ASC);
+                break;
+            case R.id.menu_action_sort_desc:
+                changeSortOrder(LIBRARY_SORT_ORDER_TITLE_DESC);
+                break;
             case R.id.menu_action_grid_size:
                 break;
         }
         return true;
+    }
+
+    private void changeSortOrder(int newSortOrder) {
+        if (mCurrentSortOrder != newSortOrder) {
+            mAdapter.updateSortOrder();
+            mCurrentSortOrder = newSortOrder;
+            if (null != getContext())
+                AppSettings.saveLibraryFragmentSortOrder(getContext(), newSortOrder);
+        }
     }
 
     @Override

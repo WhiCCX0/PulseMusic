@@ -1,6 +1,7 @@
 package com.hardcodecoder.pulsemusic.adapters;
 
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
@@ -19,14 +21,19 @@ import com.bumptech.glide.request.target.Target;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.TaskRunner;
+import com.hardcodecoder.pulsemusic.helper.DiffCb;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibraryViewHolder> {
 
+    private final Handler mHandler = new Handler();
     private List<MusicModel> mList;
     private LibraryItemClickListener mListener;
     private LayoutInflater mInflater;
@@ -36,6 +43,15 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
         this.mList = list;
         this.mListener = listener;
         this.mInflater = inflater;
+    }
+
+    public void updateSortOrder() {
+        TaskRunner.executeAsync(() -> {
+            List<MusicModel> oldSortedTracks = new ArrayList<>(this.mList);
+            Collections.reverse(mList);
+            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCb(oldSortedTracks, mList));
+            mHandler.post(() -> diffResult.dispatchUpdatesTo(this));
+        });
     }
 
     @NonNull

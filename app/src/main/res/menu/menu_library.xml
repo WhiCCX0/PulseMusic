@@ -2,10 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_action_sort"
         android:orderInCategory="1"
         android:title="@string/sort_order"
-        app:showAsAction="never" />
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/menu_action_sort_asc"
+                android:title="@string/alphabet_asc" />
+
+            <item
+                android:id="@+id/menu_action_sort_desc"
+                android:title="@string/alphabet_desc" />
+        </menu>
+    </item>
     <item
         android:id="@+id/menu_action_grid_size"
         android:orderInCategory="2"
