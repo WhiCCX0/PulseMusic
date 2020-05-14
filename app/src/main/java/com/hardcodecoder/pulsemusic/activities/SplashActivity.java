@@ -13,13 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-
 
 public class SplashActivity extends PMBActivity {
 
@@ -34,9 +32,7 @@ public class SplashActivity extends PMBActivity {
 
     private void startAnimation() {
         ImageView logo = findViewById(R.id.logo);
-        MaterialTextView appName = findViewById(R.id.app_name);
         logo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.logo_anim));
-        appName.startAnimation(AnimationUtils.loadAnimation(this, R.anim.logo_anim));
     }
 
     private void getPermission() {
