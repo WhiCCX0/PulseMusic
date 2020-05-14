@@ -58,28 +58,29 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
 
     static class AdapterSVH extends RecyclerView.ViewHolder {
 
-        private ImageView iv;
-        private MaterialTextView tv;
+        private MaterialTextView title;
+        private ImageView albumArt;
 
         AdapterSVH(@NonNull View itemView, SimpleTransitionClickListener listener) {
             super(itemView);
-            tv = itemView.findViewById(R.id.rv_item_title);
-            iv = itemView.findViewById(R.id.iv_album_card);
-            itemView.setOnClickListener(v -> listener.onItemClick(iv, getAdapterPosition()));
+            title = itemView.findViewById(R.id.home_rv_album_album_name);
+            albumArt = itemView.findViewById(R.id.home_rv_album_album_art);
+            itemView.setOnClickListener(v -> listener.onItemClick(albumArt, getAdapterPosition()));
         }
 
         void updateData(AlbumModel am) {
-            iv.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
-            GlideApp.with(iv)
+            albumArt.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
+            GlideApp.with(albumArt)
                     .load(am.getAlbumArt())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), am.getAlbumId(),
                                     MediaArtHelper.RoundingRadius.RADIUS_4dp,
-                                    drawable -> iv.setImageDrawable(drawable));
+                                    drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
+
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             return false;
@@ -87,8 +88,8 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
                     })
                     .transform(new CenterCrop(), GlideConstantArtifacts.getRadius16dp())
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
-                    .into(iv);
-            tv.setText(am.getAlbumName());
+                    .into(albumArt);
+            title.setText(am.getAlbumName());
         }
     }
 }
