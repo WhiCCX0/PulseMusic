@@ -72,14 +72,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
      */
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private MaterialTextView songName, artist;
+        private MaterialTextView title, text;
         private ImageView albumArt;
 
         MyViewHolder(View itemView, ItemClickListener.Simple listener) {
             super(itemView);
-            songName = itemView.findViewById(R.id.rv_item_title);
-            artist = itemView.findViewById(R.id.rv_item_artist);
-            albumArt = itemView.findViewById(R.id.rv_item_album_art);
+
+            title = itemView.findViewById(R.id.home_rv_list_item_title);
+            text = itemView.findViewById(R.id.home_rv_list_item_text);
+            albumArt = itemView.findViewById(R.id.home_rv_list_item_album_art);
+
             itemView.setOnLongClickListener(v -> {
                 listener.onOptionsClick(v, getAdapterPosition());
                 return true;
@@ -88,8 +90,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         }
 
         void setItemData(MusicModel md, LayoutStyle style) {
-            songName.setText(md.getSongName());
-            artist.setText(md.getArtist());
+
+            title.setText(md.getSongName());
+            text.setText(md.getArtist());
+
             GlideApp.with(albumArt)
                     .load(md.getAlbumArtUrl())
                     .listener(new RequestListener<Drawable>() {

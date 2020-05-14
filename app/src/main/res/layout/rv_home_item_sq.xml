@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="148dp"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:clipToPadding="false"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <!--
@@ -22,7 +20,7 @@
      shadow color: #000000, opacity: 100%
      -->
     <ImageView
-        android:id="@+id/rv_item_album_art"
+        android:id="@+id/home_rv_list_item_album_art"
         android:layout_width="148dp"
         android:layout_height="148dp"
         android:background="?imageViewBackgroundDrawable"

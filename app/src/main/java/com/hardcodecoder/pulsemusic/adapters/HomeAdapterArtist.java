@@ -50,13 +50,13 @@ public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.Ad
 
         AdapterSVH(@NonNull View itemView, SimpleTransitionClickListener listener) {
             super(itemView);
-            artistName = itemView.findViewById(R.id.rv_item_title);
-            trackCount = itemView.findViewById(R.id.rv_item_artist);
-            itemView.setOnClickListener(v -> listener.onItemClick(itemView.findViewById(R.id.artist_home), getAdapterPosition()));
+            artistName = itemView.findViewById(R.id.home_rv_list_item_title);
+            trackCount = itemView.findViewById(R.id.home_rv_list_item_text);
+            itemView.setOnClickListener(v -> listener.onItemClick(itemView.findViewById(R.id.home_rv_artist_list_item_art), getAdapterPosition()));
         }
 
         void updateData(ArtistModel am) {
-            itemView.findViewById(R.id.artist_home).setTransitionName("shared_transition_artist_iv_" + getAdapterPosition());
+            itemView.findViewById(R.id.home_rv_artist_list_item_art).setTransitionName("shared_transition_artist_iv_" + getAdapterPosition());
             artistName.setText(am.getArtistName());
             trackCount.setText(String.format("%d " + itemView.getResources().getString(R.string.tracks_num ), am.getNumOfTracks()));
         }
