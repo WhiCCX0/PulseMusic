@@ -17,7 +17,7 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
     private ContentResolver contentResolver;
     private String mSortOrder;
 
-    public LibraryLoader(ContentResolver contentResolver, SortOrder sortOrder) {
+    LibraryLoader(ContentResolver contentResolver, SortOrder sortOrder) {
         this.contentResolver = contentResolver;
         switch (sortOrder) {
             case TITLE_ASC:

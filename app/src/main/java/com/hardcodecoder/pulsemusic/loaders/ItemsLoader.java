@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ItemsLoader implements Callable<List<MusicModel>> {
 
     @Override
     public List<MusicModel> call() {
-        List<MusicModel> listToWorkOn = TrackManager.getInstance().getMainList();
+        List<MusicModel> listToWorkOn = LoaderCache.getAllTracksList();
         List<MusicModel> listToReturn = null;
         if (null != listToWorkOn) {
             listToReturn = new ArrayList<>();

@@ -14,10 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.TaskRunner;
-import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
-import com.hardcodecoder.pulsemusic.loaders.SortOrder;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 
 public class SplashActivity extends PMBActivity {
 
@@ -69,10 +66,7 @@ public class SplashActivity extends PMBActivity {
     }
 
     private void startMusicLoader() {
-        TaskRunner.executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
-            TrackManager.getInstance().setMainList(data);
-            startHomeActivity();
-        });
+        LoaderHelper.loadAllTracks(getContentResolver(), result -> startHomeActivity());
     }
 }
 

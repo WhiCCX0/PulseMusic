@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,22 +17,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
-import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
-import com.hardcodecoder.pulsemusic.loaders.AlbumsLoader;
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
+import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder.ALBUMS;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.List;
 
-public class AlbumFragment extends Fragment implements SimpleTransitionClickListener {
+public class AlbumFragment extends Fragment {
 
     public static final int ALBUMS_SORT_ORDER_TITLE_ASC = 6000;
     private static final int ALBUMS_SORT_ORDER_TITLE_DESC = 6001;
-    private List<AlbumModel> mList;
     private AlbumsAdapter adapter;
     private int spanCount;
     private int currentConfig;
@@ -62,17 +59,27 @@ public class AlbumFragment extends Fragment implements SimpleTransitionClickList
             mCurrentSortOrder = AppSettings.getAlbumsFragmentSortOrder(getContext());
             ALBUMS sortOrder = (mCurrentSortOrder == ALBUMS_SORT_ORDER_TITLE_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
 
-            TaskRunner.executeAsync(new AlbumsLoader(getContext().getContentResolver(), sortOrder), (data) -> {
-                mList = data;
-                RecyclerView rv = view.findViewById(R.id.rv_album_fragment);
-                rv.setVisibility(View.VISIBLE);
-                layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
-                rv.setLayoutManager(layoutManager);
-                rv.setHasFixedSize(true);
-                adapter = new AlbumsAdapter(mList, getLayoutInflater(), this);
-                rv.setAdapter(adapter);
-            });
+            if (null == LoaderCache.getAlbumsList())
+                LoaderHelper.loadAlbumsList(getContext().getContentResolver(), sortOrder, result -> loadAlbumsList(view, result));
+            else loadAlbumsList(view, LoaderCache.getAlbumsList());
         }
+    }
+
+    private void loadAlbumsList(View view, List<AlbumModel> list) {
+        RecyclerView rv = view.findViewById(R.id.rv_album_fragment);
+        rv.setVisibility(View.VISIBLE);
+        layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
+        rv.setLayoutManager(layoutManager);
+        rv.setHasFixedSize(true);
+        adapter = new AlbumsAdapter(list, getLayoutInflater(), (imageView, position) -> {
+            Intent i = new Intent(getContext(), DetailsActivity.class);
+            i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
+            i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
+            i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getAlbumName());
+            i.putExtra(DetailsActivity.KEY_ART_URL, list.get(position).getAlbumArt());
+            startActivity(i);
+        });
+        rv.setAdapter(adapter);
     }
 
     private void changeSortOrder(int newSortOrder) {
@@ -144,16 +151,6 @@ public class AlbumFragment extends Fragment implements SimpleTransitionClickList
             spanCount = AppSettings.getPortraitGridSpanCount(getContext());
             layoutManager.setSpanCount(spanCount);
         }
-    }
-
-    @Override
-    public void onItemClick(ImageView imageView, int position) {
-        Intent i = new Intent(getContext(), DetailsActivity.class);
-        i.putExtra(DetailsActivity.ALBUM_ID, mList.get(position).getAlbumId());
-        i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
-        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(position).getAlbumName());
-        i.putExtra(DetailsActivity.KEY_ART_URL, mList.get(position).getAlbumArt());
-        startActivity(i);
     }
 
     private enum ID {

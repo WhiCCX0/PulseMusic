@@ -21,6 +21,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
@@ -52,7 +53,7 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mList = new ArrayList<>(tm.getMainList());
+        mList = new ArrayList<>(LoaderCache.getAllTracksList());
         mCurrentSortOrder = AppSettings.getLibraryFragmentSortOrder(view.getContext());
         if (mCurrentSortOrder == LIBRARY_SORT_ORDER_TITLE_DESC)
             Collections.reverse(mList);

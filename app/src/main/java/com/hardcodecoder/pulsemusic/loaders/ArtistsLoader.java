@@ -15,7 +15,7 @@ public class ArtistsLoader implements Callable<List<ArtistModel>> {
     private ContentResolver mContentResolver;
     private String mSortOrder;
 
-    public ArtistsLoader(ContentResolver mContentResolver, SortOrder.ARTIST sortOrder) {
+    ArtistsLoader(ContentResolver mContentResolver, SortOrder.ARTIST sortOrder) {
         this.mContentResolver = mContentResolver;
         switch (sortOrder) {
             case TITLE_ASC:

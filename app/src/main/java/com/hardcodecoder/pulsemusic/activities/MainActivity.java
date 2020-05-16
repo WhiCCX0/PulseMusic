@@ -17,11 +17,9 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.dialog.HomeBottomSheetFragment;
-import com.hardcodecoder.pulsemusic.loaders.LibraryLoader;
-import com.hardcodecoder.pulsemusic.loaders.SortOrder;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
+import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 import com.hardcodecoder.pulsemusic.ui.AlbumFragment;
 import com.hardcodecoder.pulsemusic.ui.ArtistFragment;
@@ -68,11 +66,8 @@ public class MainActivity extends MediaSessionActivity {
         super.onCreate(null); // Pass null to prevent restoration of fragments on activity recreate
         setContentView(R.layout.activity_main);
         setUpToolbar();
-        if (TrackManager.getInstance().getMainList() == null) {
-            TaskRunner.executeAsync(new LibraryLoader(getContentResolver(), SortOrder.TITLE_ASC), (data) -> {
-                TrackManager.getInstance().setMainList(data);
-                setUpMainContents(savedInstanceState);
-            });
+        if (LoaderCache.getAllTracksList() == null) {
+            LoaderHelper.loadAllTracks(getContentResolver(), result -> setUpMainContents(savedInstanceState));
         } else setUpMainContents(savedInstanceState);
     }
 

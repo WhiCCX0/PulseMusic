@@ -15,8 +15,8 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.TrackPickerAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewSelectorHelper;
 import com.hardcodecoder.pulsemusic.interfaces.TrackPickerListener;
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class TrackPickerActivity extends PMBActivity implements TrackPickerListe
             overrideActivityTransition();
         });
 
-        mMainList = new ArrayList<>(TrackManager.getInstance().getMainList());
+        mMainList = new ArrayList<>(LoaderCache.getAllTracksList());
         RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));

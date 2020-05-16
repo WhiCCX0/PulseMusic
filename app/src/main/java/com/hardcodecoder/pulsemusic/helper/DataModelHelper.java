@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class DataModelHelper {
 
     public static List<MusicModel> getModelsObjectFromTitlesList(List<String> titles) {
         List<MusicModel> modelList = new ArrayList<>();
-        Map<String, MusicModel> modelMap = TrackManager.getInstance().getModelMap();
+        Map<String, MusicModel> modelMap = LoaderCache.getModelMap();
         for (String name : titles) {
             modelList.add(modelMap.get(name));
         }

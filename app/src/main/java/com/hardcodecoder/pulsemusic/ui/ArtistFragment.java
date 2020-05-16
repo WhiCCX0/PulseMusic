@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,22 +17,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
-import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
-import com.hardcodecoder.pulsemusic.loaders.ArtistsLoader;
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
+import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder.ARTIST;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.List;
 
-public class ArtistFragment extends Fragment implements SimpleTransitionClickListener {
+public class ArtistFragment extends Fragment {
 
     public static final int ARTIST_SORT_ORDER_TITLE_ASC = 7000;
     private static final int ARTIST_SORT_ORDER_TITLE_DESC = 7001;
-    private List<ArtistModel> mList;
     private GridLayoutManager layoutManager;
     private ArtistAdapter adapter;
     private int spanCount;
@@ -61,18 +58,25 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
         if (null != getContext()) {
             mCurrentSortOrder = AppSettings.getArtistFragmentSortOrder(getContext());
             ARTIST sortOrder = (mCurrentSortOrder == ARTIST_SORT_ORDER_TITLE_DESC) ? ARTIST.TITLE_DESC : ARTIST.TITLE_ASC;
-
-            TaskRunner.executeAsync(new ArtistsLoader(getContext().getContentResolver(), sortOrder), (data) -> {
-                mList = data;
-                RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
-                rv.setVisibility(View.VISIBLE);
-                layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
-                rv.setLayoutManager(layoutManager);
-                rv.setHasFixedSize(true);
-                adapter = new ArtistAdapter(mList, getLayoutInflater(), this);
-                rv.setAdapter(adapter);
-            });
+            if (null == LoaderCache.getAlbumsList())
+                LoaderHelper.loadArtistsList(getContext().getContentResolver(), sortOrder, result -> loadArtistsList(view, result));
+            else loadArtistsList(view, LoaderCache.getArtistsList());
         }
+    }
+
+    private void loadArtistsList(View view, List<ArtistModel> list) {
+        RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
+        rv.setVisibility(View.VISIBLE);
+        layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
+        rv.setLayoutManager(layoutManager);
+        rv.setHasFixedSize(true);
+        adapter = new ArtistAdapter(list, getLayoutInflater(), (imageView, position) -> {
+            Intent i = new Intent(getContext(), DetailsActivity.class);
+            i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
+            i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
+            startActivity(i);
+        });
+        rv.setAdapter(adapter);
     }
 
     private void changeSortOrder(int newSortOrder) {
@@ -146,14 +150,6 @@ public class ArtistFragment extends Fragment implements SimpleTransitionClickLis
             spanCount = AppSettings.getPortraitGridSpanCount(getContext());
             layoutManager.setSpanCount(spanCount);
         }
-    }
-
-    @Override
-    public void onItemClick(ImageView imageView, int position) {
-        Intent i = new Intent(getContext(), DetailsActivity.class);
-        i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-        i.putExtra(DetailsActivity.KEY_TITLE, mList.get(position).getArtistName());
-        startActivity(i);
     }
 
     private enum ID {

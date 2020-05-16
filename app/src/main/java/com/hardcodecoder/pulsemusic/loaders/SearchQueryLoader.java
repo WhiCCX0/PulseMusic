@@ -1,7 +1,6 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ public class SearchQueryLoader implements Callable<List<MusicModel>> {
 
     @Override
     public List<MusicModel> call() {
-        final List<MusicModel> searchList = TrackManager.getInstance().getMainList();
+        final List<MusicModel> searchList = LoaderCache.getAllTracksList();
         List<MusicModel> searchResult = new ArrayList<>();
         searchResult.clear();
         if (!mSearchQuery.isEmpty() && null != searchList) {
