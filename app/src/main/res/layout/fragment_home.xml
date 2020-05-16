@@ -42,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/new_in_library"
-            android:textAppearance="@style/TextViewHeadline6" />
+            android:textAppearance="@style/TextViewHeadline6"
+            android:textStyle="bold" />
 
         <include
             android:layout_width="match_parent"
