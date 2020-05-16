@@ -2,23 +2,18 @@ package com.hardcodecoder.pulsemusic.singleton;
 
 import android.content.Context;
 
-import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TrackManager {
 
     private static final TrackManager ourInstance = new TrackManager();
-    private Map<String, MusicModel> modelMap = new HashMap<>();
     private List<MusicModel> mActiveList = new ArrayList<>();
-    private List<MusicModel> mMainList;
     private int mIndex = -1;
     private boolean mRepeatCurrentTrack = false;
 
@@ -27,23 +22,6 @@ public class TrackManager {
 
     public static TrackManager getInstance() {
         return ourInstance;
-    }
-
-    public List<MusicModel> getMainList() {
-        return mMainList;
-    }
-
-    public void setMainList(final List<MusicModel> mainList) {
-        mMainList = mainList;
-        TaskRunner.executeAsync(() -> {
-            for (MusicModel musicModel : mainList) {
-                modelMap.put(musicModel.getSongName(), musicModel);
-            }
-        });
-    }
-
-    public Map<String, MusicModel> getModelMap() {
-        return modelMap;
     }
 
     public void buildDataList(List<MusicModel> newList, int index) {
