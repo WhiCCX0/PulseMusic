@@ -5,7 +5,6 @@
 
     <string name="iv_content_desc">Album art image</string>
     <string name="iv_btn_close_description">Close button</string>
-    <string name="home_iv_st">shared transition</string>
     <string name="icon_desc">Icon button</string>
 
 
@@ -114,6 +113,7 @@
 
 
     <!-- Details Activity -->
+    <string name="details_toolbar_title">Details</string>
     <string name="details_activity_rv_title">Tracks</string>
     <string name="num_tracks">Collection has ●</string>
 
