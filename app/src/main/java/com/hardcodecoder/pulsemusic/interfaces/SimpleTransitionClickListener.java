@@ -1,8 +1,8 @@
 package com.hardcodecoder.pulsemusic.interfaces;
 
-import android.widget.ImageView;
+import android.view.View;
 
 public interface SimpleTransitionClickListener {
 
-    void onItemClick(ImageView imageView, int position);
+    void onItemClick(View sharedView, int position);
 }

@@ -4,35 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingBottom="0dp">
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="18dp">
 
-    <ImageView
-        android:id="@+id/grid_item_artist_iv"
+    <FrameLayout
+        android:id="@+id/grid_item_artist_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
         android:background="@drawable/bck_circle_border_artist"
-        android:contentDescription="@string/iv_content_desc"
-        android:padding="@dimen/bck_iv_sh_src_padding"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_artist_art"
+        android:padding="32dp"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/grid_item_artist_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/iv_content_desc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_artist_art" />
+    </FrameLayout>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/grid_item_artist_tv"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
         android:gravity="center_horizontal"
         android:maxLines="2"
         android:textAppearance="@style/TextViewSubtitle1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/grid_item_artist_iv"
+        app:layout_constraintTop_toBottomOf="@id/grid_item_artist_frame"
         tools:text="@tools:sample/lorem/random" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

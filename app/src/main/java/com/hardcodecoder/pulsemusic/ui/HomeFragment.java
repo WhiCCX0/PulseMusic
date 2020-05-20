@@ -94,16 +94,16 @@ public class HomeFragment extends Fragment {
         rv.setVisibility(View.VISIBLE);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv.setHasFixedSize(true);
-        HomeAdapterAlbum adapter = new HomeAdapterAlbum(list, getLayoutInflater(), (imageView, position) -> {
+        HomeAdapterAlbum adapter = new HomeAdapterAlbum(list, getLayoutInflater(), (sharedView, position) -> {
             Intent i = new Intent(getContext(), DetailsActivity.class);
             i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
             i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
             i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getAlbumName());
             i.putExtra(DetailsActivity.KEY_ART_URL, list.get(position).getAlbumArt());
             if (null != getActivity()) {
-                String transitionName = imageView.getTransitionName();
+                String transitionName = sharedView.getTransitionName();
                 i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName).toBundle();
+                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
                 startActivity(i, b);
             }
         });
@@ -155,14 +155,14 @@ public class HomeFragment extends Fragment {
         rv.setVisibility(View.VISIBLE);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
-        HomeAdapterArtist adapter = new HomeAdapterArtist(list, getLayoutInflater(), (imageView, position) -> {
+        HomeAdapterArtist adapter = new HomeAdapterArtist(list, getLayoutInflater(), (sharedView, position) -> {
             Intent i = new Intent(getContext(), DetailsActivity.class);
             i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
             i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
             if (null != getActivity()) {
-                String transitionName = imageView.getTransitionName();
+                String transitionName = sharedView.getTransitionName();
                 i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName).toBundle();
+                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
                 startActivity(i, b);
             }
         });

@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -81,15 +82,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistSVH>
 
     static class ArtistSVH extends RecyclerView.ViewHolder {
 
+        private ImageView artistArt;
         private TextView title;
 
         ArtistSVH(@NonNull View itemView, SimpleTransitionClickListener mListener) {
             super(itemView);
+            artistArt = itemView.findViewById(R.id.grid_item_artist_iv);
             title = itemView.findViewById(R.id.grid_item_artist_tv);
-            itemView.setOnClickListener(v -> mListener.onItemClick(itemView.findViewById(R.id.grid_item_artist_iv), getAdapterPosition()));
+            itemView.setOnClickListener(v -> mListener.onItemClick(artistArt, getAdapterPosition()));
         }
 
         void setData(ArtistModel am) {
+            artistArt.setTransitionName("shared_transition_artist_iv_" + getAdapterPosition());
             title.setText(am.getArtistName());
         }
     }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,13 +72,18 @@ public class AlbumFragment extends Fragment {
         layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
         rv.setLayoutManager(layoutManager);
         rv.setHasFixedSize(true);
-        adapter = new AlbumsAdapter(list, getLayoutInflater(), (imageView, position) -> {
+        adapter = new AlbumsAdapter(list, getLayoutInflater(), (sharedView, position) -> {
             Intent i = new Intent(getContext(), DetailsActivity.class);
             i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
             i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
             i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getAlbumName());
             i.putExtra(DetailsActivity.KEY_ART_URL, list.get(position).getAlbumArt());
-            startActivity(i);
+            if (null != getActivity()) {
+                String transitionName = sharedView.getTransitionName();
+                i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
+                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
+                startActivity(i, b);
+            }
         });
         rv.setAdapter(adapter);
     }

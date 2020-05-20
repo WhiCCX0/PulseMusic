@@ -17,6 +17,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.card.MaterialCardView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -91,26 +92,28 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
 
     static class AlbumsSVH extends RecyclerView.ViewHolder {
 
+        private MaterialCardView materialCardView;
+        private ImageView albumArt;
         private TextView title;
-        private ImageView art;
 
         AlbumsSVH(@NonNull View itemView, SimpleTransitionClickListener mListener) {
             super(itemView);
-            art = itemView.findViewById(R.id.grid_item_iv);
+            materialCardView = itemView.findViewById(R.id.grid_item_card);
+            albumArt = itemView.findViewById(R.id.grid_item_iv);
             title = itemView.findViewById(R.id.grid_item_tv);
-            itemView.setOnClickListener(v -> mListener.onItemClick(art, getAdapterPosition()));
+            itemView.setOnClickListener(v -> mListener.onItemClick(materialCardView, getAdapterPosition()));
         }
 
         void setData(AlbumModel am) {
-            GlideApp
-                    .with(itemView)
+            materialCardView.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
+            GlideApp.with(itemView)
                     .load(am.getAlbumArt())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), am.getAlbumId(),
                                     MediaArtHelper.RoundingRadius.RADIUS_16dp,
-                                    drawable -> art.setImageDrawable(drawable));
+                                    drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
 
@@ -120,7 +123,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                         }
                     })
                     .transform(GlideConstantArtifacts.getRadius16dp())
-                    .into(art);
+                    .into(albumArt);
             title.setText(am.getAlbumName());
         }
     }
