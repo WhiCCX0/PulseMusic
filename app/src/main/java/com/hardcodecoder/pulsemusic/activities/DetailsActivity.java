@@ -1,15 +1,12 @@
 package com.hardcodecoder.pulsemusic.activities;
 
-import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.media.session.MediaController;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,6 +18,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -50,23 +49,21 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
     private Long mAlbumId;
     private int mCategory;
 
-    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         supportPostponeEnterTransition();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
         tm = TrackManager.getInstance();
-
         mCategory = getIntent().getIntExtra(KEY_ITEM_CATEGORY, -1);
         mAlbumId = getIntent().getLongExtra(ALBUM_ID, 0);
         title = getIntent().getStringExtra(KEY_TITLE);
-
-        loadImage();
-
         findViewById(R.id.details_activity_btn_close).setOnClickListener(v -> finishAfterTransition());
+
+        MaterialTextView detailsTitle = findViewById(R.id.details_activity_title);
+        detailsTitle.setText(title);
+        loadImage();
         loadItems();
     }
 
@@ -74,11 +71,10 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         String transitionName = getIntent().getStringExtra(KEY_TRANSITION_NAME);
         String artUrl = getIntent().getStringExtra(KEY_ART_URL);
         ImageView sharedImageView = findViewById(R.id.details_activity_art);
-        sharedImageView.setTransitionName(transitionName);
+        MaterialCardView cardView = findViewById(R.id.details_activity_art_card);
+        cardView.setTransitionName(transitionName);
         if (mCategory == CATEGORY_ALBUM) {
-            TypedValue typedValue = new TypedValue();
-            getTheme().resolveAttribute(R.attr.imageViewBackgroundDrawable, typedValue, true);
-            sharedImageView.setBackgroundResource(typedValue.resourceId);
+            //findViewById(R.id.details_activity_art_card).setTransitionName(transitionName);
             GlideApp.with(this)
                     .load(artUrl)
                     .listener(new RequestListener<Drawable>() {
@@ -101,7 +97,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                     .transform(GlideConstantArtifacts.getRadius16dp())
                     .into(sharedImageView);
         } else {
-            sharedImageView.setBackgroundResource(R.drawable.bck_circle_border_artist);
+            cardView.setCardElevation(2.0f);
             sharedImageView.setImageResource(R.drawable.ic_artist_art);
             supportStartPostponedEnterTransition();
         }
@@ -112,10 +108,8 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
             if (data.size() > 0) {
                 mList = data;
 
-                TextView temp = findViewById(R.id.details_activity_title);
-                temp.setText(title);
-                temp = findViewById(R.id.details_activity_title_sub);
-                temp.setText(getString(R.string.num_tracks).concat(" " + mList.size() + " ").concat(getString(R.string.tracks_num)));
+                MaterialTextView sub = findViewById(R.id.details_activity_title_sub);
+                sub.setText(getString(R.string.num_tracks).concat(" " + mList.size() + " ").concat(getString(R.string.tracks_num)));
 
                 RecyclerView rv = findViewById(R.id.details_activity_rv);
                 rv.setVisibility(View.VISIBLE);
