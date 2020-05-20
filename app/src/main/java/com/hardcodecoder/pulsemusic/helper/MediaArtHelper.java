@@ -63,6 +63,7 @@ public class MediaArtHelper {
     }
 
     public enum RoundingRadius {
+        RADIUS_NONE,
         RADIUS_2dp,
         RADIUS_4dp,
         RADIUS_8dp,
@@ -84,8 +85,10 @@ public class MediaArtHelper {
                 case RADIUS_8dp:
                     return DimensionsUtil.getRoundingRadiusPixelSize8dp();
                 case RADIUS_16dp:
-                default:
                     return DimensionsUtil.getRoundingRadiusPixelSize16dp();
+                case RADIUS_NONE:
+                default:
+                    return 0;
             }
         }
 
