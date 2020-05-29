@@ -11,8 +11,7 @@
     <dimen name="rounding_radius_16dp">16dp</dimen>
 
     <!-- Now playing screen -->
-    <dimen name="now_playing_media_art_iv">320dp</dimen>
-    <dimen name="now_playing_media_art_iv_padding">32dp</dimen>
+    <dimen name="now_playing_media_art_iv">260dp</dimen>
 
     <!-- Material  button padding -->
     <dimen name="button_padding_vertical">10dp</dimen>

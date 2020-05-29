@@ -33,13 +33,13 @@
     -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/activity_np_album_art_card"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:layout_width="@dimen/now_playing_media_art_iv"
+        android:layout_height="@dimen/now_playing_media_art_iv"
         android:layout_marginStart="48dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="48dp"
         app:cardBackgroundColor="?windowBackgroundColor"
-        app:cardCornerRadius="160dp"
+        app:cardCornerRadius="130dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
