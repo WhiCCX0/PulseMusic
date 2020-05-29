@@ -74,13 +74,12 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         MaterialCardView cardView = findViewById(R.id.details_activity_art_card);
         cardView.setTransitionName(transitionName);
         if (mCategory == CATEGORY_ALBUM) {
-            //findViewById(R.id.details_activity_art_card).setTransitionName(transitionName);
             GlideApp.with(this)
                     .load(artUrl)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(sharedImageView.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_4dp, drawable -> {
+                            MediaArtHelper.getMediaArtDrawableAsync(sharedImageView.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_NONE, drawable -> {
                                 sharedImageView.setImageDrawable(drawable);
                                 supportStartPostponedEnterTransition();
                             });
