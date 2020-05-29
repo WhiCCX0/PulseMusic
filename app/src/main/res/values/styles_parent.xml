@@ -35,6 +35,7 @@
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="navigationBarColor">@color/md_grey_400</item>
     </style>
 
 
@@ -48,6 +49,7 @@
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="navigationBarColor">?windowBackgroundColor</item>
     </style>
 
     <style name="Theme.PulseMusic.Light" parent="ThemeLight">

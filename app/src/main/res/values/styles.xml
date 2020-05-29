@@ -59,6 +59,7 @@
         <item name="android:textColor">?secondaryTextColor</item>
         <item name="android:fontFamily">@font/circular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:navigationBarColor">?navigationBarColor</item>
     </style>
 
     <style name="MaterialTextButton" parent="Widget.MaterialComponents.Button.TextButton">

@@ -21,6 +21,7 @@
         <attr name="selectedItemBackground" format="color|reference" />
         <attr name="overlayColor" format="color|reference" />
         <attr name="statusBarColor" format="color|reference"/>
+        <attr name="navigationBarColor" format="color|reference" />
 
         <attr name="imageViewBackgroundDrawable" format="integer" />
         <attr name="circleImageViewBackgroundDrawable" format="integer" />

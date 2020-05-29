@@ -5,27 +5,39 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:statusBarColor">?attr/statusBarColor</item>
-        <item name="android:windowLightStatusBar">?isLightMode</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/md_grey_400</item>
+        <item name="android:navigationBarColor">@color/lightColorBackground</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
-        <item name="navigationBarColor">@color/md_grey_400</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:statusBarColor">?attr/statusBarColor</item>
-        <item name="android:windowLightStatusBar">?isLightMode</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:navigationBarColor">@color/darkColorBackground</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
-        <item name="navigationBarColor">?windowBackgroundColor</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:textColor">?secondaryTextColor</item>
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:navigationBarColor">?windowBackgroundColor</item>
+        <item name="android:windowLightNavigationBar">?isLightMode</item>
+    </style>
+
 </resources>
