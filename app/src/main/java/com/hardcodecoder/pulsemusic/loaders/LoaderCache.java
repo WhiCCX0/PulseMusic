@@ -4,6 +4,8 @@ import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +25,12 @@ public class LoaderCache {
     }
 
     static void setAllTracksList(List<MusicModel> allTracksList) {
-        mAllTracksList = allTracksList;
+        if (null == mAllTracksList)
+            mAllTracksList = new ArrayList<>(allTracksList);
+        else {
+            mAllTracksList.clear();
+            mAllTracksList.addAll(allTracksList);
+        }
     }
 
     public static List<AlbumModel> getAlbumsList() {
@@ -31,7 +38,12 @@ public class LoaderCache {
     }
 
     static void setAlbumsList(List<AlbumModel> albumsList) {
-        mAlbumsList = albumsList;
+        if (null == mAlbumsList)
+            mAlbumsList = new ArrayList<>(albumsList);
+        else {
+            mAlbumsList.clear();
+            mAlbumsList.addAll(albumsList);
+        }
     }
 
     public static List<ArtistModel> getArtistsList() {
@@ -39,7 +51,12 @@ public class LoaderCache {
     }
 
     static void setArtistsList(List<ArtistModel> artistsList) {
-        mArtistsList = artistsList;
+        if (null == mArtistsList)
+            mArtistsList = new ArrayList<>(artistsList);
+        else {
+            mArtistsList.clear();
+            mArtistsList.addAll(artistsList);
+        }
     }
 
     public static List<MusicModel> getSuggestions() {
@@ -47,7 +64,12 @@ public class LoaderCache {
     }
 
     static void setSuggestions(List<MusicModel> suggestions) {
-        mSuggestions = suggestions;
+        if (null == mSuggestions)
+            mSuggestions = new ArrayList<>(suggestions);
+        else {
+            mSuggestions.clear();
+            mSuggestions.addAll(suggestions);
+        }
     }
 
     public static List<MusicModel> getLatestTracks() {
@@ -55,23 +77,38 @@ public class LoaderCache {
     }
 
     static void setLatestTracks(List<MusicModel> latestTracks) {
-        mLatestTracks = latestTracks;
+        if (null == mLatestTracks)
+            mLatestTracks = new ArrayList<>(latestTracks);
+        else {
+            mLatestTracks.clear();
+            mLatestTracks.addAll(latestTracks);
+        }
     }
 
     public static List<AlbumModel> getTopAlbums() {
         return mTopAlbums;
     }
 
-    static void setTopAlbums(List<AlbumModel> mTopAlbums) {
-        LoaderCache.mTopAlbums = mTopAlbums;
+    static void setTopAlbums(List<AlbumModel> topAlbums) {
+        if (null == mTopAlbums)
+            mTopAlbums = new ArrayList<>(topAlbums);
+        else {
+            mTopAlbums.clear();
+            mTopAlbums.addAll(topAlbums);
+        }
     }
 
     public static List<ArtistModel> getTopArtists() {
         return mTopArtists;
     }
 
-    static void setTopArtists(List<ArtistModel> mTopArtists) {
-        LoaderCache.mTopArtists = mTopArtists;
+    static void setTopArtists(List<ArtistModel> topArtists) {
+        if (null == mTopArtists)
+            mTopArtists = new ArrayList<>(topArtists);
+        else {
+            mTopArtists.clear();
+            mTopArtists.addAll(topArtists);
+        }
     }
 
     public static Map<String, MusicModel> getModelMap() {
@@ -79,6 +116,11 @@ public class LoaderCache {
     }
 
     static void setModelMap(Map<String, MusicModel> modelMap) {
-        mModelMap = modelMap;
+        if (null == mModelMap)
+            mModelMap = new HashMap<>(modelMap);
+        else {
+            mModelMap.clear();
+            mModelMap.putAll(modelMap);
+        }
     }
 }

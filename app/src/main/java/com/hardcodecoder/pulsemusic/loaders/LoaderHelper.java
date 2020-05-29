@@ -25,25 +25,31 @@ public class LoaderHelper {
     public static void loadAllTracks(@NonNull ContentResolver contentResolver, @NonNull Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.TITLE_ASC), result -> {
             LoaderCache.setAllTracksList(result);
-            callback.onComplete(result);
-            final Map<String, MusicModel> modelMap = new HashMap<>();
-            for (MusicModel musicModel : result)
-                modelMap.put(musicModel.getSongName(), musicModel);
-            LoaderCache.setModelMap(modelMap);
+            callback.onComplete(LoaderCache.getAllTracksList());
+            TaskRunner.executeAsync(() -> {
+                Map<String, MusicModel> modelMap = new HashMap<>();
+                for (MusicModel musicModel : result)
+                    modelMap.put(musicModel.getSongName(), musicModel);
+                LoaderCache.setModelMap(modelMap);
+                modelMap.clear();
+                result.clear();
+            });
         });
     }
 
     public static void loadAlbumsList(@NonNull ContentResolver contentResolver, SortOrder.ALBUMS sortOrder, @NonNull Callback<List<AlbumModel>> callback) {
         TaskRunner.executeAsync(new AlbumsLoader(contentResolver, sortOrder), result -> {
             LoaderCache.setAlbumsList(result);
-            callback.onComplete(result);
+            result.clear();
+            callback.onComplete(LoaderCache.getAlbumsList());
         });
     }
 
     public static void loadArtistsList(@NonNull ContentResolver contentResolver, SortOrder.ARTIST sortOrder, @NonNull Callback<List<ArtistModel>> callback) {
         TaskRunner.executeAsync(new ArtistsLoader(contentResolver, sortOrder), result -> {
             LoaderCache.setArtistsList(result);
-            callback.onComplete(result);
+            result.clear();
+            callback.onComplete(LoaderCache.getArtistsList());
         });
     }
 
@@ -53,7 +59,9 @@ public class LoaderHelper {
             Collections.shuffle(list);
             final List<MusicModel> suggestionsList = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
             LoaderCache.setSuggestions(suggestionsList);
-            mHandler.post(() -> callback.onComplete(suggestionsList));
+            suggestionsList.clear();
+            list.clear();
+            mHandler.post(() -> callback.onComplete(LoaderCache.getSuggestions()));
         });
     }
 
@@ -61,7 +69,9 @@ public class LoaderHelper {
         TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.DATE_MODIFIED_DESC), result -> {
             List<MusicModel> finalResult = result.subList(0, (int) (result.size() * 0.2));
             LoaderCache.setLatestTracks(finalResult);
-            callback.onComplete(finalResult);
+            finalResult.clear();
+            result.clear();
+            callback.onComplete(LoaderCache.getLatestTracks());
         });
     }
 
@@ -70,16 +80,20 @@ public class LoaderHelper {
             loadAlbumsList(contentResolver, SortOrder.ALBUMS.TITLE_ASC, result -> {
                 List<AlbumModel> list = new ArrayList<>(result);
                 Collections.shuffle(list);
-                final List<AlbumModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
+                List<AlbumModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
                 LoaderCache.setTopAlbums(topAlbums);
-                mHandler.post(() -> callback.onComplete(topAlbums));
+                topAlbums.clear();
+                list.clear();
+                mHandler.post(() -> callback.onComplete(LoaderCache.getTopAlbums()));
             });
         } else TaskRunner.executeAsync(() -> {
             List<AlbumModel> list = new ArrayList<>(LoaderCache.getAlbumsList());
             Collections.shuffle(list);
             final List<AlbumModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
             LoaderCache.setTopAlbums(topAlbums);
-            mHandler.post(() -> callback.onComplete(topAlbums));
+            topAlbums.clear();
+            list.clear();
+            mHandler.post(() -> callback.onComplete(LoaderCache.getTopAlbums()));
         });
     }
 
@@ -88,16 +102,20 @@ public class LoaderHelper {
             loadArtistsList(contentResolver, SortOrder.ARTIST.TITLE_ASC, result -> {
                 List<ArtistModel> list = new ArrayList<>(result);
                 Collections.shuffle(list);
-                final List<ArtistModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-                LoaderCache.setTopArtists(topAlbums);
-                mHandler.post(() -> callback.onComplete(topAlbums));
+                final List<ArtistModel> topArtist = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
+                LoaderCache.setTopArtists(topArtist);
+                topArtist.clear();
+                list.clear();
+                mHandler.post(() -> callback.onComplete(LoaderCache.getTopArtists()));
             });
         } else TaskRunner.executeAsync(() -> {
             List<ArtistModel> list = new ArrayList<>(LoaderCache.getArtistsList());
             Collections.shuffle(list);
-            final List<ArtistModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-            LoaderCache.setTopArtists(topAlbums);
-            mHandler.post(() -> callback.onComplete(topAlbums));
+            final List<ArtistModel> topArtist = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
+            LoaderCache.setTopArtists(topArtist);
+            topArtist.clear();
+            list.clear();
+            mHandler.post(() -> callback.onComplete(LoaderCache.getTopArtists()));
         });
     }
 }
