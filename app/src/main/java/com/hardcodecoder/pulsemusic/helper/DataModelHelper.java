@@ -17,7 +17,8 @@ public class DataModelHelper {
         List<MusicModel> modelList = new ArrayList<>();
         Map<String, MusicModel> modelMap = LoaderCache.getModelMap();
         for (String name : titles) {
-            modelList.add(modelMap.get(name));
+            if (null != modelMap.get(name))
+                modelList.add(modelMap.get(name));
         }
         return modelList;
     }
