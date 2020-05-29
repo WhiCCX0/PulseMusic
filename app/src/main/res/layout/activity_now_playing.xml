@@ -22,7 +22,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <!-- Background is a 9 patch drawable with
+    <!-- ***NO LONGER VALID***
+        Background is a 9 patch drawable with
         actual size: 200px x 200px
         content area: 136px x 136px
         //Light version
@@ -30,22 +31,30 @@
         //Dark version
         color: #0f0f0f; x offset: 8; y offset: 12; blur: 16; shadow color: #000000; opacity: 100%
     -->
-    <ImageView
-        android:id="@+id/activity_np_album_art"
-        android:layout_width="@dimen/now_playing_media_art_iv"
-        android:layout_height="@dimen/now_playing_media_art_iv"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/activity_np_album_art_card"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="48dp"
-        android:background="?circleImageViewBackgroundDrawable"
-        android:padding="@dimen/now_playing_media_art_iv_padding"
+        app:cardBackgroundColor="?windowBackgroundColor"
+        app:cardCornerRadius="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_np"
         app:layout_constraintVertical_bias="0.04"
-        tools:ignore="contentDescription" />
+        app:cardElevation="4dp">
+
+        <ImageView
+            android:id="@+id/activity_np_album_art"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="contentDescription" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_song_title"
@@ -57,7 +66,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:textAppearance="@style/TextViewBody1"
-        app:layout_constraintTop_toBottomOf="@+id/activity_np_album_art"
+        app:layout_constraintTop_toBottomOf="@+id/activity_np_album_art_card"
         tools:text="Song Name" />
 
     <com.google.android.material.textview.MaterialTextView

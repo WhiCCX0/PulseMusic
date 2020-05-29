@@ -69,7 +69,6 @@
         <item name="strokeColor">@color/lightColorStroke</item>
         <item name="overlayColor">@color/lightColorOverlay</item>
         <item name="imageViewBackgroundDrawable">@drawable/bck_rou_iv_sh_light</item>
-        <item name="circleImageViewBackgroundDrawable">@drawable/bck_cir_iv_sh_light</item>
         <item name="isLightMode">true</item>
         <item name="statusBarColor">?windowBackgroundColor</item>
         <item name="toolbarBackground">@drawable/toolbar_background_light</item>
@@ -92,7 +91,6 @@
         <item name="strokeColor">@color/darkColorStroke</item>
         <item name="overlayColor">@color/darkColorOverlay</item>
         <item name="imageViewBackgroundDrawable">@drawable/bck_rou_iv_sh_dark</item>
-        <item name="circleImageViewBackgroundDrawable">@drawable/bck_cir_iv_sh_dark</item>
         <item name="isLightMode">false</item>
         <item name="statusBarColor">?windowBackgroundColor</item>
         <item name="toolbarBackground">@drawable/toolbar_background_dark</item>
