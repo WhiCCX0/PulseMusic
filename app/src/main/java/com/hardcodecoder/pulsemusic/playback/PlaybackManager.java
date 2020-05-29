@@ -17,11 +17,7 @@ import java.io.InputStream;
 
 public class PlaybackManager implements Playback.Callback {
 
-    public static final String METADATA_TITLE_KEY = MediaMetadata.METADATA_KEY_TITLE;
-    public static final String METADATA_ALBUM_KEY = MediaMetadata.METADATA_KEY_ALBUM;
-    public static final String METADATA_ARTIST_KEY = MediaMetadata.METADATA_KEY_ARTIST;
-    public static final String METADATA_DURATION_KEY = MediaMetadata.METADATA_KEY_DURATION;
-    public static final String METADATA_ALBUM_ART = MediaMetadata.METADATA_KEY_ALBUM_ART;
+
     public static final short ACTION_PLAY_NEXT = 1;
     public static final short ACTION_PLAY_PREV = -1;
     private final PlaybackState.Builder mStateBuilder = new PlaybackState.Builder();
@@ -30,16 +26,19 @@ public class PlaybackManager implements Playback.Callback {
     private PlaybackServiceCallback mServiceCallback;
     private TrackManager mTrackManager;
     private Context mContext;
+    private boolean mManualPause;
     private final MediaSession.Callback mMediaSessionCallback = new MediaSession.Callback() {
 
         @Override
         public void onPlay() {
             handlePlayRequest();
+            mManualPause = false;
         }
 
         @Override
         public void onPause() {
             handlePauseRequest();
+            mManualPause = true;
         }
 
         @Override
@@ -117,11 +116,11 @@ public class PlaybackManager implements Playback.Callback {
     private void updateMetaData(boolean b) {
         if (b) {
             MusicModel md = mTrackManager.getActiveQueueItem();
-            mMetadataBuilder.putLong(METADATA_DURATION_KEY, md.getDuration());
-            mMetadataBuilder.putString(METADATA_TITLE_KEY, md.getSongName());
-            mMetadataBuilder.putString(METADATA_ARTIST_KEY, md.getArtist());
-            mMetadataBuilder.putString(METADATA_ALBUM_KEY, md.getAlbum());
-            mMetadataBuilder.putBitmap(METADATA_ALBUM_ART, loadAlbumArt(md.getAlbumArtUrl(), md.getAlbumId()));
+            mMetadataBuilder.putLong(MediaMetadata.METADATA_KEY_DURATION, md.getDuration());
+            mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, md.getSongName());
+            mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, md.getArtist());
+            mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_ALBUM, md.getAlbum());
+            mMetadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, loadAlbumArt(md.getAlbumArtUrl(), md.getAlbumId()));
             mServiceCallback.onMetaDataChanged(mMetadataBuilder.build());
         }
     }
@@ -148,6 +147,8 @@ public class PlaybackManager implements Playback.Callback {
 
     @Override
     public void onFocusChanged(boolean resumePlayback) {
+        if (mManualPause)
+            return;
         if (resumePlayback)
             handlePlayRequest();
         else

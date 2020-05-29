@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.NowPlayingActivity;
-import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 
 public class ControlsFragment extends Fragment {
 
@@ -102,7 +101,7 @@ public class ControlsFragment extends Fragment {
                     .transform(new RoundedCorners(12))
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(iv);*/
-            tv1.setText(mMetadata.getText(PlaybackManager.METADATA_TITLE_KEY));
+            tv1.setText(mMetadata.getText(MediaMetadata.METADATA_KEY_TITLE));
         }
     }
 

@@ -20,7 +20,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
@@ -154,19 +153,19 @@ public class NowPlayingActivity extends MediaSessionActivity {
             stopSeekBarUpdate();
             GlideApp
                     .with(this)
-                    .load(metadata.getBitmap(PlaybackManager.METADATA_ALBUM_ART))
+                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
                     .error(R.drawable.np_album_art)
                     .transform(new CircleCrop())
                     .into((ImageView) findViewById(R.id.activity_np_album_art));
 
-            long sec = metadata.getLong(PlaybackManager.METADATA_DURATION_KEY) / 1000;
+            long sec = metadata.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
             seekBar.setProgress(progress = 0);
             seekBar.setMax((int) sec);
             endTime.setText(DateUtils.formatElapsedTime(sec));
 
-            artistAlbums.setText(metadata.getString(PlaybackManager.METADATA_ARTIST_KEY));
+            artistAlbums.setText(metadata.getString(MediaMetadata.METADATA_KEY_ARTIST));
 
-            toolbarSongTitle.setText(metadata.getText(PlaybackManager.METADATA_TITLE_KEY));
+            toolbarSongTitle.setText(metadata.getText(MediaMetadata.METADATA_KEY_TITLE));
             toolbarSongTitle.setSelected(true);
         }
     }
@@ -277,12 +276,11 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
         mController.unregisterCallback(mCallback);
         stopSeekBarUpdate();
         if (!mExecutorService.isShutdown())
             mExecutorService.shutdown();
-        disconnectFromMediaSession();
-        super.onDestroy();
+        super.onStop();
     }
 }

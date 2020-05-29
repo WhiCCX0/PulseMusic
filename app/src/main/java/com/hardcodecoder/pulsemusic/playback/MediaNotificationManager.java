@@ -23,10 +23,7 @@ import androidx.core.app.NotificationCompat;
 import com.hardcodecoder.pulsemusic.PMS;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
-import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
-import static com.hardcodecoder.pulsemusic.playback.PlaybackManager.METADATA_ALBUM_ART;
 
 public class MediaNotificationManager extends BroadcastReceiver {
 
@@ -177,8 +174,8 @@ public class MediaNotificationManager extends BroadcastReceiver {
     }
 
     private Notification createNotification() {
-        MusicModel md = TrackManager.getInstance().getActiveQueueItem();
-        if (md != null) {
+        //MusicModel md = TrackManager.getInstance().getActiveQueueItem();
+        if (mMetadata != null) {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mService, CHANNEL_ID);
             notificationBuilder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(MediaSessionCompat.Token.fromToken(mService.getSessionToken()))
@@ -186,9 +183,9 @@ public class MediaNotificationManager extends BroadcastReceiver {
                     .setShowCancelButton(true)
                     .setShowActionsInCompactView(0, 1, 2))
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle(md.getSongName())
-                    .setContentText(md.getArtist())
-                    .setLargeIcon(mMetadata.getBitmap(METADATA_ALBUM_ART))
+                    .setContentTitle(mMetadata.getString(MediaMetadata.METADATA_KEY_TITLE))
+                    .setContentText(mMetadata.getString(MediaMetadata.METADATA_KEY_ARTIST))
+                    .setLargeIcon(mMetadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
                     .addAction(R.drawable.ic_round_skip_previous_noti, "Skip prev", mPreviousIntent)
                     .addAction(setButton(), "Play Pause Button", getActionIntent())
                     .addAction(R.drawable.ic_round_skip_next_noti, "Skip Next", mNextIntent)
