@@ -216,9 +216,9 @@ public class MainActivity extends MediaSessionActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         if (null != mController)
             mController.unregisterCallback(mCallback);
+        super.onStop();
     }
 
     @Override
