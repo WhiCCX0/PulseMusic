@@ -13,7 +13,6 @@ public class ThemeManager {
     private static boolean mAutoMode;
     private static boolean mDarkMode;
     private static int mThemeId;
-    private static int mAccentId;
 
     public static void init(Context context) {
         mAutoMode = AppSettings.isAutoThemeEnabled(context);
@@ -22,7 +21,6 @@ public class ThemeManager {
 
         if (mDarkMode) mThemeId = AppSettings.getSelectedDarkTheme(context);
         else mThemeId = ThemeStore.LIGHT_THEME;
-        mAccentId = AppSettings.getSelectedAccentColor(context);
     }
 
     static boolean isAutoModeEnabled() {
@@ -47,18 +45,8 @@ public class ThemeManager {
         AppSettings.saveSelectedDarkTheme(context, mThemeId);
     }
 
-    static void setSelectedAccentColor(Context context, int id) {
-        mAccentId = id;
-        AppSettings.saveSelectedAccentColor(context, id);
-    }
-
     @StyleRes
     public static int getThemeToApply() {
         return ThemeStore.getThemeById(mDarkMode, mThemeId);
-    }
-
-    @StyleRes
-    public static int getAccentToApply() {
-        return ThemeStore.getAccentById(mDarkMode, mAccentId);
     }
 }

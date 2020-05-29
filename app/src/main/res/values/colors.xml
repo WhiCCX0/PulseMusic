@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="purple">#7459FF</color>
+    <color name="purple_dark">#B5A9FC</color>
 
     <!-- ********************************************* -->
     <!-- *********** COLORS FOR LIGHT MODE *********** -->

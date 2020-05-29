@@ -55,13 +55,11 @@ public class MainActivity extends MediaSessionActivity {
     private MediaBrowser mMediaBrowser;
     @StyleRes
     private int mCurrentTheme;
-    @StyleRes
-    private int mCurrentAccent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mCurrentTheme = ThemeManager.getThemeToApply();
-        mCurrentAccent = ThemeManager.getAccentToApply();
+        //mCurrentAccent = ThemeManager.getAccentToApply();
 
         super.onCreate(null); // Pass null to prevent restoration of fragments on activity recreate
         setContentView(R.layout.activity_main);
@@ -202,7 +200,7 @@ public class MainActivity extends MediaSessionActivity {
 
     @Override
     protected void onStart() {
-        if ((mCurrentTheme != ThemeManager.getThemeToApply()) || (mCurrentAccent != ThemeManager.getAccentToApply())) {
+        if ((mCurrentTheme != ThemeManager.getThemeToApply()) /*|| (mCurrentAccent != ThemeManager.getAccentToApply())*/) {
             supportInvalidateOptionsMenu();
             recreate();
         }

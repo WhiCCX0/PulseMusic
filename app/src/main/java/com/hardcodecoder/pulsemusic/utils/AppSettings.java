@@ -84,17 +84,6 @@ public class AppSettings {
                 .getInt(ThemeStore.DARK_THEME_CATEGORY, ThemeStore.DARK_THEME_GRAY);
     }
 
-    public static void saveSelectedAccentColor(Context context, int id) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(ThemeStore.ACCENT_COLOR, Context.MODE_PRIVATE).edit();
-        editor.putInt(ThemeStore.ACCENT_COLOR, id);
-        editor.apply();
-    }
-
-    public static int getSelectedAccentColor (Context context) {
-        return context.getSharedPreferences(ThemeStore.ACCENT_COLOR, Context.MODE_PRIVATE)
-                .getInt(ThemeStore.ACCENT_COLOR, ThemeStore.PURPLE);
-    }
-
     public static void saveLibraryFragmentSortOrder(Context context, int sortOrder) {
         SharedPreferences.Editor editor = context.getSharedPreferences(SORT_ORDER_PREFS, Context.MODE_PRIVATE).edit();
         editor.putInt(SORT_ORDER_LIBRARY, sortOrder);

@@ -6,13 +6,6 @@ import com.hardcodecoder.pulsemusic.utils.DayTimeUtils;
 
 public class ThemeManagerUtils {
 
-    public static boolean initialiseThemeManager(Context context) {
-        int oldThemeId = ThemeManager.getThemeToApply();
-        ThemeManager.init(context);
-        int newThemeId = ThemeManager.getThemeToApply();
-        return oldThemeId != newThemeId;
-    }
-
     public static boolean toggleDarkTheme(Context context, boolean enabled) {
         ThemeManager.enableDarkMode(context, enabled);
         //return true if activity needs to restart because theme needs to be changed
@@ -26,12 +19,6 @@ public class ThemeManagerUtils {
         // them restart to apply new theme
         return (enabled && needToChangeTheme());
 
-    }
-
-    public static boolean toggleAccent(Context context, int accentId) {
-        ThemeManager.setSelectedAccentColor(context, accentId);
-        // Always returns true since activity needs to restart to apply new accent
-        return true;
     }
 
     public static boolean needToApplyNewDarkTheme() {
