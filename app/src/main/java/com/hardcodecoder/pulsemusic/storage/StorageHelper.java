@@ -8,22 +8,26 @@ import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.DataModelHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StorageHelper {
 
     private static final Handler handler = new Handler(Looper.getMainLooper());
     private static HashSet<String> favoritesSet = new HashSet<>();
-    private static HashSet<String> historySet = new HashSet<>();
+    private static Set<String> historySet = new HashSet<>();
 
     private StorageHelper() {
     }
 
     public static void getSavedHistory(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedHistory(context.getFilesDir().getAbsolutePath(), result -> {
+            historySet.clear();
             historySet.addAll(result);
             List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
+            Collections.reverse(recentTracks);
             handler.post(() -> callback.onComplete(recentTracks));
         }));
     }
