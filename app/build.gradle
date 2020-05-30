@@ -59,7 +59,7 @@ private String generateVersionName() {
 }
 
 
-private String getBuildTime() {
+private static String getBuildTime() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("E d MMMM yyyy HH:mm:ss")
     LocalDateTime now = LocalDateTime.now()
     String dateTime = dtf.format(now)
