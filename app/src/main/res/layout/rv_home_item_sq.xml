@@ -26,7 +26,7 @@
         android:background="?imageViewBackgroundDrawable"
         android:padding="@dimen/bck_iv_sh_src_padding"
         tools:ignore="contentDescription"
-        tools:src="@drawable/def_avatar" />
+        tools:src="@tools:sample/avatars" />
 
     <include layout="@layout/rv_home_item_title_text_view" />
 

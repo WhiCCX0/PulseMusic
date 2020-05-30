@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.FavoritesActivity;
@@ -89,9 +91,10 @@ public class HomeFragment extends Fragment {
         } else Log.e("HomeFragment", "Context is null unable to fetch data");
     }
 
-    private void loadTopAlbums(View v, List<AlbumModel> list) {
-        RecyclerView rv = v.findViewById(R.id.home_albums_rv);
-        rv.setVisibility(View.VISIBLE);
+    private void loadTopAlbums(View view, List<AlbumModel> list) {
+        MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_albums_title)).inflate();
+        topAlbumsTitle.setText(getString(R.string.top_albums));
+        RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_albums_list)).inflate();
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv.setHasFixedSize(true);
         HomeAdapterAlbum adapter = new HomeAdapterAlbum(list, getLayoutInflater(), (sharedView, position) -> {
@@ -111,8 +114,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSuggestions(View view, List<MusicModel> list) {
-        RecyclerView rv = view.findViewById(R.id.home_suggested_rv);
-        rv.setVisibility(View.VISIBLE);
+        RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_suggested_list)).inflate();
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv.setHasFixedSize(true);
         HomeAdapter adapter = new HomeAdapter(getLayoutInflater(), list, new ItemClickListener.Simple() {
@@ -131,8 +133,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadLatestTracks(View view, List<MusicModel> list) {
-        RecyclerView rv = view.findViewById(R.id.new_in_library_rv);
-        rv.setVisibility(View.VISIBLE);
+        RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_new_in_store_list)).inflate();
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv.setHasFixedSize(true);
         HomeAdapter adapter = new HomeAdapter(getLayoutInflater(), list, new ItemClickListener.Simple() {
@@ -150,9 +151,10 @@ public class HomeFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
-    private void loadArtistRv(View v, List<ArtistModel> list) {
-        RecyclerView rv = v.findViewById(R.id.home_recent_artist_rv);
-        rv.setVisibility(View.VISIBLE);
+    private void loadArtistRv(View view, List<ArtistModel> list) {
+        MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_artists_title)).inflate();
+        topAlbumsTitle.setText(getString(R.string.top_artist));
+        RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_artists_list)).inflate();
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
         HomeAdapterArtist adapter = new HomeAdapterArtist(list, getLayoutInflater(), (sharedView, position) -> {

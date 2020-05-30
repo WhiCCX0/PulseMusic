@@ -9,20 +9,76 @@
         android:orientation="vertical">
 
         <include layout="@layout/home_top_content" />
+        <!--
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/top_albums"
+                    android:textAppearance="@style/TextViewHeadline6"
+                    android:textStyle="bold" />
 
-        <com.google.android.material.textview.MaterialTextView
+                <include
+                    android:id="@+id/home_albums_rv"
+                    layout="@layout/recycler_view_home" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/random"
+                    android:textAppearance="@style/TextViewHeadline6"
+                    android:textStyle="bold" />
+
+                <include
+                    android:id="@+id/home_suggested_rv"
+                    layout="@layout/recycler_view_home" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/new_in_library"
+                    android:textAppearance="@style/TextViewHeadline6"
+                    android:textStyle="bold" />
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:id="@+id/new_in_library_rv"
+                    layout="@layout/recycler_view_home" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/top_artist"
+                    android:textAppearance="@style/TextViewHeadline6"
+                    android:textStyle="bold" />
+
+                <include
+                    android:id="@+id/home_recent_artist_rv"
+                    layout="@layout/recycler_view_home" />
+        -->
+        <ViewStub
+            android:id="@+id/stub_top_albums_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/top_albums"
-            android:textAppearance="@style/TextViewHeadline6"
-            android:textStyle="bold" />
+            android:layout="@layout/home_category_title" />
 
-        <include
-            android:id="@+id/home_albums_rv"
-            layout="@layout/recycler_view_home" />
-
+        <ViewStub
+            android:id="@+id/stub_top_albums_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/home_category_list" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -33,9 +89,11 @@
             android:textAppearance="@style/TextViewHeadline6"
             android:textStyle="bold" />
 
-        <include
-            android:id="@+id/home_suggested_rv"
-            layout="@layout/recycler_view_home" />
+        <ViewStub
+            android:id="@+id/stub_suggested_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/home_category_list" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -45,26 +103,26 @@
             android:textAppearance="@style/TextViewHeadline6"
             android:textStyle="bold" />
 
-        <include
+        <ViewStub
+            android:id="@+id/stub_new_in_store_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout="@layout/home_category_list"
             android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:id="@+id/new_in_library_rv"
-            layout="@layout/recycler_view_home" />
+            android:paddingEnd="0dp" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <ViewStub
+            android:id="@+id/stub_top_artists_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/top_artist"
-            android:textAppearance="@style/TextViewHeadline6"
-            android:textStyle="bold" />
+            android:layout="@layout/home_category_title" />
 
-        <include
-            android:id="@+id/home_recent_artist_rv"
-            layout="@layout/recycler_view_home" />
-
+        <ViewStub
+            android:id="@+id/stub_top_artists_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/home_category_list" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
