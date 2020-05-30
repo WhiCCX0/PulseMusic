@@ -1,6 +1,7 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -11,6 +12,8 @@ import com.hardcodecoder.pulsemusic.TaskRunner.Callback;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
+import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,8 +78,8 @@ public class LoaderHelper {
         });
     }
 
-    public static void loadTopAlbums(@NonNull ContentResolver contentResolver, @NonNull Callback<List<AlbumModel>> callback) {
-        if (null == LoaderCache.getAlbumsList()) {
+    public static void loadTopAlbums(@NonNull Context context, @NonNull Callback<List<TopAlbumModel>> callback) {
+        /*if (null == LoaderCache.getAlbumsList()) {
             loadAlbumsList(contentResolver, SortOrder.ALBUMS.TITLE_ASC, result -> {
                 List<AlbumModel> list = new ArrayList<>(result);
                 Collections.shuffle(list);
@@ -94,7 +97,11 @@ public class LoaderHelper {
             topAlbums.clear();
             list.clear();
             mHandler.post(() -> callback.onComplete(LoaderCache.getTopAlbums()));
-        });
+        });*/
+        StorageHelper.getSavedHistory(context, result -> TaskRunner.executeAsync(new TopAlbumsLoader(result), topAlbums -> {
+            LoaderCache.setTopAlbums(topAlbums);
+            callback.onComplete(LoaderCache.getTopAlbums());
+        }));
     }
 
     public static void loadTopArtist(@NonNull ContentResolver contentResolver, @NonNull Callback<List<ArtistModel>> callback) {

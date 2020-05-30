@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.loaders;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class LoaderCache {
     private static List<ArtistModel> mArtistsList;
     private static List<MusicModel> mSuggestions;
     private static List<MusicModel> mLatestTracks;
-    private static List<AlbumModel> mTopAlbums;
+    private static List<TopAlbumModel> mTopAlbums;
     private static List<ArtistModel> mTopArtists;
     private static Map<String, MusicModel> mModelMap;
 
@@ -85,11 +86,11 @@ public class LoaderCache {
         }
     }
 
-    public static List<AlbumModel> getTopAlbums() {
+    public static List<TopAlbumModel> getTopAlbums() {
         return mTopAlbums;
     }
 
-    static void setTopAlbums(List<AlbumModel> topAlbums) {
+    static void setTopAlbums(List<TopAlbumModel> topAlbums) {
         if (null == mTopAlbums)
             mTopAlbums = new ArrayList<>(topAlbums);
         else {

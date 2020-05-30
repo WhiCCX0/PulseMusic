@@ -22,17 +22,17 @@ import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
-import com.hardcodecoder.pulsemusic.model.AlbumModel;
+import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
 
 import java.util.List;
 
 public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
 
-    private List<AlbumModel> mList;
+    private List<TopAlbumModel> mList;
     private LayoutInflater mInflater;
     private SimpleTransitionClickListener mListener;
 
-    public HomeAdapterAlbum(List<AlbumModel> list, LayoutInflater inflater, SimpleTransitionClickListener listener) {
+    public HomeAdapterAlbum(List<TopAlbumModel> list, LayoutInflater inflater, SimpleTransitionClickListener listener) {
         this.mList = list;
         this.mInflater = inflater;
         this.mListener = listener;
@@ -70,14 +70,14 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
             itemView.setOnClickListener(v -> listener.onItemClick(materialCardView, getAdapterPosition()));
         }
 
-        void updateData(AlbumModel am) {
+        void updateData(TopAlbumModel albumModel) {
             materialCardView.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
             GlideApp.with(albumArt)
-                    .load(am.getAlbumArt())
+                    .load(albumModel.getAlbumArt())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), am.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_NONE,
+                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), albumModel.getAlbumId(), MediaArtHelper.RoundingRadius.RADIUS_NONE,
                                     drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
@@ -90,7 +90,7 @@ public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.Adap
                     .transform(GlideConstantArtifacts.getRadius16dp())
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);
-            title.setText(am.getAlbumName());
+            title.setText(albumModel.getAlbumName());
         }
     }
 }
