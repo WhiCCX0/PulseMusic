@@ -38,8 +38,7 @@ public class ArtistsLoader implements Callable<List<ArtistModel>> {
     @Override
     public List<ArtistModel> call() {
         List<ArtistModel> artistList = new ArrayList<>();
-        String[] col = {MediaStore.Audio.Albums._ID,
-                MediaStore.Audio.Albums._ID,
+        String[] col = {MediaStore.Audio.Artists._ID,
                 MediaStore.Audio.Artists.ARTIST,
                 MediaStore.Audio.Artists.NUMBER_OF_ALBUMS,
                 MediaStore.Audio.Artists.NUMBER_OF_TRACKS};
