@@ -4,22 +4,19 @@
     android:layout_width="128dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"
-    android:orientation="vertical">
+    android:background="@drawable/bck_circle_border_artist"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
 
-    <FrameLayout
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:background="@drawable/bck_circle_border_artist"
-        android:padding="@dimen/bck_iv_sh_src_padding">
+    <ImageView
+        android:id="@+id/home_rv_artist_list_item_art"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_margin="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_artist_art"
+        tools:ignore="contentDescription" />
 
-        <ImageView
-            android:id="@+id/home_rv_artist_list_item_art"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_artist_art"
-            tools:ignore="contentDescription" />
-    </FrameLayout>
 
     <include layout="@layout/rv_home_item_title_text_view" />
 
