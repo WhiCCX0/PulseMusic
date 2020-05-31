@@ -22,6 +22,7 @@
         android:id="@+id/details_activity_art_card"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:cardBackgroundColor="?surfaceColor"
         app:cardCornerRadius="@dimen/rounding_radius_16dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@id/details_activity_title_sub"
