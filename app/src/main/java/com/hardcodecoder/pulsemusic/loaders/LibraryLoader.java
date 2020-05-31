@@ -46,15 +46,14 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM,
-                //MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ALBUM_ID,
                 MediaStore.Audio.Media.DURATION};
 
         final Cursor cursor = contentResolver.query(
                 uri,
                 cursor_cols,
-                null, //getSelection(),
-                null, //getSelectionArgs(),
+                getSelection(),
+                getSelectionArgs(),
                 mSortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -86,11 +85,11 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
 
     private String getSelection() {
         return "("
-                + "(" + MediaStore.Audio.Media.IS_MUSIC + "==? )"
-                + "AND (" + MediaStore.Audio.Media.IS_ALARM + "==? )"
-                + "AND (" + MediaStore.Audio.Media.IS_NOTIFICATION + "==? )"
-                + "AND (" + MediaStore.Audio.Media.IS_PODCAST + "==? )"
-                + "AND (" + MediaStore.Audio.Media.IS_RINGTONE + "==? )"
+                + "(" + MediaStore.Audio.Media.IS_MUSIC + "==?)"
+                + "AND (" + MediaStore.Audio.Media.IS_ALARM + "==?)"
+                + "AND (" + MediaStore.Audio.Media.IS_NOTIFICATION + "==?)"
+                + "AND (" + MediaStore.Audio.Media.IS_PODCAST + "==?)"
+                + "AND (" + MediaStore.Audio.Media.IS_RINGTONE + "==?)"
                 + ")";
     }
 
