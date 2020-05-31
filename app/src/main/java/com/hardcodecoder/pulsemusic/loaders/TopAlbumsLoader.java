@@ -32,15 +32,16 @@ public class TopAlbumsLoader implements Callable<List<TopAlbumModel>> {
         }
 
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(frequencyMap.entrySet());
-        Collections.sort(entryList, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        Collections.sort(entryList, Collections.reverseOrder((o1, o2) -> o1.getValue().compareTo(o2.getValue())));
+
+        if (entryList.size() > 20)
+            entryList = entryList.subList(0, 20);
+
         for (Map.Entry<String, Integer> entry : entryList) {
             MusicModel md = modelMap.get(entry.getKey());
             if (null != md)
                 topAlbums.add(new TopAlbumModel(md.getAlbum(), md.getAlbumArtUrl(), md.getAlbumId()));
         }
-        Collections.reverse(topAlbums);
-        if (topAlbums.size() > 20)
-            topAlbums = topAlbums.subList(0, 20);
         return topAlbums;
     }
 }

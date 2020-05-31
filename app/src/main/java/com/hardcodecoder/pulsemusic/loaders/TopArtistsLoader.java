@@ -34,7 +34,7 @@ public class TopArtistsLoader implements Callable<List<TopArtistModel>> {
         }
 
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(frequencyMap.entrySet());
-        Collections.sort(entryList, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        Collections.sort(entryList, Collections.reverseOrder((o1, o2) -> o1.getValue().compareTo(o2.getValue())));
 
         if (entryList.size() > 20)
             entryList = entryList.subList(0, 20);
@@ -56,7 +56,6 @@ public class TopArtistsLoader implements Callable<List<TopArtistModel>> {
                 topArtistList.add(artistModel);
         }
         artistModelMap.clear();
-        Collections.reverse(topArtistList);
         return topArtistList;
     }
 
