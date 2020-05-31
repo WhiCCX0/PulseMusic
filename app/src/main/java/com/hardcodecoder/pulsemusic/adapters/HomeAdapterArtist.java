@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
-import com.hardcodecoder.pulsemusic.model.ArtistModel;
+import com.hardcodecoder.pulsemusic.model.TopArtistModel;
 
 import java.util.List;
 
 public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.AdapterSVH> {
 
-    private List<ArtistModel> mList;
+    private List<TopArtistModel> mList;
     private LayoutInflater mInflater;
     private SimpleTransitionClickListener mListener;
 
-    public HomeAdapterArtist(List<ArtistModel> list, LayoutInflater inflater, SimpleTransitionClickListener listener) {
+    public HomeAdapterArtist(List<TopArtistModel> list, LayoutInflater inflater, SimpleTransitionClickListener listener) {
         this.mList = list;
         this.mInflater = inflater;
         this.mListener = listener;
@@ -58,10 +58,10 @@ public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.Ad
             itemView.setOnClickListener(v -> listener.onItemClick(artistArt, getAdapterPosition()));
         }
 
-        void updateData(ArtistModel am) {
+        void updateData(TopArtistModel artistModel) {
             artistArt.setTransitionName("shared_transition_artist_iv_" + getAdapterPosition());
-            artistName.setText(am.getArtistName());
-            trackCount.setText(String.format("%d " + itemView.getResources().getString(R.string.tracks_num ), am.getNumOfTracks()));
+            artistName.setText(artistModel.getArtistName());
+            trackCount.setText(String.format("%d " + itemView.getResources().getString(R.string.tracks_num), artistModel.getNumOfTracks()));
         }
     }
 }

@@ -13,6 +13,7 @@ import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
+import com.hardcodecoder.pulsemusic.model.TopArtistModel;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
@@ -104,8 +105,8 @@ public class LoaderHelper {
         }));
     }
 
-    public static void loadTopArtist(@NonNull ContentResolver contentResolver, @NonNull Callback<List<ArtistModel>> callback) {
-        if (null == LoaderCache.getArtistsList()) {
+    public static void loadTopArtist(@NonNull Context context, @NonNull Callback<List<TopArtistModel>> callback) {
+        /*if (null == LoaderCache.getArtistsList()) {
             loadArtistsList(contentResolver, SortOrder.ARTIST.TITLE_ASC, result -> {
                 List<ArtistModel> list = new ArrayList<>(result);
                 Collections.shuffle(list);
@@ -123,6 +124,13 @@ public class LoaderHelper {
             topArtist.clear();
             list.clear();
             mHandler.post(() -> callback.onComplete(LoaderCache.getTopArtists()));
-        });
+        });*/
+        StorageHelper.getSavedHistory(context, result -> TaskRunner.executeAsync(
+                new TopArtistsLoader(context.getContentResolver(), result),
+                topArtistsList -> {
+                    LoaderCache.setTopArtists(topArtistsList);
+                    topArtistsList.clear();
+                    callback.onComplete(LoaderCache.getTopArtists());
+                }));
     }
 }
