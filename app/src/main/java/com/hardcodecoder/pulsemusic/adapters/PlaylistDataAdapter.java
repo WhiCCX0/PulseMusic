@@ -123,7 +123,7 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
         }
 
         void updateView(MusicModel md) {
-            title.setText(md.getSongName());
+            title.setText(md.getTrackName());
             subTitle.setText(md.getArtist());
             GlideApp
                     .with(itemView.getContext())

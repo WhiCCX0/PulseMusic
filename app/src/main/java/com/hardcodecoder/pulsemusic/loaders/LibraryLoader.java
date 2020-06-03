@@ -76,7 +76,7 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
                 int duration = cursor.getInt(durationColumnIndex);
                 String albumArt = ContentUris.withAppendedId(sArtworkUri, albumId).toString();
 
-                libraryList.add(new MusicModel(_id, songName, artist, songPath, album, albumId, albumArt, duration));
+                libraryList.add(new MusicModel(_id, songName, songPath, album, artist, albumArt, albumId, duration));
             } while (cursor.moveToNext());
             cursor.close();
         }

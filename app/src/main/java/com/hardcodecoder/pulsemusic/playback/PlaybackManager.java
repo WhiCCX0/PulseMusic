@@ -116,8 +116,8 @@ public class PlaybackManager implements Playback.Callback {
     private void updateMetaData(boolean b) {
         if (b) {
             MusicModel md = mTrackManager.getActiveQueueItem();
-            mMetadataBuilder.putLong(MediaMetadata.METADATA_KEY_DURATION, md.getDuration());
-            mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, md.getSongName());
+            mMetadataBuilder.putLong(MediaMetadata.METADATA_KEY_DURATION, md.getTrackDuration());
+            mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, md.getTrackName());
             mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, md.getArtist());
             mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_ALBUM, md.getAlbum());
             mMetadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, loadAlbumArt(md.getAlbumArtUrl(), md.getAlbumId()));

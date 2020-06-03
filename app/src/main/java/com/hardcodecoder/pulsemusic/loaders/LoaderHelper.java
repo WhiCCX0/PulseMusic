@@ -33,7 +33,7 @@ public class LoaderHelper {
             TaskRunner.executeAsync(() -> {
                 Map<String, MusicModel> modelMap = new HashMap<>();
                 for (MusicModel musicModel : result)
-                    modelMap.put(musicModel.getSongName(), musicModel);
+                    modelMap.put(musicModel.getTrackName(), musicModel);
                 LoaderCache.setModelMap(modelMap);
                 modelMap.clear();
                 result.clear();

@@ -95,7 +95,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
         }
 
         void updateViewData(MusicModel md) {
-            title.setText(md.getSongName());
+            title.setText(md.getTrackName());
             artist.setText(md.getArtist());
 
             GlideApp.with(itemView)

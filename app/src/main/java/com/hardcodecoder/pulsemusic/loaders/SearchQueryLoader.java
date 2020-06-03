@@ -22,7 +22,7 @@ public class SearchQueryLoader implements Callable<List<MusicModel>> {
         if (!mSearchQuery.isEmpty() && null != searchList) {
             mSearchQuery = mSearchQuery.toLowerCase();
             for (MusicModel musicModel : searchList) {
-                if (musicModel.getSongName().toLowerCase().contains(mSearchQuery) ||
+                if (musicModel.getTrackName().toLowerCase().contains(mSearchQuery) ||
                         musicModel.getAlbum().toLowerCase().contains(mSearchQuery) ||
                         musicModel.getArtist().toLowerCase().contains(mSearchQuery)) {
                     searchResult.add(musicModel);

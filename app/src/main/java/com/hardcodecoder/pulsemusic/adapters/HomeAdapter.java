@@ -91,7 +91,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
         void setItemData(MusicModel md, LayoutStyle style) {
 
-            title.setText(md.getSongName());
+            title.setText(md.getTrackName());
             text.setText(md.getArtist());
 
             GlideApp.with(albumArt)

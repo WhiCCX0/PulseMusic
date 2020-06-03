@@ -33,8 +33,8 @@ public class StorageHelper {
     }
 
     public static void addTrackToHistory(Context context, MusicModel md) {
-        if (historySet.add(md.getSongName())) // Returns true if the song title is not present in the set
-            StorageManager.addTrackToHistory(context.getFilesDir().getAbsolutePath(), md.getSongName());
+        if (historySet.add(md.getTrackName())) // Returns true if the song title is not present in the set
+            StorageManager.addTrackToHistory(context.getFilesDir().getAbsolutePath(), md.getTrackName());
     }
 
     public static void getSavedFavoriteTracks(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
@@ -46,20 +46,20 @@ public class StorageHelper {
     }
 
     public static void addTrackToFavorites(Context context, MusicModel md) {
-        if (favoritesSet.add(md.getSongName()))
-            StorageManager.addTrackToFavorites(context.getFilesDir().getAbsolutePath(), md.getSongName());
+        if (favoritesSet.add(md.getTrackName()))
+            StorageManager.addTrackToFavorites(context.getFilesDir().getAbsolutePath(), md.getTrackName());
     }
 
     public static void removeTrackFromFavorites(Context context, MusicModel md) {
-        if (favoritesSet.remove(md.getSongName())) {
+        if (favoritesSet.remove(md.getTrackName())) {
             // Item was previously added and has been removed successfully.
             // Remove from database as well
-            StorageManager.deleteTrackFromFavoritesList(context.getFilesDir().getAbsolutePath(), md.getSongName());
+            StorageManager.deleteTrackFromFavoritesList(context.getFilesDir().getAbsolutePath(), md.getTrackName());
         }
     }
 
     public static boolean isTrackAlreadyInFavorites(MusicModel md) {
-        return favoritesSet.contains(md.getSongName());
+        return favoritesSet.contains(md.getTrackName());
     }
 
     public static void getPlaylists(Context context, TaskRunner.Callback<List<String>> callback) {

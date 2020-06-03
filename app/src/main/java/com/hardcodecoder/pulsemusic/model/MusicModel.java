@@ -7,66 +7,57 @@ import java.io.Serializable;
 
 public class MusicModel implements Serializable {
 
-    private String songName, artist, songPath, album, albumArtUrl;
-    private int duration, modelId;
-    private long albumId;
+    private String mTrackName, mTrackPath, mAlbum, mArtist, mAlbumArtUrl;
+    private long mAlbumId;
+    private int mId, mTrackDuration;
 
-    public MusicModel(int id,
-                      String songName,
-                      @Nullable String artist,
-                      @NonNull String songPath,
-                      @Nullable String album,
-                      long albumId,
-                      @Nullable String albumArtUrl,
-                      int duration) {
-
-        this.songName = songName;
-        this.artist = artist;
-        this.songPath = songPath;
-        this.album = album;
-        this.albumId = albumId;
-        this.albumArtUrl = albumArtUrl;
-        this.duration = duration;
-        this.modelId = id;
-    }
-
-    public void setSongPath(String songPath) {
-        this.songPath = songPath;
-    }
-
-    public void setTitle(String title) {
-        this.songName = title;
+    public MusicModel(int mId,
+                      @NonNull String mTrackName,
+                      @NonNull String mTrackPath,
+                      @NonNull String mAlbum,
+                      @NonNull String mArtist,
+                      @Nullable String mAlbumArtUrl,
+                      long mAlbumId,
+                      int mTrackDuration) {
+        this.mId = mId;
+        this.mTrackName = mTrackName;
+        this.mTrackPath = mTrackPath;
+        this.mAlbum = mAlbum;
+        this.mArtist = mArtist;
+        this.mAlbumArtUrl = mAlbumArtUrl;
+        this.mAlbumId = mAlbumId;
+        this.mTrackDuration = mTrackDuration;
     }
 
     public int getId() {
-        return modelId;
+        return mId;
     }
 
-    public String getSongName() {
-        return songName;
+    public String getTrackName() {
+        return mTrackName;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public String getSongPath() {
-        return songPath;
+    public String getTrackPath() {
+        return mTrackPath;
     }
 
     public String getAlbum() {
-        return album;
+        return mAlbum;
     }
 
-    public long getAlbumId() {
-        return albumId;
+    public String getArtist() {
+        return mArtist;
     }
 
     public String getAlbumArtUrl() {
-        return albumArtUrl;
+        return mAlbumArtUrl;
     }
 
-    public int getDuration() {
-        return duration;
+    public long getAlbumId() {
+        return mAlbumId;
+    }
+
+    public int getTrackDuration() {
+        return mTrackDuration;
     }
 }

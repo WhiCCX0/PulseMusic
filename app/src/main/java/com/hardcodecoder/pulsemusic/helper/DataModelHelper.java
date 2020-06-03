@@ -26,7 +26,7 @@ public class DataModelHelper {
     public static List<String> getTitlesListFromModelsObject(List<MusicModel> modelList) {
         List<String> titlesList = new ArrayList<>();
         for (MusicModel musicModel : modelList) {
-            titlesList.add(musicModel.getSongName());
+            titlesList.add(musicModel.getTrackName());
         }
         return titlesList;
     }
@@ -42,7 +42,7 @@ public class DataModelHelper {
                 String album = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
                 int duration = Integer.parseInt(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
                 mmr.release();
-                return new MusicModel(-1, name, artist, path, album, -1, null, duration);
+                return new MusicModel(-1, name, path, album, artist, null, 0, duration);
             }
             return null;
         } catch (Exception e) {

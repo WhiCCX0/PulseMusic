@@ -33,6 +33,6 @@ public class DiffCb extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldItems.get(oldItemPosition).getSongName().equals(newItems.get(newItemPosition).getSongName());
+        return oldItems.get(oldItemPosition).getTrackName().equals(newItems.get(newItemPosition).getTrackName());
     }
 }

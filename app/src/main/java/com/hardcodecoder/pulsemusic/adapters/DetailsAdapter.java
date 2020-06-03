@@ -69,7 +69,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsS
         }
 
         void updateData(MusicModel md) {
-            title.setText(md.getSongName());
+            title.setText(md.getTrackName());
             subTitle.setText(md.getArtist());
             GlideApp
                     .with(itemView.getContext())

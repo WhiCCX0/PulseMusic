@@ -75,7 +75,7 @@ public class LocalPlayback implements
         mp.setOnCompletionListener(this);
         mp.reset();
         try {
-            mp.setDataSource(mContext, Uri.parse(mTrackManager.getActiveQueueItem().getSongPath()));
+            mp.setDataSource(mContext, Uri.parse(mTrackManager.getActiveQueueItem().getTrackPath()));
             mp.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();

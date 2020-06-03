@@ -142,7 +142,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     private void createDialog(int pos) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         MusicModel md = mSearchResult.get(pos);
-        builder.setTitle(md.getSongName());
+        builder.setTitle(md.getTrackName());
         String s = getString(R.string.album_head) + " " + md.getAlbum() + "\n" + getString(R.string.artist_head) + " " + md.getArtist();
         builder.setMessage(s);
         builder.setPositiveButton(getString(R.string.done), (dialog, which) -> dialog.dismiss());

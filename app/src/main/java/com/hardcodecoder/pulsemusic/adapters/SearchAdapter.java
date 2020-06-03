@@ -122,7 +122,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         }
 
         void setItemData(MusicModel md) {
-            title.setText(md.getSongName());
+            title.setText(md.getTrackName());
             subTitle.setText(md.getArtist());
             GlideApp.with(itemView.getContext())
                     .load(md.getAlbumArtUrl())
