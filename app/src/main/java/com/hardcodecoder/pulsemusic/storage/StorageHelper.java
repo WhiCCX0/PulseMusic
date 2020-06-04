@@ -24,11 +24,13 @@ public class StorageHelper {
 
     public static void getSavedHistory(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedHistory(context.getFilesDir().getAbsolutePath(), result -> {
-            historySet.clear();
-            historySet.addAll(result);
-            List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
-            Collections.reverse(recentTracks);
-            handler.post(() -> callback.onComplete(recentTracks));
+            if (null != result && result.size() > 0) {
+                historySet.clear();
+                historySet.addAll(result);
+                List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
+                Collections.reverse(recentTracks);
+                handler.post(() -> callback.onComplete(recentTracks));
+            } else handler.post(() -> callback.onComplete(null));
         }));
     }
 
@@ -39,9 +41,11 @@ public class StorageHelper {
 
     public static void getSavedFavoriteTracks(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> StorageManager.getSavedFavoriteTracks(context.getFilesDir().getAbsolutePath(), result -> {
-            favoritesSet.addAll(result);
-            List<MusicModel> favoriteTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
-            handler.post(() -> callback.onComplete(favoriteTracks));
+            if (null != result && result.size() > 0) {
+                favoritesSet.addAll(result);
+                List<MusicModel> favoriteTracks = DataModelHelper.getModelsObjectFromTitlesList(result);
+                handler.post(() -> callback.onComplete(favoriteTracks));
+            } else handler.post(() -> callback.onComplete(null));
         }));
     }
 

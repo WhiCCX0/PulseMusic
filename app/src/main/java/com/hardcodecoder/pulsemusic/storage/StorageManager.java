@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.storage;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.TaskRunner.Callback;
@@ -152,33 +153,39 @@ class StorageManager {
 
     private static class Reader {
 
-        @NonNull
+        @Nullable
         private static List<String> readSavedHistory(String filesDir) {
-            List<String> recentList = new ArrayList<>();
-            try {
-                Scanner s = new Scanner(new File(StorageStructure.getAbsoluteHistoryPath(filesDir)));
-                while (s.hasNextLine())
-                    recentList.add(s.nextLine());
-                s.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            String absolutePath = StorageStructure.getAbsoluteHistoryPath(filesDir);
+            File file = new File(absolutePath);
+            if (file.exists()) {
+                List<String> recentList = new ArrayList<>();
+                try {
+                    Scanner s = new Scanner(file);
+                    while (s.hasNextLine())
+                        recentList.add(s.nextLine());
+                    s.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return recentList;
             }
-            return recentList;
+            return null;
         }
 
-        @NonNull
+        @Nullable
         private static List<String> readSavedFavorites(String filesDir) {
-            List<String> favoritesList = new ArrayList<>();
             String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
             File favoritesDir = new File(favoritesDirPath);
             if (favoritesDir.exists()) {
+                List<String> favoritesList = new ArrayList<>();
                 File[] files = favoritesDir.listFiles();
                 if (null != files) {
                     for (File file : files)
                         favoritesList.add(file.getName());
                 }
+                return favoritesList;
             }
-            return favoritesList;
+            return null;
         }
 
         @NonNull

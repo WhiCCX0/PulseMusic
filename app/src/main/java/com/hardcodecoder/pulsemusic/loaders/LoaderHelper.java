@@ -80,57 +80,23 @@ public class LoaderHelper {
     }
 
     public static void loadTopAlbums(@NonNull Context context, @NonNull Callback<List<TopAlbumModel>> callback) {
-        /*if (null == LoaderCache.getAlbumsList()) {
-            loadAlbumsList(contentResolver, SortOrder.ALBUMS.TITLE_ASC, result -> {
-                List<AlbumModel> list = new ArrayList<>(result);
-                Collections.shuffle(list);
-                List<AlbumModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-                LoaderCache.setTopAlbums(topAlbums);
-                topAlbums.clear();
-                list.clear();
-                mHandler.post(() -> callback.onComplete(LoaderCache.getTopAlbums()));
-            });
-        } else TaskRunner.executeAsync(() -> {
-            List<AlbumModel> list = new ArrayList<>(LoaderCache.getAlbumsList());
-            Collections.shuffle(list);
-            final List<AlbumModel> topAlbums = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-            LoaderCache.setTopAlbums(topAlbums);
-            topAlbums.clear();
-            list.clear();
-            mHandler.post(() -> callback.onComplete(LoaderCache.getTopAlbums()));
-        });*/
-        StorageHelper.getSavedHistory(context, result -> TaskRunner.executeAsync(new TopAlbumsLoader(result), topAlbums -> {
-            LoaderCache.setTopAlbums(topAlbums);
-            callback.onComplete(LoaderCache.getTopAlbums());
-        }));
+        StorageHelper.getSavedHistory(context, result -> {
+            if (null != result && result.size() > 0)
+                TaskRunner.executeAsync(new TopAlbumsLoader(result), topAlbums -> {
+                    LoaderCache.setTopAlbums(topAlbums);
+                    callback.onComplete(LoaderCache.getTopAlbums());
+                });
+        });
     }
 
     public static void loadTopArtist(@NonNull Context context, @NonNull Callback<List<TopArtistModel>> callback) {
-        /*if (null == LoaderCache.getArtistsList()) {
-            loadArtistsList(contentResolver, SortOrder.ARTIST.TITLE_ASC, result -> {
-                List<ArtistModel> list = new ArrayList<>(result);
-                Collections.shuffle(list);
-                final List<ArtistModel> topArtist = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-                LoaderCache.setTopArtists(topArtist);
-                topArtist.clear();
-                list.clear();
-                mHandler.post(() -> callback.onComplete(LoaderCache.getTopArtists()));
-            });
-        } else TaskRunner.executeAsync(() -> {
-            List<ArtistModel> list = new ArrayList<>(LoaderCache.getArtistsList());
-            Collections.shuffle(list);
-            final List<ArtistModel> topArtist = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-            LoaderCache.setTopArtists(topArtist);
-            topArtist.clear();
-            list.clear();
-            mHandler.post(() -> callback.onComplete(LoaderCache.getTopArtists()));
-        });*/
-        StorageHelper.getSavedHistory(context, result -> TaskRunner.executeAsync(
-                new TopArtistsLoader(context.getContentResolver(), result),
-                topArtistsList -> {
+        StorageHelper.getSavedHistory(context, result -> {
+            if (null != result && result.size() > 0)
+                TaskRunner.executeAsync(new TopArtistsLoader(context.getContentResolver(), result), topArtistsList -> {
                     LoaderCache.setTopArtists(topArtistsList);
                     topArtistsList.clear();
                     callback.onComplete(LoaderCache.getTopArtists());
-                }));
+                });
+        });
     }
 }
