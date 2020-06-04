@@ -20,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
+import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -134,6 +135,12 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
                     if (bottomSheetDialog.isShowing())
                         bottomSheetDialog.dismiss();
                 });
+
+        view.findViewById(R.id.song_info).setOnClickListener(v -> {
+            UIHelper.buildSongInfoDialog(getContext(), md);
+            if (bottomSheetDialog.isShowing())
+                bottomSheetDialog.dismiss();
+        });
 
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();

@@ -31,6 +31,7 @@ import com.hardcodecoder.pulsemusic.adapters.HomeAdapter.LayoutStyle;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterAlbum;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapterArtist;
 import com.hardcodecoder.pulsemusic.helper.DataModelHelper;
+import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
@@ -191,6 +192,8 @@ public class HomeFragment extends Fragment {
                     break;
                 case R.id.id_add_playlist:
                     break;
+                case R.id.id_song_info:
+                    UIHelper.buildSongInfoDialog(getContext(), md);
                 default:
             }
             return true;

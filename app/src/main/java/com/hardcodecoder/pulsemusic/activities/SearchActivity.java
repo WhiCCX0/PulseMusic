@@ -8,7 +8,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.SearchAdapter;
+import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.SearchQueryLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -130,25 +130,13 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
                 case R.id.id_add_playlist:
                     break;
                 case R.id.info:
-                    createDialog(position);
+                    UIHelper.buildSongInfoDialog(this, mSearchResult.get(position));
                     break;
                 default:
             }
             return true;
         });
         pm.show();
-    }
-
-    private void createDialog(int pos) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        MusicModel md = mSearchResult.get(pos);
-        builder.setTitle(md.getTrackName());
-        String s = getString(R.string.album_head) + " " + md.getAlbum() + "\n" + getString(R.string.artist_head) + " " + md.getArtist();
-        builder.setMessage(s);
-        builder.setPositiveButton(getString(R.string.done), (dialog, which) -> dialog.dismiss());
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
     }
 
     @Override

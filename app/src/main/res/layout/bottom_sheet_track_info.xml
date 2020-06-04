@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="32dp"
+    android:paddingTop="32dp"
+    android:paddingEnd="32dp"
+    android:paddingBottom="16dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_display_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textAppearance="@style/TextViewHeadline6"
+        tools:text="Let me love you.mp3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_track_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:maxLines="2"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="Title: Let me love you (Deluxe)" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_track_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="Album: Let me love you" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_track_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="Artist: Selina Gomez" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="File size: 11.56 MB" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_file_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="File type: audio/mp3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_bitrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="Bit rate: 320kbps" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_sample_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="Sample rate: 44100Hz" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_channel_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextViewSubtitle2"
+        tools:text="Number of channels: 2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dialog_ok"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="@string/okay"
+        android:textStyle="bold" />
+
+</LinearLayout>

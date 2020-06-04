@@ -119,9 +119,15 @@
 
 
     <!-- Song info dialog -->
-    <string name="artist_head">Artist  \u25CF </string>
-    <string name="album_head">Album  \u25Cf </string>
-    <string name="done">Done</string>
+    <string name="head_title">Track</string>
+    <string name="head_album">Album</string>
+    <string name="head_artist">Artist</string>
+    <string name="head_file_size">File size</string>
+    <string name="head_file_type">File type</string>
+    <string name="head_bitrate">Bit rate</string>
+    <string name="head_sample_rate">Sample rate</string>
+    <string name="head_channel_count">Number of channels</string>
+    <string name="okay">OK</string>
 
 
     <!-- Search Activity -->

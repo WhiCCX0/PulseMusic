@@ -27,6 +27,7 @@ import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
+import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -151,6 +152,12 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                     if (bottomSheetDialog.isShowing())
                         bottomSheetDialog.dismiss();
                 });
+
+        view.findViewById(R.id.song_info).setOnClickListener(v -> {
+            UIHelper.buildSongInfoDialog(this, mList.get(pos));
+            if (bottomSheetDialog.isShowing())
+                bottomSheetDialog.dismiss();
+        });
 
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();
