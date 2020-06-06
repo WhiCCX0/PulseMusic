@@ -6,6 +6,7 @@ import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -22,7 +23,7 @@ public class TopAlbumsLoader implements Callable<List<TopAlbumModel>> {
     public List<TopAlbumModel> call() {
         List<TopAlbumModel> topAlbums = new ArrayList<>();
         Map<String, Integer> frequencyMap = new HashMap<>();
-        Map<String, MusicModel> modelMap = new HashMap<>();
+        Map<String, MusicModel> modelMap = new LinkedHashMap<>();
 
         for (MusicModel md : mRecentTracks) {
             String albumName = md.getAlbum();
@@ -32,7 +33,7 @@ public class TopAlbumsLoader implements Callable<List<TopAlbumModel>> {
         }
 
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(frequencyMap.entrySet());
-        Collections.sort(entryList, Collections.reverseOrder((o1, o2) -> o1.getValue().compareTo(o2.getValue())));
+        Collections.sort(entryList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
         if (entryList.size() > 20)
             entryList = entryList.subList(0, 20);
