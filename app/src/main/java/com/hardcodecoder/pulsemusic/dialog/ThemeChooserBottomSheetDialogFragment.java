@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
-import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
 import com.hardcodecoder.pulsemusic.themes.ThemeStore;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
@@ -61,13 +60,13 @@ public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDia
             if (mOptionChanged) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.radio_btn_dark_theme_gray:
-                        ThemeManager.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_GRAY);
+                        ThemeManagerUtils.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_GRAY);
                         break;
                     case R.id.radio_btn_dark_theme_kinda:
-                        ThemeManager.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_KINDA);
+                        ThemeManagerUtils.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_KINDA);
                         break;
                     case R.id.radio_btn_dark_theme_pure_black:
-                        ThemeManager.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_PURE_BLACK);
+                        ThemeManagerUtils.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_PURE_BLACK);
                         break;
                 }
                 /*if (ThemeManagerUtils.needToApplyNewDarkTheme()) {

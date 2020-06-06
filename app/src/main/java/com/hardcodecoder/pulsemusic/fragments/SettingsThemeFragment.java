@@ -15,7 +15,6 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.dialog.ThemeChooserBottomSheetDialogFragment;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
-import com.hardcodecoder.pulsemusic.themes.ThemeManager;
 import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 import com.hardcodecoder.pulsemusic.views.SettingsToggleableItem;
@@ -80,11 +79,11 @@ public class SettingsThemeFragment extends Fragment {
                 else {
                     // User does not want auto theme based on time of day
                     // Revert to theme selected via darkThemeToggle
-                    if (enableDarkThemeSwitch.isChecked() && !ThemeManager.isDarkModeEnabled()) {
+                    if (enableDarkThemeSwitch.isChecked() && !ThemeManagerUtils.isDarkModeEnabled()) {
                         // User previously select dark theme so when auto theme is
                         // disabled apply dark theme if not already applied
                         applyTheme();
-                    } else if (!enableDarkThemeSwitch.isChecked() && ThemeManager.isDarkModeEnabled()) {
+                    } else if (!enableDarkThemeSwitch.isChecked() && ThemeManagerUtils.isDarkModeEnabled()) {
                         // User previously select light theme so when auto theme is
                         // disabled apply light theme if not already applied
                         applyTheme();

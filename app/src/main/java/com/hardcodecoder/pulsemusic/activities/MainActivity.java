@@ -20,7 +20,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.dialog.HomeBottomSheetFragment;
 import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
-import com.hardcodecoder.pulsemusic.themes.ThemeManager;
+import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
 import com.hardcodecoder.pulsemusic.ui.AlbumFragment;
 import com.hardcodecoder.pulsemusic.ui.ArtistFragment;
 import com.hardcodecoder.pulsemusic.ui.ControlsFragment;
@@ -58,7 +58,7 @@ public class MainActivity extends MediaSessionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mCurrentTheme = ThemeManager.getThemeToApply();
+        mCurrentTheme = ThemeManagerUtils.getThemeToApply();
         //mCurrentAccent = ThemeManager.getAccentToApply();
 
         super.onCreate(null); // Pass null to prevent restoration of fragments on activity recreate
@@ -200,7 +200,7 @@ public class MainActivity extends MediaSessionActivity {
 
     @Override
     protected void onStart() {
-        if ((mCurrentTheme != ThemeManager.getThemeToApply()) /*|| (mCurrentAccent != ThemeManager.getAccentToApply())*/) {
+        if ((mCurrentTheme != ThemeManagerUtils.getThemeToApply()) /*|| (mCurrentAccent != ThemeManager.getAccentToApply())*/) {
             supportInvalidateOptionsMenu();
             recreate();
         }

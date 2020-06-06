@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.themes.ColorUtil;
-import com.hardcodecoder.pulsemusic.themes.ThemeManager;
+import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
 
 public class ColoredIconView extends AppCompatImageView {
 
@@ -40,7 +40,7 @@ public class ColoredIconView extends AppCompatImageView {
         int iconColor = typedArray.getColor(R.styleable.ColoredIconView_iconColor, Color.BLUE);
         int iconBackgroundColor = typedArray.getColor(R.styleable.ColoredIconView_iconBackgroundColor, iconColor);
 
-        boolean desaturated = ThemeManager.isDarkModeEnabled() && typedArray.getBoolean(R.styleable.ColoredIconView_desaturatedColorInDarkMode, true);
+        boolean desaturated = ThemeManagerUtils.isDarkModeEnabled() && typedArray.getBoolean(R.styleable.ColoredIconView_desaturatedColorInDarkMode, true);
 
         if (desaturated) {
             iconColor = context.getResources().getColor(R.color.darkColorBackground);
