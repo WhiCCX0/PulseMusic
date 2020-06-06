@@ -1,6 +1,5 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
-import android.content.ContentResolver;
 
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -16,7 +15,7 @@ public class AlbumsLoader implements Callable<List<AlbumModel>> {
 
     private SortOrder.ALBUMS mSortOrder;
 
-    AlbumsLoader(ContentResolver contentResolver, SortOrder.ALBUMS sortOrder) {
+    AlbumsLoader(SortOrder.ALBUMS sortOrder) {
         mSortOrder = sortOrder;
     }
 

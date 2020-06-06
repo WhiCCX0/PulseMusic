@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
-import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder.ALBUMS;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
@@ -60,9 +59,7 @@ public class AlbumFragment extends Fragment {
             mCurrentSortOrder = AppSettings.getAlbumsFragmentSortOrder(getContext());
             ALBUMS sortOrder = (mCurrentSortOrder == ALBUMS_SORT_ORDER_TITLE_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
 
-            if (null == LoaderCache.getAlbumsList())
-                LoaderHelper.loadAlbumsList(getContext().getContentResolver(), sortOrder, result -> loadAlbumsList(view, result));
-            else loadAlbumsList(view, LoaderCache.getAlbumsList());
+            LoaderHelper.loadAlbumsList(sortOrder, result -> loadAlbumsList(view, result));
         }
     }
 

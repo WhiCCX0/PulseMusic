@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
-import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder.ARTIST;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
@@ -59,9 +58,8 @@ public class ArtistFragment extends Fragment {
         if (null != getContext()) {
             mCurrentSortOrder = AppSettings.getArtistFragmentSortOrder(getContext());
             ARTIST sortOrder = (mCurrentSortOrder == ARTIST_SORT_ORDER_TITLE_DESC) ? ARTIST.TITLE_DESC : ARTIST.TITLE_ASC;
-            if (null == LoaderCache.getAlbumsList())
-                LoaderHelper.loadArtistsList(getContext().getContentResolver(), sortOrder, result -> loadArtistsList(view, result));
-            else loadArtistsList(view, LoaderCache.getArtistsList());
+
+            LoaderHelper.loadArtistsList(getContext().getContentResolver(), sortOrder, result -> loadArtistsList(view, result));
         }
     }
 

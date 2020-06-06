@@ -1,10 +1,6 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
-import com.hardcodecoder.pulsemusic.model.AlbumModel;
-import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
-import com.hardcodecoder.pulsemusic.model.TopArtistModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +10,8 @@ import java.util.Map;
 public class LoaderCache {
 
     private static List<MusicModel> mAllTracksList;
-    private static List<AlbumModel> mAlbumsList;
-    private static List<ArtistModel> mArtistsList;
     private static List<MusicModel> mSuggestions;
     private static List<MusicModel> mLatestTracks;
-    private static List<TopAlbumModel> mTopAlbums;
-    private static List<TopArtistModel> mTopArtists;
     private static Map<String, MusicModel> mModelMap;
 
     public static List<MusicModel> getAllTracksList() {
@@ -32,32 +24,6 @@ public class LoaderCache {
         else {
             mAllTracksList.clear();
             mAllTracksList.addAll(allTracksList);
-        }
-    }
-
-    public static List<AlbumModel> getAlbumsList() {
-        return mAlbumsList;
-    }
-
-    static void setAlbumsList(List<AlbumModel> albumsList) {
-        if (null == mAlbumsList)
-            mAlbumsList = new ArrayList<>(albumsList);
-        else {
-            mAlbumsList.clear();
-            mAlbumsList.addAll(albumsList);
-        }
-    }
-
-    public static List<ArtistModel> getArtistsList() {
-        return mArtistsList;
-    }
-
-    static void setArtistsList(List<ArtistModel> artistsList) {
-        if (null == mArtistsList)
-            mArtistsList = new ArrayList<>(artistsList);
-        else {
-            mArtistsList.clear();
-            mArtistsList.addAll(artistsList);
         }
     }
 
@@ -84,32 +50,6 @@ public class LoaderCache {
         else {
             mLatestTracks.clear();
             mLatestTracks.addAll(latestTracks);
-        }
-    }
-
-    public static List<TopAlbumModel> getTopAlbums() {
-        return mTopAlbums;
-    }
-
-    static void setTopAlbums(List<TopAlbumModel> topAlbums) {
-        if (null == mTopAlbums)
-            mTopAlbums = new ArrayList<>(topAlbums);
-        else {
-            mTopAlbums.clear();
-            mTopAlbums.addAll(topAlbums);
-        }
-    }
-
-    public static List<TopArtistModel> getTopArtists() {
-        return mTopArtists;
-    }
-
-    static void setTopArtists(List<TopArtistModel> topArtists) {
-        if (null == mTopArtists)
-            mTopArtists = new ArrayList<>(topArtists);
-        else {
-            mTopArtists.clear();
-            mTopArtists.addAll(topArtists);
         }
     }
 

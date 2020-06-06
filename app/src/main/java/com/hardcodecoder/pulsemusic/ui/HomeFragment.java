@@ -1,12 +1,10 @@
 package com.hardcodecoder.pulsemusic.ui;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.media.session.MediaController;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +40,12 @@ import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
     private static final int PICK_MUSIC = 1600;
+    private final Handler mHandler = new Handler();
     private MediaController.TransportControls mTransportControl;
     private TrackManager tm;
 
@@ -62,117 +62,115 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         tm = TrackManager.getInstance();
 
-        new Handler().postDelayed(() -> updateUi(view), 500); //wait for animation to complete before loading all list
+        mHandler.postDelayed(() ->
+                        LoaderHelper.loadTopAlbums(Objects.requireNonNull(getContext()), result -> loadTopAlbums(view, result)),
+                500); //wait for animation to complete before loading all list
 
         view.findViewById(R.id.ic_recent).setOnClickListener(v -> startActivity(new Intent(getContext(), RecentActivity.class)));
         view.findViewById(R.id.ic_folder).setOnClickListener(v -> pickMedia());
         view.findViewById(R.id.ic_favorite).setOnClickListener(v -> startActivity(new Intent(getContext(), FavoritesActivity.class)));
     }
 
-    private void updateUi(View view) {
-        if (null != getContext()) {
-            ContentResolver contentResolver = getContext().getContentResolver();
-
-            if (null == LoaderCache.getTopAlbums())
-                LoaderHelper.loadTopAlbums(getContext(), result -> loadTopAlbums(view, result));
-            else loadTopAlbums(view, LoaderCache.getTopAlbums());
-
-            if (null == LoaderCache.getSuggestions())
-                LoaderHelper.loadSuggestionsList(result -> loadSuggestions(view, result));
-            else loadSuggestions(view, LoaderCache.getSuggestions());
-
-            if (null == LoaderCache.getLatestTracks())
-                LoaderHelper.loadLatestTracks(contentResolver, result -> loadLatestTracks(view, result));
-            else loadLatestTracks(view, LoaderCache.getLatestTracks());
-
-            if (null == LoaderCache.getTopArtists())
-                LoaderHelper.loadTopArtist(getContext(), result -> loadArtistRv(view, result));
-            else loadArtistRv(view, LoaderCache.getTopArtists());
-
-        } else Log.e("HomeFragment", "Context is null unable to fetch data");
-    }
-
     private void loadTopAlbums(View view, List<TopAlbumModel> list) {
-        if (list.size() > 0) {
-            MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_albums_title)).inflate();
-            topAlbumsTitle.setText(getString(R.string.top_albums));
-            RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_albums_list)).inflate();
-            rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            rv.setHasFixedSize(true);
-            HomeAdapterAlbum adapter = new HomeAdapterAlbum(list, getLayoutInflater(), (sharedView, position) -> {
-                Intent i = new Intent(getContext(), DetailsActivity.class);
-                i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
-                i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
-                i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getAlbumName());
-                i.putExtra(DetailsActivity.KEY_ART_URL, list.get(position).getAlbumArt());
-                if (null != getActivity()) {
-                    String transitionName = sharedView.getTransitionName();
-                    i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                    Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
-                    startActivity(i, b);
-                }
+        if (null != list && list.size() > 0) {
+            mHandler.post(() -> {
+                MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_albums_title)).inflate();
+                topAlbumsTitle.setText(getString(R.string.top_albums));
+                RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_albums_list)).inflate();
+                rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                rv.setHasFixedSize(true);
+                HomeAdapterAlbum adapter = new HomeAdapterAlbum(list, getLayoutInflater(), (sharedView, position) -> {
+                    Intent i = new Intent(getContext(), DetailsActivity.class);
+                    i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
+                    i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
+                    i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getAlbumName());
+                    i.putExtra(DetailsActivity.KEY_ART_URL, list.get(position).getAlbumArt());
+                    if (null != getActivity()) {
+                        String transitionName = sharedView.getTransitionName();
+                        i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
+                        Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
+                        startActivity(i, b);
+                    }
+                });
+                rv.setAdapter(adapter);
             });
-            rv.setAdapter(adapter);
         }
+        if (null == LoaderCache.getSuggestions())
+            LoaderHelper.loadSuggestionsList(result -> loadSuggestions(view, result));
+        else loadSuggestions(view, LoaderCache.getSuggestions());
     }
 
     private void loadSuggestions(View view, List<MusicModel> list) {
-        RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_suggested_list)).inflate();
-        rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rv.setHasFixedSize(true);
-        HomeAdapter adapter = new HomeAdapter(getLayoutInflater(), list, new ItemClickListener.Simple() {
-            @Override
-            public void onItemClick(int pos) {
-                tm.buildDataList(list, pos);
-                play();
-            }
+        if (null != list && list.size() > 0) {
+            mHandler.postDelayed(() -> {
+                RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_suggested_list)).inflate();
+                rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                rv.setHasFixedSize(true);
+                HomeAdapter adapter = new HomeAdapter(getLayoutInflater(), list, new ItemClickListener.Simple() {
+                    @Override
+                    public void onItemClick(int pos) {
+                        tm.buildDataList(list, pos);
+                        play();
+                    }
 
-            @Override
-            public void onOptionsClick(View view, int pos) {
-                openMenu(list.get(pos), view);
-            }
-        }, LayoutStyle.CIRCLE);
-        rv.setAdapter(adapter);
+                    @Override
+                    public void onOptionsClick(View view, int pos) {
+                        openMenu(list.get(pos), view);
+                    }
+                }, LayoutStyle.CIRCLE);
+                rv.setAdapter(adapter);
+            }, 500);
+        }
+        if (null == LoaderCache.getLatestTracks())
+            LoaderHelper.loadLatestTracks(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadLatestTracks(view, result));
+        else loadLatestTracks(view, LoaderCache.getLatestTracks());
     }
 
     private void loadLatestTracks(View view, List<MusicModel> list) {
-        RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_new_in_store_list)).inflate();
-        rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rv.setHasFixedSize(true);
-        HomeAdapter adapter = new HomeAdapter(getLayoutInflater(), list, new ItemClickListener.Simple() {
-            @Override
-            public void onItemClick(int pos) {
-                tm.buildDataList(list, pos);
-                play();
-            }
+        if (list.size() > 0) {
+            mHandler.postDelayed(() -> {
+                RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_new_in_store_list)).inflate();
+                rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                rv.setHasFixedSize(true);
+                HomeAdapter adapter = new HomeAdapter(getLayoutInflater(), list, new ItemClickListener.Simple() {
+                    @Override
+                    public void onItemClick(int pos) {
+                        tm.buildDataList(list, pos);
+                        play();
+                    }
 
-            @Override
-            public void onOptionsClick(View view, int pos) {
-                openMenu(list.get(pos), view);
-            }
-        }, LayoutStyle.ROUNDED_RECTANGLE);
-        rv.setAdapter(adapter);
+                    @Override
+                    public void onOptionsClick(View view, int pos) {
+                        openMenu(list.get(pos), view);
+                    }
+                }, LayoutStyle.ROUNDED_RECTANGLE);
+                rv.setAdapter(adapter);
+            }, 500);
+        }
+        LoaderHelper.loadTopArtist(Objects.requireNonNull(getContext()), result -> loadTopArtists(view, result));
     }
 
-    private void loadArtistRv(View view, List<TopArtistModel> list) {
+    private void loadTopArtists(View view, List<TopArtistModel> list) {
         if (list.size() > 0) {
-            MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_artists_title)).inflate();
-            topAlbumsTitle.setText(getString(R.string.top_artist));
-            RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_artists_list)).inflate();
-            rv.setHasFixedSize(true);
-            rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
-            HomeAdapterArtist adapter = new HomeAdapterArtist(list, getLayoutInflater(), (sharedView, position) -> {
-                Intent i = new Intent(getContext(), DetailsActivity.class);
-                i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-                i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
-                if (null != getActivity()) {
-                    String transitionName = sharedView.getTransitionName();
-                    i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                    Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
-                    startActivity(i, b);
-                }
-            });
-            rv.setAdapter(adapter);
+            mHandler.postDelayed(() -> {
+                MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_artists_title)).inflate();
+                topAlbumsTitle.setText(getString(R.string.top_artist));
+                RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_artists_list)).inflate();
+                rv.setHasFixedSize(true);
+                rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
+                HomeAdapterArtist adapter = new HomeAdapterArtist(list, getLayoutInflater(), (sharedView, position) -> {
+                    Intent i = new Intent(getContext(), DetailsActivity.class);
+                    i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
+                    i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
+                    if (null != getActivity()) {
+                        String transitionName = sharedView.getTransitionName();
+                        i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
+                        Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
+                        startActivity(i, b);
+                    }
+                });
+                rv.setAdapter(adapter);
+            }, 500);
         }
     }
 
