@@ -2,6 +2,7 @@ package com.hardcodecoder.pulsemusic.ui;
 
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -61,12 +64,16 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
         if (mCurrentSortOrder == LIBRARY_SORT_ORDER_TITLE_DESC)
             Collections.reverse(mList);
         if (mList.size() > 0) {
-            RecyclerView recyclerView = view.findViewById(R.id.rv_library_fragment);
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
-            recyclerView.setHasFixedSize(true);
-            mAdapter = new LibraryAdapter(mList, getLayoutInflater(), this);
-            recyclerView.setAdapter(mAdapter);
+            new Handler().postDelayed(() -> {
+                RecyclerView recyclerView = view.findViewById(R.id.rv_library_fragment);
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
+                recyclerView.setHasFixedSize(true);
+                mAdapter = new LibraryAdapter(mList, getLayoutInflater(), this);
+                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.item_falls_down_animation);
+                recyclerView.setLayoutAnimation(controller);
+                recyclerView.setAdapter(mAdapter);
+            }, 200);
         } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
