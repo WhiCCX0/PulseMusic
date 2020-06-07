@@ -62,9 +62,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         tm = TrackManager.getInstance();
 
-        if (LoaderCache.getAllTracksList().size() > 0) mHandler.postDelayed(() ->
-                        LoaderHelper.loadTopAlbums(Objects.requireNonNull(getContext()), result -> loadTopAlbums(view, result)),
-                600); //wait for animation to complete before loading all list
+        if (LoaderCache.getAllTracksList().size() > 0)
+            LoaderHelper.loadTopAlbums(Objects.requireNonNull(getContext()), result -> loadTopAlbums(view, result));
         else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
@@ -125,11 +124,11 @@ public class HomeFragment extends Fragment {
                     }
                 }, LayoutStyle.CIRCLE);
                 rv.setAdapter(adapter);
-            }, 500);
+                if (null == LoaderCache.getLatestTracks())
+                    LoaderHelper.loadLatestTracks(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadLatestTracks(view, result));
+                else loadLatestTracks(view, LoaderCache.getLatestTracks());
+            }, 200);
         }
-        if (null == LoaderCache.getLatestTracks())
-            LoaderHelper.loadLatestTracks(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadLatestTracks(view, result));
-        else loadLatestTracks(view, LoaderCache.getLatestTracks());
     }
 
     private void loadLatestTracks(View view, List<MusicModel> list) {
@@ -153,9 +152,9 @@ public class HomeFragment extends Fragment {
                     }
                 }, LayoutStyle.ROUNDED_RECTANGLE);
                 rv.setAdapter(adapter);
-            }, 500);
+                LoaderHelper.loadTopArtist(Objects.requireNonNull(getContext()), result -> loadTopArtists(view, result));
+            }, 200);
         }
-        LoaderHelper.loadTopArtist(Objects.requireNonNull(getContext()), result -> loadTopArtists(view, result));
     }
 
     private void loadTopArtists(View view, List<TopArtistModel> list) {
