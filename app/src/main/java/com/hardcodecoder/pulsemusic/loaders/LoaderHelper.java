@@ -48,22 +48,26 @@ public class LoaderHelper {
     public static void loadSuggestionsList(@NonNull Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(() -> {
             List<MusicModel> list = new ArrayList<>(LoaderCache.getAllTracksList());
-            Collections.shuffle(list);
-            final List<MusicModel> suggestionsList = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-            LoaderCache.setSuggestions(suggestionsList);
-            suggestionsList.clear();
-            list.clear();
-            callback.onComplete(LoaderCache.getSuggestions());
+            if (list.size() > 0) {
+                Collections.shuffle(list);
+                final List<MusicModel> suggestionsList = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
+                LoaderCache.setSuggestions(suggestionsList);
+                suggestionsList.clear();
+                list.clear();
+                callback.onComplete(LoaderCache.getSuggestions());
+            }
         });
     }
 
     public static void loadLatestTracks(@NonNull ContentResolver contentResolver, @NonNull Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.DATE_MODIFIED_DESC), result -> {
-            List<MusicModel> finalResult = result.subList(0, (int) (result.size() * 0.2));
-            LoaderCache.setLatestTracks(finalResult);
-            finalResult.clear();
-            result.clear();
-            callback.onComplete(LoaderCache.getLatestTracks());
+            if (null != result && result.size() > 0) {
+                List<MusicModel> finalResult = result.subList(0, (int) (result.size() * 0.2));
+                LoaderCache.setLatestTracks(finalResult);
+                finalResult.clear();
+                result.clear();
+                callback.onComplete(LoaderCache.getLatestTracks());
+            }
         });
     }
 

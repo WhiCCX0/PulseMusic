@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
@@ -54,8 +55,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
                 LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else {
-                MaterialTextView tv = findViewById(R.id.no_tracks_found_tv);
-                tv.setVisibility(View.VISIBLE);
+                MaterialTextView tv = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
                 String text = getString(R.string.no_recent_tracks);
                 int len = text.length();
                 SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);

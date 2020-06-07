@@ -12,6 +12,7 @@
         android:layout_height="148dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
+        android:visibility="gone"
         android:src="@drawable/logo_splash"
         tools:ignore="contentDescription" />
 </FrameLayout>

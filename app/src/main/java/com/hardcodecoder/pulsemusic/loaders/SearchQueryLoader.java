@@ -18,7 +18,6 @@ public class SearchQueryLoader implements Callable<List<MusicModel>> {
     public List<MusicModel> call() {
         final List<MusicModel> searchList = LoaderCache.getAllTracksList();
         List<MusicModel> searchResult = new ArrayList<>();
-        searchResult.clear();
         if (!mSearchQuery.isEmpty() && null != searchList) {
             mSearchQuery = mSearchQuery.toLowerCase();
             for (MusicModel musicModel : searchList) {

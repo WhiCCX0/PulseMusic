@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class SplashActivity extends PMBActivity {
 
     private void startAnimation() {
         ImageView logo = findViewById(R.id.logo);
+        logo.setVisibility(View.VISIBLE);
         logo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.logo_anim));
     }
 

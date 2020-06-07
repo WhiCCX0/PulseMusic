@@ -6,4 +6,10 @@
     <include
         android:id="@+id/rv_library_fragment"
         layout="@layout/recycler_view_vertical" />
+
+    <ViewStub
+        android:id="@+id/stub_no_tracks_found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/empty_tracks_text" />
 </FrameLayout>

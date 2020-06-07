@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
@@ -65,6 +67,9 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
             recyclerView.setHasFixedSize(true);
             mAdapter = new LibraryAdapter(mList, getLayoutInflater(), this);
             recyclerView.setAdapter(mAdapter);
+        } else {
+            MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
+            noTracksText.setText(getString(R.string.tracks_not_found));
         }
     }
 

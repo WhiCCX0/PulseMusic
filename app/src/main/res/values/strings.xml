@@ -25,6 +25,7 @@
     <string name="top_artist">Top artists</string>
     <string name="top_albums">Top albums</string>
     <string name="tracks_num">tracks</string>
+    <string name="tracks_not_found">No tracks found</string>
 
 
     <!-- Favorites Playlist Activity-->

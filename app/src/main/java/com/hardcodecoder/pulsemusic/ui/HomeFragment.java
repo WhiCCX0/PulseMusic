@@ -62,9 +62,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         tm = TrackManager.getInstance();
 
-        mHandler.postDelayed(() ->
+        if (LoaderCache.getAllTracksList().size() > 0) mHandler.postDelayed(() ->
                         LoaderHelper.loadTopAlbums(Objects.requireNonNull(getContext()), result -> loadTopAlbums(view, result)),
-                500); //wait for animation to complete before loading all list
+                600); //wait for animation to complete before loading all list
+        else {
+            MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
+            noTracksText.setText(getString(R.string.tracks_not_found));
+        }
 
         view.findViewById(R.id.ic_recent).setOnClickListener(v -> startActivity(new Intent(getContext(), RecentActivity.class)));
         view.findViewById(R.id.ic_folder).setOnClickListener(v -> pickMedia());
@@ -103,6 +107,8 @@ public class HomeFragment extends Fragment {
     private void loadSuggestions(View view, List<MusicModel> list) {
         if (null != list && list.size() > 0) {
             mHandler.postDelayed(() -> {
+                MaterialTextView suggestionsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_suggestions_title)).inflate();
+                suggestionsTitle.setText(getString(R.string.random));
                 RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_suggested_list)).inflate();
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
                 rv.setHasFixedSize(true);
@@ -127,8 +133,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadLatestTracks(View view, List<MusicModel> list) {
-        if (list.size() > 0) {
+        if (null != list && list.size() > 0) {
             mHandler.postDelayed(() -> {
+                MaterialTextView newInStoreTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_new_in_store_title)).inflate();
+                newInStoreTitle.setText(getString(R.string.new_in_library));
                 RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_new_in_store_list)).inflate();
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
                 rv.setHasFixedSize(true);
@@ -151,7 +159,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadTopArtists(View view, List<TopArtistModel> list) {
-        if (list.size() > 0) {
+        if (null != list && list.size() > 0) {
             mHandler.postDelayed(() -> {
                 MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_artists_title)).inflate();
                 topAlbumsTitle.setText(getString(R.string.top_artist));

@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
@@ -64,23 +66,28 @@ public class ArtistFragment extends Fragment {
     }
 
     private void loadArtistsList(View view, List<ArtistModel> list) {
-        RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
-        rv.setVisibility(View.VISIBLE);
-        layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
-        rv.setLayoutManager(layoutManager);
-        rv.setHasFixedSize(true);
-        adapter = new ArtistAdapter(list, getLayoutInflater(), (sharedView, position) -> {
-            Intent i = new Intent(getContext(), DetailsActivity.class);
-            i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-            i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
-            if (null != getActivity()) {
-                String transitionName = sharedView.getTransitionName();
-                i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
-                startActivity(i, b);
-            }
-        });
-        rv.setAdapter(adapter);
+        if (null != list && list.size() > 0) {
+            RecyclerView rv = view.findViewById(R.id.rv_artist_fragment);
+            rv.setVisibility(View.VISIBLE);
+            layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
+            rv.setLayoutManager(layoutManager);
+            rv.setHasFixedSize(true);
+            adapter = new ArtistAdapter(list, getLayoutInflater(), (sharedView, position) -> {
+                Intent i = new Intent(getContext(), DetailsActivity.class);
+                i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
+                i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
+                if (null != getActivity()) {
+                    String transitionName = sharedView.getTransitionName();
+                    i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
+                    Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
+                    startActivity(i, b);
+                }
+            });
+            rv.setAdapter(adapter);
+        } else {
+            MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
+            noTracksText.setText(getString(R.string.tracks_not_found));
+        }
     }
 
     private void changeSortOrder(int newSortOrder) {

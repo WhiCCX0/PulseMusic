@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.TrackPickerAdapter;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewSelectorHelper;
@@ -52,15 +54,20 @@ public class TrackPickerActivity extends PMBActivity implements TrackPickerListe
             overrideActivityTransition();
         });
 
-        mMainList = new ArrayList<>(LoaderCache.getAllTracksList());
-        RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
-        recyclerView.setLayoutAnimation(controller);
-        TrackPickerAdapter adapter = new TrackPickerAdapter(mMainList, getLayoutInflater(), this);
-        recyclerView.setAdapter(adapter);
-        mSelectorHelper = new RecyclerViewSelectorHelper(adapter);
+        if (LoaderCache.getAllTracksList().size() > 0) {
+            mMainList = new ArrayList<>(LoaderCache.getAllTracksList());
+            RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
+            recyclerView.setLayoutAnimation(controller);
+            TrackPickerAdapter adapter = new TrackPickerAdapter(mMainList, getLayoutInflater(), this);
+            recyclerView.setAdapter(adapter);
+            mSelectorHelper = new RecyclerViewSelectorHelper(adapter);
+        } else {
+            MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
+            noTracksText.setText(getString(R.string.tracks_not_found));
+        }
     }
 
     @Override

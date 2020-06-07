@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
@@ -54,8 +55,7 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
                 LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else {
-                MaterialTextView tv = findViewById(R.id.no_tracks_found_tv);
-                tv.setVisibility(View.VISIBLE);
+                MaterialTextView tv = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
                 String text = getString(R.string.no_favorites_tracks);
                 SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);
                 stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.length() - 1, text.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
