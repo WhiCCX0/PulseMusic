@@ -1,12 +1,10 @@
 package com.hardcodecoder.pulsemusic.activities;
 
-import android.graphics.Typeface;
 import android.media.session.MediaController;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.AnimationUtils;
@@ -59,7 +57,6 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
                 String text = getString(R.string.no_recent_tracks);
                 int len = text.length();
                 SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);
-                stringBuilder.setSpan(new StyleSpan(Typeface.BOLD), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 stringBuilder.setSpan(new AbsoluteSizeSpan((int) (tv.getTextSize() * 3.0)), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 tv.setText(stringBuilder);
             }
