@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.session.MediaController;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.ViewStub;
@@ -78,7 +79,8 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
             MaterialTextView textView = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
             String str = getString(R.string.no_playlist_tracks_found);
             SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
-            stringBuilder.setSpan(new AbsoluteSizeSpan((int) (textView.getTextSize() * 4.0)), 0, 1, SpannableStringBuilder.SPAN_INCLUSIVE_INCLUSIVE);
+            int len = str.length();
+            stringBuilder.setSpan(new AbsoluteSizeSpan((int) (textView.getTextSize() * 3.0)), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             textView.setText(stringBuilder);
         }
     }

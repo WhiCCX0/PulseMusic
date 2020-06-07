@@ -95,7 +95,7 @@
 
     <!-- Playlist Activity -->
     <string name="empty_playlist">Playlist is empty\nclick on \u002B to add tracks</string>
-    <string name="no_playlist_tracks_found">\u1F976 \nNo playlist tracks found</string>
+    <string name="no_playlist_tracks_found">No playlist tracks found\n\u2639</string>
     <string name="item_removed">Song removed from queue !!!</string>
     <string name="snack_bar_action_undo">Undo</string>
     <string name="cannot_remove_active_item">Cannot remove active track</string>
