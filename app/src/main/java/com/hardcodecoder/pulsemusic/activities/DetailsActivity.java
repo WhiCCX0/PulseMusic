@@ -21,7 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
-import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
@@ -80,10 +79,14 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(sharedImageView.getContext(), mAlbumId, MediaArtHelper.RoundingRadius.RADIUS_NONE, drawable -> {
-                                sharedImageView.setImageDrawable(drawable);
-                                supportStartPostponedEnterTransition();
-                            });
+                            MediaArtHelper.getMediaArtDrawableAsync(
+                                    sharedImageView.getContext(),
+                                    new int[]{sharedImageView.getWidth(), sharedImageView.getHeight()},
+                                    mAlbumId,
+                                    MediaArtHelper.RoundingRadius.RADIUS_NONE, drawable -> {
+                                        sharedImageView.setImageDrawable(drawable);
+                                        supportStartPostponedEnterTransition();
+                                    });
                             return true;
                         }
 
@@ -94,7 +97,6 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                             return true;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getRadius16dp())
                     .into(sharedImageView);
         } else {
             cardView.setCardElevation(2.0f);

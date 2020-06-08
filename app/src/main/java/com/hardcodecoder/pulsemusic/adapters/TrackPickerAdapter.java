@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -84,12 +85,12 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
 
     static class TrackPickerSVH extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        private ImageView art;
+        private ImageView albumArt;
         private MaterialTextView title, artist;
 
         TrackPickerSVH(@NonNull View itemView) {
             super(itemView);
-            art = itemView.findViewById(R.id.list_item_album_art);
+            albumArt = itemView.findViewById(R.id.list_item_album_art);
             title = itemView.findViewById(R.id.list_item_title);
             artist = itemView.findViewById(R.id.list_item_sub_title);
         }
@@ -103,9 +104,11 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), md.getAlbumId(),
+                            MediaArtHelper.getMediaArtDrawableAsync(
+                                    itemView.getContext(),
+                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
                                     MediaArtHelper.RoundingRadius.RADIUS_4dp,
-                                    drawable -> art.setImageDrawable(drawable));
+                                    drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
 
@@ -114,8 +117,8 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
                             return false;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getRadius8dp())
-                    .into(art);
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
+                    .into(albumArt);
         }
 
         @Override

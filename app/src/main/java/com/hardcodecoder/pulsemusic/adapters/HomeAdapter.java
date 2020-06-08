@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -90,7 +90,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         }
 
         void setItemData(MusicModel md, LayoutStyle style) {
-
             title.setText(md.getTrackName());
             text.setText(md.getArtist());
 
@@ -99,10 +98,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), md.getAlbumId(),
+                            MediaArtHelper.getMediaArtDrawableAsync(
+                                    itemView.getContext(),
+                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
                                     style == LayoutStyle.ROUNDED_RECTANGLE ?
-                                            MediaArtHelper.RoundingRadius.RADIUS_4dp :
-                                            MediaArtHelper.RoundingRadius.RADIUS_16dp,
+                                            MediaArtHelper.RoundingRadius.RADIUS_8dp :
+                                            MediaArtHelper.RoundingRadius.CIRCLE,
                                     drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
@@ -112,9 +113,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                             return false;
                         }
                     })
-                    .transform(style == LayoutStyle.ROUNDED_RECTANGLE ?
-                            GlideConstantArtifacts.getRadius16dp() : GlideConstantArtifacts.getCircleCrop())
-                    .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(),
+                            style == LayoutStyle.ROUNDED_RECTANGLE ?
+                                    GlideConstantArtifacts.getRadius8dp() :
+                                    GlideConstantArtifacts.getCircleCrop()))
                     .into(albumArt);
         }
     }

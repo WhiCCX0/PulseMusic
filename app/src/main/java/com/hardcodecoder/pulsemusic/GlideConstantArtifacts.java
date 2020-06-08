@@ -1,5 +1,6 @@
 package com.hardcodecoder.pulsemusic;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
@@ -8,6 +9,7 @@ public class GlideConstantArtifacts {
 
     private static RoundedCorners mRadius2dp, mRadius4dp, mRadius8dp, mRadius16dp;
     private static CircleCrop mCircleCrop;
+    private static CenterCrop mCenterCrop;
 
     public static RoundedCorners getRadius2dp() {
         if (null == mRadius2dp)
@@ -38,4 +40,9 @@ public class GlideConstantArtifacts {
         return mCircleCrop;
     }
 
+    public static CenterCrop getCenterCrop() {
+        if (null == mCenterCrop)
+            mCenterCrop = new CenterCrop();
+        return mCenterCrop;
+    }
 }

@@ -55,9 +55,9 @@ public class MediaArtHelper {
         });
     }
 
-    public static void getMediaArtDrawableAsync(Context context, long albumId, RoundingRadius r, TaskRunner.Callback<Drawable> callback) {
+    public static void getMediaArtDrawableAsync(Context context, int[] imageViewWidthHeight, long albumId, RoundingRadius r, TaskRunner.Callback<Drawable> callback) {
         TaskRunner.executeAsync(() -> {
-            Drawable drawable = MediaArtGenerator.generateMediaArtDrawable(context, getValue(albumId), r);
+            Drawable drawable = MediaArtGenerator.generateMediaArtDrawable(context, imageViewWidthHeight, getValue(albumId), r);
             handler.post(() -> callback.onComplete(drawable));
         });
     }
@@ -67,7 +67,8 @@ public class MediaArtHelper {
         RADIUS_2dp,
         RADIUS_4dp,
         RADIUS_8dp,
-        RADIUS_16dp
+        RADIUS_16dp,
+        CIRCLE
     }
 
     private static class MediaArtGenerator {
@@ -93,24 +94,28 @@ public class MediaArtHelper {
         }
 
         @NonNull
-        static Drawable generateMediaArtDrawable(Context context, int index, RoundingRadius r) {
+        static Drawable generateMediaArtDrawable(Context context, int[] dimensions, int index, RoundingRadius r) {
             if (null == mMediaArtColors)
                 mMediaArtColors = context.getResources().obtainTypedArray(R.array.album_art_colors);
             //To match image view background with 100px x 100 px and 18 rounding radius
             //Drawable with 24dp x 24dp with 4 dp rounding radius is required
             //which scales proportionally : 96dp x 96dp with 16 dp rounding radius
             GradientDrawable background = new GradientDrawable();
+            background.setSize(dimensions[0], dimensions[1]);
             background.setShape(GradientDrawable.RECTANGLE);
-            background.setCornerRadius(getRoundingRadius(r));
+            int radius = r == RoundingRadius.CIRCLE ?
+                    (int) Math.ceil((float) dimensions[0] / 2) :
+                    getRoundingRadius(r);
+            background.setCornerRadius(radius);
             background.setColor(mMediaArtColors.getColor(index, 0));
             return new LayerDrawable(new Drawable[]{background, context.getDrawable(R.drawable.ic_media_error_art)});
         }
 
         @NonNull
         static Bitmap generateMediaArtBitmap(Context context, int index, RoundingRadius r) {
-            Drawable d = generateMediaArtDrawable(context, index, r);
+            int sides = context.getResources().getDimensionPixelSize(R.dimen.now_playing_media_art_iv);
+            Drawable d = generateMediaArtDrawable(context, new int[]{sides, sides}, index, r);
             if (null == mBitmap) {
-                int sides = context.getResources().getDimensionPixelSize(R.dimen.now_playing_media_art_iv);
                 mBitmap = Bitmap.createBitmap(sides, sides, Bitmap.Config.ARGB_8888);
             }
             if (null == mCanvas)

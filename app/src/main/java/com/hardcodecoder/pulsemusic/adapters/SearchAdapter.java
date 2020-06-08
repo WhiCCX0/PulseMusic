@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -129,7 +130,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), md.getAlbumId(),
+                            MediaArtHelper.getMediaArtDrawableAsync(
+                                    itemView.getContext(),
+                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
                                     MediaArtHelper.RoundingRadius.RADIUS_4dp,
                                     drawable -> albumArt.setImageDrawable(drawable));
                             return true;
@@ -140,7 +143,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                             return false;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getRadius8dp())
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
                     .into(albumArt);
         }
     }

@@ -111,8 +111,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), am.getAlbumId(),
-                                    MediaArtHelper.RoundingRadius.RADIUS_16dp,
+                            MediaArtHelper.getMediaArtDrawableAsync(
+                                    itemView.getContext(),
+                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, am.getAlbumId(),
+                                    MediaArtHelper.RoundingRadius.RADIUS_8dp,
                                     drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
@@ -122,7 +124,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                             return false;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getRadius16dp())
+                    .transform(GlideConstantArtifacts.getRadius8dp())
                     .into(albumArt);
             title.setText(am.getAlbumName());
         }

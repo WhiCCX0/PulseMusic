@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -105,13 +106,13 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
     static class PlaylistDataSVH extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         private MaterialTextView title, subTitle;
-        private ImageView art;
+        private ImageView albumArt;
 
         PlaylistDataSVH(@NonNull View itemView, PlaylistItemListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.list_item_drag_title);
             subTitle = itemView.findViewById(R.id.list_item_drag_sub_title);
-            art = itemView.findViewById(R.id.list_item_drag_album_art);
+            albumArt = itemView.findViewById(R.id.list_item_drag_album_art);
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
             //noinspection AndroidLintClickableViewAccessibility
             itemView.findViewById(R.id.list_item_drag_drag_handle)
@@ -131,9 +132,11 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(itemView.getContext(), md.getAlbumId(),
+                            MediaArtHelper.getMediaArtDrawableAsync(
+                                    itemView.getContext(),
+                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
                                     MediaArtHelper.RoundingRadius.RADIUS_4dp,
-                                    drawable -> art.setImageDrawable(drawable));
+                                    drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
 
@@ -142,8 +145,8 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
                             return false;
                         }
                     })
-                    .transform(GlideConstantArtifacts.getRadius8dp())
-                    .into(art);
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
+                    .into(albumArt);
         }
 
         @Override
