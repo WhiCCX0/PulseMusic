@@ -37,8 +37,8 @@ public class LoaderHelper {
         });
     }
 
-    public static void loadAlbumsList(SortOrder.ALBUMS sortOrder, @NonNull Callback<List<AlbumModel>> callback) {
-        TaskRunner.executeAsync(new AlbumsLoader(sortOrder), callback);
+    public static void loadAlbumsList(ContentResolver contentResolver, SortOrder.ALBUMS sortOrder, @NonNull Callback<List<AlbumModel>> callback) {
+        TaskRunner.executeAsync(new AlbumsLoader(contentResolver, sortOrder), callback);
     }
 
     public static void loadArtistsList(@NonNull ContentResolver contentResolver, SortOrder.ARTIST sortOrder, @NonNull Callback<List<ArtistModel>> callback) {

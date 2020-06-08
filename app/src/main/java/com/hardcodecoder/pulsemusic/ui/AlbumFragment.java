@@ -61,7 +61,7 @@ public class AlbumFragment extends Fragment {
             mCurrentSortOrder = AppSettings.getAlbumsFragmentSortOrder(getContext());
             ALBUMS sortOrder = (mCurrentSortOrder == ALBUMS_SORT_ORDER_TITLE_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
 
-            LoaderHelper.loadAlbumsList(sortOrder, result -> loadAlbumsList(view, result));
+            LoaderHelper.loadAlbumsList(getContext().getContentResolver(), sortOrder, result -> loadAlbumsList(view, result));
         }
     }
 
