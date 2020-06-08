@@ -36,15 +36,10 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
-
+        overrideActivityTransition();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        findViewById(R.id.search_activity_close_btn).setOnClickListener(v -> {
-            finish();
-            overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
-        });
+        findViewById(R.id.search_activity_close_btn).setOnClickListener(v -> onBackPressed());
 
         tv = findViewById(R.id.result_empty);
         setUpSearchView();
@@ -55,7 +50,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
+        overrideActivityTransition();
     }
 
     private void setUpSearchView() {
@@ -147,6 +142,10 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     protected void onDestroy() {
         super.onDestroy();
         pendingUpdates.clear();
+    }
+
+    private void overrideActivityTransition() {
+        overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
     }
 }
 

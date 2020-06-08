@@ -33,7 +33,7 @@ public class TrackPickerActivity extends PMBActivity implements TrackPickerListe
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
+        overrideActivityTransition();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_picker);
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/window_enter_duration"
+    android:duration="@android:integer/config_longAnimTime"
     android:fillBefore="true"
     android:fillAfter="true"
     android:fillEnabled="true">
     <alpha
-        android:fromAlpha="0.8"
-        android:interpolator="@android:interpolator/fast_out_slow_in"
-        android:toAlpha="1.0" />
+        android:fromAlpha="1"
+        android:interpolator="@android:interpolator/decelerate_quint"
+        android:toAlpha="1" />
 </set>
