@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardBackgroundColor="?surfaceColor"
-        app:cardCornerRadius="@dimen/rounding_radius_16dp"
+        app:cardCornerRadius="@dimen/rounding_radius_8dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@id/details_activity_title_sub"
         app:layout_constraintDimensionRatio="1:1"

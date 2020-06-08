@@ -35,7 +35,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:cardBackgroundColor="?surfaceColor"
-        app:cardCornerRadius="@dimen/rounding_radius_16dp"
+        app:cardCornerRadius="@dimen/rounding_radius_8dp"
         app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/details_activity_toolbar_title">

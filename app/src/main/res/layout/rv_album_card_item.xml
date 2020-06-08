@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <!--
+       ====== NO MORE VALID ======
        Background is a 9 patch image with
        content area: 64px x 64px
        actual size: 100px x 100px
@@ -25,14 +26,13 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:clipToPadding="false"
-        app:cardCornerRadius="@dimen/rounding_radius_16dp"
+        app:cardCornerRadius="@dimen/rounding_radius_8dp"
         app:cardElevation="4dp">
 
         <ImageView
             android:id="@+id/home_rv_album_album_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/iv_content_desc"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/backgrounds/scenic" />
