@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.graphics.drawable.Drawable;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -14,13 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
+import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
@@ -55,15 +57,18 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        setUpTransitions();
+
         tm = TrackManager.getInstance();
         mCategory = getIntent().getIntExtra(KEY_ITEM_CATEGORY, -1);
         mAlbumId = getIntent().getLongExtra(ALBUM_ID, 0);
         title = getIntent().getStringExtra(KEY_TITLE);
-        findViewById(R.id.details_activity_btn_close).setOnClickListener(v -> finishAfterTransition());
+        loadImage();
 
+        findViewById(R.id.details_activity_btn_close).setOnClickListener(v -> supportFinishAfterTransition());
         MaterialTextView detailsTitle = findViewById(R.id.details_activity_title);
         detailsTitle.setText(title);
-        loadImage();
+
         loadItems();
     }
 
@@ -71,8 +76,9 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         String transitionName = getIntent().getStringExtra(KEY_TRANSITION_NAME);
         String artUrl = getIntent().getStringExtra(KEY_ART_URL);
         ImageView sharedImageView = findViewById(R.id.details_activity_art);
-        MaterialCardView cardView = findViewById(R.id.details_activity_art_card);
-        cardView.setTransitionName(transitionName);
+        sharedImageView.setTransitionName(transitionName);
+        //MaterialCardView cardView = findViewById(R.id.details_activity_art_card);
+        //cardView.setTransitionName(transitionName);
         if (mCategory == CATEGORY_ALBUM) {
             GlideApp.with(this)
                     .load(artUrl)
@@ -97,9 +103,10 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                             return true;
                         }
                     })
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
                     .into(sharedImageView);
         } else {
-            cardView.setCardElevation(2.0f);
+            //cardView.setCardElevation(2.0f);
             sharedImageView.setImageResource(R.drawable.ic_artist_art);
             supportStartPostponedEnterTransition();
         }
@@ -163,6 +170,15 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
 
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();
+    }
+
+    private void setUpTransitions() {
+        Fade enterFade = new Fade();
+        enterFade.excludeTarget(android.R.id.statusBarBackground, true);
+        enterFade.excludeTarget(android.R.id.navigationBarBackground, true);
+        enterFade.excludeTarget(R.id.details_activity_rv, true);
+        enterFade.setDuration(275);
+        getWindow().setEnterTransition(enterFade);
     }
 
     @Override

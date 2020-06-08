@@ -27,27 +27,30 @@
         app:layout_constraintStart_toEndOf="@id/details_activity_btn_close"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/details_activity_art_card"
+    <!--
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/details_activity_art_card"
+            android:layout_width="148dp"
+            android:layout_height="148dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="?surfaceColor"
+            app:cardCornerRadius="@dimen/rounding_radius_8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_activity_toolbar_title">
+    -->
+    <ImageView
+        android:id="@+id/details_activity_art"
         android:layout_width="148dp"
         android:layout_height="148dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="?surfaceColor"
-        app:cardCornerRadius="@dimen/rounding_radius_8dp"
-        app:cardElevation="4dp"
+        android:contentDescription="@string/iv_content_desc"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/details_activity_toolbar_title">
-
-        <ImageView
-            android:id="@+id/details_activity_art"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/iv_content_desc"
-            android:scaleType="centerCrop"
-            tools:src="@tools:sample/avatars" />
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintTop_toBottomOf="@id/details_activity_toolbar_title"
+        tools:src="@tools:sample/avatars" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -61,8 +64,8 @@
         android:textAppearance="@style/TextViewBody1"
         app:layout_constraintBottom_toTopOf="@id/details_activity_title_sub"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/details_activity_art_card"
-        app:layout_constraintTop_toTopOf="@id/details_activity_art_card"
+        app:layout_constraintStart_toEndOf="@id/details_activity_art"
+        app:layout_constraintTop_toTopOf="@id/details_activity_art"
         app:layout_constraintVertical_bias=".3"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/full_names" />
@@ -76,7 +79,7 @@
         android:maxLines="1"
         android:textAppearance="@style/TextViewSubtitle2"
         android:textColor="?secondaryTextColor"
-        app:layout_constraintBottom_toBottomOf="@id/details_activity_art_card"
+        app:layout_constraintBottom_toBottomOf="@id/details_activity_art"
         app:layout_constraintEnd_toEndOf="@id/details_activity_title"
         app:layout_constraintStart_toStartOf="@id/details_activity_title"
         app:layout_constraintTop_toBottomOf="@id/details_activity_title"
@@ -92,7 +95,7 @@
         android:textAppearance="@style/TextViewHeadline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/details_activity_art_card" />
+        app:layout_constraintTop_toBottomOf="@id/details_activity_art" />
 
     <include
         android:id="@+id/details_activity_rv"

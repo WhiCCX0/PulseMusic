@@ -11,12 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
+import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
@@ -57,7 +58,6 @@ HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
 
     static class AdapterSVH extends RecyclerView.ViewHolder {
 
-        private MaterialCardView materialCardView;
         private ImageView albumArt;
         private MaterialTextView title;
 
@@ -65,12 +65,11 @@ HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
             super(itemView);
             title = itemView.findViewById(R.id.home_rv_album_album_name);
             albumArt = itemView.findViewById(R.id.home_rv_album_album_art);
-            materialCardView = itemView.findViewById(R.id.home_rv_album_album_card);
-            itemView.setOnClickListener(v -> listener.onItemClick(materialCardView, getAdapterPosition()));
+            itemView.setOnClickListener(v -> listener.onItemClick(albumArt, getAdapterPosition()));
         }
 
         void updateData(TopAlbumModel albumModel) {
-            materialCardView.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
+            albumArt.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
             GlideApp.with(albumArt)
                     .load(albumModel.getAlbumArt())
                     .listener(new RequestListener<Drawable>() {
@@ -80,7 +79,7 @@ HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
                                     itemView.getContext(),
                                     new int[]{albumArt.getWidth(), albumArt.getHeight()},
                                     albumModel.getAlbumId(),
-                                    MediaArtHelper.RoundingRadius.RADIUS_NONE,
+                                    MediaArtHelper.RoundingRadius.RADIUS_8dp,
                                     drawable -> albumArt.setImageDrawable(drawable));
                             return true;
                         }
@@ -90,6 +89,7 @@ HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
                             return false;
                         }
                     })
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
                     .into(albumArt);
             title.setText(albumModel.getAlbumName());
         }
