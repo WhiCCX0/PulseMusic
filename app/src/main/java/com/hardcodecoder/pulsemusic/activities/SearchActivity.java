@@ -129,7 +129,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
                     break;
                 case R.id.id_add_playlist:
                     break;
-                case R.id.info:
+                case R.id.id_song_info:
                     UIHelper.buildSongInfoDialog(this, mSearchResult.get(position));
                     break;
                 default:
