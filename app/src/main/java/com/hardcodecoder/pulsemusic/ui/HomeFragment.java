@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
                     public void onOptionsClick(View view, int pos) {
                         openMenu(list.get(pos), view);
                     }
-                }, LayoutStyle.CIRCLE);
+                }, LayoutStyle.ROUNDED_RECTANGLE);
                 rv.setAdapter(adapter);
                 if (null == LoaderCache.getLatestTracks())
                     LoaderHelper.loadLatestTracks(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadLatestTracks(view, result));
