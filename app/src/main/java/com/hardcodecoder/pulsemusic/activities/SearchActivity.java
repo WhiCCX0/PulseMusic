@@ -1,18 +1,20 @@
 package com.hardcodecoder.pulsemusic.activities;
 
-import android.graphics.Color;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.SearchAdapter;
@@ -29,7 +31,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
 
     private List<String> pendingUpdates = new ArrayList<>();
     private List<MusicModel> mSearchResult;
-    private TextView tv;
+    private MaterialTextView noResultsText;
     private SearchAdapter adapter;
     private TrackManager tm;
     private String mQuery = "";
@@ -41,10 +43,11 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
         setContentView(R.layout.activity_search);
         findViewById(R.id.search_activity_close_btn).setOnClickListener(v -> onBackPressed());
 
-        tv = findViewById(R.id.result_empty);
-        setUpSearchView();
-        setRecyclerView();
+        noResultsText = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_result_found)).inflate();
+        noResultsText.setText(getString(R.string.search_null));
         tm = TrackManager.getInstance();
+        setRecyclerView();
+        setUpSearchUi();
     }
 
     @Override
@@ -53,7 +56,26 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
         overrideActivityTransition();
     }
 
-    private void setUpSearchView() {
+    private void setUpSearchUi() {
+        AppCompatEditText editText = findViewById(R.id.search_activity_edit_text);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mQuery.equalsIgnoreCase(s.toString()))
+                    searchResult(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    /*private void setUpSearchView() {
         SearchView sv = findViewById(R.id.search_view);
         View v = sv.findViewById(R.id.search_plate);
         v.setBackgroundColor(Color.parseColor("#00000000"));
@@ -73,9 +95,9 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
                 return true;
             }
         });
-    }
+    }*/
 
-    private void searchSuggestions(String query) {
+    private void searchResult(String query) {
         mQuery = query;
         pendingUpdates.add(mQuery);
         if (pendingUpdates.size() == 1)
@@ -83,13 +105,13 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
                 pendingUpdates.remove(0);
                 this.mSearchResult = result;
 
-                if (mSearchResult.size() <= 0) tv.setVisibility(View.VISIBLE);
-                else tv.setVisibility(View.GONE);
+                if (mSearchResult.size() <= 0) noResultsText.setVisibility(View.VISIBLE);
+                else noResultsText.setVisibility(View.INVISIBLE);
 
                 adapter.updateItems(result);
 
                 if (pendingUpdates.size() > 0) {
-                    searchSuggestions(pendingUpdates.get(pendingUpdates.size() - 1));
+                    searchResult(pendingUpdates.get(pendingUpdates.size() - 1));
                     pendingUpdates.clear();
                 }
             });

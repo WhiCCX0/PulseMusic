@@ -1,53 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:background="?attr/toolbarBackground">
+        android:background="?attr/toolbarBackground"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/search_activity_close_btn"
             style="@style/ButtonStyle24"
-            android:layout_gravity="start|center_vertical"
             android:contentDescription="@string/iv_btn_close_description"
             android:src="@drawable/ic_keyboard_backspace"
             android:tint="?attr/unFocusedColor" />
+        <!--
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    app:closeIcon="@drawable/ic_close"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="@string/searchHint"
+                    app:searchIcon="@android:color/transparent"
+                    app:showDividers="none"
+                    app:submitBackground="@drawable/active_item_background" />
+        -->
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search_activity_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            app:closeIcon="@drawable/ic_close"
-            app:iconifiedByDefault="false"
-            app:queryHint="@string/searchHint"
-            app:searchIcon="@android:color/transparent"
-            app:showDividers="none"
-            app:submitBackground="@drawable/active_item_background" />
-    </FrameLayout>
+            android:layout_marginStart="12dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/searchHint"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/ToolbarTextAppearanceSearch"
+            android:textColorHint="?secondaryTextColor" />
+    </LinearLayout>
 
     <include
         android:id="@+id/search_rv"
-        layout="@layout/recycler_view_vertical" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/result_empty"
+        layout="@layout/recycler_view_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_bar" />
+    <!--
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/result_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:text="@string/search_null"
+            android:textAppearance="@style/TextViewHeadline6"
+            android:textColor="?attr/secondaryTextColor"
+            android:visibility="visible"
+            tools:visibility="visible" />
+    -->
+    <ViewStub
+        android:id="@+id/stub_no_result_found"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/search_null"
-        android:textAppearance="@style/TextViewHeadline6"
-        android:textColor="?attr/secondaryTextColor"
-        android:visibility="visible"
-        tools:visibility="visible" />
-</LinearLayout>
+        android:layout="@layout/empty_tracks_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
