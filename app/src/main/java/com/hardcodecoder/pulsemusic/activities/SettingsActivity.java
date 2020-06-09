@@ -42,7 +42,7 @@ public class SettingsActivity extends PMBActivity implements SettingsFragmentsLi
     @Override
     public void changeFragment(Fragment fragment, @StringRes int titleId) {
         mFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_from_left, R.anim.slide_to_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .replace(R.id.settings_content_container, fragment, fragment.getTag())
                 .addToBackStack(null)
                 .commit();
