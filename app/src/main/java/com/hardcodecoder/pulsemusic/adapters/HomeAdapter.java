@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
@@ -117,6 +118,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                             style == LayoutStyle.ROUNDED_RECTANGLE ?
                                     GlideConstantArtifacts.getRadius8dp() :
                                     GlideConstantArtifacts.getCircleCrop()))
+                    .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);
         }
     }

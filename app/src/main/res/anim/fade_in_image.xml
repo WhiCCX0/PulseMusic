@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/default_anim_duration_medium">
+    android:duration="@android:integer/config_longAnimTime">
 
     <alpha
-        android:fromAlpha="0.0"
-        android:toAlpha="1.0" />
+        android:fromAlpha="0"
+        android:interpolator="@android:interpolator/decelerate_quint"
+        android:toAlpha="1" />
 </set>
