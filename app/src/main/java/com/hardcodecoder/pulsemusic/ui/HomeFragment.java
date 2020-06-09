@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
                 if (null == LoaderCache.getLatestTracks())
                     LoaderHelper.loadLatestTracks(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadLatestTracks(view, result));
                 else loadLatestTracks(view, LoaderCache.getLatestTracks());
-            }, 200);
+            }, 240);
         }
     }
 
@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment {
                 }, LayoutStyle.ROUNDED_RECTANGLE);
                 rv.setAdapter(adapter);
                 LoaderHelper.loadTopArtist(Objects.requireNonNull(getContext()), result -> loadTopArtists(view, result));
-            }, 200);
+            }, 240);
         }
     }
 
@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
                 rv.setAdapter(adapter);
-            }, 500);
+            }, 240);
         }
     }
 
