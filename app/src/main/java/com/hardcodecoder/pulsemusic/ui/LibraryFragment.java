@@ -136,25 +136,27 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
                 .setOnClickListener(v -> {
                     tm.playNext(md);
                     Toast.makeText(v.getContext(), getString(R.string.play_next_toast), Toast.LENGTH_SHORT).show();
-                    if (bottomSheetDialog.isShowing())
-                        bottomSheetDialog.dismiss();
+                    dismiss(bottomSheetDialog);
                 });
 
         view.findViewById(R.id.add_to_queue)
                 .setOnClickListener(v -> {
                     tm.addToActiveQueue(md);
                     Toast.makeText(v.getContext(), getString(R.string.add_to_queue_toast), Toast.LENGTH_SHORT).show();
-                    if (bottomSheetDialog.isShowing())
-                        bottomSheetDialog.dismiss();
+                    dismiss(bottomSheetDialog);
                 });
 
         view.findViewById(R.id.song_info).setOnClickListener(v -> {
             UIHelper.buildSongInfoDialog(getContext(), md);
-            if (bottomSheetDialog.isShowing())
-                bottomSheetDialog.dismiss();
+            dismiss(bottomSheetDialog);
         });
 
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();
+    }
+
+    private void dismiss(BottomSheetDialog dialog) {
+        if (dialog.isShowing())
+            dialog.dismiss();
     }
 }
