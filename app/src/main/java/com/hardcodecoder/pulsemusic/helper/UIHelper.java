@@ -2,6 +2,7 @@ package com.hardcodecoder.pulsemusic.helper;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -14,7 +15,6 @@ import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
-import com.hardcodecoder.pulsemusic.model.TrackFileModel;
 import com.hardcodecoder.pulsemusic.utils.DataUtils;
 
 public class UIHelper {
@@ -27,38 +27,34 @@ public class UIHelper {
             if (bottomSheetDialog.isShowing())
                 bottomSheetDialog.dismiss();
         });
-        bottomSheetDialog.show();
-
-        TrackFileModel infoModel = DataModelHelper.getTrackInfo(view.getContext(), musicModel);
-        if (null != infoModel) {
-            final StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
-            MaterialTextView displayTextView = view.findViewById(R.id.dialog_display_name);
-            displayTextView.setText(infoModel.getDisplayName());
-
-            MaterialTextView trackTitle = view.findViewById(R.id.dialog_track_title);
-            setInfo(trackTitle, context.getString(R.string.head_title), musicModel.getTrackName(), styleSpan);
-
-            MaterialTextView trackAlbum = view.findViewById(R.id.dialog_track_album);
-            setInfo(trackAlbum, context.getString(R.string.head_album), musicModel.getAlbum(), styleSpan);
-
-            MaterialTextView trackArtist = view.findViewById(R.id.dialog_track_artist);
-            setInfo(trackArtist, context.getString(R.string.head_artist), musicModel.getArtist(), styleSpan);
-
-            MaterialTextView trackFileSize = view.findViewById(R.id.dialog_file_size);
-            setInfo(trackFileSize, context.getString(R.string.head_file_size), DataUtils.getFormattedFileSize(infoModel.getFileSize()), styleSpan);
-
-            MaterialTextView trackFileType = view.findViewById(R.id.dialog_file_type);
-            setInfo(trackFileType, context.getString(R.string.head_file_type), infoModel.getFileType(), styleSpan);
-
-            MaterialTextView trackBitRate = view.findViewById(R.id.dialog_bitrate);
-            setInfo(trackBitRate, context.getString(R.string.head_bitrate), DataUtils.getFormattedBitRate(infoModel.getBitRate()), styleSpan);
-
-            MaterialTextView trackSampleRate = view.findViewById(R.id.dialog_sample_rate);
-            setInfo(trackSampleRate, context.getString(R.string.head_sample_rate), DataUtils.getFormattedSampleRate(infoModel.getSampleRate()), styleSpan);
-
-            MaterialTextView trackChannelCount = view.findViewById(R.id.dialog_channel_count);
-            setInfo(trackChannelCount, context.getString(R.string.head_channel_count), String.valueOf(infoModel.getChannelCount()), styleSpan);
-        }
+        // Reference view fields which needs to be filled with data
+        MaterialTextView displayTextView = view.findViewById(R.id.dialog_display_name);
+        MaterialTextView trackTitle = view.findViewById(R.id.dialog_track_title);
+        MaterialTextView trackAlbum = view.findViewById(R.id.dialog_track_album);
+        MaterialTextView trackArtist = view.findViewById(R.id.dialog_track_artist);
+        MaterialTextView trackFileSize = view.findViewById(R.id.dialog_file_size);
+        MaterialTextView trackFileType = view.findViewById(R.id.dialog_file_type);
+        MaterialTextView trackBitRate = view.findViewById(R.id.dialog_bitrate);
+        MaterialTextView trackSampleRate = view.findViewById(R.id.dialog_sample_rate);
+        MaterialTextView trackChannelCount = view.findViewById(R.id.dialog_channel_count);
+        final Handler handler = new Handler();
+        DataModelHelper.getTrackInfo(view.getContext(), musicModel, infoModel -> {
+            if (null != infoModel) {
+                handler.post(() -> {
+                    final StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
+                    displayTextView.setText(infoModel.getDisplayName());
+                    setInfo(trackTitle, context.getString(R.string.head_title), musicModel.getTrackName(), styleSpan);
+                    setInfo(trackAlbum, context.getString(R.string.head_album), musicModel.getAlbum(), styleSpan);
+                    setInfo(trackArtist, context.getString(R.string.head_artist), musicModel.getArtist(), styleSpan);
+                    setInfo(trackFileSize, context.getString(R.string.head_file_size), DataUtils.getFormattedFileSize(infoModel.getFileSize()), styleSpan);
+                    setInfo(trackFileType, context.getString(R.string.head_file_type), infoModel.getFileType(), styleSpan);
+                    setInfo(trackBitRate, context.getString(R.string.head_bitrate), DataUtils.getFormattedBitRate(infoModel.getBitRate()), styleSpan);
+                    setInfo(trackSampleRate, context.getString(R.string.head_sample_rate), DataUtils.getFormattedSampleRate(infoModel.getSampleRate()), styleSpan);
+                    setInfo(trackChannelCount, context.getString(R.string.head_channel_count), String.valueOf(infoModel.getChannelCount()), styleSpan);
+                    bottomSheetDialog.show();
+                });
+            }
+        });
     }
 
     private static void setInfo(@NonNull MaterialTextView textView, @NonNull String head, @NonNull String info, @NonNull StyleSpan styleSpan) {

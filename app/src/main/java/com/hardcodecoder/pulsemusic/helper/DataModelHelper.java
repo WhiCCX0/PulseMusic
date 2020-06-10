@@ -9,6 +9,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 
+import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.model.TrackFileModel;
@@ -58,34 +59,36 @@ public class DataModelHelper {
         }
     }
 
-    static TrackFileModel getTrackInfo(Context context, MusicModel musicModel) {
-        Uri uri = Uri.parse(musicModel.getTrackPath());
-        Cursor cursor = context
-                .getContentResolver()
-                .query(uri, null, null, null, null);
+    static void getTrackInfo(Context context, MusicModel musicModel, TaskRunner.Callback<TrackFileModel> callback) {
+        TaskRunner.executeAsync(() -> {
+            Uri uri = Uri.parse(musicModel.getTrackPath());
+            Cursor cursor = context
+                    .getContentResolver()
+                    .query(uri, null, null, null, null);
 
-        if (null != cursor && cursor.moveToFirst()) {
-            MediaExtractor mediaExtractor = new MediaExtractor();
-            try {
-                mediaExtractor.setDataSource(context, uri, null);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (null != cursor && cursor.moveToFirst()) {
+                MediaExtractor mediaExtractor = new MediaExtractor();
+                try {
+                    mediaExtractor.setDataSource(context, uri, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+
+                String displayName = cursor.getString(nameIndex);
+                long fileSize = cursor.getLong(sizeIndex);
+                String mimeType = context.getContentResolver().getType(uri);
+
+                MediaFormat mediaFormat = mediaExtractor.getTrackFormat(0);
+                int bitRate = mediaFormat.getInteger(MediaFormat.KEY_BIT_RATE);
+                int sampleRate = mediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
+                int channelCount = mediaFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
+                cursor.close();
+                TrackFileModel trackFileModel = new TrackFileModel(displayName, mimeType, fileSize, bitRate, sampleRate, channelCount);
+                callback.onComplete(trackFileModel);
             }
-
-            int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-
-            String displayName = cursor.getString(nameIndex);
-            long fileSize = cursor.getLong(sizeIndex);
-            String mimeType = context.getContentResolver().getType(uri);
-
-            MediaFormat mediaFormat = mediaExtractor.getTrackFormat(0);
-            int bitRate = mediaFormat.getInteger(MediaFormat.KEY_BIT_RATE);
-            int sampleRate = mediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
-            int channelCount = mediaFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
-            cursor.close();
-            return new TrackFileModel(displayName, mimeType, fileSize, bitRate, sampleRate, channelCount);
-        }
-        return null;
+        });
     }
 }
