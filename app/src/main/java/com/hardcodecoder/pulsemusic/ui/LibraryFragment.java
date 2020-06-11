@@ -73,7 +73,7 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.item_falls_down_animation);
                 recyclerView.setLayoutAnimation(controller);
                 recyclerView.setAdapter(mAdapter);
-            }, 200);
+            }, 240);
         } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
