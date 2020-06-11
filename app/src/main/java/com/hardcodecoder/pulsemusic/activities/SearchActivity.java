@@ -73,29 +73,8 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
             public void afterTextChanged(Editable s) {
             }
         });
+        editText.requestFocus();
     }
-
-    /*private void setUpSearchView() {
-        SearchView sv = findViewById(R.id.search_view);
-        View v = sv.findViewById(R.id.search_plate);
-        v.setBackgroundColor(Color.parseColor("#00000000"));
-        sv.setIconified(false);
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (!query.equals(mQuery))
-                    searchSuggestions(query);
-                sv.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchSuggestions(newText);
-                return true;
-            }
-        });
-    }*/
 
     private void searchResult(String query) {
         mQuery = query;
