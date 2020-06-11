@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -25,7 +26,7 @@ public class MediaArtHelper {
     private static Hashtable<Long, Integer> table = new Hashtable<>();
 
     private static Integer generateValue(long albumId) {
-        int index = (int) albumId % 10;
+        int index = Math.abs((int) albumId % 10);
         table.put(albumId, index);
         return index;
     }
@@ -113,7 +114,8 @@ public class MediaArtHelper {
 
         @NonNull
         static Bitmap generateMediaArtBitmap(Context context, int index, RoundingRadius r) {
-            int sides = context.getResources().getDimensionPixelSize(R.dimen.now_playing_media_art_iv);
+            Log.e("MediaArt", "index = " + index);
+            int sides = 512;//context.getResources().getDimensionPixelSize(R.dimen.now_playing_media_art_iv);
             Drawable d = generateMediaArtDrawable(context, new int[]{sides, sides}, index, r);
             if (null == mBitmap) {
                 mBitmap = Bitmap.createBitmap(sides, sides, Bitmap.Config.ARGB_8888);

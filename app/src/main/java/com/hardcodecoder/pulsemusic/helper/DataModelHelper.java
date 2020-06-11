@@ -21,6 +21,8 @@ import java.util.Map;
 
 public class DataModelHelper {
 
+    private static int mPickedTrackId = 0;
+
     public static List<MusicModel> getModelsObjectFromTitlesList(List<String> titles) {
         List<MusicModel> modelList = new ArrayList<>();
         Map<String, MusicModel> modelMap = LoaderCache.getModelMap();
@@ -50,7 +52,8 @@ public class DataModelHelper {
                 String album = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
                 int duration = Integer.parseInt(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
                 mmr.release();
-                return new MusicModel(-1, name, path, album, artist, null, 0, duration);
+                mPickedTrackId--;
+                return new MusicModel(mPickedTrackId, name, path, album, artist, null, mPickedTrackId, duration);
             }
             return null;
         } catch (Exception e) {

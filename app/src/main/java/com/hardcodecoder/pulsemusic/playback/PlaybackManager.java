@@ -7,6 +7,7 @@ import android.media.MediaMetadata;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
+import android.util.Log;
 
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -80,8 +81,9 @@ public class PlaybackManager implements Playback.Callback {
         if (mPlayback.getActiveMediaId() != md.getId())
             hasMediaChanged = true;
         mServiceCallback.onPlaybackStart();
-        updateMetaData(hasMediaChanged);
+        updateMetaData(md, hasMediaChanged);
         mPlayback.onPlay(md, hasMediaChanged);
+        Log.e("PlaybackManager", "media has changed = " + hasMediaChanged);
     }
 
     private void handlePauseRequest() {
@@ -113,9 +115,8 @@ public class PlaybackManager implements Playback.Callback {
         }
     }
 
-    private void updateMetaData(boolean b) {
+    private void updateMetaData(MusicModel md, boolean b) {
         if (b) {
-            MusicModel md = mTrackManager.getActiveQueueItem();
             mMetadataBuilder.putLong(MediaMetadata.METADATA_KEY_DURATION, md.getTrackDuration());
             mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, md.getTrackName());
             mMetadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, md.getArtist());
@@ -126,6 +127,9 @@ public class PlaybackManager implements Playback.Callback {
     }
 
     private Bitmap loadAlbumArt(String path, long albumId) {
+        // We know that manually selected tracks have negative album id
+        if (albumId < 0)
+            return MediaArtHelper.getMediaArtBitmap(mContext, albumId, MediaArtHelper.RoundingRadius.RADIUS_4dp);
         try {
             Uri uri = Uri.parse(path);
             InputStream is = mContext.getContentResolver().openInputStream(uri);
