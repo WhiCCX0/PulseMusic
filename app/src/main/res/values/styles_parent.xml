@@ -69,6 +69,7 @@
         <item name="inactiveColor">@color/lightColorInactive</item>
         <item name="strokeColor">@color/lightColorStroke</item>
         <item name="overlayColor">@color/lightColorOverlay</item>
+        <item name="albumArtOverlay">@drawable/album_art_overlay_light</item>
         <item name="isLightMode">true</item>
         <item name="statusBarColor">?windowBackgroundColor</item>
         <item name="toolbarBackground">@drawable/toolbar_background_light</item>
@@ -91,6 +92,7 @@
         <item name="inactiveColor">@color/darkColorInactive</item>
         <item name="strokeColor">@color/darkColorStroke</item>
         <item name="overlayColor">@color/darkColorOverlay</item>
+        <item name="albumArtOverlay">@drawable/album_art_overlay_dark</item>
         <item name="isLightMode">false</item>
         <item name="statusBarColor">?windowBackgroundColor</item>
         <item name="toolbarBackground">@drawable/toolbar_background_dark</item>

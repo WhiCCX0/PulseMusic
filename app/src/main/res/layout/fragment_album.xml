@@ -19,7 +19,7 @@
         android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/rv_grid_item"
+        tools:listitem="@layout/rv_grid_item_album"
         tools:visibility="visible" />
 
     <ViewStub

@@ -17,6 +17,8 @@
         <attr name="unFocusedColor" format="color|reference" />
         <attr name="inactiveColor" format="color|reference" />
 
+        <attr name="albumArtOverlay" format="reference" />
+
         <attr name="colorStroke" format="color|reference" />
         <attr name="selectedItemBackground" format="color|reference" />
         <attr name="overlayColor" format="color|reference" />

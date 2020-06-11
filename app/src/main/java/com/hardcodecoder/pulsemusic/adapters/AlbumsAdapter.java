@@ -13,11 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.material.card.MaterialCardView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -75,7 +75,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
     @NonNull
     @Override
     public AlbumsSVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AlbumsSVH(mInflater.inflate(R.layout.rv_grid_item, parent, false), mListener);
+        return new AlbumsSVH(mInflater.inflate(R.layout.rv_grid_item_album, parent, false), mListener);
     }
 
     @Override
@@ -92,20 +92,20 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
 
     static class AlbumsSVH extends RecyclerView.ViewHolder {
 
-        private MaterialCardView materialCardView;
+        //private MaterialCardView materialCardView;
         private ImageView albumArt;
         private TextView title;
 
         AlbumsSVH(@NonNull View itemView, SimpleTransitionClickListener mListener) {
             super(itemView);
-            materialCardView = itemView.findViewById(R.id.grid_item_card);
+            //materialCardView = itemView.findViewById(R.id.grid_item_card);
             albumArt = itemView.findViewById(R.id.grid_item_iv);
             title = itemView.findViewById(R.id.grid_item_tv);
-            itemView.setOnClickListener(v -> mListener.onItemClick(materialCardView, getAdapterPosition()));
+            itemView.setOnClickListener(v -> mListener.onItemClick(albumArt, getAdapterPosition()));
         }
 
         void setData(AlbumModel am) {
-            materialCardView.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
+            albumArt.setTransitionName("shared_transition_album_iv_" + getAdapterPosition());
             GlideApp.with(itemView)
                     .load(am.getAlbumArt())
                     .listener(new RequestListener<Drawable>() {
@@ -125,6 +125,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                         }
                     })
                     .transform(GlideConstantArtifacts.getRadius8dp())
+                    .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);
             title.setText(am.getAlbumName());
         }
