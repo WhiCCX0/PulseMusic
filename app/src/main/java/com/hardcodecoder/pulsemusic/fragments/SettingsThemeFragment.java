@@ -41,6 +41,8 @@ public class SettingsThemeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
         mListener = (SettingsFragmentsListener) getActivity();
+        if (mListener instanceof SettingsActivity)
+            mListener.setToolbarTitle(R.string.look_and_feel);
         view.findViewById(R.id.laf_select_dark_theme).setOnClickListener(v -> {
             ThemeChooserBottomSheetDialogFragment dialog = ThemeChooserBottomSheetDialogFragment.getInstance();
             dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), ThemeChooserBottomSheetDialogFragment.TAG);

@@ -40,12 +40,16 @@ public class SettingsActivity extends PMBActivity implements SettingsFragmentsLi
     }
 
     @Override
-    public void changeFragment(Fragment fragment, @StringRes int titleId) {
+    public void changeFragment(Fragment fragment) {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .replace(R.id.settings_content_container, fragment, fragment.getTag())
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void setToolbarTitle(@StringRes int titleId) {
         mToolbar.setTitle(titleId);
     }
 

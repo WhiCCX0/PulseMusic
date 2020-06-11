@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 
 public class SettingsContributorsFragment extends Fragment {
 
@@ -34,6 +36,10 @@ public class SettingsContributorsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        SettingsFragmentsListener mListener = (SettingsFragmentsListener) getActivity();
+        if (mListener instanceof SettingsActivity)
+            mListener.setToolbarTitle(R.string.contributors);
+
         view.findViewById(R.id.github_logo).setOnClickListener(v -> openLink(R.string.github_link));
         view.findViewById(R.id.facebook_logo).setOnClickListener(v -> openLink(R.string.facebook_link));
         view.findViewById(R.id.twitter_logo).setOnClickListener(v -> openLink(R.string.twitter_link));

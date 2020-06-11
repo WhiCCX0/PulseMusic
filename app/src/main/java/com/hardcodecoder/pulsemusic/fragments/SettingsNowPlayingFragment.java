@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 
 public class SettingsNowPlayingFragment extends Fragment {
 
@@ -27,5 +29,8 @@ public class SettingsNowPlayingFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        SettingsFragmentsListener mListener = (SettingsFragmentsListener) getActivity();
+        if (mListener instanceof SettingsActivity)
+            mListener.setToolbarTitle(R.string.now_playing_title);
     }
 }

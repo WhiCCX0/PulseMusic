@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.BuildConfig;
 import com.hardcodecoder.pulsemusic.R;
+import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 
 public class SettingsAboutFragment extends Fragment {
 
@@ -31,6 +33,10 @@ public class SettingsAboutFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        SettingsFragmentsListener mListener = (SettingsFragmentsListener) getActivity();
+        if (mListener instanceof SettingsActivity)
+            mListener.setToolbarTitle(R.string.about);
+
         MaterialTextView tempTextView = view.findViewById(R.id.about_app_version);
         tempTextView.setText(BuildConfig.VERSION_NAME);
 
