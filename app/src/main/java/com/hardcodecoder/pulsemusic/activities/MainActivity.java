@@ -14,6 +14,7 @@ import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hardcodecoder.pulsemusic.R;
@@ -45,6 +46,7 @@ public class MainActivity extends MediaSessionActivity {
     private Fragment activeFrag = null;
     private Fragment playlistCardFrag = null;
     private Fragment controlsFrag = null;
+    private AppBarLayout mAppBar;
     private final MediaController.Callback mCallback = new MediaController.Callback() {
         @Override
         public void onMetadataChanged(@Nullable MediaMetadata metadata) {
@@ -71,6 +73,7 @@ public class MainActivity extends MediaSessionActivity {
 
 
     private void setUpToolbar() {
+        mAppBar = findViewById(R.id.main_app_bar);
         MaterialToolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> {
@@ -175,6 +178,7 @@ public class MainActivity extends MediaSessionActivity {
                     .show(switchTo)
                     .commit();
         activeFrag = switchTo;
+        mAppBar.setExpanded(true);
     }
 
     private void showControlsFragment() {
