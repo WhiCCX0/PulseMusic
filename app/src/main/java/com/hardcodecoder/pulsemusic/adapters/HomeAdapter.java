@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -114,10 +113,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                             return false;
                         }
                     })
-                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(),
-                            style == LayoutStyle.ROUNDED_RECTANGLE ?
+                    .transform(style == LayoutStyle.ROUNDED_RECTANGLE ?
                                     GlideConstantArtifacts.getRadius8dp() :
-                                    GlideConstantArtifacts.getCircleCrop()))
+                            GlideConstantArtifacts.getCircleCrop())
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);
         }
