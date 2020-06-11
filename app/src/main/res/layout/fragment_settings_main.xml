@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             app:settingItemIcon="@drawable/ic_theme_palette"
             app:settingItemIconColor="@color/md_blue_A400"
-            app:settingItemText="Look and feel"
+            app:settingItemText="@string/look_and_feel_desc"
             app:settingItemTitle="@string/look_and_feel" />
 
         <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView

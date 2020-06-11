@@ -81,6 +81,7 @@
     <string name="add_to_queue_toast">Track added to playing queue</string>
     <string name="add_to_playlist">Add to playlist</string>
     <string name="info">Song info</string>
+    <string name="edit_tag">Edit tags</string>
 
 
     <!-- Bottom sheet dialog -->
@@ -135,11 +136,21 @@
     <string name="searchHint">Search for artist, songs or albums\.\.\.</string>
     <string name="search_null">No results found</string>
 
+    <!-- Tag Editor Activity -->
+    <string name="editor_toolbar_title">Tag editor</string>
+    <string name="editor_hint_track_name">Track name</string>
+    <string name="editor_hint_track_album">Album name</string>
+    <string name="editor_hint_track_artist">Artist name</string>
+    <string name="editor_hint_track_genre">Genre</string>
+    <string name="editor_hint_track_year">Album year</string>
+    <string name="editor_btn_save">Save</string>
+
 
     <!-- Settings Activity -->
     <string name="settings_title">Settings</string>
     <!-- Category -->
     <string name="look_and_feel">Look and feel</string>
+    <string name="look_and_feel_desc">Change theme and stuff</string>
 
     <string name="now_playing_title">Now playing</string>
     <string name="now_playing_desc">Customize now playing screen</string>
