@@ -34,20 +34,28 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="56dp"
         app:cardBackgroundColor="?windowBackgroundColor"
-        app:cardCornerRadius="200dp"
+        app:cardCornerRadius="@dimen/rounding_radius_16dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/activity_np_btn_repeat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_np"
-        app:layout_constraintWidth_max="400dp">
+        app:layout_constraintWidth_max="360dp">
 
         <ImageView
             android:id="@+id/activity_np_album_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/iv_content_desc" />
+            android:contentDescription="@string/iv_content_desc"
+            android:scaleType="fitXY" />
+
+        <ViewStub
+            android:id="@+id/stub_album_art_style_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/album_art_overlay" />
     </com.google.android.material.card.MaterialCardView>
 
 
@@ -55,14 +63,14 @@
         android:id="@+id/activity_np_seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
         android:progressDrawable="@drawable/seek_bar_drawable"
         android:thumb="@drawable/seek_bar_thumb"
         android:thumbOffset="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/activity_np_album_artist_name"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/activity_np_album_artist_name"
-        app:layout_constraintTop_toTopOf="@id/activity_np_album_art_card" />
+        app:layout_constraintTop_toBottomOf="@id/activity_np"
+        app:layout_constraintVertical_bias="0.10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_start_time"
@@ -95,21 +103,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="56dp"
         android:gravity="center"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textAppearance="@style/TextViewHeadline6"
+        app:layout_constraintBottom_toTopOf="@id/activity_np_play_pause_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/activity_np_album_art_card"
-        app:layout_constraintTop_toBottomOf="@+id/activity_np_start_time"
-        tools:text="Song Name" />
+        app:layout_constraintTop_toBottomOf="@id/activity_np_seekBar"
+        app:layout_constraintVertical_bias="0.5"
+        tools:text="@tools:sample/full_names" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/activity_np_album_artist_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
         android:maxLines="1"
         android:textAppearance="@style/TextViewSubtitle2"
@@ -117,14 +126,15 @@
         app:layout_constraintEnd_toEndOf="@id/activity_np_song_title"
         app:layout_constraintStart_toStartOf="@id/activity_np_song_title"
         app:layout_constraintTop_toBottomOf="@+id/activity_np_song_title"
-        tools:text="Artist Name" />
+        tools:text="@tools:sample/full_names" />
 
     <ImageButton
         android:id="@+id/activity_np_btn_repeat"
         style="@style/ButtonStyle24"
         android:src="@drawable/ic_repeat"
         app:layout_constraintBottom_toBottomOf="@id/activity_np_play_pause_btn"
-        app:layout_constraintStart_toStartOf="@id/activity_np_album_artist_name"
+        app:layout_constraintEnd_toStartOf="@+id/activity_np_skip_prev_btn"
+        app:layout_constraintStart_toStartOf="@id/activity_np_song_title"
         app:layout_constraintTop_toTopOf="@id/activity_np_play_pause_btn"
         tools:ignore="contentDescription" />
 
@@ -134,7 +144,7 @@
         android:src="@drawable/ic_round_skip_previous"
         app:layout_constraintBottom_toBottomOf="@id/activity_np_play_pause_btn"
         app:layout_constraintEnd_toStartOf="@+id/activity_np_play_pause_btn"
-        app:layout_constraintStart_toEndOf="@id/activity_np_btn_repeat"
+        app:layout_constraintStart_toEndOf="@+id/activity_np_btn_repeat"
         app:layout_constraintTop_toTopOf="@id/activity_np_play_pause_btn"
         tools:ignore="contentDescription" />
 
@@ -150,11 +160,11 @@
         android:padding="8dp"
         android:stateListAnimator="@animator/focused_elevation_up"
         android:tint="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/activity_np_close_btn"
         app:layout_constraintEnd_toStartOf="@+id/activity_np_skip_next_btn"
         app:layout_constraintStart_toEndOf="@+id/activity_np_skip_prev_btn"
-        app:layout_constraintTop_toBottomOf="@id/activity_np_album_artist_name"
-        app:layout_constraintVertical_bias="0.10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
         tools:ignore="contentDescription"
         tools:src="@drawable/pause_to_play" />
 
@@ -163,7 +173,7 @@
         style="@style/ButtonStyle36"
         android:src="@drawable/ic_round_skip_next"
         app:layout_constraintBottom_toBottomOf="@id/activity_np_play_pause_btn"
-        app:layout_constraintEnd_toStartOf="@id/activity_np_favourite_btn"
+        app:layout_constraintEnd_toStartOf="@+id/activity_np_favourite_btn"
         app:layout_constraintStart_toEndOf="@+id/activity_np_play_pause_btn"
         app:layout_constraintTop_toTopOf="@id/activity_np_play_pause_btn"
         tools:ignore="contentDescription" />
@@ -173,7 +183,8 @@
         style="@style/ButtonStyle24"
         android:src="@drawable/selector_favorites_button"
         app:layout_constraintBottom_toBottomOf="@id/activity_np_play_pause_btn"
-        app:layout_constraintEnd_toEndOf="@id/activity_np_album_artist_name"
+        app:layout_constraintEnd_toEndOf="@id/activity_np_song_title"
+        app:layout_constraintStart_toEndOf="@+id/activity_np_skip_next_btn"
         app:layout_constraintTop_toTopOf="@id/activity_np_play_pause_btn"
         tools:ignore="contentDescription" />
 

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.themes.ThemeStore;
 import com.hardcodecoder.pulsemusic.ui.AlbumFragment;
 import com.hardcodecoder.pulsemusic.ui.ArtistFragment;
@@ -115,5 +116,27 @@ public class AppSettings {
     public static int getArtistFragmentSortOrder(Context context) {
         return context.getSharedPreferences(SORT_ORDER_PREFS, Context.MODE_PRIVATE)
                 .getInt(SORT_ORDER_ARTIST, ArtistFragment.ARTIST_SORT_ORDER_TITLE_ASC);
+    }
+
+    public static void setNowPlayingAlbumCardStyle(Context context, int id) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Context.MODE_PRIVATE).edit();
+        editor.putInt(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, id);
+        editor.apply();
+    }
+
+    public static void setNowPlayingAlbumCardOverlayEnabled(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, enabled);
+        editor.apply();
+    }
+
+    public static int getNowPlayingAlbumCardStyle(Context context) {
+        return context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Context.MODE_PRIVATE)
+                .getInt(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_SQUARE);
+    }
+
+    public static boolean isNowPlayingAlbumCardOverlayEnabled(Context context) {
+        return context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
+                .getBoolean(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, false);
     }
 }

@@ -10,18 +10,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.GenericTransitionOptions;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.storage.StorageHelper;
+import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -55,11 +59,15 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private final MediaController.Callback mCallback = new MediaController.Callback() {
         @Override
         public void onPlaybackStateChanged(PlaybackState state) {
-            updatePlaybackState(state);
+            if (null != state) {
+                mState = state;
+                updatePlaybackState();
+            }
         }
 
         @Override
         public void onMetadataChanged(MediaMetadata metadata) {
+            stopSeekBarUpdate();
             updateMetaData(metadata);
             updateFavoriteButtonState();
         }
@@ -68,7 +76,6 @@ public class NowPlayingActivity extends MediaSessionActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_now_playing);
         tm = TrackManager.getInstance();
         /*
@@ -83,7 +90,34 @@ public class NowPlayingActivity extends MediaSessionActivity {
         mFavBtn = findViewById(R.id.activity_np_favourite_btn);
         mRepeatBtn = findViewById(R.id.activity_np_btn_repeat);
 
-        findViewById(R.id.activity_np_close_btn).setOnClickListener(v -> finishAfterTransition());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) animateSeekBar = true;
+
+        int albumStyle = AppSettings.getNowPlayingAlbumCardStyle(this);
+        boolean showOverlay = AppSettings.isNowPlayingAlbumCardOverlayEnabled(this);
+        MaterialCardView mAlbumCard = findViewById(R.id.activity_np_album_art_card);
+
+        mAlbumCard.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            if (albumStyle == Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_CIRCLE) {
+                float side = mAlbumCard.getMeasuredWidthAndState();
+                mAlbumCard.setRadius(side / 2);
+            }
+        });
+
+        if (showOverlay) {
+            mAlbumCard.setCardElevation(0);
+            ((ViewStub) mAlbumCard.findViewById(R.id.stub_album_art_style_overlay)).inflate();
+        }
+        initButtons();
+    }
+
+    private void initButtons() {
+        findViewById(R.id.activity_np_skip_next_btn).setOnClickListener(v -> mController.getTransportControls().skipToNext());
+        findViewById(R.id.activity_np_skip_prev_btn).setOnClickListener(v -> mController.getTransportControls().skipToPrevious());
+        findViewById(R.id.activity_np_close_btn).setOnClickListener(v -> onBackPressed());
+        mFavBtn.setOnClickListener(v -> {
+            if (isTrackFavorite) removeFromFavorite();
+            else addToFavorite();
+        });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -93,6 +127,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                stopSeekBarUpdate();
             }
 
             @Override
@@ -101,18 +136,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
                 mController.getTransportControls().seekTo(progress);
             }
         });
-        initButtons();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) animateSeekBar = true;
-    }
 
-    private void initButtons() {
-        findViewById(R.id.activity_np_skip_next_btn).setOnClickListener(v -> mController.getTransportControls().skipToNext());
-        findViewById(R.id.activity_np_skip_prev_btn).setOnClickListener(v -> mController.getTransportControls().skipToPrevious());
-
-        mFavBtn.setOnClickListener(v -> {
-            if (isTrackFavorite) removeFromFavorite();
-            else addToFavorite();
-        });
         updateFavoriteButtonState();
         updateRepeatBtn();
     }
@@ -150,13 +174,12 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
     private void updateMetaData(MediaMetadata metadata) {
         if (metadata != null) {
-            stopSeekBarUpdate();
-            GlideApp
-                    .with(this)
-                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
-                    .error(R.drawable.np_album_art)
-                    .transform(new CircleCrop())
-                    .into((ImageView) findViewById(R.id.activity_np_album_art));
+            mHandler.postDelayed(() ->
+                            GlideApp.with(this)
+                                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
+                                    .transition(GenericTransitionOptions.with(R.anim.now_playing_album_card))
+                                    .into((ImageView) findViewById(R.id.activity_np_album_art))
+                    , 240);
 
             long sec = metadata.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
             seekBar.setProgress(progress = 0);
@@ -167,54 +190,60 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
             toolbarSongTitle.setText(metadata.getText(MediaMetadata.METADATA_KEY_TITLE));
             toolbarSongTitle.setSelected(true);
+            updateRepeatBtn();
         }
     }
 
-    private void updatePlaybackState(PlaybackState state) {
-        if (state != null) {
-            mState = state;
-            switch (state.getState()) {
+    private void updatePlaybackState() {
+        switch (mState.getState()) {
+            case PlaybackState.STATE_PLAYING:
+                scheduleSeekBarUpdate();
+                break;
 
-                case PlaybackState.STATE_PLAYING:
-                    scheduleSeekBarUpdate();
-                    updateRepeatBtn();
-                    break;
+            case PlaybackState.STATE_STOPPED:
+                stopSeekBarUpdate();
+                progress = 0;
+                seekBar.setProgress(progress);
+                break;
 
-                case PlaybackState.STATE_STOPPED:
-                    stopSeekBarUpdate();
-                    progress = 0;
-                    seekBar.setProgress(progress);
-                    break;
+            case PlaybackState.STATE_PAUSED:
+                stopSeekBarUpdate();
+                --progress;
+                break;
 
-                case PlaybackState.STATE_PAUSED:
-                    stopSeekBarUpdate();
-                    --progress;
-                    break;
-
-                case PlaybackState.STATE_BUFFERING:
-                case PlaybackState.STATE_CONNECTING:
-                case PlaybackState.STATE_ERROR:
-                case PlaybackState.STATE_FAST_FORWARDING:
-                case PlaybackState.STATE_NONE:
-                case PlaybackState.STATE_REWINDING:
-                case PlaybackState.STATE_SKIPPING_TO_NEXT:
-                case PlaybackState.STATE_SKIPPING_TO_PREVIOUS:
-                case PlaybackState.STATE_SKIPPING_TO_QUEUE_ITEM:
-                    break;
-            }
+            case PlaybackState.STATE_BUFFERING:
+            case PlaybackState.STATE_CONNECTING:
+            case PlaybackState.STATE_ERROR:
+            case PlaybackState.STATE_FAST_FORWARDING:
+            case PlaybackState.STATE_NONE:
+            case PlaybackState.STATE_REWINDING:
+            case PlaybackState.STATE_SKIPPING_TO_NEXT:
+            case PlaybackState.STATE_SKIPPING_TO_PREVIOUS:
+            case PlaybackState.STATE_SKIPPING_TO_QUEUE_ITEM:
+                break;
         }
+        updatePlayButton();
     }
 
+    private void updatePlayButton() {
+        if (null != mState) {
+            if (mState.getState() == PlaybackState.STATE_PLAYING)
+                mPlayPause.setImageResource(R.drawable.pause_to_play);
+            else mPlayPause.setImageResource(R.drawable.play_to_pause_linear_out_slow_in);
+        }
+    }
 
     @Override
     public void onMediaServiceConnected(MediaController controller) {
         mController = controller;
         mController.registerCallback(mCallback);
-        updateMetaData(mController.getMetadata());
         mState = mController.getPlaybackState();
         if (null != mState) {
-            long elapsedProgressSec = mState.getPosition() / 1000; /// 250;
-            progress = (int) elapsedProgressSec;
+            // Make call to updateMetadata before calling updatePlaybackState
+            // updateMetadata reset's seek bar position
+            updateMetaData(mController.getMetadata());
+
+            progress = (int) mState.getPosition() / 1000;
             setSeekBarProgress();
 
             //Keep this block here, moving it to onCreate can
@@ -235,15 +264,8 @@ public class NowPlayingActivity extends MediaSessionActivity {
                     if (d instanceof AnimatedVectorDrawable) ((AnimatedVectorDrawable) d).start();
                 }
             });
-        }
-        PlaybackState state = mController.getPlaybackState();
-        updatePlaybackState(state);
-
-        if (null != state) {
-            if (state.getState() == PlaybackState.STATE_PLAYING)
-                mPlayPause.setImageResource(R.drawable.pause_to_play);
-            else mPlayPause.setImageResource(R.drawable.play_to_pause_linear_out_slow_in);
-
+            updatePlaybackState();
+            updatePlayButton();
         }
     }
 
@@ -253,7 +275,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
         if (!mExecutorService.isShutdown()) {
             if (null != mScheduleFuture)
                 mScheduleFuture.cancel(true);
-            mScheduleFuture = mExecutorService.scheduleAtFixedRate(() -> mHandler.post(mUpdateProgressTask), 0, 1000/*250*/, TimeUnit.MILLISECONDS);
+            mScheduleFuture = mExecutorService.scheduleAtFixedRate(() -> mHandler.post(mUpdateProgressTask), 500, 1000, TimeUnit.MILLISECONDS);
         }
     }
 

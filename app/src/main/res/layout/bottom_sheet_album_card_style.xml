@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/selector_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/now_playing_selector_album_style_title"
+        android:textAppearance="@style/TextViewBody1"
+        android:textColor="?attr/primaryColor"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/selector_radio_button_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/selector_title"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/selector_album_style_circle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="?primaryColor"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"
+            android:text="@string/now_playing_selector_album_style_circle"
+            android:textAppearance="@style/TextViewSubtitle2"
+            android:textColor="?primaryTextColor" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/selector_album_style_square"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="?primaryColor"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"
+            android:text="@string/now_playing_selector_album_style_square"
+            android:textAppearance="@style/TextViewSubtitle2"
+            android:textColor="?primaryTextColor" />
+
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/chooser_cancel_btn"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/selector_radio_button_group"
+        android:layout_toStartOf="@id/selector_set_btn"
+        android:text="@string/cancel" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/selector_set_btn"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/selector_radio_button_group"
+        android:layout_alignParentEnd="true"
+        android:text="@string/set" />
+</RelativeLayout>
