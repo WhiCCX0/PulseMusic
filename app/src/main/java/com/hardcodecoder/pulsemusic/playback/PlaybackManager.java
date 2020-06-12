@@ -7,7 +7,6 @@ import android.media.MediaMetadata;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
-import android.util.Log;
 
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -15,9 +14,7 @@ import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.io.InputStream;
 
-
 public class PlaybackManager implements Playback.Callback {
-
 
     public static final short ACTION_PLAY_NEXT = 1;
     public static final short ACTION_PLAY_PREV = -1;
@@ -83,7 +80,6 @@ public class PlaybackManager implements Playback.Callback {
         mServiceCallback.onPlaybackStart();
         updateMetaData(md, hasMediaChanged);
         mPlayback.onPlay(md, hasMediaChanged);
-        Log.e("PlaybackManager", "media has changed = " + hasMediaChanged);
     }
 
     private void handlePauseRequest() {

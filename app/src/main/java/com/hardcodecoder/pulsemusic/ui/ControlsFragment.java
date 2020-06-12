@@ -5,7 +5,6 @@ import android.media.MediaMetadata;
 import android.media.session.MediaController;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +76,6 @@ public class ControlsFragment extends Fragment {
         skipPrev.setOnClickListener(v1 -> mTransportControl.skipToPrevious());
 
         v.setOnClickListener(v1 -> {
-            // a potentially time consuming task
             Intent intent = new Intent(getActivity(), NowPlayingActivity.class);
             startActivity(intent);
         });
@@ -93,16 +91,8 @@ public class ControlsFragment extends Fragment {
     }
 
     private void updateMetadata() {
-        if (mMetadata != null) {
-            /*GlideApp
-                    .with(iv.getContext())
-                    .load(mMetadata.getBitmap(PlaybackManager.METADATA_ALBUM_ART))
-                    .error(R.drawable.album_art_error)
-                    .transform(new RoundedCorners(12))
-                    .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
-                    .into(iv);*/
+        if (mMetadata != null)
             tv1.setText(mMetadata.getText(MediaMetadata.METADATA_KEY_TITLE));
-        }
     }
 
     private void updateController() {
@@ -116,7 +106,7 @@ public class ControlsFragment extends Fragment {
                 mTransportControl = mController.getTransportControls();
             updateMetadata();
             updateControls();
-        } else Log.e("ControlsFragment", "controller is null");
+        }
     }
 
     @Override
