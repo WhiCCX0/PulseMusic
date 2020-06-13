@@ -75,6 +75,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_open_exit);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_now_playing);
         tm = TrackManager.getInstance();
@@ -174,12 +175,10 @@ public class NowPlayingActivity extends MediaSessionActivity {
 
     private void updateMetaData(MediaMetadata metadata) {
         if (metadata != null) {
-            mHandler.postDelayed(() ->
-                            GlideApp.with(this)
-                                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
-                                    .transition(GenericTransitionOptions.with(R.anim.now_playing_album_card))
-                                    .into((ImageView) findViewById(R.id.activity_np_album_art))
-                    , 240);
+            GlideApp.with(this)
+                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
+                    .transition(GenericTransitionOptions.with(R.anim.now_playing_album_card))
+                    .into((ImageView) findViewById(R.id.activity_np_album_art));
 
             long sec = metadata.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
             seekBar.setProgress(progress = 0);
@@ -295,6 +294,12 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private void setSeekBarProgress() {
         if (animateSeekBar) seekBar.setProgress(progress, true);
         else seekBar.setProgress(progress);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_slide_out);
     }
 
     @Override
