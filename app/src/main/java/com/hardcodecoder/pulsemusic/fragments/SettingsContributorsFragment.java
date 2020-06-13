@@ -47,6 +47,7 @@ public class SettingsContributorsFragment extends Fragment {
 
         GlideApp.with(view)
                 .load(getString(R.string.profile_icon_link))
+                .error(R.drawable.def_avatar)
                 .transform(GlideConstantArtifacts.getCircleCrop())
                 .into((ImageView) view.findViewById(R.id.lead_developer_profile_icon));
     }
