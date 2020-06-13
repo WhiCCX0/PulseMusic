@@ -174,6 +174,10 @@
     <string name="laf_category_select_color">Pick accent color</string>
     <string name="laf_category_select_color_desc">Select accent colors for the app</string>
 
+    <string name="laf_category_album_art_decoration">Style</string>
+    <string name="laf_category_album_art_decoration_title">Enable gradient overlay</string>
+    <string name="laf_category_album_art_decoration_desc">Adds a fading overlay on top of album art in albums list</string>
+
 
     <string name="dark_theme_name_gray">Just Gray</string>
     <string name="dark_theme_name_kinda_dark">Signature dark scheme</string>

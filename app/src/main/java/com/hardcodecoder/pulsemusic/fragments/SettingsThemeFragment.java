@@ -43,6 +43,25 @@ public class SettingsThemeFragment extends Fragment {
         mListener = (SettingsFragmentsListener) getActivity();
         if (mListener instanceof SettingsActivity)
             mListener.setToolbarTitle(R.string.look_and_feel);
+
+        updateThemeSection(view);
+
+        SettingsToggleableItem albumOverlaySelectorLayout = view.findViewById(R.id.laf_select_album_art_overlay);
+        SwitchMaterial albumOverlaySwitch = albumOverlaySelectorLayout.findViewById(R.id.setting_toggleable_item_switch);
+
+        boolean albumOverlayEnabled = false;
+        if (null != getContext())
+            albumOverlayEnabled = AppSettings.isAlbumCardOverlayEnabled(getContext());
+
+        albumOverlaySwitch.setChecked(albumOverlayEnabled);
+        albumOverlaySwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                AppSettings.setAlbumCardOverlayEnabled(buttonView.getContext(), isChecked));
+
+        albumOverlaySelectorLayout.setOnClickListener(v ->
+                albumOverlaySwitch.setChecked(!albumOverlaySwitch.isChecked()));
+    }
+
+    private void updateThemeSection(View view) {
         view.findViewById(R.id.laf_select_dark_theme).setOnClickListener(v -> {
             ThemeChooserBottomSheetDialogFragment dialog = ThemeChooserBottomSheetDialogFragment.getInstance();
             dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), ThemeChooserBottomSheetDialogFragment.TAG);
@@ -66,8 +85,8 @@ public class SettingsThemeFragment extends Fragment {
 
         //Add listeners to switch views
         enableDarkThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (ThemeManagerUtils.toggleDarkTheme(mContext, isChecked))
-                    applyTheme();
+            if (ThemeManagerUtils.toggleDarkTheme(mContext, isChecked))
+                applyTheme();
         });
         enableDarkThemeLayout.setOnClickListener(v -> {
             // Trigger switch enable/disable
@@ -75,28 +94,27 @@ public class SettingsThemeFragment extends Fragment {
         });
 
         enableAutoThemeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                enableDarkThemeLayout.setEnabled(!isChecked);
-                if (ThemeManagerUtils.toggleAutoTheme(mContext, isChecked))
+            enableDarkThemeLayout.setEnabled(!isChecked);
+            if (ThemeManagerUtils.toggleAutoTheme(mContext, isChecked))
+                applyTheme();
+            else {
+                // User does not want auto theme based on time of day
+                // Revert to theme selected via darkThemeToggle
+                if (enableDarkThemeSwitch.isChecked() && !ThemeManagerUtils.isDarkModeEnabled()) {
+                    // User previously select dark theme so when auto theme is
+                    // disabled apply dark theme if not already applied
                     applyTheme();
-                else {
-                    // User does not want auto theme based on time of day
-                    // Revert to theme selected via darkThemeToggle
-                    if (enableDarkThemeSwitch.isChecked() && !ThemeManagerUtils.isDarkModeEnabled()) {
-                        // User previously select dark theme so when auto theme is
-                        // disabled apply dark theme if not already applied
-                        applyTheme();
-                    } else if (!enableDarkThemeSwitch.isChecked() && ThemeManagerUtils.isDarkModeEnabled()) {
-                        // User previously select light theme so when auto theme is
-                        // disabled apply light theme if not already applied
-                        applyTheme();
-                    }
+                } else if (!enableDarkThemeSwitch.isChecked() && ThemeManagerUtils.isDarkModeEnabled()) {
+                    // User previously select light theme so when auto theme is
+                    // disabled apply light theme if not already applied
+                    applyTheme();
                 }
+            }
         });
         enableAutoThemeLayout.setOnClickListener(v -> {
             // Trigger switch enable/disable
             enableAutoThemeSwitch.setChecked(!enableAutoThemeSwitch.isChecked());
         });
-
     }
 
     private void applyTheme() {

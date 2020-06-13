@@ -113,6 +113,17 @@ public class AppSettings {
                 .getInt(SORT_ORDER_ALBUMS, AlbumFragment.ALBUMS_SORT_ORDER_TITLE_ASC);
     }
 
+    public static void setAlbumCardOverlayEnabled(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, enabled);
+        editor.apply();
+    }
+
+    public static boolean isAlbumCardOverlayEnabled(Context context) {
+        return context.getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
+                .getBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, false);
+    }
+
     public static int getArtistFragmentSortOrder(Context context) {
         return context.getSharedPreferences(SORT_ORDER_PREFS, Context.MODE_PRIVATE)
                 .getInt(SORT_ORDER_ARTIST, ArtistFragment.ARTIST_SORT_ORDER_TITLE_ASC);

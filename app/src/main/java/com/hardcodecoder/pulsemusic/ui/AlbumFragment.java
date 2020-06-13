@@ -1,6 +1,8 @@
 package com.hardcodecoder.pulsemusic.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
@@ -37,7 +40,9 @@ public class AlbumFragment extends Fragment {
     private int spanCount;
     private int currentConfig;
     private GridLayoutManager layoutManager;
+    private SharedPreferences.OnSharedPreferenceChangeListener mSharedPrefListener;
     private int mCurrentSortOrder;
+    private boolean mAddOverlay = false;
 
     public AlbumFragment() {
     }
@@ -57,7 +62,17 @@ public class AlbumFragment extends Fragment {
         else
             spanCount = AppSettings.getPortraitGridSpanCount(getContext());
 
+        mSharedPrefListener = (sharedPreferences, key) -> {
+            if (key.equals(Preferences.ALBUM_CARD_OVERLAY_KEY)) {
+                mAddOverlay = sharedPreferences.getBoolean(key, false);
+                adapter.changeOverlayOption(mAddOverlay);
+            }
+        };
+
         if (null != getContext()) {
+            getContext().getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
+                    .registerOnSharedPreferenceChangeListener(mSharedPrefListener);
+
             mCurrentSortOrder = AppSettings.getAlbumsFragmentSortOrder(getContext());
             ALBUMS sortOrder = (mCurrentSortOrder == ALBUMS_SORT_ORDER_TITLE_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
 
@@ -67,12 +82,14 @@ public class AlbumFragment extends Fragment {
 
     private void loadAlbumsList(View view, List<AlbumModel> list) {
         if (null != list && list.size() > 0) {
+            if (null != getContext())
+                mAddOverlay = AppSettings.isAlbumCardOverlayEnabled(getContext());
             RecyclerView rv = view.findViewById(R.id.rv_album_fragment);
             rv.setVisibility(View.VISIBLE);
             layoutManager = new GridLayoutManager(rv.getContext(), spanCount);
             rv.setLayoutManager(layoutManager);
             rv.setHasFixedSize(true);
-            adapter = new AlbumsAdapter(list, getLayoutInflater(), (sharedView, position) -> {
+            adapter = new AlbumsAdapter(list, getLayoutInflater(), mAddOverlay, (sharedView, position) -> {
                 Intent i = new Intent(getContext(), DetailsActivity.class);
                 i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
                 i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
@@ -166,5 +183,13 @@ public class AlbumFragment extends Fragment {
     private enum ID {
         PORTRAIT,
         LANDSCAPE
+    }
+
+    @Override
+    public void onDestroy() {
+        if (null != getContext())
+            getContext().getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
+                    .unregisterOnSharedPreferenceChangeListener(mSharedPrefListener);
+        super.onDestroy();
     }
 }

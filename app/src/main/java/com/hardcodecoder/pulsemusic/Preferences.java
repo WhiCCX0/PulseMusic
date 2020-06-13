@@ -9,6 +9,7 @@ public class Preferences {
 
     // True or false
     public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";
-    public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY = "NowPlayingAlbumCardOverlay";
 
+    // True or false
+    public static final String ALBUM_CARD_OVERLAY_KEY = "AlbumCardOverlayKey";
 }
