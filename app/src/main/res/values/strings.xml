@@ -184,6 +184,7 @@
 
 
     <!-- Now playing settings -->
+    <string name="now_playing_album_style_section_title">Artwork</string>
     <string name="now_playing_album_style_title">Select card style</string>
     <string name="now_playing_album_style_desc">Choose album art style</string>
     <string name="now_playing_album_decoration_title">Enable gradient overlay</string>
@@ -203,13 +204,9 @@
 
     <!-- About -->
     <string name="about_app_version">App version</string>
-    <string name="about_app_version_desc">v2.0.1</string>
     <string name="about_app_release_date">Build date</string>
-    <string name="about_app_release_date_desc">2nd May 2020</string>
     <string name="about_app_release_build_type">Build type</string>
-    <string name="about_app_release_build_type_desc">Stable</string>
     <string name="about_app_build_code">Build code</string>
-    <string name="about_app_build_code_desc">2001856</string>
     <string name="about_check_source_code">Source on github</string>
 
     <!-- Profile Links -->

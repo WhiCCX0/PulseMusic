@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="32dp"
+    android:paddingStart="72dp"
     android:paddingTop="16dp"
     android:paddingEnd="32dp"
     android:paddingBottom="0dp">
@@ -28,9 +29,9 @@
         android:id="@+id/about_app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_version_desc"
         android:textAppearance="@style/TextViewSubtitle2"
-        android:textColor="?secondaryTextColor" />
+        android:textColor="?secondaryTextColor"
+        tools:text="@tools:sample/us_zipcodes" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -45,9 +46,9 @@
         android:id="@+id/about_app_release_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_release_date_desc"
         android:textAppearance="@style/TextViewSubtitle2"
-        android:textColor="?secondaryTextColor" />
+        android:textColor="?secondaryTextColor"
+        tools:text="@tools:sample/date/hhmmss" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -62,9 +63,9 @@
         android:id="@+id/about_app_build_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_build_code_desc"
         android:textAppearance="@style/TextViewSubtitle2"
-        android:textColor="?secondaryTextColor" />
+        android:textColor="?secondaryTextColor"
+        tools:text="@tools:sample/us_zipcodes" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -78,9 +79,9 @@
         android:id="@+id/about_app_build_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_release_build_type_desc"
         android:textAppearance="@style/TextViewSubtitle2"
-        android:textColor="?secondaryTextColor" />
+        android:textColor="?secondaryTextColor"
+        tools:text="@tools:sample/full_names" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"

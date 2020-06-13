@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="0dp"
     android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:text="@string/now_playing_album_style_section_title"
+        android:textAppearance="@style/TextViewOverline"
+        android:textColor="?primaryColor" />
 
     <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
         android:id="@+id/now_playing_album_style"

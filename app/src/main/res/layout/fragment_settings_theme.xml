@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="16dp"
         android:paddingBottom="0dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="78dp"
-            android:layout_marginTop="16dp"
             android:text="@string/laf_category_theme"
             android:textAppearance="@style/TextViewOverline"
             android:textColor="?primaryColor" />
