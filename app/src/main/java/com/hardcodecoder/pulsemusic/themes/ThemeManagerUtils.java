@@ -7,21 +7,26 @@ import com.hardcodecoder.pulsemusic.utils.DayTimeUtils;
 
 public class ThemeManagerUtils {
 
-    private static ThemeManager mThemeManager;
+    private static boolean mAutoMode = false;
+    private static boolean mDarkMode = false;
+    private static int mThemeId = ThemeStore.LIGHT_THEME;
 
     public static void init(Context context) {
-        mThemeManager = new ThemeManager(context);
+        mAutoMode = AppSettings.isAutoThemeEnabled(context);
+        if (mAutoMode) mDarkMode = (DayTimeUtils.getTimeOfDay() == DayTimeUtils.DayTime.NIGHT);
+        else mDarkMode = AppSettings.isDarkModeEnabled(context);
+
+        if (mDarkMode) mThemeId = AppSettings.getSelectedDarkTheme(context);
+        else mThemeId = ThemeStore.LIGHT_THEME;
     }
 
     public static boolean toggleDarkTheme(Context context, boolean enabled) {
-        //ThemeManager.enableDarkMode(context, enabled);
         AppSettings.enableDarkMode(context, enabled);
         //return true if activity needs to restart because theme needs to be changed
-        return (!mThemeManager.isDarkModeEnabled() && enabled) || (mThemeManager.isDarkModeEnabled() && !enabled);
+        return (!mDarkMode && enabled) || (mDarkMode && !enabled);
     }
 
     public static boolean toggleAutoTheme(Context context, boolean enabled) {
-        //ThemeManager.enableAutoTheme(context, enabled);
         AppSettings.enableAutoTheme(context, enabled);
         // User want auto theme based on time of day
         // If its night/day and current theme is light/dark respectively
@@ -36,23 +41,22 @@ public class ThemeManagerUtils {
 
     public static boolean needToApplyNewDarkTheme() {
         //Returns true to restart activity in order to apply new dark theme
-        return (mThemeManager.isAutoModeEnabled() && isNight()) || mThemeManager.isDarkModeEnabled();
+        return (mAutoMode && isNight()) || mDarkMode;
     }
 
     public static boolean isDarkModeEnabled() {
-        return mThemeManager.isDarkModeEnabled();
+        return mDarkMode;
     }
 
     public static int getThemeToApply() {
-        return mThemeManager.getThemeToApply();
+        return ThemeStore.getThemeById(mDarkMode, mThemeId);
     }
 
     private static boolean needToChangeTheme() {
-        return ((isNight() && !mThemeManager.isDarkModeEnabled()) || (!isNight() && mThemeManager.isDarkModeEnabled()));
+        return ((isNight() && !mDarkMode) || (!isNight() && mDarkMode));
     }
 
     private static boolean isNight() {
         return (DayTimeUtils.getTimeOfDay() == DayTimeUtils.DayTime.NIGHT);
     }
-
 }
