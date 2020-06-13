@@ -44,17 +44,18 @@ public class SettingsNowPlayingFragment extends Fragment {
             dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), AlbumCardStyleChooser.TAG);
         });
 
-        if (null != getContext()) {
-            boolean enabled = AppSettings.isNowPlayingAlbumCardOverlayEnabled(getContext());
+        boolean enabled = false;
+        if (null != getContext())
+            enabled = AppSettings.isNowPlayingAlbumCardOverlayEnabled(getContext());
 
-            SettingsToggleableItem albumCardDecorationLayout = view.findViewById(R.id.now_playing_album_decoration);
-            SwitchMaterial albumCardDecorationSwitch = albumCardDecorationLayout.findViewById(R.id.setting_toggleable_item_switch);
+        SettingsToggleableItem albumCardDecorationLayout = view.findViewById(R.id.now_playing_album_decoration);
+        SwitchMaterial albumCardDecorationSwitch = albumCardDecorationLayout.findViewById(R.id.setting_toggleable_item_switch);
 
-            albumCardDecorationSwitch.setChecked(enabled);
-            albumCardDecorationSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
-                    AppSettings.setNowPlayingAlbumCardOverlayEnabled(getContext(), isChecked));
-            albumCardDecorationLayout.setOnClickListener(v ->
-                    albumCardDecorationSwitch.setChecked(!albumCardDecorationSwitch.isChecked()));
-        }
+        albumCardDecorationSwitch.setChecked(enabled);
+        albumCardDecorationSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                AppSettings.setNowPlayingAlbumCardOverlayEnabled(buttonView.getContext(), isChecked));
+        albumCardDecorationLayout.setOnClickListener(v ->
+                albumCardDecorationSwitch.setChecked(!albumCardDecorationSwitch.isChecked()));
+
     }
 }
