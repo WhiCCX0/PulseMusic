@@ -3,19 +3,15 @@
     <!-- Dimens for Home layout -->
     <dimen name="spacing_header_item">16dp</dimen>
 
-    <dimen name="bck_iv_sh_src_padding">16dp</dimen>
-
     <dimen name="rounding_radius_2dp">2dp</dimen>
     <dimen name="rounding_radius_4dp">4dp</dimen>
     <dimen name="rounding_radius_8dp">8dp</dimen>
     <dimen name="rounding_radius_16dp">16dp</dimen>
 
     <!-- Now playing screen -->
-    <dimen name="now_playing_media_art_iv">260dp</dimen>
 
     <!-- Material  button padding -->
     <dimen name="button_padding_vertical">10dp</dimen>
-    <dimen name="button_margin_horizontal">16dp</dimen>
 
     <dimen name="icon_padding">12dp</dimen>
 

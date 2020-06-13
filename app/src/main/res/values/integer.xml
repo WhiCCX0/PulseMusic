@@ -3,6 +3,4 @@
     <integer name="item_falls_down_duration">200</integer>
     <integer name="default_anim_duration_medium">400</integer>
     <integer name="window_enter_duration_long">400</integer>
-    <integer name="window_exit_duration_short">275</integer>
-    <integer name="fragment_slide_duration">400</integer>
 </resources>
