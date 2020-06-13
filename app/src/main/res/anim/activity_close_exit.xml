@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Animation for current activity exit when another activity is opened on top -->
+<!-- Animation for current activity exit when previous activity is opened on top -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="false"
