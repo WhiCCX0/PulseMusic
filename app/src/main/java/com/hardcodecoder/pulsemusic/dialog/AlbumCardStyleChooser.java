@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
@@ -32,10 +31,7 @@ public class AlbumCardStyleChooser extends RoundedBottomSheetDialogFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        MaterialTextView title = view.findViewById(R.id.selector_title);
-        title.setText(getString(R.string.now_playing_selector_album_style_title));
         if (null != getContext()) {
-
             RadioGroup radioGroup = view.findViewById(R.id.selector_radio_button_group);
             int currentStyle = AppSettings.getNowPlayingAlbumCardStyle(getContext());
 
