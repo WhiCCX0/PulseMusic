@@ -85,6 +85,30 @@ public class AppSettings {
                 .getInt(ThemeStore.DARK_THEME_CATEGORY, ThemeStore.DARK_THEME_GRAY);
     }
 
+
+    public static void saveSelectedAccentId(Context context, int accentId) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.ACCENTS_COLOR_KEY, Context.MODE_PRIVATE).edit();
+        editor.putInt(Preferences.ACCENTS_COLOR_KEY, accentId);
+        editor.apply();
+    }
+
+    public static int getSelectedAccentId(Context context) {
+        return context.getSharedPreferences(Preferences.ACCENTS_COLOR_KEY, Context.MODE_PRIVATE)
+                .getInt(Preferences.ACCENTS_COLOR_KEY, ThemeStore.ACCENT_EXODUS_FRUIT);
+    }
+
+    public static void saveAccentDesaturatedColor(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.ACCENTS_COLOR_DESATURATED_KEY, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(Preferences.ACCENTS_COLOR_DESATURATED_KEY, enabled);
+        editor.apply();
+    }
+
+    public static boolean getAccentDesaturatedColor(Context context) {
+        return context.getSharedPreferences(Preferences.ACCENTS_COLOR_DESATURATED_KEY, Context.MODE_PRIVATE)
+                .getBoolean(Preferences.ACCENTS_COLOR_DESATURATED_KEY, false);
+    }
+
+
     public static void saveLibraryFragmentSortOrder(Context context, int sortOrder) {
         SharedPreferences.Editor editor = context.getSharedPreferences(SORT_ORDER_PREFS, Context.MODE_PRIVATE).edit();
         editor.putInt(SORT_ORDER_LIBRARY, sortOrder);

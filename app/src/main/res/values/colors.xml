@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple">#7459FF</color>
-    <color name="purple_dark">#B5A9FC</color>
 
     <!-- ********************************************* -->
     <!-- *********** COLORS FOR LIGHT MODE *********** -->
-    <color name="lightColorPrimary">@color/purple</color>
     <color name="lightColorOnPrimary">@color/md_white_1000</color>
     <color name="lightColorBackground">@color/md_white_1000</color>
     <color name="lightColorSurface">@color/md_white_1000</color>
@@ -21,7 +18,6 @@
 
     <!-- ********************************************* -->
     <!-- *********** COLORS FOR DARK GREY *********** -->
-    <color name="darkColorPrimary">@color/purple_dark</color>
     <color name="darkColorOnPrimary">#202124</color>
     <color name="darkColorBackground">#202124</color>
     <color name="darkColorSurface">@color/md_grey_800</color>

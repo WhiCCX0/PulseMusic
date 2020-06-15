@@ -54,10 +54,6 @@
 
     <style name="Theme.PulseMusic.Light" parent="ThemeLight">
         <item name="android:windowBackground">@color/lightColorBackground</item>
-        <item name="primaryColor">@color/lightColorPrimary</item>
-        <item name="colorPrimary">?attr/primaryColor</item>
-        <item name="colorPrimaryDark">?attr/primaryColor</item>
-        <item name="colorAccent">?attr/primaryColor</item>
         <item name="colorOnPrimary">@color/lightColorOnPrimary</item>
         <item name="windowBackgroundColor">@color/lightColorBackground</item>
         <item name="surfaceColor">@color/lightColorSurface</item>
@@ -77,11 +73,7 @@
 
     <style name="Theme.PulseMusic.Dark" parent="ThemeDark">
         <item name="android:windowBackground">@color/darkColorBackground</item>
-        <item name="primaryColor">@color/darkColorPrimary</item>
-        <item name="colorPrimary">?attr/primaryColor</item>
-        <item name="colorPrimaryDark">?attr/primaryColor</item>
         <item name="colorOnPrimary">@color/darkColorOnPrimary</item>
-        <item name="colorAccent">?attr/primaryColor</item>
         <item name="windowBackgroundColor">@color/darkColorBackground</item>
         <item name="surfaceColor">@color/darkColorSurface</item>
         <item name="colorOnSurface">@color/darkColorOnSurface</item>

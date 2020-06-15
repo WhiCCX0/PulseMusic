@@ -12,4 +12,8 @@ public class Preferences {
 
     // True or false
     public static final String ALBUM_CARD_OVERLAY_KEY = "AlbumCardOverlayKey";
+
+    // True of false
+    public static final String ACCENTS_COLOR_KEY = "AccentsColor";
+    public static final String ACCENTS_COLOR_DESATURATED_KEY = "AccentsColorDesaturated";
 }

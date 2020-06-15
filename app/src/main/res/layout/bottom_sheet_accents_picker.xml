@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="32dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="start"
+        android:text="@string/laf_accents_picker_title"
+        android:textAppearance="@style/TextViewBody1"
+        android:textColor="?attr/primaryColor"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accents_display_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginBottom="32dp"
+        android:clipToPadding="false"
+        android:paddingStart="24dp"
+        android:paddingEnd="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/choose_accents_cancel_btn"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accents_display_rv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/cancel" />
+    <!--
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/choose_accents_set_btn"
+            style="@style/MaterialTextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accents_display_rv"
+            android:layout_alignParentEnd="true"
+            android:text="@string/set" />
+            -->
+</RelativeLayout>

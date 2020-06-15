@@ -56,4 +56,20 @@
     <color name="md_deep_orange_A400">#FF3D00</color>
     <color name="md_light_green_A400">#76FF03</color>
 
+
+    <!-- Pulse music accent color  -->
+    <color name="exodus_fruit">#6c5ce7</color>
+    <color name="exodus_fruit_desaturated">#b5adf3</color>
+
+    <color name="electron_blue">#0984e3</color>
+    <color name="electron_blue_desaturated">#84c1f1</color>
+
+    <color name="mint_leaf">#00b894</color>
+    <color name="mint_leaf_desaturated">#7fdbc9</color>
+
+    <color name="chi_gong">#d63031</color>
+    <color name="chi_gong_desaturated">#ea9798</color>
+
+    <color name="sei_bar">#594031</color>
+    <color name="sei_bar_desaturated">#ac9f98</color>
 </resources>

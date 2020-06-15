@@ -12,4 +12,37 @@
         <item>#cd84f1</item>
         <item>#00d2d3</item>
     </array>
+
+    <!-- Ordering matters do not change it -->
+    <integer-array name="pulse_accent_colors_id">
+        <item>700</item>
+        <item>701</item>
+        <item>702</item>
+        <item>703</item>
+        <item>704</item>
+    </integer-array>
+
+    <string-array name="pulse_accent_colors_title">
+        <item>Exodus fruit</item>
+        <item>Electron blue</item>
+        <item>Mint leaf</item>
+        <item>Chi gong</item>
+        <item>Sei bar</item>
+    </string-array>
+
+    <array name="pulse_accent_colors_value">
+        <item>#6c5ce7</item>
+        <item>#0984e3</item>
+        <item>#00b894</item>
+        <item>#d63031</item>
+        <item>#594031</item>
+    </array>
+
+    <array name="pulse_accent_colors_value_desaturated">
+        <item>#b5adf3</item>
+        <item>#84c1f1</item>
+        <item>#7fdbc9</item>
+        <item>#ea9798</item>
+        <item>#ac9f98</item>
+    </array>
 </resources>

@@ -12,7 +12,7 @@ public abstract class PMBActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(ThemeManagerUtils.getThemeToApply());
-        //getTheme().applyStyle(ThemeManager.getAccentToApply(), true);
+        getTheme().applyStyle(ThemeManagerUtils.getAccentStyleToApply(), true);
         super.onCreate(savedInstanceState);
     }
 }

@@ -10,14 +10,19 @@ public class ThemeManagerUtils {
     private static boolean mAutoMode = false;
     private static boolean mDarkMode = false;
     private static int mThemeId = ThemeStore.LIGHT_THEME;
+    private static int mAccentsId = ThemeStore.ACCENT_EXODUS_FRUIT;
+    private static boolean mDesaturatedAccents = false;
 
     public static void init(Context context) {
         mAutoMode = AppSettings.isAutoThemeEnabled(context);
+        mAccentsId = AppSettings.getSelectedAccentId(context);
         if (mAutoMode) mDarkMode = (DayTimeUtils.getTimeOfDay() == DayTimeUtils.DayTime.NIGHT);
         else mDarkMode = AppSettings.isDarkModeEnabled(context);
 
         if (mDarkMode) mThemeId = AppSettings.getSelectedDarkTheme(context);
         else mThemeId = ThemeStore.LIGHT_THEME;
+
+        mDesaturatedAccents = AppSettings.getAccentDesaturatedColor(context) && mDarkMode;
     }
 
     public static boolean toggleDarkTheme(Context context, boolean enabled) {
@@ -39,6 +44,11 @@ public class ThemeManagerUtils {
         AppSettings.saveSelectedDarkTheme(context, id);
     }
 
+    public static boolean setSelectedAccentColor(Context context, int accentId) {
+        AppSettings.saveSelectedAccentId(context, accentId);
+        return accentId != mAccentsId;
+    }
+
     public static boolean needToApplyNewDarkTheme() {
         //Returns true to restart activity in order to apply new dark theme
         return (mAutoMode && isNight()) || mDarkMode;
@@ -48,8 +58,16 @@ public class ThemeManagerUtils {
         return mDarkMode;
     }
 
+    public static boolean isAccentsDesaturated() {
+        return mDesaturatedAccents;
+    }
+
     public static int getThemeToApply() {
         return ThemeStore.getThemeById(mDarkMode, mThemeId);
+    }
+
+    public static int getAccentStyleToApply() {
+        return ThemeStore.getAccentById(mAccentsId, mDesaturatedAccents);
     }
 
     private static boolean needToChangeTheme() {

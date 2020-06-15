@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ExodusFruit">
+        <item name="primaryColor">@color/exodus_fruit</item>
+        <item name="colorAccent">@color/exodus_fruit</item>
+    </style>
+
+    <style name="ElectronBlue">
+        <item name="primaryColor">@color/electron_blue</item>
+        <item name="colorAccent">@color/electron_blue</item>
+    </style>
+
+    <style name="MintLeaf">
+        <item name="primaryColor">@color/mint_leaf</item>
+        <item name="colorAccent">@color/mint_leaf</item>
+    </style>
+
+    <style name="ChiGong">
+        <item name="primaryColor">@color/chi_gong</item>
+        <item name="colorAccent">@color/chi_gong</item>
+    </style>
+
+    <style name="SeiBar">
+        <item name="primaryColor">@color/sei_bar</item>
+        <item name="colorAccent">@color/sei_bar</item>
+    </style>
+
+
+    <style name="ExodusFruitDesaturated">
+        <item name="primaryColor">@color/exodus_fruit_desaturated</item>
+        <item name="colorAccent">@color/exodus_fruit_desaturated</item>
+    </style>
+
+
+    <style name="ElectronBlueDesaturated">
+        <item name="primaryColor">@color/electron_blue_desaturated</item>
+        <item name="colorAccent">@color/electron_blue</item>
+    </style>
+
+    <style name="MintLeafDesaturated">
+        <item name="primaryColor">@color/mint_leaf_desaturated</item>
+        <item name="colorAccent">@color/mint_leaf_desaturated</item>
+    </style>
+
+    <style name="ChiGongDesaturated">
+        <item name="primaryColor">@color/chi_gong_desaturated</item>
+        <item name="colorAccent">@color/chi_gong_desaturated</item>
+    </style>
+
+    <style name="SeiBarDesaturated">
+        <item name="primaryColor">@color/sei_bar_desaturated</item>
+        <item name="colorAccent">@color/sei_bar_desaturated</item>
+    </style>
+</resources>

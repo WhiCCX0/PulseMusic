@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.dialog.AccentsChooserDialogFragment;
 import com.hardcodecoder.pulsemusic.dialog.ThemeChooserBottomSheetDialogFragment;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
@@ -49,9 +50,15 @@ public class SettingsThemeFragment extends Fragment {
         SettingsToggleableItem albumOverlaySelectorLayout = view.findViewById(R.id.laf_select_album_art_overlay);
         SwitchMaterial albumOverlaySwitch = albumOverlaySelectorLayout.findViewById(R.id.setting_toggleable_item_switch);
 
+        SettingsToggleableItem desaturatedAccentSwitchLayout = view.findViewById(R.id.laf_enable_desaturated);
+        SwitchMaterial desaturatedAccentSwitch = desaturatedAccentSwitchLayout.findViewById(R.id.setting_toggleable_item_switch);
+
         boolean albumOverlayEnabled = false;
-        if (null != getContext())
+        boolean desaturatedAccents = false;
+        if (null != getContext()) {
             albumOverlayEnabled = AppSettings.isAlbumCardOverlayEnabled(getContext());
+            desaturatedAccents = AppSettings.getAccentDesaturatedColor(getContext());
+        }
 
         albumOverlaySwitch.setChecked(albumOverlayEnabled);
         albumOverlaySwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
@@ -59,6 +66,19 @@ public class SettingsThemeFragment extends Fragment {
 
         albumOverlaySelectorLayout.setOnClickListener(v ->
                 albumOverlaySwitch.setChecked(!albumOverlaySwitch.isChecked()));
+
+        desaturatedAccentSwitch.setChecked(desaturatedAccents);
+        desaturatedAccentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            AppSettings.saveAccentDesaturatedColor(buttonView.getContext(), isChecked);
+            if (ThemeManagerUtils.isDarkModeEnabled())
+                applyTheme();
+        });
+        desaturatedAccentSwitchLayout.setOnClickListener(v -> desaturatedAccentSwitch.setChecked(!desaturatedAccentSwitch.isChecked()));
+
+        view.findViewById(R.id.laf_select_accent_color).setOnClickListener(v -> {
+            AccentsChooserDialogFragment dialogFragment = AccentsChooserDialogFragment.getInstance();
+            dialogFragment.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), AccentsChooserDialogFragment.TAG);
+        });
     }
 
     private void updateThemeSection(View view) {
