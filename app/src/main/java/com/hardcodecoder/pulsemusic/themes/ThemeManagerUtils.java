@@ -2,6 +2,7 @@ package com.hardcodecoder.pulsemusic.themes;
 
 import android.content.Context;
 
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 import com.hardcodecoder.pulsemusic.utils.DayTimeUtils;
 
@@ -9,8 +10,8 @@ public class ThemeManagerUtils {
 
     private static boolean mAutoMode = false;
     private static boolean mDarkMode = false;
-    private static int mThemeId = ThemeStore.LIGHT_THEME;
-    private static int mAccentsId = ThemeStore.ACCENT_EXODUS_FRUIT;
+    private static int mThemeId = Preferences.LIGHT_THEME;
+    private static int mAccentsId = Preferences.ACCENT_EXODUS_FRUIT;
     private static boolean mDesaturatedAccents = false;
 
     public static void init(Context context) {
@@ -20,7 +21,7 @@ public class ThemeManagerUtils {
         else mDarkMode = AppSettings.isDarkModeEnabled(context);
 
         if (mDarkMode) mThemeId = AppSettings.getSelectedDarkTheme(context);
-        else mThemeId = ThemeStore.LIGHT_THEME;
+        else mThemeId = Preferences.LIGHT_THEME;
 
         mDesaturatedAccents = AppSettings.getAccentDesaturatedColor(context) && mDarkMode;
     }

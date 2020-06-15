@@ -11,11 +11,11 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
-import com.hardcodecoder.pulsemusic.themes.ThemeStore;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDialogFragment {
@@ -43,13 +43,13 @@ public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDia
         int currentTheme = AppSettings.getSelectedDarkTheme(mContext);
 
         switch (currentTheme) {
-            case ThemeStore.DARK_THEME_GRAY:
+            case Preferences.DARK_THEME_GRAY:
                 ((RadioButton) radioGroup.findViewById(R.id.radio_btn_dark_theme_gray)).setChecked(true);
                 break;
-            case ThemeStore.DARK_THEME_KINDA:
+            case Preferences.DARK_THEME_KINDA:
                 ((RadioButton) radioGroup.findViewById(R.id.radio_btn_dark_theme_kinda)).setChecked(true);
                 break;
-            case ThemeStore.DARK_THEME_PURE_BLACK:
+            case Preferences.DARK_THEME_PURE_BLACK:
                 ((RadioButton) radioGroup.findViewById(R.id.radio_btn_dark_theme_pure_black)).setChecked(true);
                 break;
         }
@@ -60,13 +60,13 @@ public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDia
             if (mOptionChanged) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.radio_btn_dark_theme_gray:
-                        ThemeManagerUtils.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_GRAY);
+                        ThemeManagerUtils.setSelectedDarkTheme(mContext, Preferences.DARK_THEME_GRAY);
                         break;
                     case R.id.radio_btn_dark_theme_kinda:
-                        ThemeManagerUtils.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_KINDA);
+                        ThemeManagerUtils.setSelectedDarkTheme(mContext, Preferences.DARK_THEME_KINDA);
                         break;
                     case R.id.radio_btn_dark_theme_pure_black:
-                        ThemeManagerUtils.setSelectedDarkTheme(mContext, ThemeStore.DARK_THEME_PURE_BLACK);
+                        ThemeManagerUtils.setSelectedDarkTheme(mContext, Preferences.DARK_THEME_PURE_BLACK);
                         break;
                 }
                 /*if (ThemeManagerUtils.needToApplyNewDarkTheme()) {

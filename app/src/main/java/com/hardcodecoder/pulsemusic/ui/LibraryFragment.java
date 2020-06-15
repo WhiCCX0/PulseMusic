@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textview.MaterialTextView;
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
@@ -38,8 +39,6 @@ import java.util.List;
 
 public class LibraryFragment extends Fragment implements LibraryItemClickListener {
 
-    public static final int LIBRARY_SORT_ORDER_TITLE_ASC = 5000;
-    private static final int LIBRARY_SORT_ORDER_TITLE_DESC = 5001;
     private MediaController.TransportControls mTransportControl;
     private List<MusicModel> mList;
     private LibraryAdapter mAdapter;
@@ -61,7 +60,7 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mList = new ArrayList<>(LoaderCache.getAllTracksList());
         mCurrentSortOrder = AppSettings.getLibraryFragmentSortOrder(view.getContext());
-        if (mCurrentSortOrder == LIBRARY_SORT_ORDER_TITLE_DESC)
+        if (mCurrentSortOrder == Preferences.SORT_ORDER_DESC)
             Collections.reverse(mList);
         if (mList.size() > 0) {
             new Handler().postDelayed(() -> {
@@ -89,10 +88,10 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_action_sort_asc:
-                changeSortOrder(LIBRARY_SORT_ORDER_TITLE_ASC);
+                changeSortOrder(Preferences.SORT_ORDER_ASC);
                 break;
             case R.id.menu_action_sort_desc:
-                changeSortOrder(LIBRARY_SORT_ORDER_TITLE_DESC);
+                changeSortOrder(Preferences.SORT_ORDER_DESC);
                 break;
             case R.id.menu_action_grid_size:
                 break;

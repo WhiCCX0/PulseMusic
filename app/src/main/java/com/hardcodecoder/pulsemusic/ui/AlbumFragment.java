@@ -34,8 +34,6 @@ import java.util.List;
 
 public class AlbumFragment extends Fragment {
 
-    public static final int ALBUMS_SORT_ORDER_TITLE_ASC = 6000;
-    private static final int ALBUMS_SORT_ORDER_TITLE_DESC = 6001;
     private AlbumsAdapter adapter;
     private int spanCount;
     private int currentConfig;
@@ -74,7 +72,7 @@ public class AlbumFragment extends Fragment {
                     .registerOnSharedPreferenceChangeListener(mSharedPrefListener);
 
             mCurrentSortOrder = AppSettings.getAlbumsFragmentSortOrder(getContext());
-            ALBUMS sortOrder = (mCurrentSortOrder == ALBUMS_SORT_ORDER_TITLE_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
+            ALBUMS sortOrder = (mCurrentSortOrder == Preferences.SORT_ORDER_DESC) ? ALBUMS.TITLE_DESC : ALBUMS.TITLE_ASC;
 
             LoaderHelper.loadAlbumsList(getContext().getContentResolver(), sortOrder, result -> loadAlbumsList(view, result));
         }
@@ -127,10 +125,10 @@ public class AlbumFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_action_sort_asc:
-                changeSortOrder(ALBUMS_SORT_ORDER_TITLE_ASC);
+                changeSortOrder(Preferences.SORT_ORDER_ASC);
                 break;
             case R.id.menu_action_sort_desc:
-                changeSortOrder(ALBUMS_SORT_ORDER_TITLE_DESC);
+                changeSortOrder(Preferences.SORT_ORDER_DESC);
                 break;
             case R.id.two:
                 updateGridSize(ID.PORTRAIT, 2);

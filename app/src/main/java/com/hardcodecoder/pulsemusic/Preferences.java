@@ -2,6 +2,34 @@ package com.hardcodecoder.pulsemusic;
 
 public class Preferences {
 
+    public static final String SORT_ORDER_PREFS_KEY = "SortOrder";
+    public static final String SORT_ORDER_LIBRARY_KEY = "LibrarySortOrder";
+    public static final String SORT_ORDER_ALBUMS_KEY = "AlbumsSortOrder";
+    public static final String SORT_ORDER_ARTIST_KEY = "ArtistsSortOrder";
+    // In range 3000 - 3001
+    public static final int SORT_ORDER_ASC = 3000;
+    public static final int SORT_ORDER_DESC = 3001;
+
+    public static final String SPAN_COUNT_PORTRAIT_KEY = "PortraitGridCount";
+    public static final String SPAN_COUNT_LANDSCAPE_KEY = "LandscapeGridCount";
+
+
+    public static final String UI_MODE_AUTO_KEY = "AutoTheme";
+    public static final String UI_THEME_DARK_KEY = "DarkMode";
+
+    public static final short LIGHT_THEME = 515;
+
+    public static final String DARK_THEME_CATEGORY_KEY = "Dark_themes_key";
+    public static final short DARK_THEME_GRAY = 616;
+    public static final short DARK_THEME_KINDA = 626;
+    public static final short DARK_THEME_PURE_BLACK = 636;
+
+    public static final short ACCENT_EXODUS_FRUIT = 700;
+    public static final short ACCENT_ELECTRON_BLUE = 701;
+    public static final short ACCENT_MINT_LEAF = 702;
+    public static final short ACCENT_CHI_GONG = 703;
+    public static final short ACCENT_SEI_BAR = 704;
+
     // In range 5000 - 5100
     public static final String NOW_PLAYING_ALBUM_CARD_STYLE_KEY = "NowPlayingAlbumStyleKey";
     public static final int NOW_PLAYING_ALBUM_CARD_STYLE_CIRCLE = 5000;

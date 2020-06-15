@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
+import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
@@ -31,8 +32,6 @@ import java.util.List;
 
 public class ArtistFragment extends Fragment {
 
-    public static final int ARTIST_SORT_ORDER_TITLE_ASC = 7000;
-    private static final int ARTIST_SORT_ORDER_TITLE_DESC = 7001;
     private GridLayoutManager layoutManager;
     private ArtistAdapter adapter;
     private int spanCount;
@@ -59,7 +58,7 @@ public class ArtistFragment extends Fragment {
 
         if (null != getContext()) {
             mCurrentSortOrder = AppSettings.getArtistFragmentSortOrder(getContext());
-            ARTIST sortOrder = (mCurrentSortOrder == ARTIST_SORT_ORDER_TITLE_DESC) ? ARTIST.TITLE_DESC : ARTIST.TITLE_ASC;
+            ARTIST sortOrder = (mCurrentSortOrder == Preferences.SORT_ORDER_DESC) ? ARTIST.TITLE_DESC : ARTIST.TITLE_ASC;
 
             LoaderHelper.loadArtistsList(getContext().getContentResolver(), sortOrder, result -> loadArtistsList(view, result));
         }
@@ -110,10 +109,10 @@ public class ArtistFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_action_sort_asc:
-                changeSortOrder(ARTIST_SORT_ORDER_TITLE_ASC);
+                changeSortOrder(Preferences.SORT_ORDER_ASC);
                 break;
             case R.id.menu_action_sort_desc:
-                changeSortOrder(ARTIST_SORT_ORDER_TITLE_DESC);
+                changeSortOrder(Preferences.SORT_ORDER_DESC);
                 break;
             case R.id.two:
                 updateGridSize(ID.PORTRAIT, 2);
