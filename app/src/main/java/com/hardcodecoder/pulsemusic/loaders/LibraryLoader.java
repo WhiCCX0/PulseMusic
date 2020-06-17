@@ -52,8 +52,8 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
         final Cursor cursor = contentResolver.query(
                 uri,
                 cursor_cols,
-                getSelection(),
-                getSelectionArgs(),
+                null,
+                null,
                 mSortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
