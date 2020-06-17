@@ -218,4 +218,14 @@
     <string name="twitter_link">https://www.twitter.com/hardcodecoder</string>
     <string name="telegram_link">https://t.me/HardcodeCoder</string>
 
+    <!-- Accents -->
+    <string name="exodus_fruit">Exodus fruit</string>
+    <string name="electron_blue">Electron blue</string>
+    <string name="mint_leaf">Mint leaf</string>
+    <string name="chi_gong">Chi gong</string>
+    <string name="sei_bar">Sei bar</string>
+    <string name="coral">Coral</string>
+    <string name="sunkist">Sunkist</string>
+    <string name="blue_pink">Blue pink</string>
+
 </resources>

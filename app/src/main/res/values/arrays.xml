@@ -20,29 +20,41 @@
         <item>702</item>
         <item>703</item>
         <item>704</item>
+        <item>705</item>
+        <item>706</item>
+        <item>707</item>
     </integer-array>
 
     <string-array name="pulse_accent_colors_title">
-        <item>Exodus fruit</item>
-        <item>Electron blue</item>
-        <item>Mint leaf</item>
-        <item>Chi gong</item>
-        <item>Sei bar</item>
+        <item>@string/exodus_fruit</item>
+        <item>@string/electron_blue</item>
+        <item>@string/mint_leaf</item>
+        <item>@string/chi_gong</item>
+        <item>@string/sei_bar</item>
+        <item>@string/coral</item>
+        <item>@string/sunkist</item>
+        <item>@string/blue_pink</item>
     </string-array>
 
     <array name="pulse_accent_colors_value">
-        <item>#6c5ce7</item>
-        <item>#0984e3</item>
-        <item>#00b894</item>
-        <item>#d63031</item>
-        <item>#594031</item>
+        <item>@color/exodus_fruit</item>
+        <item>@color/electron_blue</item>
+        <item>@color/mint_leaf</item>
+        <item>@color/chi_gong</item>
+        <item>@color/sei_bar</item>
+        <item>@color/coral</item>
+        <item>@color/sunkist</item>
+        <item>@color/blue_pink</item>
     </array>
 
     <array name="pulse_accent_colors_value_desaturated">
-        <item>#b5adf3</item>
-        <item>#84c1f1</item>
-        <item>#7fdbc9</item>
-        <item>#ea9798</item>
-        <item>#ac9f98</item>
+        <item>@color/exodus_fruit_desaturated</item>
+        <item>@color/electron_blue_desaturated</item>
+        <item>@color/mint_leaf_desaturated</item>
+        <item>@color/chi_gong_desaturated</item>
+        <item>@color/sei_bar_desaturated</item>
+        <item>@color/coral_desaturated</item>
+        <item>@color/sunkist_desaturated</item>
+        <item>@color/blue_pink_desaturated</item>
     </array>
 </resources>

@@ -29,6 +29,9 @@ public class Preferences {
     public static final short ACCENT_MINT_LEAF = 702;
     public static final short ACCENT_CHI_GONG = 703;
     public static final short ACCENT_SEI_BAR = 704;
+    public static final short ACCENT_CORAL = 705;
+    public static final short ACCENT_SUNKIST = 706;
+    public static final short ACCENT_BLUE_PINK = 707;
 
     // In range 5000 - 5100
     public static final String NOW_PLAYING_ALBUM_CARD_STYLE_KEY = "NowPlayingAlbumStyleKey";

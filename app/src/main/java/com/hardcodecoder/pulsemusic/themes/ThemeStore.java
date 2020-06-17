@@ -33,6 +33,12 @@ class ThemeStore {
                 return desaturated ? R.style.ChiGongDesaturated : R.style.ChiGong;
             case Preferences.ACCENT_SEI_BAR:
                 return desaturated ? R.style.SeiBarDesaturated : R.style.SeiBar;
+            case Preferences.ACCENT_CORAL:
+                return desaturated ? R.style.CoralDesaturated : R.style.Coral;
+            case Preferences.ACCENT_SUNKIST:
+                return desaturated ? R.style.SunkistDesaturated : R.style.Sunkist;
+            case Preferences.ACCENT_BLUE_PINK:
+                return desaturated ? R.style.BluePinkDesaturated : R.style.BluePink;
             default:
                 return R.style.ExodusFruit;
         }

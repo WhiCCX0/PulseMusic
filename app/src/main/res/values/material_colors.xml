@@ -59,7 +59,7 @@
 
     <!-- Pulse music accent color  -->
     <color name="exodus_fruit">#6c5ce7</color>
-    <color name="exodus_fruit_desaturated">#b5adf3</color>
+    <color name="exodus_fruit_desaturated">#a69df0</color>
 
     <color name="electron_blue">#0984e3</color>
     <color name="electron_blue_desaturated">#84c1f1</color>
@@ -68,8 +68,17 @@
     <color name="mint_leaf_desaturated">#7fdbc9</color>
 
     <color name="chi_gong">#d63031</color>
-    <color name="chi_gong_desaturated">#ea9798</color>
+    <color name="chi_gong_desaturated">#e68283</color>
 
     <color name="sei_bar">#594031</color>
-    <color name="sei_bar_desaturated">#ac9f98</color>
+    <color name="sei_bar_desaturated">#9b8c83</color>
+
+    <color name="coral">#FF7F50</color>
+    <color name="coral_desaturated">#fc8d6f</color>
+
+    <color name="sunkist">#f2994a</color>
+    <color name="sunkist_desaturated">#f5b780</color>
+
+    <color name="blue_pink">#5F78FF</color>
+    <color name="blue_pink_desaturated">#8b99e1</color>
 </resources>
