@@ -82,5 +82,7 @@ public class ThemeChooserBottomSheetDialogFragment extends RoundedBottomSheetDia
             }
             dismiss();
         });
+
+        view.findViewById(R.id.choose_theme_cancel_btn).setOnClickListener(v -> dismiss());
     }
 }

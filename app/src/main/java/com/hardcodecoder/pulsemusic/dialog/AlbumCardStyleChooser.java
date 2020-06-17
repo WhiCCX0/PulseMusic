@@ -58,6 +58,8 @@ public class AlbumCardStyleChooser extends RoundedBottomSheetDialogFragment {
                 }
                 dismiss();
             });
+
+            view.findViewById(R.id.selector_cancel_btn).setOnClickListener(v -> dismiss());
         }
     }
 }
