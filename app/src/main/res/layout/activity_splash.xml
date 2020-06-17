@@ -8,11 +8,13 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="148dp"
-        android:layout_height="148dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_foreground"
+        android:tint="?attr/primaryColor"
         android:visibility="gone"
-        android:src="@drawable/logo_splash"
-        tools:ignore="contentDescription" />
+        tools:ignore="contentDescription"
+        tools:visibility="visible" />
 </FrameLayout>
