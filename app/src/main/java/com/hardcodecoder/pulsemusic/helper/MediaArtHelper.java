@@ -9,7 +9,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -114,14 +113,14 @@ public class MediaArtHelper {
 
         @NonNull
         static Bitmap generateMediaArtBitmap(Context context, int index, RoundingRadius r) {
-            Log.e("MediaArt", "index = " + index);
-            int sides = 512;//context.getResources().getDimensionPixelSize(R.dimen.now_playing_media_art_iv);
+            int sides = 512;
             Drawable d = generateMediaArtDrawable(context, new int[]{sides, sides}, index, r);
-            if (null == mBitmap) {
+            if (null == mBitmap)
                 mBitmap = Bitmap.createBitmap(sides, sides, Bitmap.Config.ARGB_8888);
-            }
+
             if (null == mCanvas)
                 mCanvas = new Canvas(mBitmap);
+
             d.setBounds(0, 0, mCanvas.getWidth(), mCanvas.getHeight());
             d.draw(mCanvas);
             return mBitmap;
