@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewStub;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,7 +67,6 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
             recyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
             mAdapter = new PlaylistDataAdapter(mPlaylistTracks, getLayoutInflater(), this, this);
             recyclerView.setAdapter(mAdapter);
 

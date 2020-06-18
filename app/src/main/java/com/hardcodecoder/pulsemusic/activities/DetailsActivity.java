@@ -5,8 +5,6 @@ import android.media.session.MediaController;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -123,8 +121,6 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                 RecyclerView rv = findViewById(R.id.details_activity_rv);
                 rv.setVisibility(View.VISIBLE);
                 rv.setHasFixedSize(true);
-                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(rv.getContext(), R.anim.item_slide_up_animation);
-                rv.setLayoutAnimation(controller);
                 rv.setVerticalFadingEdgeEnabled(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
                 DetailsAdapter adapter = new DetailsAdapter(mList, this, getLayoutInflater());

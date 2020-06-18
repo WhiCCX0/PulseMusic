@@ -9,8 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,8 +82,6 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
         RecyclerView recyclerView = view.findViewById(R.id.playlist_cards_rv);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
-        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.item_falls_down_animation);
-        recyclerView.setLayoutAnimation(controller);
         mAdapter = new CardsAdapter(mPlaylistNames, getLayoutInflater(), this, this);
         recyclerView.setAdapter(mAdapter);
 

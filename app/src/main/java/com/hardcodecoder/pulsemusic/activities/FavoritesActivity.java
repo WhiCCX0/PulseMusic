@@ -8,8 +8,6 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -50,8 +48,6 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
                 rv.setVisibility(View.VISIBLE);
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
-                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(rv.getContext(), R.anim.item_slide_up_animation);
-                rv.setLayoutAnimation(controller);
                 LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else {

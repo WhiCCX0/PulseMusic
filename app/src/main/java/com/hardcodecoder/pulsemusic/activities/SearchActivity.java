@@ -10,7 +10,6 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -100,7 +99,6 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
         RecyclerView rv = findViewById(R.id.search_rv);
         rv.setVisibility(View.VISIBLE);
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        rv.setItemAnimator(new DefaultItemAnimator());
         adapter = new SearchAdapter(getLayoutInflater(), this);
         rv.setAdapter(adapter);
     }

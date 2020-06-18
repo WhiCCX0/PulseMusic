@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,10 +67,8 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
                 recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
                 recyclerView.setHasFixedSize(true);
                 mAdapter = new LibraryAdapter(mList, getLayoutInflater(), this);
-                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.item_falls_down_animation);
-                recyclerView.setLayoutAnimation(controller);
                 recyclerView.setAdapter(mAdapter);
-            }, 240);
+            }, 100);
         } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
