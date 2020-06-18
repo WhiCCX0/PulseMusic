@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class TaskRunner {
 
     private static final Executor CUSTOM_THREAD_POOL_EXECUTOR =
-            new ThreadPoolExecutor(2, 10, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+            new ThreadPoolExecutor(1, 5, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
     private static final Handler handler = new Handler(Looper.getMainLooper());
 
     private TaskRunner() {
