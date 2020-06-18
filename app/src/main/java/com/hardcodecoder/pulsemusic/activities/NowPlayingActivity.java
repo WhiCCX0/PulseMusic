@@ -114,7 +114,10 @@ public class NowPlayingActivity extends MediaSessionActivity {
     private void initButtons() {
         findViewById(R.id.activity_np_skip_next_btn).setOnClickListener(v -> mController.getTransportControls().skipToNext());
         findViewById(R.id.activity_np_skip_prev_btn).setOnClickListener(v -> mController.getTransportControls().skipToPrevious());
-        findViewById(R.id.activity_np_close_btn).setOnClickListener(v -> onBackPressed());
+        findViewById(R.id.activity_np_close_btn).setOnClickListener(v -> {
+            finish();
+            overrideExitTransition();
+        });
         mFavBtn.setOnClickListener(v -> {
             if (isTrackFavorite) removeFromFavorite();
             else addToFavorite();
@@ -299,6 +302,10 @@ public class NowPlayingActivity extends MediaSessionActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overrideExitTransition();
+    }
+
+    private void overrideExitTransition() {
         overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_slide_out);
     }
 
