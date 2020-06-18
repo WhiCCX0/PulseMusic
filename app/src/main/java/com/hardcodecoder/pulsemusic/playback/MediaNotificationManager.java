@@ -20,24 +20,21 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.hardcodecoder.pulsemusic.PMS;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.MainActivity;
 
-
-public class MediaNotificationManager extends BroadcastReceiver {
+public class MediaNotificationManager {
 
     public static final String TAG = "MediaNotificationMan";
-
     private static final String ACTION_PAUSE = "com.hardcodeCoder.playback.pause";
     private static final String ACTION_PLAY = "com.hardcodeCoder.playback.play";
     private static final String ACTION_PREV = "com.hardcodeCoder.playback.prev";
     private static final String ACTION_NEXT = "com.hardcodeCoder.playback.next";
     private static final String ACTION_STOP = "com.hardcodeCoder.playback.delete";
-
     private static final String CHANNEL_ID = "com.hardcodecoder.pulsemusic.MUSIC_CHANNEL_ID";
     private static final int NOTIFICATION_ID = 412;
     private static final int REQUEST_CODE = 100;
+
     private final NotificationManager mNotificationManager;
     private PendingIntent mPlayIntent;
     private PendingIntent mPauseIntent;
@@ -45,11 +42,37 @@ public class MediaNotificationManager extends BroadcastReceiver {
     private PendingIntent mNextIntent;
     private PendingIntent mStopIntent;
     private PendingIntent pi;
-    private PMS mService;
-    private MediaSession.Token mSessionToken;
+    private final BroadcastReceiver controlsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action != null && mTransportControls != null) {
+                switch (action) {
+                    case ACTION_PLAY:
+                        mTransportControls.play();
+                        break;
+                    case ACTION_PAUSE:
+                        mTransportControls.pause();
+                        break;
+                    case ACTION_STOP:
+                        mTransportControls.stop();
+                        break;
+                    case ACTION_NEXT:
+                        mTransportControls.skipToNext();
+                        break;
+                    case ACTION_PREV:
+                        mTransportControls.skipToPrevious();
+                        break;
+                }
+            }
+        }
+    };
+    private Context mContext;
     private MediaController mController;
+    private NotificationCallback mCallback;
     private MediaController.TransportControls mTransportControls;
-    public boolean mStarted;
+    private MediaSession.Token mSessionToken;
+    private boolean mStarted;
     private boolean mInitialised = false;
     private PlaybackState mPlaybackState;
     private MediaMetadata mMetadata;
@@ -86,15 +109,16 @@ public class MediaNotificationManager extends BroadcastReceiver {
         }
     };
 
-    public MediaNotificationManager(PMS service) {
-        this.mService = service;
+    public MediaNotificationManager(Context context, NotificationCallback notificationCallback) {
+        this.mContext = context;
+        this.mCallback = notificationCallback;
         updateSessionToken();
-        mNotificationManager = (NotificationManager) mService.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(null != mNotificationManager) mNotificationManager.cancelAll();
+        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (null != mNotificationManager) mNotificationManager.cancelAll();
     }
 
     private void updateSessionToken() {
-        MediaSession.Token freshToken = mService.getSessionToken();
+        MediaSession.Token freshToken = mCallback.getMediaSessionToken();
         if (mSessionToken == null && freshToken != null ||
                 mSessionToken != null && !mSessionToken.equals(freshToken)) {
             if (mController != null) {
@@ -102,7 +126,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
             }
             mSessionToken = freshToken;
             if (mSessionToken != null) {
-                mController = new MediaController(mService, mSessionToken);
+                mController = new MediaController(mContext, mSessionToken);
                 mTransportControls = mController.getTransportControls();
                 if (mStarted) {
                     mController.registerCallback(mCb);
@@ -114,22 +138,22 @@ public class MediaNotificationManager extends BroadcastReceiver {
     private void updateNotification() {
         Notification notification = createNotification();
         if (mPlaybackState.getState() == PlaybackState.STATE_PLAYING) {
-            mService.startForeground(NOTIFICATION_ID, notification);
+            mCallback.onNotificationStarted(NOTIFICATION_ID, notification);
         } else if (mPlaybackState.getState() == PlaybackState.STATE_PAUSED) {
-            mService.stopForeground(false);
+            mCallback.onStopNotification(false);
         }
         mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     private void initialisePendingIntents() {
-        String pkg = mService.getPackageName();
-        mPlayIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE, new Intent(ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
-        mPauseIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE, new Intent(ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
-        mStopIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE, new Intent(ACTION_STOP).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
-        mNextIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE, new Intent(ACTION_NEXT).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
-        mPreviousIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE, new Intent(ACTION_PREV).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
+        String pkg = mContext.getPackageName();
+        mPlayIntent = PendingIntent.getBroadcast(mContext, REQUEST_CODE, new Intent(ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
+        mPauseIntent = PendingIntent.getBroadcast(mContext, REQUEST_CODE, new Intent(ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
+        mStopIntent = PendingIntent.getBroadcast(mContext, REQUEST_CODE, new Intent(ACTION_STOP).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
+        mNextIntent = PendingIntent.getBroadcast(mContext, REQUEST_CODE, new Intent(ACTION_NEXT).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
+        mPreviousIntent = PendingIntent.getBroadcast(mContext, REQUEST_CODE, new Intent(ACTION_PREV).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
         if (mNotificationManager != null) mNotificationManager.cancelAll();
-        pi = PendingIntent.getActivity(mService, REQUEST_CODE, new Intent(mService, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        pi = PendingIntent.getActivity(mContext, REQUEST_CODE, new Intent(mContext, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         mInitialised = true;
     }
 
@@ -152,8 +176,8 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 filter.addAction(ACTION_PLAY);
                 filter.addAction(ACTION_PREV);
                 filter.addAction(ACTION_STOP);
-                mService.registerReceiver(this, filter);
-                mService.startForeground(NOTIFICATION_ID, notification);
+                mCallback.registerControlsReceiver(controlsReceiver, filter);
+                mCallback.onNotificationStarted(NOTIFICATION_ID, notification);
                 mStarted = true;
             }
         }
@@ -164,7 +188,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
         if (mNotificationManager.getNotificationChannel(CHANNEL_ID) == null) {
             NotificationChannel notificationChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    mService.getString(R.string.channel_name),
+                    mContext.getString(R.string.channel_name),
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription("no sound");
             notificationChannel.enableVibration(false);
@@ -174,11 +198,10 @@ public class MediaNotificationManager extends BroadcastReceiver {
     }
 
     private Notification createNotification() {
-        //MusicModel md = TrackManager.getInstance().getActiveQueueItem();
         if (mMetadata != null) {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mService, CHANNEL_ID);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext, CHANNEL_ID);
             notificationBuilder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                    .setMediaSession(MediaSessionCompat.Token.fromToken(mService.getSessionToken()))
+                    .setMediaSession(MediaSessionCompat.Token.fromToken(mCallback.getMediaSessionToken()))
                     .setCancelButtonIntent(mStopIntent)
                     .setShowCancelButton(true)
                     .setShowActionsInCompactView(0, 1, 2))
@@ -216,35 +239,27 @@ public class MediaNotificationManager extends BroadcastReceiver {
             mController.unregisterCallback(mCb);
             try {
                 mNotificationManager.cancel(NOTIFICATION_ID);
-                mService.unregisterReceiver(this);
+                mCallback.unregisterControlsReceiver(controlsReceiver);
             } catch (IllegalArgumentException ex) {
                 // ignore if the receiver is not registered.
             }
-            mService.stopForeground(true);
+            mCallback.onStopNotification(true);
         }
     }
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        final String action = intent.getAction();
-        if (action != null && mTransportControls != null) {
-            switch (action) {
-                case ACTION_PLAY:
-                    mTransportControls.play();
-                    break;
-                case ACTION_PAUSE:
-                    mTransportControls.pause();
-                    break;
-                case ACTION_STOP:
-                    mTransportControls.stop();
-                    break;
-                case ACTION_NEXT:
-                    mTransportControls.skipToNext();
-                    break;
-                case ACTION_PREV:
-                    mTransportControls.skipToPrevious();
-                    break;
-            }
-        }
+    public void unregisterControlsReceiver() {
+        mCallback.unregisterControlsReceiver(controlsReceiver);
+    }
+
+    public interface NotificationCallback {
+        MediaSession.Token getMediaSessionToken();
+
+        void onNotificationStarted(int notificationId, Notification notification);
+
+        void onStopNotification(boolean removeNotification);
+
+        void registerControlsReceiver(BroadcastReceiver controlsReceiver, IntentFilter filter);
+
+        void unregisterControlsReceiver(BroadcastReceiver controlsReceiver);
     }
 }

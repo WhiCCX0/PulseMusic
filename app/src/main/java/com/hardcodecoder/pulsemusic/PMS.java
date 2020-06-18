@@ -1,7 +1,10 @@
 package com.hardcodecoder.pulsemusic;
 
+import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaMetadata;
 import android.media.browse.MediaBrowser;
 import android.media.session.MediaSession;
@@ -23,14 +26,14 @@ import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.List;
 
-public class PMS extends MediaBrowserService implements PlaybackManager.PlaybackServiceCallback {
+public class PMS extends MediaBrowserService implements PlaybackManager.PlaybackServiceCallback, MediaNotificationManager.NotificationCallback {
 
     private static final String TAG = "PMS";
     private MediaSession mMediaSession;
     private MediaNotificationManager mNotificationManager;
-    private boolean isServiceRunning = false;
     private HandlerThread mServiceThread = null;
     private Handler mWorkerHandler;
+    private boolean isServiceRunning = false;
 
     @Nullable
     @Override
@@ -66,7 +69,7 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
         mediaButtonIntent.setClass(getApplicationContext(), MediaButtonReceiver.class);
         PendingIntent mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
         mMediaSession.setMediaButtonReceiver(mbrIntent);
-        mNotificationManager = new MediaNotificationManager(this);
+        mNotificationManager = new MediaNotificationManager(this, this);
     }
 
     /* Never use START_STICKY here
@@ -90,6 +93,7 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
 
     @Override
     public void onDestroy() {
+        mNotificationManager.unregisterControlsReceiver();
         mMediaSession.release();
         mServiceThread.quit();
         super.onDestroy();
@@ -132,5 +136,30 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
     @Override
     public void onMetaDataChanged(MediaMetadata newMetaData) {
         mMediaSession.setMetadata(newMetaData);
+    }
+
+    @Override
+    public MediaSession.Token getMediaSessionToken() {
+        return getSessionToken();
+    }
+
+    @Override
+    public void onNotificationStarted(int notificationId, Notification notification) {
+        startForeground(notificationId, notification);
+    }
+
+    @Override
+    public void onStopNotification(boolean removeNotification) {
+        stopForeground(removeNotification);
+    }
+
+    @Override
+    public void registerControlsReceiver(BroadcastReceiver controlsReceiver, IntentFilter filter) {
+        registerReceiver(controlsReceiver, filter);
+    }
+
+    @Override
+    public void unregisterControlsReceiver(BroadcastReceiver controlsReceiver) {
+        unregisterReceiver(controlsReceiver);
     }
 }
