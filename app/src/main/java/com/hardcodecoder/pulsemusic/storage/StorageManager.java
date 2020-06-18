@@ -2,7 +2,6 @@ package com.hardcodecoder.pulsemusic.storage;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.File;
@@ -16,36 +15,107 @@ import java.util.Scanner;
 class StorageManager {
 
     private static final String TAG = "StorageManager";
-    private Reader mReader;
-    private Writer mWriter;
 
-    StorageManager() {
-        mReader = new Reader();
-        mWriter = new Writer();
-    }
-
-    void addTrackToHistory(String filesDir, String itemToAdd) {
-        mWriter.writeToHistory(filesDir, itemToAdd);
+    void addTrackToHistory(String filesDir, String itemToAdd, int count) {
+        String historyDirAPath = StorageStructure.getAbsoluteHistoryPath(filesDir);
+        File historyDir = new File(historyDirAPath);
+        if (historyDir.exists()) {
+            File historyItem = new File(historyDirAPath + itemToAdd);
+            try {
+                if (historyItem.exists() || historyItem.createNewFile()) {
+                    FileWriter writer = new FileWriter(historyItem);
+                    writer.write(String.valueOf(count));
+                    writer.close();
+                } else
+                    Log.e(TAG, "Cannot create file inside history directory: " + historyItem.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (historyDir.mkdir())
+            addTrackToHistory(filesDir, itemToAdd, count);
     }
 
     void addTrackToFavorites(String filesDir, String itemToAdd) {
-        mWriter.writeFavorite(filesDir, itemToAdd);
+        String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
+        File favoritesDir = new File(favoritesDirPath);
+        if (favoritesDir.exists()) {
+            File favoriteItem = new File(favoritesDirPath + itemToAdd);
+            try {
+                if (!favoriteItem.createNewFile())
+                    Log.e(TAG, "Cannot create favorites item inside favorites directory");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (favoritesDir.mkdir())
+            addTrackToFavorites(filesDir, itemToAdd);
     }
 
+    @Nullable
     List<String> getSavedHistory(String filesDir) {
-        return mReader.readSavedHistory(filesDir);
+        String historyDirAPath = StorageStructure.getAbsoluteHistoryPath(filesDir);
+        File historyDir = new File(historyDirAPath);
+        File[] files;
+        if (historyDir.exists() && null != (files = historyDir.listFiles())) {
+            Arrays.sort(files, (o1, o2) -> {
+                long d = o2.lastModified() - o1.lastModified();
+                if (d > 1) return 1;
+                else if (d == 0) return 0;
+                else return -1;
+            });
+            List<String> recentList = new ArrayList<>();
+            for (File file : files)
+                recentList.add(file.getName());
+            return recentList;
+        }
+        return null;
     }
 
+
+    @Nullable
     List<String> getSavedFavoriteTracks(String filesDir) {
-        return mReader.readSavedFavorites(filesDir);
+        String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
+        File favoritesDir = new File(favoritesDirPath);
+        if (favoritesDir.exists()) {
+            List<String> favoritesList = new ArrayList<>();
+            File[] files = favoritesDir.listFiles();
+            if (null != files) {
+                for (File file : files)
+                    favoritesList.add(file.getName());
+            }
+            return favoritesList;
+        }
+        return null;
     }
 
     void savePlaylist(String filesDir, String playlistName) {
-        mWriter.writePlaylist(filesDir, playlistName);
+        File basePlaylistsDir = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir));
+        if (basePlaylistsDir.exists()) {
+            File playlistFile = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName);
+            try {
+                if (!playlistFile.createNewFile())
+                    Log.e(TAG, "Cannot create new file: " + playlistFile.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (basePlaylistsDir.mkdir())
+            savePlaylist(filesDir, playlistName);
     }
 
     List<String> getPlaylists(String filesDir) {
-        return mReader.readPlaylists(filesDir);
+        File[] files = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir)).listFiles();
+        List<String> playlistTitles = new ArrayList<>();
+        if (null != files && files.length > 0) {
+            Arrays.sort(files, (o1, o2) -> {
+                long d = o1.lastModified() - o2.lastModified();
+                if (d > 1) return 1;
+                else if (d == 0) return 0;
+                else return -1;
+            });
+            for (File file : files) {
+                playlistTitles.add(file.getName());
+            }
+        }
+        return playlistTitles;
     }
 
     void renamePlaylist(String filesDir, String oldPlaylistName, String newPlaylistName) {
@@ -56,165 +126,48 @@ class StorageManager {
     }
 
     void addTracksToPlaylist(String filesDir, String playlistName, List<String> playlistTracks) {
-        mWriter.writePlaylistTracks(filesDir, playlistName, playlistTracks);
-    }
-
-    List<String> getPlaylistTracks(String filesDir, String playlistName) {
-        return mReader.readPlaylistContent(filesDir, playlistName);
-    }
-
-    void deleteTrackFromFavoritesList(String filesDir, String itemToDelete) {
-        mWriter.deleteTrackFavoritesList(filesDir, itemToDelete);
-    }
-
-    void deletePlaylist(String filesDir, String playlistName) {
-        mWriter.deletePlaylist(filesDir, playlistName);
-    }
-
-    void updatePlaylistTracks(String filesDir, String playlistName, List<String> newTracksList) {
-        //Delete already existing playlist
-        mWriter.deletePlaylist(filesDir, playlistName);
-        //Write updated playlist data
-        mWriter.writePlaylistTracks(filesDir, playlistName, newTracksList);
-
-    }
-
-    private static class Writer {
-
-        private final String TAG = "DataWriter";
-
-        private void writeToHistory(String filesDir, String itemToAdd) {
+        if (null != playlistTracks && playlistTracks.size() > 0) {
             try {
-                FileWriter writer = new FileWriter(StorageStructure.getAbsoluteHistoryPath(filesDir), true);
-                writer.write(itemToAdd + System.lineSeparator());
+                FileWriter writer = new FileWriter(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName, true);
+                for (String str : playlistTracks)
+                    writer.write(str + System.lineSeparator());
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        private void writeFavorite(String filesDir, String itemToAdd) {
-            String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
-            File favoritesDir = new File(favoritesDirPath);
-            if (favoritesDir.exists()) {
-                File favoriteItem = new File(favoritesDirPath + itemToAdd);
-                try {
-                    if (!favoriteItem.createNewFile())
-                        Log.e(TAG, "Error creating favorites item inside favorites directory");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (favoritesDir.mkdir())
-                writeFavorite(filesDir, itemToAdd);
-        }
-
-        private boolean writePlaylist(String filesDir, String playListName) {
-            File basePlaylistsDir = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir));
-            if (basePlaylistsDir.exists()) {
-                File playlistFile = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playListName);
-                try {
-                    return playlistFile.createNewFile();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (basePlaylistsDir.mkdir())
-                return writePlaylist(filesDir, playListName);
-            return false;
-        }
-
-        private void writePlaylistTracks(String filesDir, String playlistName, List<String> playlistTracks) {
-            if (null != playlistTracks && playlistTracks.size() > 0) {
-                try {
-                    FileWriter writer = new FileWriter(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName, true);
-                    for (String str : playlistTracks)
-                        writer.write(str + System.lineSeparator());
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private void deleteTrackFavoritesList(String filesDir, String itemToDelete) {
-            File file = new File(StorageStructure.getAbsoluteFavoritesPath(filesDir) + itemToDelete);
-            if (!file.delete())
-                Log.e(TAG, "Unable to delete favorite item file: " + itemToDelete);
-        }
-
-        private void deletePlaylist(String filesDir, String playlistName) {
-            File playlist = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName);
-            if (playlist.exists())
-                if (!playlist.delete())
-                    Log.e(TAG, "Error deleting playlist: " + playlist.getAbsolutePath());
-        }
     }
 
-    private static class Reader {
-
-        @Nullable
-        private List<String> readSavedHistory(String filesDir) {
-            String absolutePath = StorageStructure.getAbsoluteHistoryPath(filesDir);
-            File file = new File(absolutePath);
-            if (file.exists()) {
-                List<String> recentList = new ArrayList<>();
-                try {
-                    Scanner s = new Scanner(file);
-                    while (s.hasNextLine())
-                        recentList.add(s.nextLine());
-                    s.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return recentList;
-            }
-            return null;
+    List<String> getPlaylistTracks(String filesDir, String playlistName) {
+        List<String> playlistTracks = new ArrayList<>();
+        try {
+            Scanner s = new Scanner(new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName));
+            while (s.hasNextLine())
+                playlistTracks.add(s.nextLine());
+            s.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return playlistTracks;
+    }
 
-        @Nullable
-        private List<String> readSavedFavorites(String filesDir) {
-            String favoritesDirPath = StorageStructure.getAbsoluteFavoritesPath(filesDir);
-            File favoritesDir = new File(favoritesDirPath);
-            if (favoritesDir.exists()) {
-                List<String> favoritesList = new ArrayList<>();
-                File[] files = favoritesDir.listFiles();
-                if (null != files) {
-                    for (File file : files)
-                        favoritesList.add(file.getName());
-                }
-                return favoritesList;
-            }
-            return null;
-        }
+    void deleteTrackFromFavoritesList(String filesDir, String itemToDelete) {
+        File file = new File(StorageStructure.getAbsoluteFavoritesPath(filesDir) + itemToDelete);
+        if (!file.delete())
+            Log.e(TAG, "Unable to delete favorite item file: " + itemToDelete);
+    }
 
-        @NonNull
-        private List<String> readPlaylists(String filesDir) {
-            File[] files = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir)).listFiles();
-            List<String> playlistTitles = new ArrayList<>();
-            if (null != files && files.length > 0) {
-                Arrays.sort(files, (o1, o2) -> {
-                    long d = o1.lastModified() - o2.lastModified();
-                    if (d > 1) return 1;
-                    else if (d == 0) return 0;
-                    else return -1;
-                });
-                for (File file : files) {
-                    playlistTitles.add(file.getName());
-                }
-            }
-            return playlistTitles;
-        }
+    void deletePlaylist(String filesDir, String playlistName) {
+        File playlist = new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName);
+        if (playlist.exists())
+            if (!playlist.delete())
+                Log.e(TAG, "Cannot delete playlist: " + playlist.getAbsolutePath());
+    }
 
-        private List<String> readPlaylistContent(String filesDir, String playlistName) {
-            List<String> playlistTracks = new ArrayList<>();
-            try {
-                Scanner s = new Scanner(new File(StorageStructure.getAbsolutePlaylistsFolderPath(filesDir) + playlistName));
-                while (s.hasNextLine())
-                    playlistTracks.add(s.nextLine());
-                s.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return playlistTracks;
-        }
+    void updatePlaylistTracks(String filesDir, String playlistName, List<String> newTracksList) {
+        //Delete already existing playlist
+        deletePlaylist(filesDir, playlistName);
+        //Write updated playlist data
+        addTracksToPlaylist(filesDir, playlistName, newTracksList);
     }
 }
