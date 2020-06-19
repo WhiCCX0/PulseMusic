@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="item_falls_down_duration">200</integer>
-    <integer name="default_anim_duration_medium">400</integer>
     <integer name="window_enter_duration_long">400</integer>
 </resources>
