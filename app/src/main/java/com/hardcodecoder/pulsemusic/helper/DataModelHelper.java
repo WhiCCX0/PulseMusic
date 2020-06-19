@@ -16,6 +16,7 @@ import com.hardcodecoder.pulsemusic.model.TrackFileModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,11 @@ public class DataModelHelper {
     private static int mPickedTrackId = 0;
 
     public static List<MusicModel> getModelsObjectFromTitlesList(List<String> titles) {
+        Map<String, MusicModel> modelMap = new HashMap<>();
+        for (MusicModel musicModel : LoaderCache.getAllTracksList())
+            modelMap.put(musicModel.getTrackName(), musicModel);
+
         List<MusicModel> modelList = new ArrayList<>();
-        Map<String, MusicModel> modelMap = LoaderCache.getModelMap();
         for (String name : titles) {
             if (null != modelMap.get(name))
                 modelList.add(modelMap.get(name));

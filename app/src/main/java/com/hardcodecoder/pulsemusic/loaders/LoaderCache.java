@@ -3,16 +3,13 @@ package com.hardcodecoder.pulsemusic.loaders;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoaderCache {
 
     private static List<MusicModel> mAllTracksList;
     private static List<MusicModel> mSuggestions;
     private static List<MusicModel> mLatestTracks;
-    private static Map<String, MusicModel> mModelMap;
 
     public static List<MusicModel> getAllTracksList() {
         return mAllTracksList;
@@ -50,19 +47,6 @@ public class LoaderCache {
         else {
             mLatestTracks.clear();
             mLatestTracks.addAll(latestTracks);
-        }
-    }
-
-    public static Map<String, MusicModel> getModelMap() {
-        return mModelMap;
-    }
-
-    static void setModelMap(Map<String, MusicModel> modelMap) {
-        if (null == mModelMap)
-            mModelMap = new HashMap<>(modelMap);
-        else {
-            mModelMap.clear();
-            mModelMap.putAll(modelMap);
         }
     }
 }

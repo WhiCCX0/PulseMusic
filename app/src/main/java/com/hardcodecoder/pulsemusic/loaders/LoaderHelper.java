@@ -16,24 +16,15 @@ import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoaderHelper {
 
     public static void loadAllTracks(@NonNull ContentResolver contentResolver, @NonNull Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.TITLE_ASC), result -> {
             LoaderCache.setAllTracksList(result);
+            result.clear();
             callback.onComplete(LoaderCache.getAllTracksList());
-            TaskRunner.executeAsync(() -> {
-                Map<String, MusicModel> modelMap = new HashMap<>();
-                for (MusicModel musicModel : result)
-                    modelMap.put(musicModel.getTrackName(), musicModel);
-                LoaderCache.setModelMap(modelMap);
-                modelMap.clear();
-                result.clear();
-            });
         });
     }
 
