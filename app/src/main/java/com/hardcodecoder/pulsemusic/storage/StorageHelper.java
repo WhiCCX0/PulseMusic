@@ -8,7 +8,6 @@ import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.DataModelHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +29,6 @@ public class StorageHelper {
                 historySet.clear();
                 historySet.addAll(historyList);
                 List<MusicModel> recentTracks = DataModelHelper.getModelsObjectFromTitlesList(historyList);
-                Collections.reverse(recentTracks);
                 handler.post(() -> callback.onComplete(recentTracks));
             } else handler.post(() -> callback.onComplete(null));
         });
@@ -38,7 +36,7 @@ public class StorageHelper {
 
     public static void addTrackToHistory(Context context, MusicModel md) {
         if (historySet.add(md.getTrackName())) // Returns true if the song title is not present in the set
-            TaskRunner.executeAsync(() -> mStorageManager.addTrackToHistory(context.getFilesDir().getAbsolutePath(), md.getTrackName()));
+            TaskRunner.executeAsync(() -> mStorageManager.addTrackToHistory(context.getFilesDir().getAbsolutePath(), md.getTrackName(), 1));
     }
 
     public static void getSavedFavoriteTracks(Context context, TaskRunner.Callback<List<MusicModel>> callback) {
