@@ -34,6 +34,7 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
     private HandlerThread mServiceThread = null;
     private Handler mWorkerHandler;
     private boolean isServiceRunning = false;
+    private boolean isReceiverRegistered = false;
 
     @Nullable
     @Override
@@ -93,7 +94,8 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
 
     @Override
     public void onDestroy() {
-        mNotificationManager.unregisterControlsReceiver();
+        if (isReceiverRegistered)
+            mNotificationManager.unregisterControlsReceiver();
         mMediaSession.release();
         mServiceThread.quit();
         super.onDestroy();
@@ -156,10 +158,12 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
     @Override
     public void registerControlsReceiver(BroadcastReceiver controlsReceiver, IntentFilter filter) {
         registerReceiver(controlsReceiver, filter);
+        isReceiverRegistered = true;
     }
 
     @Override
     public void unregisterControlsReceiver(BroadcastReceiver controlsReceiver) {
         unregisterReceiver(controlsReceiver);
+        isReceiverRegistered = false;
     }
 }
