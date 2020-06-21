@@ -6,7 +6,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -41,6 +40,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
         tm = TrackManager.getInstance();
         StorageHelper.getSavedHistory(this, result -> {
             if (null != result && result.size() > 0) {
+                findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 mRecentTracks = new ArrayList<>(result);
                 RecyclerView rv = findViewById(R.id.rv_playlist_tracks);
                 rv.setVisibility(View.VISIBLE);
@@ -49,7 +49,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
                 LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else {
-                MaterialTextView tv = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
+                MaterialTextView tv = findViewById(R.id.no_tracks_found);
                 String text = getString(R.string.no_recent_tracks);
                 int len = text.length();
                 SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);

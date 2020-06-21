@@ -7,7 +7,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
-import android.view.ViewStub;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -62,6 +61,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
 
     private void loadPlaylist(List<MusicModel> list) {
         if (null != list && list.size() > 0) {
+            findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
             mPlaylistTracks = new ArrayList<>(list);
             RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
             recyclerView.setVisibility(View.VISIBLE);
@@ -74,7 +74,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
             itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
             itemTouchHelper.attachToRecyclerView(recyclerView);
         } else {
-            MaterialTextView textView = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
+            MaterialTextView textView = findViewById(R.id.no_tracks_found);
             String str = getString(R.string.no_playlist_tracks_found);
             SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
             int len = str.length();
@@ -113,9 +113,10 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == TrackPickerActivity.REQUEST_CODE) {
-            if (null != data && null != data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS)) {
-                ArrayList<MusicModel> selectedTracks = (ArrayList<MusicModel>) data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS);
-                if (null != selectedTracks && selectedTracks.size() > 0) {
+            Object object;
+            if (null != data && null != (object = data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS))) {
+                ArrayList<MusicModel> selectedTracks = (ArrayList<MusicModel>) object;
+                if (selectedTracks.size() > 0) {
                     StorageHelper.addTracksToPlaylist(this, playListTitle, selectedTracks, result -> {
                         if (result) {
                             if (null == mAdapter) loadPlaylist(selectedTracks);

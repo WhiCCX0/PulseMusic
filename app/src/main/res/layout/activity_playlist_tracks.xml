@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/playlist_data_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,11 +20,15 @@
         android:id="@+id/rv_playlist_tracks"
         layout="@layout/recycler_view_vertical" />
 
-    <ViewStub
-        android:id="@+id/stub_no_tracks_found"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/no_tracks_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout="@layout/empty_tracks_text" />
+        android:gravity="center"
+        android:paddingBottom="32dp"
+        android:textAppearance="@style/TextViewBody1"
+        android:textColor="?secondaryTextColor"
+        tools:text="@string/tracks_not_found" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/open_track_picker_btn"

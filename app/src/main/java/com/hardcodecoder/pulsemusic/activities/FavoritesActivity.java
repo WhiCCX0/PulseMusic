@@ -7,7 +7,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -43,6 +42,7 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
 
         StorageHelper.getSavedFavoriteTracks(this, result -> {
             if (null != result && result.size() > 0) {
+                findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 favoritesList = new ArrayList<>(result);
                 RecyclerView rv = findViewById(R.id.rv_playlist_tracks);
                 rv.setVisibility(View.VISIBLE);
@@ -51,7 +51,7 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
                 LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this);
                 rv.setAdapter(adapter);
             } else {
-                MaterialTextView tv = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
+                MaterialTextView tv = findViewById(R.id.no_tracks_found);
                 String text = getString(R.string.no_favorites_tracks);
                 SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);
                 stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.length() - 1, text.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);

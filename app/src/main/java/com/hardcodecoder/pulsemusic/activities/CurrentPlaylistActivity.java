@@ -7,7 +7,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -56,6 +55,7 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
 
     private void loadPlaylist(List<MusicModel> list) {
         if (null != list && list.size() > 0) {
+            findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
             mCurrentList = new ArrayList<>(list);
             RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
             recyclerView.setVisibility(View.VISIBLE);
@@ -70,7 +70,7 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
 
             recyclerView.scrollToPosition(TrackManager.getInstance().getActiveIndex());
         } else {
-            MaterialTextView textView = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
+            MaterialTextView textView = findViewById(R.id.no_tracks_found);
             String str = getString(R.string.no_playlist_tracks_found);
             SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
             int len = str.length();
@@ -121,8 +121,7 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
                     if (null == mAdapter) {
                         loadPlaylist(selectedTracks);
                         tm.buildDataList(selectedTracks, 0);
-                    }
-                    else {
+                    } else {
                         mCurrentList.addAll(selectedTracks);
                         mAdapter.addItems(selectedTracks);
                     }
