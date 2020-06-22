@@ -123,8 +123,8 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
                         tm.buildDataList(selectedTracks, 0);
                     }
                     else {
-                        mCurrentList.addAll(selectedTracks);
                         mAdapter.addItems(selectedTracks);
+                        tm.buildDataList(mCurrentList, tm.getActiveIndex());
                     }
                 }
             }
