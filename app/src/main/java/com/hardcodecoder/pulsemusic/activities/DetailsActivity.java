@@ -33,6 +33,7 @@ import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.util.List;
+import java.util.Locale;
 
 public class DetailsActivity extends MediaSessionActivity implements LibraryItemClickListener {
 
@@ -75,8 +76,6 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         String artUrl = getIntent().getStringExtra(KEY_ART_URL);
         ImageView sharedImageView = findViewById(R.id.details_activity_art);
         sharedImageView.setTransitionName(transitionName);
-        //MaterialCardView cardView = findViewById(R.id.details_activity_art_card);
-        //cardView.setTransitionName(transitionName);
         if (mCategory == CATEGORY_ALBUM) {
             GlideApp.with(this)
                     .load(artUrl)
@@ -104,7 +103,6 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                     .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
                     .into(sharedImageView);
         } else {
-            //cardView.setCardElevation(2.0f);
             sharedImageView.setImageResource(R.drawable.ic_artist_art);
             supportStartPostponedEnterTransition();
         }
@@ -114,9 +112,8 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         TaskRunner.executeAsync(new ItemsLoader(title, mCategory), (data) -> {
             if (data.size() > 0) {
                 mList = data;
-
                 MaterialTextView sub = findViewById(R.id.details_activity_title_sub);
-                sub.setText(getString(R.string.num_tracks).concat(" " + mList.size() + " ").concat(getString(R.string.tracks_num)));
+                sub.setText(String.format(Locale.ENGLISH, "%s %d %s", getString(R.string.num_tracks), mList.size(), getString(R.string.tracks)));
 
                 RecyclerView rv = findViewById(R.id.details_activity_rv);
                 rv.setVisibility(View.VISIBLE);
