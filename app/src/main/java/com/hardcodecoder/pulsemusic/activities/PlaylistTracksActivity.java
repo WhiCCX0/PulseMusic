@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.content.Intent;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -24,7 +25,7 @@ import com.hardcodecoder.pulsemusic.interfaces.PlaylistItemListener;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.StorageHelper;
+import com.hardcodecoder.pulsemusic.storage.AppFileManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.List;
 public class PlaylistTracksActivity extends MediaSessionActivity implements PlaylistItemListener, SimpleGestureCallback {
 
     public static final String KEY_TITLE = "playlist name";
+    private final Handler mHandler = new Handler();
     private PlaylistDataAdapter mAdapter;
     private ItemTouchHelper itemTouchHelper;
     private TrackManager tm;
@@ -49,7 +51,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
         if (getIntent().getExtras() != null)
             playListTitle = getIntent().getExtras().getString(KEY_TITLE);
 
-        StorageHelper.getPlaylistTracks(this, playListTitle, this::loadPlaylist);
+        AppFileManager.getPlaylistTracks(this, playListTitle, this::loadPlaylist);
 
         MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
         toolbar.setTitle(playListTitle);
@@ -61,26 +63,28 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
     }
 
     private void loadPlaylist(List<MusicModel> list) {
-        if (null != list && list.size() > 0) {
-            mPlaylistTracks = new ArrayList<>(list);
-            RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
-            recyclerView.setVisibility(View.VISIBLE);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            mAdapter = new PlaylistDataAdapter(mPlaylistTracks, getLayoutInflater(), this, this);
-            recyclerView.setAdapter(mAdapter);
+        mHandler.post(() -> {
+            if (null != list && list.size() > 0) {
+                mPlaylistTracks = new ArrayList<>(list);
+                RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
+                recyclerView.setVisibility(View.VISIBLE);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                mAdapter = new PlaylistDataAdapter(mPlaylistTracks, getLayoutInflater(), this, this);
+                recyclerView.setAdapter(mAdapter);
 
-            ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
-            itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
-            itemTouchHelper.attachToRecyclerView(recyclerView);
-        } else {
-            MaterialTextView textView = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
-            String str = getString(R.string.no_playlist_tracks_found);
-            SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
-            int len = str.length();
-            stringBuilder.setSpan(new AbsoluteSizeSpan((int) (textView.getTextSize() * 3.0)), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            textView.setText(stringBuilder);
-        }
+                ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
+                itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+                itemTouchHelper.attachToRecyclerView(recyclerView);
+            } else {
+                MaterialTextView textView = (MaterialTextView) ((ViewStub) findViewById(R.id.stub_no_tracks_found)).inflate();
+                String str = getString(R.string.no_playlist_tracks_found);
+                SpannableStringBuilder stringBuilder = new SpannableStringBuilder(str);
+                int len = str.length();
+                stringBuilder.setSpan(new AbsoluteSizeSpan((int) (textView.getTextSize() * 3.0)), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                textView.setText(stringBuilder);
+            }
+        });
     }
 
 
@@ -116,7 +120,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
             if (null != data && null != data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS)) {
                 ArrayList<MusicModel> selectedTracks = (ArrayList<MusicModel>) data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS);
                 if (null != selectedTracks && selectedTracks.size() > 0) {
-                    StorageHelper.addTracksToPlaylist(this, playListTitle, selectedTracks, result -> {
+                    AppFileManager.addItemsToPlaylist(this, playListTitle, selectedTracks, result -> mHandler.post(() -> {
                         if (result) {
                             if (null == mAdapter) loadPlaylist(selectedTracks);
                             else {
@@ -124,7 +128,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
                                 mAdapter.addItems(selectedTracks);
                             }
                         }
-                    });
+                    }));
                 }
             }
         }
@@ -133,7 +137,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
     @Override
     protected void onDestroy() {
         if (isPlaylistModified)
-            StorageHelper.updatePlaylistTracks(this, playListTitle, mPlaylistTracks);
+            AppFileManager.updatePlaylistItems(this, playListTitle, mPlaylistTracks);
         super.onDestroy();
     }
 

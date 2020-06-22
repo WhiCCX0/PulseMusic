@@ -1,10 +1,6 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.provider.MediaStore;
-
-import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.model.HistoryModel;
 import com.hardcodecoder.pulsemusic.model.TopArtistModel;
 
 import java.util.ArrayList;
@@ -16,68 +12,40 @@ import java.util.concurrent.Callable;
 
 public class TopArtistsLoader implements Callable<List<TopArtistModel>> {
 
-    private ContentResolver mContentResolver;
-    private List<MusicModel> mRecentTracks;
+    private List<HistoryModel> mHistoryList;
 
-    TopArtistsLoader(ContentResolver contentResolver, List<MusicModel> recentTracks) {
-        mContentResolver = contentResolver;
-        mRecentTracks = new ArrayList<>(recentTracks);
+    TopArtistsLoader(List<HistoryModel> recentTracks) {
+        mHistoryList = new ArrayList<>(recentTracks);
     }
 
     @Override
     public List<TopArtistModel> call() {
-        Map<String, Integer> frequencyMap = new HashMap<>();
-        for (MusicModel md : mRecentTracks) {
-            String artist = md.getArtist();
-            Integer count = frequencyMap.get(artist);
-            frequencyMap.put(artist, (count == null) ? 1 : count + 1);
+        Map<String, Integer> frequency = new HashMap<>();
+        Map<String, HistoryModel> modelMap = new HashMap<>();
+
+        for (HistoryModel hm : mHistoryList) {
+            Integer count = frequency.get(hm.getAlbum());
+            frequency.put(hm.getArtist(), (null == count) ? hm.getPlayCount() : count + hm.getPlayCount());
+            modelMap.put(hm.getArtist(), hm);
         }
 
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(frequencyMap.entrySet());
-        Collections.sort(entryList, Collections.reverseOrder((o1, o2) -> o1.getValue().compareTo(o2.getValue())));
-
-        if (entryList.size() > 20)
-            entryList = entryList.subList(0, 20);
-
-        List<String> namesList = new ArrayList<>();
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Map.Entry<String, Integer> entry : entryList) {
-            namesList.add(entry.getKey());
-            stringBuilder.append("'").append(entry.getKey()).append("', ");
-        }
-        stringBuilder.append("'").append("'");
-
-        Map<String, TopArtistModel> artistModelMap = loadSelectedArtistsDetails(stringBuilder.toString());
         List<TopArtistModel> topArtistList = new ArrayList<>();
-        for (String artist : namesList) {
-            TopArtistModel artistModel = artistModelMap.get(artist);
-            if (null != artistModel)
-                topArtistList.add(artistModel);
-        }
-        artistModelMap.clear();
+        for (Map.Entry<String, Integer> entry : frequency.entrySet())
+            topArtistList.add(new TopArtistModel(entry.getKey(), entry.getValue()));
+
+        Collections.sort(topArtistList, (o1, o2) -> {
+            int count = o2.getNumOfPlays() - o1.getNumOfPlays();
+            if (count == 0) {
+                HistoryModel h1 = modelMap.get(o1.getArtistName());
+                HistoryModel h2 = modelMap.get(o2.getArtistName());
+                if (h1 != null && h2 != null) {
+                    long d = h2.getLastModified() - h1.getLastModified();
+                    return d > 0 ? 1 : (d == 0 ? 0 : -1);
+                }
+                return 0;
+            }
+            return count;
+        });
         return topArtistList;
-    }
-
-    private Map<String, TopArtistModel> loadSelectedArtistsDetails(final String names) {
-        Map<String, TopArtistModel> artistMap = new HashMap<>();
-        String[] col = {MediaStore.Audio.Artists.ARTIST, MediaStore.Audio.Artists.NUMBER_OF_TRACKS};
-        final Cursor cursor = mContentResolver.query(
-                MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
-                col, MediaStore.Audio.Artists.ARTIST + " IN  (" + names + ")", null, null);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int artistColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Artists.ARTIST);
-            int trackCountColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Artists.NUMBER_OF_TRACKS);
-
-            do {
-                String artist = cursor.getString(artistColumnIndex);
-                int num_tracks = cursor.getInt(trackCountColumnIndex);
-
-                artistMap.put(artist, new TopArtistModel(artist, num_tracks));
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        return artistMap;
     }
 }

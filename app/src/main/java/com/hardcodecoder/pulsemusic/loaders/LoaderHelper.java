@@ -9,14 +9,17 @@ import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.TaskRunner.Callback;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
+import com.hardcodecoder.pulsemusic.model.HistoryModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
 import com.hardcodecoder.pulsemusic.model.TopArtistModel;
-import com.hardcodecoder.pulsemusic.storage.StorageHelper;
+import com.hardcodecoder.pulsemusic.storage.AppFileManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class LoaderHelper {
 
@@ -50,6 +53,20 @@ public class LoaderHelper {
         });
     }
 
+    public static void loadRecentTracks(@NonNull Context context, @NonNull Callback<List<MusicModel>> callback) {
+        AppFileManager.getHistory(context, true, result -> {
+            if (null != result && result.size() > 0) {
+                Map<String, MusicModel> map = new Hashtable<>();
+                for (MusicModel md : LoaderCache.getAllTracksList())
+                    map.put(md.getTrackName(), md);
+                List<MusicModel> recentTracks = new ArrayList<>(result.size());
+                for (HistoryModel hm : result)
+                    recentTracks.add(map.get(hm.getTitle()));
+                callback.onComplete(recentTracks);
+            } else callback.onComplete(null);
+        });
+    }
+
     public static void loadLatestTracks(@NonNull ContentResolver contentResolver, @NonNull Callback<List<MusicModel>> callback) {
         TaskRunner.executeAsync(new LibraryLoader(contentResolver, SortOrder.DATE_MODIFIED_DESC), result -> {
             if (null != result && result.size() > 0) {
@@ -63,17 +80,18 @@ public class LoaderHelper {
     }
 
     public static void loadTopAlbums(@NonNull Context context, @NonNull Callback<List<TopAlbumModel>> callback) {
-        StorageHelper.getSavedHistory(context, result -> {
-            if (null != result && result.size() > 0)
-                TaskRunner.executeAsync(new TopAlbumsLoader(result), callback);
+        AppFileManager.getHistory(context, false, history -> {
+            if (null != history && history.size() > 0)
+                TaskRunner.executeAsync(new TopAlbumsLoader(history), callback);
             else callback.onComplete(null);
         });
     }
 
     public static void loadTopArtist(@NonNull Context context, @NonNull Callback<List<TopArtistModel>> callback) {
-        StorageHelper.getSavedHistory(context, result -> {
-            if (null != result && result.size() > 0)
-                TaskRunner.executeAsync(new TopArtistsLoader(context.getContentResolver(), result), callback);
+        AppFileManager.getHistory(context, false, history -> {
+            if (null != history && history.size() > 0)
+                TaskRunner.executeAsync(new TopArtistsLoader(history), callback);
+            else callback.onComplete(null);
         });
     }
 }

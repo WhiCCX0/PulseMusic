@@ -24,7 +24,7 @@
     <string name="new_in_library">New in store</string>
     <string name="top_artist">Top artists</string>
     <string name="top_albums">Top albums</string>
-    <string name="tracks_num">tracks</string>
+    <string name="tracks_plays">No of plays:</string>
     <string name="tracks_not_found">No tracks found</string>
 
 
@@ -116,6 +116,7 @@
     <string name="details_toolbar_title">Details</string>
     <string name="details_activity_rv_title">Tracks</string>
     <string name="num_tracks">Collection has ●</string>
+    <string name="tracks">tracks</string>
 
 
     <!-- Song info dialog -->

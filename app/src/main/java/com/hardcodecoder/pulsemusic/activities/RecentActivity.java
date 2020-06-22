@@ -2,6 +2,7 @@ package com.hardcodecoder.pulsemusic.activities;
 
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -21,9 +22,9 @@ import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,9 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
         setContentView(R.layout.activity_playlist_tracks);
 
         tm = TrackManager.getInstance();
-        StorageHelper.getSavedHistory(this, result -> {
+
+        Handler handler = new Handler();
+        LoaderHelper.loadRecentTracks(this, result -> handler.post(() -> {
             if (null != result && result.size() > 0) {
                 mRecentTracks = new ArrayList<>(result);
                 RecyclerView rv = findViewById(R.id.rv_playlist_tracks);
@@ -56,7 +59,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
                 stringBuilder.setSpan(new AbsoluteSizeSpan((int) (tv.getTextSize() * 3.0)), len - 1, len, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 tv.setText(stringBuilder);
             }
-        });
+        }));
 
         MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
         toolbar.setTitle(getString(R.string.recent));
