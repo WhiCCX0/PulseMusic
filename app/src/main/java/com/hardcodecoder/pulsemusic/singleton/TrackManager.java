@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
-import com.hardcodecoder.pulsemusic.storage.StorageHelper;
+import com.hardcodecoder.pulsemusic.storage.AppFileManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,6 +109,6 @@ public class TrackManager {
     }
 
     public void addToHistory(Context context) {
-        StorageHelper.addTrackToHistory(context, getActiveQueueItem());
+        AppFileManager.addItemToHistory(context, getActiveQueueItem());
     }
 }

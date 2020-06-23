@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.activities;
 import android.graphics.Color;
 import android.media.session.MediaController;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -23,7 +24,7 @@ import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.StorageHelper;
+import com.hardcodecoder.pulsemusic.storage.AppFileManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,8 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
 
         tm = TrackManager.getInstance();
 
-        StorageHelper.getSavedFavoriteTracks(this, result -> {
+        Handler handler = new Handler();
+        AppFileManager.getFavorites(this, result -> handler.post(() -> {
             if (null != result && result.size() > 0) {
                 findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 favoritesList = new ArrayList<>(result);
@@ -57,7 +59,7 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
                 stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), text.length() - 1, text.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 tv.setText(stringBuilder);
             }
-        });
+        }));
 
 
         MaterialToolbar toolbar = findViewById(R.id.material_toolbar);

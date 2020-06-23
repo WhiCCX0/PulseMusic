@@ -24,7 +24,7 @@ import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
-import com.hardcodecoder.pulsemusic.storage.StorageHelper;
+import com.hardcodecoder.pulsemusic.storage.AppFileManager;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 import java.util.concurrent.Executors;
@@ -146,13 +146,13 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     private void addToFavorite() {
-        StorageHelper.addTrackToFavorites(this, tm.getActiveQueueItem());
+        AppFileManager.addItemToFavorites(this, tm.getActiveQueueItem());
         updateFavoriteButtonState();
         Toast.makeText(this, getString(R.string.added_to_fav), Toast.LENGTH_SHORT).show();
     }
 
     private void removeFromFavorite() {
-        StorageHelper.removeTrackFromFavorites(this, tm.getActiveQueueItem());
+        AppFileManager.deleteFavorite(this, tm.getActiveQueueItem());
         updateFavoriteButtonState();
         Toast.makeText(this, getString(R.string.removed_from_fav), Toast.LENGTH_SHORT).show();
     }
@@ -171,7 +171,7 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     private void updateFavoriteButtonState() {
-        boolean value = StorageHelper.isTrackAlreadyInFavorites(tm.getActiveQueueItem());
+        boolean value = AppFileManager.isItemAFavorite(tm.getActiveQueueItem());
         mFavBtn.setSelected(value);
         isTrackFavorite = value;
     }

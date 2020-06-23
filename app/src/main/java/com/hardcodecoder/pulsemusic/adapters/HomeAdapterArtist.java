@@ -14,6 +14,7 @@ import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.TopArtistModel;
 
 import java.util.List;
+import java.util.Locale;
 
 public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.AdapterSVH> {
 
@@ -61,7 +62,7 @@ public class HomeAdapterArtist extends RecyclerView.Adapter<HomeAdapterArtist.Ad
         void updateData(TopArtistModel artistModel) {
             artistArt.setTransitionName("shared_transition_artist_iv_" + getAdapterPosition());
             artistName.setText(artistModel.getArtistName());
-            trackCount.setText(String.format("%d " + itemView.getResources().getString(R.string.tracks_num), artistModel.getNumOfTracks()));
+            trackCount.setText(String.format(Locale.ENGLISH, "%s %d", itemView.getResources().getString(R.string.tracks_plays), artistModel.getNumOfPlays()));
         }
     }
 }
