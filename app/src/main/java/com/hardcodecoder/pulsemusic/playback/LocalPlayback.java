@@ -83,7 +83,7 @@ public class LocalPlayback implements
             Toast.makeText(mContext, "Music file not found, playing next song in queue", Toast.LENGTH_LONG).show();
             mPlaybackCallback.onPlaybackCompletion();
         }
-        mHandler.post(() -> mTrackManager.addToHistory(mContext));
+        mHandler.post(() -> mTrackManager.addToHistory());
     }
 
     @Override

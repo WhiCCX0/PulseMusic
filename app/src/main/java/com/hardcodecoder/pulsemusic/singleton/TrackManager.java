@@ -1,7 +1,5 @@
 package com.hardcodecoder.pulsemusic.singleton;
 
-import android.content.Context;
-
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.storage.AppFileManager;
@@ -108,7 +106,7 @@ public class TrackManager {
         mActiveList.add(deletedQueueIndex, musicModel);
     }
 
-    public void addToHistory(Context context) {
-        AppFileManager.addItemToHistory(context, getActiveQueueItem());
+    public void addToHistory() {
+        AppFileManager.addItemToHistory(getActiveQueueItem());
     }
 }

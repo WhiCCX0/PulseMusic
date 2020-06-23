@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         tm = TrackManager.getInstance();
 
         if (LoaderCache.getAllTracksList().size() > 0)
-            LoaderHelper.loadTopAlbums(Objects.requireNonNull(getContext()), result -> loadTopAlbums(view, result));
+            LoaderHelper.loadTopAlbums(result -> loadTopAlbums(view, result));
         else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
@@ -152,7 +152,7 @@ public class HomeFragment extends Fragment {
                     }
                 }, LayoutStyle.ROUNDED_RECTANGLE);
                 rv.setAdapter(adapter);
-                LoaderHelper.loadTopArtist(Objects.requireNonNull(getContext()), result -> loadTopArtists(view, result));
+                LoaderHelper.loadTopArtist(result -> loadTopArtists(view, result));
             }, 240);
         }
     }

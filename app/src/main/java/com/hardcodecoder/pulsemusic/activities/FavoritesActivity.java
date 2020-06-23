@@ -42,7 +42,7 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
         tm = TrackManager.getInstance();
 
         Handler handler = new Handler();
-        AppFileManager.getFavorites(this, result -> handler.post(() -> {
+        AppFileManager.getFavorites(result -> handler.post(() -> {
             if (null != result && result.size() > 0) {
                 findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 favoritesList = new ArrayList<>(result);

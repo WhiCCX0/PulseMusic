@@ -59,7 +59,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
         mPlaylistNames = new ArrayList<>();
         mPlaylistNames.add(getString(R.string.playlist_current_queue));
         Handler handler = new Handler();
-        AppFileManager.getPlaylists(mContext, result -> {
+        AppFileManager.getPlaylists(result -> {
             if (null != result) mPlaylistNames.addAll(result);
             handler.post(() -> loadPlaylistCards(view));
         });
@@ -96,7 +96,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
     private void addNewPlaylist(String playlistName) {
         mPlaylistNames.add(playlistName);
         mAdapter.notifyItemInserted(mPlaylistNames.size() - 1);
-        AppFileManager.savePlaylist(mContext, playlistName);
+        AppFileManager.savePlaylist(playlistName);
     }
 
     private void createPlaylist(boolean isEdit, int pos) {
@@ -123,7 +123,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
                         String newName = et.getText().toString();
                         mPlaylistNames.add(pos, newName);
                         mAdapter.notifyItemChanged(pos);
-                        AppFileManager.renamePlaylist(mContext, oldName, newName);
+                        AppFileManager.renamePlaylist(oldName, newName);
                     } else addNewPlaylist(et.getText().toString());
                 } else {
                     Toast.makeText(mContext, getString(R.string.create_playlist_hint), Toast.LENGTH_SHORT).show();
@@ -167,7 +167,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
                     .setMessage(getString(R.string.playlist_delete_dialog_title))
                     .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                        AppFileManager.deletePlaylist(mContext, mPlaylistNames.get(position));
+                        AppFileManager.deletePlaylist(mPlaylistNames.get(position));
                         Toast.makeText(getContext(), getString(R.string.playlist_deleted_toast), Toast.LENGTH_SHORT).show();
                     }).setNegativeButton(getString(R.string.no), (dialog, which) -> mAdapter.notifyItemChanged(position));
             alertDialog.create().show();

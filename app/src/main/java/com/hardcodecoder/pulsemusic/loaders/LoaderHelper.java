@@ -1,7 +1,6 @@
 package com.hardcodecoder.pulsemusic.loaders;
 
 import android.content.ContentResolver;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -53,8 +52,8 @@ public class LoaderHelper {
         });
     }
 
-    public static void loadRecentTracks(@NonNull Context context, @NonNull Callback<List<MusicModel>> callback) {
-        AppFileManager.getHistory(context, true, result -> {
+    public static void loadRecentTracks(@NonNull Callback<List<MusicModel>> callback) {
+        AppFileManager.getHistory(true, result -> {
             if (null != result && result.size() > 0) {
                 Map<String, MusicModel> map = new Hashtable<>();
                 for (MusicModel md : LoaderCache.getAllTracksList())
@@ -79,16 +78,16 @@ public class LoaderHelper {
         });
     }
 
-    public static void loadTopAlbums(@NonNull Context context, @NonNull Callback<List<TopAlbumModel>> callback) {
-        AppFileManager.getHistory(context, false, history -> {
+    public static void loadTopAlbums(@NonNull Callback<List<TopAlbumModel>> callback) {
+        AppFileManager.getHistory(false, history -> {
             if (null != history && history.size() > 0)
                 TaskRunner.executeAsync(new TopAlbumsLoader(history), callback);
             else callback.onComplete(null);
         });
     }
 
-    public static void loadTopArtist(@NonNull Context context, @NonNull Callback<List<TopArtistModel>> callback) {
-        AppFileManager.getHistory(context, false, history -> {
+    public static void loadTopArtist(@NonNull Callback<List<TopArtistModel>> callback) {
+        AppFileManager.getHistory(false, history -> {
             if (null != history && history.size() > 0)
                 TaskRunner.executeAsync(new TopArtistsLoader(history), callback);
             else callback.onComplete(null);

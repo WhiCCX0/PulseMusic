@@ -50,7 +50,8 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
         if (getIntent().getExtras() != null)
             playListTitle = getIntent().getExtras().getString(KEY_TITLE);
 
-        AppFileManager.getPlaylistTracks(this, playListTitle, this::loadPlaylist);
+        if (playListTitle != null)
+            AppFileManager.getPlaylistTracks(playListTitle, this::loadPlaylist);
 
         MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
         toolbar.setTitle(playListTitle);
@@ -121,7 +122,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
             if (null != data && null != (object = data.getSerializableExtra(TrackPickerActivity.ID_PICKED_TRACKS))) {
                 ArrayList<MusicModel> selectedTracks = (ArrayList<MusicModel>) object;
                 if (selectedTracks.size() > 0) {
-                    AppFileManager.addItemsToPlaylist(this, playListTitle, selectedTracks, result -> mHandler.post(() -> {
+                    AppFileManager.addItemsToPlaylist(playListTitle, selectedTracks, result -> mHandler.post(() -> {
                         if (result) {
                             if (null == mAdapter) loadPlaylist(selectedTracks);
                             else {
@@ -138,7 +139,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
     @Override
     protected void onDestroy() {
         if (isPlaylistModified)
-            AppFileManager.updatePlaylistItems(this, playListTitle, mPlaylistTracks);
+            AppFileManager.updatePlaylistItems(playListTitle, mPlaylistTracks);
         super.onDestroy();
     }
 

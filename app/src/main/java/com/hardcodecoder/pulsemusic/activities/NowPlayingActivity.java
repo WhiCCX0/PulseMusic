@@ -146,13 +146,13 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     private void addToFavorite() {
-        AppFileManager.addItemToFavorites(this, tm.getActiveQueueItem());
+        AppFileManager.addItemToFavorites(tm.getActiveQueueItem());
         updateFavoriteButtonState();
         Toast.makeText(this, getString(R.string.added_to_fav), Toast.LENGTH_SHORT).show();
     }
 
     private void removeFromFavorite() {
-        AppFileManager.deleteFavorite(this, tm.getActiveQueueItem());
+        AppFileManager.deleteFavorite(tm.getActiveQueueItem());
         updateFavoriteButtonState();
         Toast.makeText(this, getString(R.string.removed_from_fav), Toast.LENGTH_SHORT).show();
     }
@@ -171,9 +171,11 @@ public class NowPlayingActivity extends MediaSessionActivity {
     }
 
     private void updateFavoriteButtonState() {
-        boolean value = AppFileManager.isItemAFavorite(tm.getActiveQueueItem());
-        mFavBtn.setSelected(value);
-        isTrackFavorite = value;
+        AppFileManager.isItemAFavorite(tm.getActiveQueueItem(), result ->
+                mHandler.post(() -> {
+                    mFavBtn.setSelected(result);
+                    isTrackFavorite = result;
+                }));
     }
 
     private void updateMetaData(MediaMetadata metadata) {

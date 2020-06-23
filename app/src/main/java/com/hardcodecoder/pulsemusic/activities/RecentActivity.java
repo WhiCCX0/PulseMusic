@@ -41,7 +41,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
         tm = TrackManager.getInstance();
 
         Handler handler = new Handler();
-        LoaderHelper.loadRecentTracks(this, result -> handler.post(() -> {
+        LoaderHelper.loadRecentTracks(result -> handler.post(() -> {
             if (null != result && result.size() > 0) {
                 findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 mRecentTracks = new ArrayList<>(result);
