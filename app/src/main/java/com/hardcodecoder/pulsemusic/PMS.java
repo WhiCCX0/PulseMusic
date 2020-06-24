@@ -2,20 +2,20 @@ package com.hardcodecoder.pulsemusic;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaMetadata;
-import android.media.browse.MediaBrowser;
+import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
-import android.os.Bundle;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.service.media.MediaBrowserService;
+import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media.session.MediaButtonReceiver;
 
@@ -24,28 +24,17 @@ import com.hardcodecoder.pulsemusic.playback.MediaNotificationManager;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
-import java.util.List;
 
-public class PMS extends MediaBrowserService implements PlaybackManager.PlaybackServiceCallback, MediaNotificationManager.NotificationCallback {
+public class PMS extends Service implements PlaybackManager.PlaybackServiceCallback, MediaNotificationManager.NotificationCallback {
 
     private static final String TAG = "PMS";
+    private final IBinder mBinder = new ServiceBinder();
     private MediaSession mMediaSession;
     private MediaNotificationManager mNotificationManager;
     private HandlerThread mServiceThread = null;
     private Handler mWorkerHandler;
     private boolean isServiceRunning = false;
     private boolean isReceiverRegistered = false;
-
-    @Nullable
-    @Override
-    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
-        return new BrowserRoot(getString(R.string.app_name), /* Name visible in Android Auto*/null);
-    }
-
-    @Override
-    public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowser.MediaItem>> result) {
-        result.sendResult(null);
-    }
 
     @Override
     public void onCreate() {
@@ -62,7 +51,6 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
         PlaybackManager mPlaybackManager = new PlaybackManager(this.getApplicationContext(), playback, mTrackManager, this/*, mWorkerHandler*/);
 
         mMediaSession = new MediaSession(this.getApplicationContext(), TAG);
-        setSessionToken(mMediaSession.getSessionToken());
         mMediaSession.setCallback(mPlaybackManager.getSessionCallbacks(), mWorkerHandler);
         mMediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
@@ -92,6 +80,18 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
         return START_NOT_STICKY;
     }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        if (!mMediaSession.isActive()) stopSelf();
+        super.onTaskRemoved(rootIntent);
+    }
+
     @Override
     public void onDestroy() {
         if (isReceiverRegistered)
@@ -99,12 +99,6 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
         mMediaSession.release();
         mServiceThread.quit();
         super.onDestroy();
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        if (!mMediaSession.isActive()) stopSelf();
-        super.onTaskRemoved(rootIntent);
     }
 
     @Override
@@ -142,7 +136,7 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
 
     @Override
     public MediaSession.Token getMediaSessionToken() {
-        return getSessionToken();
+        return mMediaSession.getSessionToken();
     }
 
     @Override
@@ -165,5 +159,11 @@ public class PMS extends MediaBrowserService implements PlaybackManager.Playback
     public void unregisterControlsReceiver(BroadcastReceiver controlsReceiver) {
         unregisterReceiver(controlsReceiver);
         isReceiverRegistered = false;
+    }
+
+    public class ServiceBinder extends Binder {
+        public MediaController getMediaController() {
+            return mMediaSession.getController();
+        }
     }
 }

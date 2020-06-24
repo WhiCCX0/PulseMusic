@@ -2,7 +2,6 @@ package com.hardcodecoder.pulsemusic.activities;
 
 import android.content.Intent;
 import android.media.MediaMetadata;
-import android.media.browse.MediaBrowser;
 import android.media.session.MediaController;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,7 +53,6 @@ public class MainActivity extends MediaSessionActivity {
         }
     };
     private MediaController mController;
-    private MediaBrowser mMediaBrowser;
     @StyleRes
     private int mCurrentTheme;
     @StyleRes
@@ -197,7 +195,6 @@ public class MainActivity extends MediaSessionActivity {
     @Override
     public void onMediaServiceConnected(MediaController controller) {
         mController = controller;
-        mMediaBrowser = getMediaBrowser();
         mController.registerCallback(mCallback);
 
         if (mController.getMetadata() != null)
@@ -211,7 +208,7 @@ public class MainActivity extends MediaSessionActivity {
             recreate();
         }
         super.onStart();
-        if (null != mController && mMediaBrowser.isConnected()) {
+        if (null != mController && isConnectedToService()) {
             mController.registerCallback(mCallback);
             if (null != mController.getMetadata())
                 showControlsFragment();

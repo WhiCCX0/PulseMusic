@@ -177,10 +177,4 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
     @Override
     public void onMediaServiceConnected(MediaController controller) {
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        disconnectFromMediaSession();
-    }
 }

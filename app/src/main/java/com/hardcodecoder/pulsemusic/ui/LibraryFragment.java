@@ -116,11 +116,12 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
     }
 
     private void play() {
-        if (null == mTransportControl && null != getActivity()) {
+        if (mTransportControl != null) {
+            mTransportControl.play();
+        } else if (getActivity() != null) {
             mTransportControl = getActivity().getMediaController().getTransportControls();
             mTransportControl.play();
-        } else
-            mTransportControl.play();
+        }
     }
 
     private void showMenuItems(MusicModel md) {

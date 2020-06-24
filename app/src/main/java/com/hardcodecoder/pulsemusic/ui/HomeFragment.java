@@ -232,7 +232,7 @@ public class HomeFragment extends Fragment {
             mTransportControl.play();
         } else if (getActivity() != null) {
             mTransportControl = getActivity().getMediaController().getTransportControls();
-            play();
+            mTransportControl.play();
         }
     }
 }

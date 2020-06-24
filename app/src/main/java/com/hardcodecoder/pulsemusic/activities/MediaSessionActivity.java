@@ -1,72 +1,60 @@
 package com.hardcodecoder.pulsemusic.activities;
 
 import android.content.ComponentName;
-import android.media.browse.MediaBrowser;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.session.MediaController;
-import android.media.session.MediaSession;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
 import com.hardcodecoder.pulsemusic.PMS;
+import com.hardcodecoder.pulsemusic.PMS.ServiceBinder;
 
 public abstract class MediaSessionActivity extends PMBActivity {
 
-    private MediaBrowser mMediaBrowser = null;
     private MediaController mController = null;
+    private boolean mBound = false;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            ServiceBinder serviceBinder = (ServiceBinder) binder;
+            mController = serviceBinder.getMediaController();
+            setMediaController(mController);
+            onMediaServiceConnected(mController);
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       connectToMediaSession();
+        connectToService();
     }
 
-    public void connectToMediaSession() {
-        mMediaBrowser = new MediaBrowser(this, new ComponentName(MediaSessionActivity.this, PMS.class),
-                // Which MediaBrowserService
-                new MediaBrowser.ConnectionCallback() {
-                    @Override
-                    public void onConnected() {
-                        try {
-                            // Ah, here’s our Token again
-                            MediaSession.Token token = mMediaBrowser.getSessionToken();
-
-                            // This is what gives us access to everything
-                            mController = new MediaController(MediaSessionActivity.this, token);
-
-                            // Convenience method to allow you to use
-                            // MediaControllerCompat.getMediaController() anywhere
-                            setMediaController(mController);
-
-                            onMediaServiceConnected(mController);
-                        } catch (Exception e) {
-                            Log.e(MainActivity.class.getSimpleName(), "Error creating controller", e);
-                        }
-                    }
-
-                }, null); // optional Bundle
-        mMediaBrowser.connect();
+    public void connectToService() {
+        Intent intent = new Intent(this, PMS.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public void disconnectFromMediaSession() {
-        if (null != mMediaBrowser)
-            mMediaBrowser.disconnect();
-    }
-
-    public MediaBrowser getMediaBrowser() {
-        return mMediaBrowser;
+    public boolean isConnectedToService() {
+        return mBound;
     }
 
     public void playMedia() {
-        if(null == mController)
-            mController = getMediaController();
-        mController.getTransportControls().play();
+        if (null != mController) mController.getTransportControls().play();
     }
 
     @Override
     protected void onDestroy() {
-        disconnectFromMediaSession();
+        unbindService(serviceConnection);
         super.onDestroy();
     }
 
