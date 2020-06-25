@@ -229,4 +229,17 @@
     <string name="sunkist">Sunkist</string>
     <string name="blue_pink">Blue pink</string>
 
+    <!-- App shortcuts -->
+    <string name="shortcut_shuffle_label">Shuffle</string>
+    <string name="shortcut_shuffle_label_long">Shuffled</string>
+    <string name="shortcut_shuffle_disabled">Unable to shuffle</string>
+
+    <string name="shortcut_latest_label">Latest tracks</string>
+    <string name="shortcut_latest_label_long">Latest tracks</string>
+    <string name="shortcut_latest_disabled">Cannot play latest tracks</string>
+
+    <string name="shortcut_suggested_label">For you</string>
+    <string name="shortcut_suggested_label_long">For you</string>
+    <string name="shortcut_suggested_disabled">Cannot play selected tracks</string>
+
 </resources>

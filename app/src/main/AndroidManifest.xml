@@ -53,6 +53,10 @@
         <activity android:name=".activities.FavoritesActivity" />
         <activity android:name=".activities.CurrentPlaylistActivity" />
         <activity android:name=".activities.PlaylistTracksActivity" />
+        <activity
+            android:name=".shortcuts.ShortcutsLauncher"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
             android:name=".PMS"

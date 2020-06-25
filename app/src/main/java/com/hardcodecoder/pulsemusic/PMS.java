@@ -15,17 +15,27 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.media.session.MediaButtonReceiver;
 
+import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
+import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.playback.LocalPlayback;
 import com.hardcodecoder.pulsemusic.playback.MediaNotificationManager;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
+import java.util.List;
+import java.util.Random;
 
 public class PMS extends Service implements PlaybackManager.PlaybackServiceCallback, MediaNotificationManager.NotificationCallback {
+
+    public static final String PLAY_KEY = "play_key";
+    public static final int PLAY_SHUFFLE = 100;
+    public static final int PLAY_LATEST = 101;
+    public static final int PLAY_SUGGESTED = 102;
 
     private static final String TAG = "PMS";
     private final IBinder mBinder = new ServiceBinder();
@@ -77,7 +87,32 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
     public int onStartCommand(Intent intent, int flags, int startId) {
         MediaButtonReceiver.handleIntent(MediaSessionCompat.fromMediaSession(this, mMediaSession), intent);
         isServiceRunning = true;
+        int startCode;
+        if (null != intent && (startCode = intent.getIntExtra(PLAY_KEY, -1)) != -1) {
+            switch (startCode) {
+                case PLAY_SHUFFLE:
+                    LoaderHelper.loadAllTracks(getContentResolver(), result ->
+                            playPlaylist(result, new Random().nextInt(result.size())));
+                    break;
+                case PLAY_LATEST:
+                    LoaderHelper.loadLatestTracks(getContentResolver(), result ->
+                            playPlaylist(result, 0));
+                    break;
+                case PLAY_SUGGESTED:
+                    LoaderHelper.loadSuggestionsList(result ->
+                            playPlaylist(result, 0));
+                default:
+                    Log.e(TAG, "Unknown start command");
+            }
+        }
         return START_NOT_STICKY;
+    }
+
+    private void playPlaylist(List<MusicModel> playlist, int startIndex) {
+        if (null != playlist && playlist.size() > 0) {
+            TrackManager.getInstance().buildDataList(playlist, startIndex);
+            mMediaSession.getController().getTransportControls().play();
+        }
     }
 
     @Nullable
