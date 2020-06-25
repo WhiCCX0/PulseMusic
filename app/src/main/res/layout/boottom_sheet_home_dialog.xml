@@ -79,7 +79,6 @@
         app:layout_constraintTop_toBottomOf="@id/drawer_option_settings" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/drawer_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
