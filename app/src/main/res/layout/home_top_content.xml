@@ -8,7 +8,8 @@
 
     <com.hardcodecoder.pulsemusic.views.ColoredIconView
         android:id="@+id/ic_favorite"
-        style="@style/ButtonStyle24"
+        android:layout_width="@dimen/colored_icon_width"
+        android:layout_height="@dimen/colored_icon_height"
         app:icon="@drawable/ic_favorite"
         app:iconColor="@color/md_red_A400"
         app:layout_constraintEnd_toStartOf="@id/ic_recent"
@@ -28,7 +29,8 @@
 
     <com.hardcodecoder.pulsemusic.views.ColoredIconView
         android:id="@+id/ic_recent"
-        style="@style/ButtonStyle24"
+        android:layout_width="@dimen/colored_icon_width"
+        android:layout_height="@dimen/colored_icon_height"
         app:icon="@drawable/ic_history"
         app:iconColor="@color/md_blue_A400"
         app:layout_constraintEnd_toStartOf="@id/ic_folder"
@@ -48,9 +50,10 @@
 
     <com.hardcodecoder.pulsemusic.views.ColoredIconView
         android:id="@+id/ic_folder"
-        style="@style/ButtonStyle24"
+        android:layout_width="@dimen/colored_icon_width"
+        android:layout_height="@dimen/colored_icon_height"
         app:icon="@drawable/ic_folder"
-        app:iconColor="@color/md_deep_purple_A400"
+        app:iconColor="@color/md_green_A700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ic_recent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,5 +68,4 @@
         app:layout_constraintEnd_toEndOf="@id/ic_folder"
         app:layout_constraintStart_toStartOf="@id/ic_folder"
         app:layout_constraintTop_toBottomOf="@id/ic_folder" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
