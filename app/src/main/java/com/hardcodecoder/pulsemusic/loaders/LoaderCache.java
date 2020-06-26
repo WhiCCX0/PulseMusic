@@ -16,12 +16,12 @@ public class LoaderCache {
     }
 
     static void setAllTracksList(List<MusicModel> allTracksList) {
-        if (null == mAllTracksList)
-            mAllTracksList = new ArrayList<>(allTracksList);
-        else {
+        if (null != mAllTracksList) {
+            // Let gc do its work
             mAllTracksList.clear();
-            mAllTracksList.addAll(allTracksList);
+            mAllTracksList = null;
         }
+        mAllTracksList = new ArrayList<>(allTracksList);
     }
 
     public static List<MusicModel> getSuggestions() {
@@ -29,12 +29,12 @@ public class LoaderCache {
     }
 
     static void setSuggestions(List<MusicModel> suggestions) {
-        if (null == mSuggestions)
-            mSuggestions = new ArrayList<>(suggestions);
-        else {
+        if (null != mSuggestions) {
+            // Let gc do its work
             mSuggestions.clear();
-            mSuggestions.addAll(suggestions);
+            mSuggestions = null;
         }
+        mSuggestions = new ArrayList<>(suggestions);
     }
 
     public static List<MusicModel> getLatestTracks() {
@@ -42,11 +42,11 @@ public class LoaderCache {
     }
 
     static void setLatestTracks(List<MusicModel> latestTracks) {
-        if (null == mLatestTracks)
-            mLatestTracks = new ArrayList<>(latestTracks);
-        else {
+        if (null != mLatestTracks) {
+            // Let gc do its work
             mLatestTracks.clear();
-            mLatestTracks.addAll(latestTracks);
+            mLatestTracks = null;
         }
+        mLatestTracks = new ArrayList<>(latestTracks);
     }
 }

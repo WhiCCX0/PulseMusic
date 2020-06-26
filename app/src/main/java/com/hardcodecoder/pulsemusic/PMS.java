@@ -99,8 +99,9 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
                             playPlaylist(result, 0));
                     break;
                 case PLAY_SUGGESTED:
-                    LoaderHelper.loadSuggestionsList(result ->
+                    LoaderHelper.loadSuggestionsList(getContentResolver(), result ->
                             playPlaylist(result, 0));
+                    break;
                 default:
                     Log.e(TAG, "Unknown start command");
             }

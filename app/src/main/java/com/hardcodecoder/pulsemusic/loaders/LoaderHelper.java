@@ -38,18 +38,21 @@ public class LoaderHelper {
         TaskRunner.executeAsync(new ArtistsLoader(contentResolver, sortOrder), callback);
     }
 
-    public static void loadSuggestionsList(@NonNull Callback<List<MusicModel>> callback) {
-        TaskRunner.executeAsync(() -> {
-            List<MusicModel> list = new ArrayList<>(LoaderCache.getAllTracksList());
-            if (list.size() > 0) {
-                Collections.shuffle(list);
-                final List<MusicModel> suggestionsList = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
-                LoaderCache.setSuggestions(suggestionsList);
-                suggestionsList.clear();
-                list.clear();
-                callback.onComplete(LoaderCache.getSuggestions());
-            }
-        });
+    public static void loadSuggestionsList(@NonNull ContentResolver contentResolver, @NonNull Callback<List<MusicModel>> callback) {
+        if (null != LoaderCache.getAllTracksList()) {
+            TaskRunner.executeAsync(() -> {
+                List<MusicModel> list = new ArrayList<>(LoaderCache.getAllTracksList());
+                if (list.size() > 0) {
+                    Collections.shuffle(list);
+                    final List<MusicModel> suggestionsList = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
+                    LoaderCache.setSuggestions(suggestionsList);
+                    suggestionsList.clear();
+                    list.clear();
+                    callback.onComplete(LoaderCache.getSuggestions());
+                }
+            });
+        } else
+            loadAllTracks(contentResolver, result -> loadSuggestionsList(contentResolver, callback));
     }
 
     public static void loadRecentTracks(@NonNull Callback<List<MusicModel>> callback) {
