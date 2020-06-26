@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.themes.ColorUtil;
-import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
+import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 public class SettingsCategoryItemView extends FrameLayout {
 
@@ -55,7 +55,7 @@ public class SettingsCategoryItemView extends FrameLayout {
             int iconColor = typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconColor, Color.BLUE);
             int iconBackgroundColor = typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconBackgroundColor, iconColor);
 
-            boolean desaturated = ThemeManagerUtils.isDarkModeEnabled()
+            boolean desaturated = AppSettings.getAccentDesaturatedColor(context)
                     && typedArray.getBoolean(R.styleable.SettingsCategoryItemView_settingItemDesaturatedColorsInDarkMode, true);
 
             if (desaturated) {
