@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
             });
         }
         if (null == LoaderCache.getSuggestions())
-            LoaderHelper.loadSuggestionsList(result -> loadSuggestions(view, result));
+            LoaderHelper.loadSuggestionsList(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadSuggestions(view, result));
         else loadSuggestions(view, LoaderCache.getSuggestions());
     }
 
