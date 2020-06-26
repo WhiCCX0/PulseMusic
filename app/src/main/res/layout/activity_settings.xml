@@ -16,7 +16,6 @@
             style="@style/Toolbar"
             app:layout_scrollFlags="noScroll"
             app:navigationIcon="@drawable/ic_keyboard_backspace"
-            app:popupTheme="@style/ToolbarPopupTheme"
             app:title="@string/settings"
             app:titleTextAppearance="@style/ToolbarTextAppearanceNormal" />
 
@@ -27,5 +26,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

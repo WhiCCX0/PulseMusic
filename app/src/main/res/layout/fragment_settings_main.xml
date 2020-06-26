@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:settingItemIcon="@drawable/ic_theme_palette"
-            app:settingItemIconColor="@color/md_blue_A400"
+            app:settingItemIconColor="@color/md_red_A400"
             app:settingItemText="@string/look_and_feel_desc"
             app:settingItemTitle="@string/look_and_feel" />
 
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:settingItemIcon="@drawable/ic_play_circle"
-            app:settingItemIconColor="@color/md_red_A400"
+            app:settingItemIconColor="@color/md_blue_A400"
             app:settingItemText="@string/now_playing_desc"
             app:settingItemTitle="@string/now_playing_title" />
 
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:settingItemIcon="@drawable/ic_people"
-            app:settingItemIconColor="@color/md_deep_purple_A400"
+            app:settingItemIconColor="@color/md_green_A700"
             app:settingItemText="@string/contributors_desc"
             app:settingItemTitle="@string/contributors" />
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:settingItemIcon="@drawable/ic_info"
-            app:settingItemIconColor="@color/md_green_A700"
+            app:settingItemIconColor="@color/md_deep_purple_A200"
             app:settingItemText="@string/about_desc"
             app:settingItemTitle="@string/about" />
     </LinearLayout>
