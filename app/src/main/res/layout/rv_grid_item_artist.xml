@@ -11,7 +11,7 @@
         android:id="@+id/grid_item_artist_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/bck_circle_border_artist"
+        android:background="@drawable/bck_item_artist"
         android:padding="32dp"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent">
