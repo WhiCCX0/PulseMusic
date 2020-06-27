@@ -6,37 +6,13 @@
     android:layout_marginEnd="16dp"
     android:orientation="vertical">
 
-    <!--
-       ====== NO MORE VALID ======
-       Background is a 9 patch image with
-       content area: 64px x 64px
-       actual size: 100px x 100px
-       rounding radius: 18
-       //Light version
-       shadow blur: 12, x offset: 6 and y offset:6
-       shadow color: #757575, opacity: 55%
-
-       //Dark version
-       shadow blur: 12, x offset: 6 and y offset:6
-       shadow color: #000000, opacity: 100%
-      -->
-    <!--
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/home_rv_album_album_card"
+    <ImageView
+        android:id="@+id/home_rv_album_album_art"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:clipToPadding="false"
-        app:cardCornerRadius="@dimen/rounding_radius_8dp"
-        app:cardElevation="4dp">
-        -->
-
-        <ImageView
-            android:id="@+id/home_rv_album_album_art"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/iv_content_desc"
-            tools:src="@tools:sample/backgrounds/scenic" />
+        android:contentDescription="@string/iv_content_desc"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/home_rv_album_album_name"
@@ -48,5 +24,4 @@
         android:maxLines="1"
         android:textAppearance="@style/TextViewSubtitle2"
         tools:text="@tools:sample/full_names" />
-
 </LinearLayout>
