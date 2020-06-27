@@ -23,6 +23,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 import java.util.List;
 
@@ -98,13 +99,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(
-                                    itemView.getContext(),
-                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
-                                    style == LayoutStyle.ROUNDED_RECTANGLE ?
-                                            MediaArtHelper.RoundingRadius.RADIUS_8dp :
-                                            MediaArtHelper.RoundingRadius.CIRCLE,
-                                    drawable -> albumArt.setImageDrawable(drawable));
+                            MediaArtHelper.setDynamicAlbumArtOnLoadFailed(albumArt, md.getAlbumId(), DimensionsUtil.RoundingRadius.RADIUS_8dp);
                             return true;
                         }
 
@@ -114,7 +109,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                         }
                     })
                     .transform(style == LayoutStyle.ROUNDED_RECTANGLE ?
-                                    GlideConstantArtifacts.getRadius8dp() :
+                            GlideConstantArtifacts.getRadius8dp() :
                             GlideConstantArtifacts.getCircleCrop())
                     .transition(GenericTransitionOptions.with(R.anim.fade_in_image))
                     .into(albumArt);

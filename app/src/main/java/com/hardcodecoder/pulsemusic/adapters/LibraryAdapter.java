@@ -27,6 +27,7 @@ import com.hardcodecoder.pulsemusic.helper.DiffCb;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,11 +110,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(
-                                    itemView.getContext(),
-                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
-                                    MediaArtHelper.RoundingRadius.RADIUS_4dp,
-                                    drawable -> albumArt.setImageDrawable(drawable));
+                            MediaArtHelper.setDynamicAlbumArtOnLoadFailed(albumArt, md.getAlbumId(), DimensionsUtil.RoundingRadius.RADIUS_4dp);
                             return true;
                         }
 

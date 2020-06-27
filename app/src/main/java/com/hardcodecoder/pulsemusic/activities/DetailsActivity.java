@@ -31,6 +31,7 @@ import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 import java.util.List;
 import java.util.Locale;
@@ -82,22 +83,18 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(
-                                    sharedImageView.getContext(),
-                                    new int[]{sharedImageView.getWidth(), sharedImageView.getHeight()},
-                                    mAlbumId,
-                                    MediaArtHelper.RoundingRadius.RADIUS_NONE, drawable -> {
-                                        sharedImageView.setImageDrawable(drawable);
+                            MediaArtHelper.loadDynamicAlbumArt(sharedImageView, mAlbumId, DimensionsUtil.RoundingRadius.RADIUS_8dp, result ->
+                                    sharedImageView.post(() -> {
+                                        sharedImageView.setImageDrawable(result);
                                         supportStartPostponedEnterTransition();
-                                    });
+                                    }));
                             return true;
                         }
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            sharedImageView.setImageDrawable(resource);
                             supportStartPostponedEnterTransition();
-                            return true;
+                            return false;
                         }
                     })
                     .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))

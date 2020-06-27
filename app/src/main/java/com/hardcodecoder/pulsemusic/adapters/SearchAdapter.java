@@ -26,6 +26,7 @@ import com.hardcodecoder.pulsemusic.helper.DiffCb;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -130,11 +131,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(
-                                    itemView.getContext(),
-                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
-                                    MediaArtHelper.RoundingRadius.RADIUS_4dp,
-                                    drawable -> albumArt.setImageDrawable(drawable));
+                            MediaArtHelper.setDynamicAlbumArtOnLoadFailed(albumArt, md.getAlbumId(), DimensionsUtil.RoundingRadius.RADIUS_4dp);
                             return true;
                         }
 
@@ -143,7 +140,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                             return false;
                         }
                     })
-                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius8dp()))
+                    .transform(new MultiTransformation<>(GlideConstantArtifacts.getCenterCrop(), GlideConstantArtifacts.getRadius4dp()))
                     .into(albumArt);
         }
     }

@@ -25,6 +25,8 @@ import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperViewHolder;
 import com.hardcodecoder.pulsemusic.interfaces.TrackPickerCallbackAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.TrackPickerListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
+import com.hardcodecoder.pulsemusic.utils.ImageUtil;
 
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
                 mListener.onItemClick(holder, holder.getAdapterPosition(), mSelectedItemState.get(holder.getAdapterPosition(), false)));
 
         if (isSelected)
-            holder.itemView.setBackground(MediaArtHelper.getTintedGradientDrawable(holder.itemView.getContext()));
+            holder.itemView.setBackground(ImageUtil.getTintedGradientOverlay(holder.itemView.getContext()));
         else
             holder.itemView.setBackground(holder.itemView.getContext().getDrawable(android.R.color.transparent));
 
@@ -104,11 +106,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(
-                                    itemView.getContext(),
-                                    new int[]{albumArt.getWidth(), albumArt.getHeight()}, md.getAlbumId(),
-                                    MediaArtHelper.RoundingRadius.RADIUS_4dp,
-                                    drawable -> albumArt.setImageDrawable(drawable));
+                            MediaArtHelper.setDynamicAlbumArtOnLoadFailed(albumArt, md.getAlbumId(), DimensionsUtil.RoundingRadius.RADIUS_8dp);
                             return true;
                         }
 
@@ -123,7 +121,7 @@ public class TrackPickerAdapter extends RecyclerView.Adapter<TrackPickerAdapter.
 
         @Override
         public void onItemSelected() {
-            itemView.setBackground(MediaArtHelper.getTintedGradientDrawable(itemView.getContext()));
+            itemView.setBackground(ImageUtil.getTintedGradientOverlay(itemView.getContext()));
         }
 
         @Override

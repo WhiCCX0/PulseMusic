@@ -22,11 +22,11 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
+import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 import java.util.List;
 
-public class
-HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
+public class HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
 
     private List<TopAlbumModel> mList;
     private LayoutInflater mInflater;
@@ -75,12 +75,8 @@ HomeAdapterAlbum extends RecyclerView.Adapter<HomeAdapterAlbum.AdapterSVH> {
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            MediaArtHelper.getMediaArtDrawableAsync(
-                                    itemView.getContext(),
-                                    new int[]{albumArt.getWidth(), albumArt.getHeight()},
-                                    albumModel.getAlbumId(),
-                                    MediaArtHelper.RoundingRadius.RADIUS_8dp,
-                                    drawable -> albumArt.setImageDrawable(drawable));
+
+                            MediaArtHelper.setDynamicAlbumArtOnLoadFailed(albumArt, albumModel.getAlbumId(), DimensionsUtil.RoundingRadius.RADIUS_8dp);
                             return true;
                         }
 
