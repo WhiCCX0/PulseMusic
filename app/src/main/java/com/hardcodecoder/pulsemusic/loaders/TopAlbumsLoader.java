@@ -39,7 +39,7 @@ public class TopAlbumsLoader implements Callable<List<TopAlbumModel>> {
             HistoryModel hm = modelMap.get(entry.getKey());
             if (null != hm) {
                 String albumArt = ContentUris.withAppendedId(sArtworkUri, hm.getAlbumId()).toString();
-                topAlbums.add(new TopAlbumModel(hm.getAlbum(), albumArt, hm.getPlayCount(), entry.getValue()));
+                topAlbums.add(new TopAlbumModel(hm.getAlbum(), albumArt, hm.getAlbumId(), entry.getValue()));
             }
         }
 
