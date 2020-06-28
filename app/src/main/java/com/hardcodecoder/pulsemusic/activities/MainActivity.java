@@ -208,7 +208,7 @@ public class MainActivity extends MediaSessionActivity {
             recreate();
         }
         super.onStart();
-        if (null != mController && isConnectedToService()) {
+        if (null != mController) {
             mController.registerCallback(mCallback);
             if (null != mController.getMetadata())
                 showControlsFragment();

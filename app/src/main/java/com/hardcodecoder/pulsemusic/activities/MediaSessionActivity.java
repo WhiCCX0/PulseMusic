@@ -16,7 +16,6 @@ import com.hardcodecoder.pulsemusic.PMS.ServiceBinder;
 public abstract class MediaSessionActivity extends PMBActivity {
 
     private MediaController mController = null;
-    private boolean mBound = false;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -24,12 +23,10 @@ public abstract class MediaSessionActivity extends PMBActivity {
             mController = serviceBinder.getMediaController();
             setMediaController(mController);
             onMediaServiceConnected(mController);
-            mBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mBound = false;
         }
     };
 
@@ -42,10 +39,6 @@ public abstract class MediaSessionActivity extends PMBActivity {
     public void connectToService() {
         Intent intent = new Intent(this, PMS.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    public boolean isConnectedToService() {
-        return mBound;
     }
 
     public void playMedia() {
