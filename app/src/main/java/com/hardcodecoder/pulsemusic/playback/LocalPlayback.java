@@ -27,17 +27,10 @@ public class LocalPlayback implements
         MediaPlayer.OnPreparedListener,
         AudioManager.OnAudioFocusChangeListener {
 
-    //private static final String TAG = "LocalPlayback";
     private final IntentFilter filter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private Context mContext;
     private AudioManager mAudioManager;
     private Playback.Callback mPlaybackCallback;
-    private MediaPlayer mp;
-    private int resumePosition;
-    private boolean isBecomingNoisyReceiverRegistered = false;
-    private int mCurrentState;
-    private TelephonyManager mTelephonyManager;
-    private AudioFocusRequest mAudioFocusRequest = null;
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -46,6 +39,12 @@ public class LocalPlayback implements
             }
         }
     };
+    private MediaPlayer mp;
+    private int resumePosition;
+    private boolean isBecomingNoisyReceiverRegistered = false;
+    private int mCurrentState;
+    private TelephonyManager mTelephonyManager;
+    private AudioFocusRequest mAudioFocusRequest = null;
     private PhoneStateListener mPhoneStateListener;
     private TrackManager mTrackManager;
     private int mMediaId = -99;
@@ -53,15 +52,15 @@ public class LocalPlayback implements
     private boolean mDelayedPlayback = false;
     private int mPlaybackState = PlaybackState.STATE_NONE;
 
-    public LocalPlayback(Context context, TrackManager trackManager, Handler handler) {
+    public LocalPlayback(Context context, Handler handler) {
         Context applicationContext = context.getApplicationContext();
         this.mContext = applicationContext;
-        this.mTrackManager = trackManager;
         this.mAudioManager = (AudioManager) applicationContext.getSystemService(Context.AUDIO_SERVICE);
         this.mHandler = handler;
         if (mHandler == null) {
             mHandler = new Handler();
         }
+        this.mTrackManager = TrackManager.getInstance();
     }
 
     @Override
@@ -76,14 +75,14 @@ public class LocalPlayback implements
         mp.reset();
         try {
             mp.setDataSource(mContext, Uri.parse(mTrackManager.getActiveQueueItem().getTrackPath()));
-            mp.prepareAsync();
+            mp.prepare();
         } catch (IOException e) {
             e.printStackTrace();
             //Stop playback if data source failed
             Toast.makeText(mContext, "Music file not found, playing next song in queue", Toast.LENGTH_LONG).show();
             mPlaybackCallback.onPlaybackCompletion();
         }
-        mHandler.post(() -> mTrackManager.addToHistory());
+        mTrackManager.addToHistory();
     }
 
     @Override
@@ -91,13 +90,12 @@ public class LocalPlayback implements
         if (tryGetAudioFocus()) {
             mDelayedPlayback = false;
             if (!mediaHasChanged) {
-                if (mp != null && resumePosition != -1) {
-                    play();
-                } else if (null == mp) {
+                if (null == mp)
                     initMediaPlayer();
-                }
+                if (resumePosition != -1)
+                    mp.seekTo(resumePosition);
             } else {
-                onStop(false);
+                releaseMediaPlayer();
                 initMediaPlayer();
                 mMediaId = md.getId();
             }
@@ -145,12 +143,8 @@ public class LocalPlayback implements
     public void onStop(boolean abandonAudioFocus) {
         if (abandonAudioFocus) abandonAudioFocus();
 
-        if (mp != null) {
-            mp.stop();
-            mp.reset();
-            mp.release();
-            mp = null;
-        }
+        releaseMediaPlayer();
+
         if (isBecomingNoisyReceiverRegistered) {
             mContext.unregisterReceiver(becomingNoisyReceiver);
             isBecomingNoisyReceiverRegistered = false;
@@ -162,6 +156,15 @@ public class LocalPlayback implements
         if (abandonAudioFocus) {
             mPlaybackState = PlaybackState.STATE_STOPPED;
             mPlaybackCallback.onPlaybackStateChanged(mPlaybackState);
+        }
+    }
+
+    private void releaseMediaPlayer() {
+        if (mp != null) {
+            mp.stop();
+            mp.reset();
+            mp.release();
+            mp = null;
         }
     }
 
@@ -262,6 +265,7 @@ public class LocalPlayback implements
         //Starting listening for PhoneState changes
         mPhoneStateListener = new PhoneStateListener() {
             boolean wasRinging = false;
+
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
                 switch (state) {

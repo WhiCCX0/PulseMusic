@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaMetadata;
+import android.media.audiofx.AudioEffect;
 import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
@@ -39,10 +40,10 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
 
     private static final String TAG = "PMS";
     private final IBinder mBinder = new ServiceBinder();
-    private MediaSession mMediaSession;
-    private MediaNotificationManager mNotificationManager;
+    private MediaSession mMediaSession = null;
+    private MediaNotificationManager mNotificationManager = null;
     private HandlerThread mServiceThread = null;
-    private Handler mWorkerHandler;
+    private Handler mWorkerHandler = null;
     private boolean isServiceRunning = false;
     private boolean isReceiverRegistered = false;
 
@@ -56,9 +57,8 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
     }
 
     private void runOnServiceThread() {
-        TrackManager mTrackManager = TrackManager.getInstance();
-        LocalPlayback playback = new LocalPlayback(this, mTrackManager, mWorkerHandler);
-        PlaybackManager mPlaybackManager = new PlaybackManager(this.getApplicationContext(), playback, mTrackManager, this/*, mWorkerHandler*/);
+        LocalPlayback playback = new LocalPlayback(this, mWorkerHandler);
+        PlaybackManager mPlaybackManager = new PlaybackManager(this.getApplicationContext(), playback, this);
 
         mMediaSession = new MediaSession(this.getApplicationContext(), TAG);
         mMediaSession.setCallback(mPlaybackManager.getSessionCallbacks(), mWorkerHandler);
@@ -69,6 +69,13 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
         PendingIntent mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
         mMediaSession.setMediaButtonReceiver(mbrIntent);
         mNotificationManager = new MediaNotificationManager(this, this);
+
+        // Start audio fx
+        final Intent intent = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
+        intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, mMediaSession.getSessionToken());
+        intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+        intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+        sendBroadcast(intent);
     }
 
     /* Never use START_STICKY here
@@ -87,26 +94,32 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
     public int onStartCommand(Intent intent, int flags, int startId) {
         MediaButtonReceiver.handleIntent(MediaSessionCompat.fromMediaSession(this, mMediaSession), intent);
         isServiceRunning = true;
-        int startCode;
-        if (null != intent && (startCode = intent.getIntExtra(PLAY_KEY, -1)) != -1) {
-            switch (startCode) {
-                case PLAY_SHUFFLE:
-                    LoaderHelper.loadAllTracks(getContentResolver(), result ->
-                            playPlaylist(result, new Random().nextInt(result.size())));
-                    break;
-                case PLAY_LATEST:
-                    LoaderHelper.loadLatestTracks(getContentResolver(), result ->
-                            playPlaylist(result, 0));
-                    break;
-                case PLAY_SUGGESTED:
-                    LoaderHelper.loadSuggestionsList(getContentResolver(), result ->
-                            playPlaylist(result, 0));
-                    break;
-                default:
-                    Log.e(TAG, "Unknown start command");
-            }
-        }
+        handleStartCommand(intent);
         return START_NOT_STICKY;
+    }
+
+    private void handleStartCommand(Intent intent) {
+        mWorkerHandler.post(() -> {
+            int startCode;
+            if (null != intent && (startCode = intent.getIntExtra(PLAY_KEY, -1)) != -1) {
+                switch (startCode) {
+                    case PLAY_SHUFFLE:
+                        LoaderHelper.loadAllTracks(getContentResolver(), result ->
+                                playPlaylist(result, new Random().nextInt(result.size())));
+                        break;
+                    case PLAY_LATEST:
+                        LoaderHelper.loadLatestTracks(getContentResolver(), result ->
+                                playPlaylist(result, 0));
+                        break;
+                    case PLAY_SUGGESTED:
+                        LoaderHelper.loadSuggestionsList(getContentResolver(), result ->
+                                playPlaylist(result, 0));
+                        break;
+                    default:
+                        Log.e(TAG, "Unknown start command");
+                }
+            }
+        });
     }
 
     private void playPlaylist(List<MusicModel> playlist, int startIndex) {
@@ -181,7 +194,7 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
     }
 
     @Override
-    public void onStopNotification(boolean removeNotification) {
+    public void onNotificationStopped(boolean removeNotification) {
         stopForeground(removeNotification);
     }
 

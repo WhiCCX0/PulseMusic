@@ -60,10 +60,10 @@ public class PlaybackManager implements Playback.Callback {
         }
     };
 
-    public PlaybackManager(Context context, Playback playback, TrackManager trackManager, PlaybackServiceCallback serviceCallback) {
+    public PlaybackManager(Context context, Playback playback, PlaybackServiceCallback serviceCallback) {
         this.mContext = context;
         this.mPlayback = playback;
-        this.mTrackManager = trackManager;
+        this.mTrackManager = TrackManager.getInstance();
         this.mServiceCallback = serviceCallback;
         mPlayback.setCallback(this);
     }

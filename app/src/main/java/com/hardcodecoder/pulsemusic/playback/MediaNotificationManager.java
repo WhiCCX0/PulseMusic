@@ -140,7 +140,7 @@ public class MediaNotificationManager {
         if (mPlaybackState.getState() == PlaybackState.STATE_PLAYING) {
             mCallback.onNotificationStarted(NOTIFICATION_ID, notification);
         } else if (mPlaybackState.getState() == PlaybackState.STATE_PAUSED) {
-            mCallback.onStopNotification(false);
+            mCallback.onNotificationStopped(false);
         }
         mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
@@ -243,7 +243,7 @@ public class MediaNotificationManager {
             } catch (IllegalArgumentException ex) {
                 // ignore if the receiver is not registered.
             }
-            mCallback.onStopNotification(true);
+            mCallback.onNotificationStopped(true);
         }
     }
 
@@ -256,7 +256,7 @@ public class MediaNotificationManager {
 
         void onNotificationStarted(int notificationId, Notification notification);
 
-        void onStopNotification(boolean removeNotification);
+        void onNotificationStopped(boolean removeNotification);
 
         void registerControlsReceiver(BroadcastReceiver controlsReceiver, IntentFilter filter);
 
