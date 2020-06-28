@@ -24,7 +24,6 @@ public class ControlsFragment extends Fragment {
     private ImageView playPause;
     private MediaController mController;
     private MediaController.TransportControls mTransportControl;
-    private MediaMetadata mMetadata;
     private PlaybackState mState;
 
     private final MediaController.Callback mCallback = new MediaController.Callback() {
@@ -36,8 +35,7 @@ public class ControlsFragment extends Fragment {
 
         @Override
         public void onMetadataChanged(MediaMetadata metadata) {
-            mMetadata = metadata;
-            updateMetadata();
+            updateMetadata(metadata);
         }
     };
 
@@ -90,9 +88,9 @@ public class ControlsFragment extends Fragment {
             playPause.setImageResource(R.drawable.ic_round_play);
     }
 
-    private void updateMetadata() {
-        if (mMetadata != null)
-            tv1.setText(mMetadata.getText(MediaMetadata.METADATA_KEY_TITLE));
+    private void updateMetadata(MediaMetadata metadata) {
+        if (metadata != null)
+            tv1.setText(metadata.getText(MediaMetadata.METADATA_KEY_TITLE));
     }
 
     private void updateController() {
@@ -100,11 +98,10 @@ public class ControlsFragment extends Fragment {
             mController = getActivity().getMediaController();
         if (mController != null) {
             mController.registerCallback(mCallback);
-            mMetadata = mController.getMetadata();
             mState = mController.getPlaybackState();
             if (mTransportControl == null)
                 mTransportControl = mController.getTransportControls();
-            updateMetadata();
+            updateMetadata(mController.getMetadata());
             updateControls();
         }
     }
