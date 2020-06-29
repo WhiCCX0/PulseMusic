@@ -1,14 +1,12 @@
 package com.hardcodecoder.pulsemusic.playback;
 
-import com.hardcodecoder.pulsemusic.model.MusicModel;
-
 public interface Playback {
 
-    void onPlay(MusicModel md, boolean mediaHasChanged);
+    void onPlay(boolean mediaHasChanged, boolean repeatMode);
 
     void onPause();
 
-    void onSeekTo(long position);
+    void onSeekTo(int position);
 
     void onStop(boolean abandonAudioFocus);
 

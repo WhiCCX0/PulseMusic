@@ -16,7 +16,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
-import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class LocalPlayback implements
         }
     };
     private MediaPlayer mp;
-    private int resumePosition;
+    private int resumePosition = -1;
     private boolean isBecomingNoisyReceiverRegistered = false;
     private int mCurrentState;
     private TelephonyManager mTelephonyManager;
@@ -86,22 +85,27 @@ public class LocalPlayback implements
     }
 
     @Override
-    public void onPlay(MusicModel md, boolean mediaHasChanged) {
+    public void onPlay(boolean mediaHasChanged, boolean repeatMode) {
         if (tryGetAudioFocus()) {
             mDelayedPlayback = false;
-            if (!mediaHasChanged) {
-                if (null == mp)
-                    initMediaPlayer();
-                if (resumePosition != -1)
-                    mp.seekTo(resumePosition);
-            } else {
+            if (mediaHasChanged) {
                 releaseMediaPlayer();
                 initMediaPlayer();
-                mMediaId = md.getId();
+                mMediaId = mTrackManager.getActiveQueueItem().getId();
+            } else {
+                if (repeatMode) {
+                    releaseMediaPlayer();
+                    mTrackManager.repeatCurrentTrack(false);
+                }
+                if (null == mp) initMediaPlayer();
+                else {
+                    if (resumePosition != -1) mp.seekTo(resumePosition);
+                    play();
+                }
             }
             registerBecomingNoisyReceiver();
             callStateListener();
-        } else if (mDelayedPlayback) mMediaId = md.getId();
+        } else if (mDelayedPlayback) mMediaId = mTrackManager.getActiveQueueItem().getId();
     }
 
     private void play() {
@@ -132,9 +136,10 @@ public class LocalPlayback implements
     }
 
     @Override
-    public void onSeekTo(long position) {
+    public void onSeekTo(int position) {
         if (mp != null) {
-            mp.seekTo((int) position * 1000);
+            mp.seekTo(position);
+            resumePosition = position;
             mPlaybackCallback.onPlaybackStateChanged(mPlaybackState);
         }
     }
@@ -160,6 +165,7 @@ public class LocalPlayback implements
     }
 
     private void releaseMediaPlayer() {
+        resumePosition = -1;
         if (mp != null) {
             mp.stop();
             mp.reset();

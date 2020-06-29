@@ -54,7 +54,6 @@ public class TrackManager {
 
     public boolean canSkipTrack(short direction) {
         if (mRepeatCurrentTrack) {
-            mRepeatCurrentTrack = false;
             return true;
         }
         if (direction == PlaybackManager.ACTION_PLAY_NEXT && mIndex < mActiveList.size() - 1) {

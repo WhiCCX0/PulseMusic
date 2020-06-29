@@ -29,7 +29,7 @@ public class PlaybackManager implements Playback.Callback {
 
         @Override
         public void onPlay() {
-            handlePlayRequest();
+            handlePlayRequest(false);
             mManualPause = false;
         }
 
@@ -56,7 +56,7 @@ public class PlaybackManager implements Playback.Callback {
 
         @Override
         public void onSeekTo(long pos) {
-            mPlayback.onSeekTo(pos);
+            mPlayback.onSeekTo((int) pos);
         }
     };
 
@@ -72,14 +72,16 @@ public class PlaybackManager implements Playback.Callback {
         return mMediaSessionCallback;
     }
 
-    private void handlePlayRequest() {
+    private void handlePlayRequest(boolean repeatMode) {
         boolean hasMediaChanged = false;
-        MusicModel md = mTrackManager.getActiveQueueItem();
-        if (mPlayback.getActiveMediaId() != md.getId())
-            hasMediaChanged = true;
-        mServiceCallback.onPlaybackStart();
-        updateMetaData(md, hasMediaChanged);
-        mPlayback.onPlay(md, hasMediaChanged);
+        if (!repeatMode) {
+            MusicModel md = mTrackManager.getActiveQueueItem();
+            if (mPlayback.getActiveMediaId() != md.getId())
+                hasMediaChanged = true;
+            mServiceCallback.onPlaybackStart();
+            updateMetaData(md, hasMediaChanged);
+        }
+        mPlayback.onPlay(hasMediaChanged, repeatMode);
     }
 
     private void handlePauseRequest() {
@@ -94,7 +96,7 @@ public class PlaybackManager implements Playback.Callback {
 
     private void handleSkipRequest(short di) {
         if (mTrackManager.canSkipTrack(di))
-            handlePlayRequest();
+            handlePlayRequest(mTrackManager.isCurrentTrackInRepeatMode());
         else
             handlePauseRequest();
     }
@@ -150,7 +152,7 @@ public class PlaybackManager implements Playback.Callback {
         if (mManualPause)
             return;
         if (resumePlayback)
-            handlePlayRequest();
+            handlePlayRequest(false);
         else
             handlePauseRequest();
     }
