@@ -16,14 +16,11 @@
         android:id="@android:id/progress"
         android:gravity="center_vertical|fill_horizontal">
         <clip>
-            <scale android:scaleWidth="75%">
-                <shape android:shape="rectangle">
-                    <corners android:radius="3dp" />
-                    <solid android:color="?attr/primaryColor" />
-                    <size android:height="5dp" />
-                </shape>
-            </scale>
+            <shape android:shape="rectangle">
+                <corners android:radius="3dp" />
+                <solid android:color="?attr/primaryColor" />
+                <size android:height="5dp" />
+            </shape>
         </clip>
     </item>
-
 </layer-list>
