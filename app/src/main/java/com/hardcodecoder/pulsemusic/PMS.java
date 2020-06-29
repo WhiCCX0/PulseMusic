@@ -28,8 +28,8 @@ import com.hardcodecoder.pulsemusic.playback.MediaNotificationManager;
 import com.hardcodecoder.pulsemusic.playback.PlaybackManager;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class PMS extends Service implements PlaybackManager.PlaybackServiceCallback, MediaNotificationManager.NotificationCallback {
 
@@ -104,16 +104,16 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
             if (null != intent && (startCode = intent.getIntExtra(PLAY_KEY, -1)) != -1) {
                 switch (startCode) {
                     case PLAY_SHUFFLE:
-                        LoaderHelper.loadAllTracks(getContentResolver(), result ->
-                                playPlaylist(result, new Random().nextInt(result.size())));
+                        LoaderHelper.loadAllTracks(getContentResolver(), result -> {
+                            Collections.shuffle(result);
+                            playPlaylist(result);
+                        });
                         break;
                     case PLAY_LATEST:
-                        LoaderHelper.loadLatestTracks(getContentResolver(), result ->
-                                playPlaylist(result, 0));
+                        LoaderHelper.loadLatestTracks(getContentResolver(), this::playPlaylist);
                         break;
                     case PLAY_SUGGESTED:
-                        LoaderHelper.loadSuggestionsList(getContentResolver(), result ->
-                                playPlaylist(result, 0));
+                        LoaderHelper.loadSuggestionsList(getContentResolver(), this::playPlaylist);
                         break;
                     default:
                         Log.e(TAG, "Unknown start command");
@@ -122,9 +122,9 @@ public class PMS extends Service implements PlaybackManager.PlaybackServiceCallb
         });
     }
 
-    private void playPlaylist(List<MusicModel> playlist, int startIndex) {
+    private void playPlaylist(List<MusicModel> playlist) {
         if (null != playlist && playlist.size() > 0) {
-            TrackManager.getInstance().buildDataList(playlist, startIndex);
+            TrackManager.getInstance().buildDataList(playlist, 0);
             mMediaSession.getController().getTransportControls().play();
         }
     }
