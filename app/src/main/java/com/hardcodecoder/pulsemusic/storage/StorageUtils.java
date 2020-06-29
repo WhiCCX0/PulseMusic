@@ -123,6 +123,7 @@ class StorageUtils {
             String line;
             while ((line = reader.readLine()) != null)
                 playlistTracks.add(line);
+            reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
