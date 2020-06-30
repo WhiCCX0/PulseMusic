@@ -2,8 +2,8 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
-        android:duration="@integer/window_enter_duration_long"
+        android:duration="@android:integer/config_mediumAnimTime"
         android:fromYDelta="100%p"
-        android:interpolator="@android:interpolator/fast_out_slow_in"
+        android:interpolator="@android:interpolator/decelerate_cubic"
         android:toYDelta="0" />
 </set>
