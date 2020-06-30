@@ -106,6 +106,10 @@ public class TrackManager {
     }
 
     public void addToHistory() {
+        // Do not save any media that as picked by user
+        // All data might not available to work with such tracks on relaunch
+        if (getActiveQueueItem().getAlbumId() < 0)
+            return;
         AppFileManager.addItemToHistory(getActiveQueueItem());
     }
 }
