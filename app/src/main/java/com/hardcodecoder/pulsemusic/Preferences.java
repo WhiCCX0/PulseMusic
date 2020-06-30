@@ -10,9 +10,16 @@ public class Preferences {
     public static final int SORT_ORDER_ASC = 3000;
     public static final int SORT_ORDER_DESC = 3001;
 
-    public static final String SPAN_COUNT_PORTRAIT_KEY = "PortraitGridCount";
-    public static final String SPAN_COUNT_LANDSCAPE_KEY = "LandscapeGridCount";
+    public static final String SPAN_COUNT = "GridSpanCount";
 
+    public static final String ALBUMS_SPAN_COUNT_PORTRAIT_KEY = "AlbumsPortraitGridCount";
+    public static final String ALBUMS_SPAN_COUNT_LANDSCAPE_KEY = "AlbumsLandscapeGridCount";
+
+    public static final String ARTIST_SPAN_COUNT_PORTRAIT_KEY = "ArtistsPortraitGridCount";
+    public static final String ARTIST_SPAN_COUNT_LANDSCAPE_KEY = "ArtistsLandscapeGridCount";
+
+    public static final int SPAN_COUNT_PORTRAIT_DEF_VALUE = 2;
+    public static final int SPAN_COUNT_LANDSCAPE_DEF_VALUE = 4;
 
     public static final String UI_MODE_AUTO_KEY = "AutoTheme";
     public static final String UI_THEME_DARK_KEY = "DarkMode";
