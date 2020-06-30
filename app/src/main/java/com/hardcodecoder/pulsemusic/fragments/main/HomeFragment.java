@@ -1,4 +1,4 @@
-package com.hardcodecoder.pulsemusic.ui;
+package com.hardcodecoder.pulsemusic.fragments.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,14 +14,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.activities.DetailsActivity;
 import com.hardcodecoder.pulsemusic.activities.FavoritesActivity;
 import com.hardcodecoder.pulsemusic.activities.RecentActivity;
 import com.hardcodecoder.pulsemusic.adapters.HomeAdapter;
@@ -37,6 +35,7 @@ import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.model.TopAlbumModel;
 import com.hardcodecoder.pulsemusic.model.TopArtistModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
+import com.hardcodecoder.pulsemusic.utils.NavigationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,8 @@ public class HomeFragment extends Fragment {
     private MediaController.TransportControls mTransportControl;
     private TrackManager tm;
 
-    public HomeFragment() {
+    public static HomeFragment getInstance() {
+        return new HomeFragment();
     }
 
     @Nullable
@@ -83,16 +83,9 @@ public class HomeFragment extends Fragment {
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.HORIZONTAL, false));
                 rv.setHasFixedSize(true);
                 HomeAdapterAlbum adapter = new HomeAdapterAlbum(list, getLayoutInflater(), (sharedView, position) -> {
-                    Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra(DetailsActivity.ALBUM_ID, list.get(position).getAlbumId());
-                    i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ALBUM);
-                    i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getAlbumName());
-                    i.putExtra(DetailsActivity.KEY_ART_URL, list.get(position).getAlbumArt());
                     if (null != getActivity()) {
-                        String transitionName = sharedView.getTransitionName();
-                        i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                        Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
-                        startActivity(i, b);
+                        TopAlbumModel albumModel = list.get(position);
+                        NavigationUtil.goToAlbum(getActivity(), sharedView, albumModel.getAlbumName(), albumModel.getAlbumId(), albumModel.getAlbumArt());
                     }
                 });
                 rv.setAdapter(adapter);
@@ -166,15 +159,8 @@ public class HomeFragment extends Fragment {
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.HORIZONTAL, false));
                 HomeAdapterArtist adapter = new HomeAdapterArtist(list, getLayoutInflater(), (sharedView, position) -> {
-                    Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra(DetailsActivity.KEY_ITEM_CATEGORY, DetailsActivity.CATEGORY_ARTIST);
-                    i.putExtra(DetailsActivity.KEY_TITLE, list.get(position).getArtistName());
-                    if (null != getActivity()) {
-                        String transitionName = sharedView.getTransitionName();
-                        i.putExtra(DetailsActivity.KEY_TRANSITION_NAME, transitionName);
-                        Bundle b = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName).toBundle();
-                        startActivity(i, b);
-                    }
+                    if (null != getActivity())
+                        NavigationUtil.goToArtist(getActivity(), sharedView, list.get(position).getArtistName());
                 });
                 rv.setAdapter(adapter);
             }, 240);

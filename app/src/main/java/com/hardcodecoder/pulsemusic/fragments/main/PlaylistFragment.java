@@ -1,4 +1,4 @@
-package com.hardcodecoder.pulsemusic.ui;
+package com.hardcodecoder.pulsemusic.fragments.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +44,10 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
     private CardsAdapter mAdapter;
     private Context mContext;
     private List<String> mPlaylistNames;
+
+    public static PlaylistFragment getInstance() {
+        return new PlaylistFragment();
+    }
 
     @Nullable
     @Override

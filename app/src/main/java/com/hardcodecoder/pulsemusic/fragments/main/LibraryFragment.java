@@ -1,4 +1,4 @@
-package com.hardcodecoder.pulsemusic.ui;
+package com.hardcodecoder.pulsemusic.fragments.main;
 
 import android.media.session.MediaController;
 import android.os.Bundle;
@@ -43,7 +43,8 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
     private TrackManager tm;
     private int mCurrentSortOrder;
 
-    public LibraryFragment() {
+    public static LibraryFragment getInstance() {
+        return new LibraryFragment();
     }
 
     @Nullable
@@ -57,7 +58,7 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mList = new ArrayList<>(LoaderCache.getAllTracksList());
-        mCurrentSortOrder = AppSettings.getLibraryFragmentSortOrder(view.getContext());
+        mCurrentSortOrder = AppSettings.getSortOrder(view.getContext(), Preferences.SORT_ORDER_LIBRARY_KEY);
         if (mCurrentSortOrder == Preferences.SORT_ORDER_DESC)
             Collections.reverse(mList);
         if (mList.size() > 0) {
@@ -100,7 +101,7 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
             mAdapter.updateSortOrder();
             mCurrentSortOrder = newSortOrder;
             if (null != getContext())
-                AppSettings.saveLibraryFragmentSortOrder(getContext(), newSortOrder);
+                AppSettings.saveSortOrder(getContext(), Preferences.SORT_ORDER_LIBRARY_KEY, newSortOrder);
         }
     }
 

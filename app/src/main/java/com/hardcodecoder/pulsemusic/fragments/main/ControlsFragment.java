@@ -1,4 +1,4 @@
-package com.hardcodecoder.pulsemusic.ui;
+package com.hardcodecoder.pulsemusic.fragments.main;
 
 import android.content.Intent;
 import android.media.MediaMetadata;
