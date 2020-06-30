@@ -65,8 +65,8 @@
     <string name="settings">Settings</string>
     <string name="equalizer_error">Default equalizer not found</string>
     <string name="columns">Columns</string>
-    <string name="portrait">Portrait Mode</string>
-    <string name="landscape">Landscape Mode</string>
+    <string name="grid_count">Grid count</string>
+    <string name="grid_count_land">Grid count (landscape)</string>
     <string name="two">Two</string>
     <string name="three">Three</string>
     <string name="four">Four</string>

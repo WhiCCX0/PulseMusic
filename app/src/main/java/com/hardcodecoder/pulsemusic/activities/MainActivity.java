@@ -18,15 +18,15 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.dialog.HomeBottomSheetFragment;
+import com.hardcodecoder.pulsemusic.fragments.main.AlbumsFragment;
+import com.hardcodecoder.pulsemusic.fragments.main.ArtistFragment;
+import com.hardcodecoder.pulsemusic.fragments.main.ControlsFragment;
+import com.hardcodecoder.pulsemusic.fragments.main.HomeFragment;
+import com.hardcodecoder.pulsemusic.fragments.main.LibraryFragment;
+import com.hardcodecoder.pulsemusic.fragments.main.PlaylistFragment;
 import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.themes.ThemeManagerUtils;
-import com.hardcodecoder.pulsemusic.ui.AlbumFragment;
-import com.hardcodecoder.pulsemusic.ui.ArtistFragment;
-import com.hardcodecoder.pulsemusic.ui.ControlsFragment;
-import com.hardcodecoder.pulsemusic.ui.HomeFragment;
-import com.hardcodecoder.pulsemusic.ui.LibraryFragment;
-import com.hardcodecoder.pulsemusic.ui.PlaylistFragment;
 
 public class MainActivity extends MediaSessionActivity {
 
@@ -45,13 +45,13 @@ public class MainActivity extends MediaSessionActivity {
     private Fragment activeFrag = null;
     private Fragment playlistCardFrag = null;
     private Fragment controlsFrag = null;
-    private AppBarLayout mAppBar;
     private final MediaController.Callback mCallback = new MediaController.Callback() {
         @Override
         public void onMetadataChanged(@Nullable MediaMetadata metadata) {
             showControlsFragment();
         }
     };
+    private AppBarLayout mAppBar;
     private MediaController mController;
     @StyleRes
     private int mCurrentTheme;
@@ -129,27 +129,27 @@ public class MainActivity extends MediaSessionActivity {
             switch (tag) {
 
                 case HOME:
-                    homeFrag = new HomeFragment();
+                    homeFrag = HomeFragment.getInstance();
                     switchTo = homeFrag;
                     break;
 
                 case LIBRARY:
-                    libraryFrag = new LibraryFragment();
+                    libraryFrag = LibraryFragment.getInstance();
                     switchTo = libraryFrag;
                     break;
 
                 case PLAYLIST_CARDS:
-                    playlistCardFrag = new PlaylistFragment();
+                    playlistCardFrag = PlaylistFragment.getInstance();
                     switchTo = playlistCardFrag;
                     break;
 
                 case ALBUMS:
-                    albumsFrag = new AlbumFragment();
+                    albumsFrag = AlbumsFragment.getInstance();
                     switchTo = albumsFrag;
                     break;
 
                 case ARTIST:
-                    artistFrag = new ArtistFragment();
+                    artistFrag = ArtistFragment.getInstance();
                     switchTo = artistFrag;
                     break;
 
