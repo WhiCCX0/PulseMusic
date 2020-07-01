@@ -15,7 +15,7 @@ import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
-import com.hardcodecoder.pulsemusic.loaders.SortOrder;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder.ALBUMS;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 import com.hardcodecoder.pulsemusic.utils.NavigationUtil;
@@ -36,8 +36,8 @@ public class AlbumsFragment extends PMBGridFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final int sortOrder = getCurrentSortOrder();
-        SortOrder.ALBUMS albumsSortOrder = sortOrder == Preferences.SORT_ORDER_ASC ?
-                SortOrder.ALBUMS.TITLE_ASC : SortOrder.ALBUMS.TITLE_DESC;
+        ALBUMS albumsSortOrder = sortOrder == Preferences.SORT_ORDER_ASC ?
+                ALBUMS.TITLE_ASC : ALBUMS.TITLE_DESC;
         LoaderHelper.loadAlbumsList(view.getContext().getContentResolver(),
                 albumsSortOrder,
                 result -> loadAlbumsList(view, result));
@@ -68,6 +68,12 @@ public class AlbumsFragment extends PMBGridFragment {
         }
     }
 
+    private ALBUMS resolveSortOrder(int sortOrder) {
+        if (sortOrder == Preferences.SORT_ORDER_ASC)
+            return ALBUMS.TITLE_ASC;
+        return ALBUMS.TITLE_DESC;
+    }
+
     @Override
     public int getSortOrder() {
         if (null == getContext())
@@ -78,7 +84,7 @@ public class AlbumsFragment extends PMBGridFragment {
     @Override
     public void onSortOrderChanged(int newSortOrder) {
         mFirstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
-        mAdapter.updateSortOrder();
+        mAdapter.updateSortOrder(resolveSortOrder(newSortOrder));
         if (null != getContext())
             AppSettings.saveSortOrder(getContext(), Preferences.SORT_ORDER_ALBUMS_KEY, newSortOrder);
     }

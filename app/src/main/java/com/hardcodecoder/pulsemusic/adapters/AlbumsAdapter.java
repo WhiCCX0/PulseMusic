@@ -24,18 +24,19 @@ import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
+import com.hardcodecoder.pulsemusic.helper.PMBGridAdapterDiffCallback;
 import com.hardcodecoder.pulsemusic.interfaces.GridAdapterCallback;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
+import com.hardcodecoder.pulsemusic.utils.SortUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH> {
 
-    private final Handler mHandler = new Handler();
     private List<AlbumModel> mList;
     private LayoutInflater mInflater;
     private SimpleTransitionClickListener mListener;
@@ -61,33 +62,19 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
         }
     }
 
-    public void updateSortOrder() {
+    public void updateSortOrder(SortOrder.ALBUMS sortOrder) {
+        final Handler handler = new Handler();
         TaskRunner.executeAsync(() -> {
-            List<AlbumModel> oldSortedTracks = new ArrayList<>(this.mList);
-            Collections.reverse(mList);
-            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return oldSortedTracks.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return mList.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return oldSortedTracks.get(oldItemPosition).equals(mList.get(newItemPosition));
-                }
-
+            List<AlbumModel> oldSortedTracks = new ArrayList<>(mList);
+            List<AlbumModel> updatedTracks = SortUtil.sortAlbumList(mList, sortOrder);
+            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new PMBGridAdapterDiffCallback(oldSortedTracks, updatedTracks) {
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    return oldSortedTracks.get(oldItemPosition).getAlbumName().equals(mList.get(newItemPosition).getAlbumName());
+                    return oldSortedTracks.get(oldItemPosition).getAlbumName().equals(updatedTracks.get(newItemPosition).getAlbumName());
                 }
             });
-            mHandler.post(() -> {
-                diffResult.dispatchUpdatesTo(this);
+            handler.post(() -> {
+                diffResult.dispatchUpdatesTo(AlbumsAdapter.this);
                 mCallback.onSortUpdateComplete();
             });
         });

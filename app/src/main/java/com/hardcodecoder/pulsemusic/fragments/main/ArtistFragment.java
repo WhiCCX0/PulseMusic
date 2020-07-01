@@ -15,7 +15,7 @@ import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.ArtistAdapter;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
-import com.hardcodecoder.pulsemusic.loaders.SortOrder;
+import com.hardcodecoder.pulsemusic.loaders.SortOrder.ARTIST;
 import com.hardcodecoder.pulsemusic.model.ArtistModel;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 import com.hardcodecoder.pulsemusic.utils.NavigationUtil;
@@ -36,8 +36,8 @@ public class ArtistFragment extends PMBGridFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final int sortOrder = getCurrentSortOrder();
-        SortOrder.ARTIST artistSortOrder = (sortOrder == Preferences.SORT_ORDER_ASC) ?
-                SortOrder.ARTIST.TITLE_ASC : SortOrder.ARTIST.TITLE_DESC;
+        ARTIST artistSortOrder = (sortOrder == Preferences.SORT_ORDER_ASC) ?
+                ARTIST.TITLE_ASC : ARTIST.TITLE_DESC;
         LoaderHelper.loadArtistsList(view.getContext().getContentResolver(),
                 artistSortOrder,
                 result -> loadArtistsList(view, result));
@@ -65,6 +65,12 @@ public class ArtistFragment extends PMBGridFragment {
         }
     }
 
+    private ARTIST resolveSortOrder(int sortOrder) {
+        if (sortOrder == Preferences.SORT_ORDER_ASC)
+            return ARTIST.TITLE_ASC;
+        return ARTIST.TITLE_DESC;
+    }
+
     @Override
     public int getSortOrder() {
         if (null == getContext())
@@ -75,7 +81,7 @@ public class ArtistFragment extends PMBGridFragment {
     @Override
     public void onSortOrderChanged(int newSortOrder) {
         mFirstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
-        mAdapter.updateSortOrder();
+        mAdapter.updateSortOrder(resolveSortOrder(newSortOrder));
         if (null != getContext())
             AppSettings.saveSortOrder(getContext(), Preferences.SORT_ORDER_ARTIST_KEY, newSortOrder);
     }
