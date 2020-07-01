@@ -24,8 +24,10 @@ import java.util.List;
 
 public class ArtistFragment extends PMBGridFragment {
 
+    private RecyclerView mRecyclerView;
     private GridLayoutManager mLayoutManager;
     private ArtistAdapter mAdapter;
+    private int mFirstVisibleItemPosition;
 
     public static ArtistFragment getInstance() {
         return new ArtistFragment();
@@ -43,15 +45,20 @@ public class ArtistFragment extends PMBGridFragment {
 
     private void loadArtistsList(View view, List<ArtistModel> list) {
         if (null != list && list.size() > 0) {
-            RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_grid_rv)).inflate();
-            mLayoutManager = new GridLayoutManager(rv.getContext(), getCurrentSpanCount());
-            rv.setLayoutManager(mLayoutManager);
-            rv.setHasFixedSize(true);
-            mAdapter = new ArtistAdapter(list, getLayoutInflater(), (sharedView, position) -> {
-                if (null != getActivity())
-                    NavigationUtil.goToArtist(getActivity(), sharedView, list.get(position).getArtistName());
-            });
-            rv.setAdapter(mAdapter);
+            mRecyclerView = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_grid_rv)).inflate();
+            mLayoutManager = new GridLayoutManager(mRecyclerView.getContext(), getCurrentSpanCount());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setHasFixedSize(true);
+            mAdapter = new ArtistAdapter(list,
+                    getLayoutInflater(),
+                    (sharedView, position) -> {
+                        if (null != getActivity())
+                            NavigationUtil.goToArtist(getActivity(), sharedView, list.get(position).getArtistName());
+                    },
+                    () -> mLayoutManager.scrollToPosition(mFirstVisibleItemPosition),
+                    getCurrentOrientation(),
+                    getCurrentSpanCount());
+            mRecyclerView.setAdapter(mAdapter);
         } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
@@ -67,6 +74,7 @@ public class ArtistFragment extends PMBGridFragment {
 
     @Override
     public void onSortOrderChanged(int newSortOrder) {
+        mFirstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
         mAdapter.updateSortOrder();
         if (null != getContext())
             AppSettings.saveSortOrder(getContext(), Preferences.SORT_ORDER_ARTIST_KEY, newSortOrder);
@@ -97,7 +105,11 @@ public class ArtistFragment extends PMBGridFragment {
     }
 
     @Override
-    public void onLayoutSpanCountChanged(int spanCount) {
+    public void onLayoutSpanCountChanged(int currentOrientation, int spanCount) {
+        mFirstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+        mAdapter.updateSpanCount(currentOrientation, spanCount);
+        mRecyclerView.setAdapter(mAdapter);
         mLayoutManager.setSpanCount(spanCount);
+        mLayoutManager.scrollToPosition(mFirstVisibleItemPosition);
     }
 }

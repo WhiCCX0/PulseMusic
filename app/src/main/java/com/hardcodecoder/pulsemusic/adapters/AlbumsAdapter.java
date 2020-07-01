@@ -24,6 +24,7 @@ import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
+import com.hardcodecoder.pulsemusic.interfaces.GridAdapterCallback;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleTransitionClickListener;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
@@ -36,15 +37,21 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
 
     private final Handler mHandler = new Handler();
     private List<AlbumModel> mList;
-    private SimpleTransitionClickListener mListener;
     private LayoutInflater mInflater;
+    private SimpleTransitionClickListener mListener;
+    private GridAdapterCallback mCallback;
     private boolean mAddOverlay;
 
-    public AlbumsAdapter(List<AlbumModel> list, LayoutInflater mInflater, boolean addOverlay, SimpleTransitionClickListener mListener) {
-        this.mList = list;
-        this.mInflater = mInflater;
-        this.mListener = mListener;
-        this.mAddOverlay = addOverlay;
+    public AlbumsAdapter(List<AlbumModel> list,
+                         LayoutInflater inflater,
+                         SimpleTransitionClickListener listener,
+                         GridAdapterCallback callback,
+                         boolean addOverlay) {
+        mList = list;
+        mInflater = inflater;
+        mListener = listener;
+        mCallback = callback;
+        mAddOverlay = addOverlay;
     }
 
     public void changeOverlayOption(boolean changed) {
@@ -79,7 +86,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
                     return oldSortedTracks.get(oldItemPosition).getAlbumName().equals(mList.get(newItemPosition).getAlbumName());
                 }
             });
-            mHandler.post(() -> diffResult.dispatchUpdatesTo(this));
+            mHandler.post(() -> {
+                diffResult.dispatchUpdatesTo(this);
+                mCallback.onSortUpdateComplete();
+            });
         });
     }
 

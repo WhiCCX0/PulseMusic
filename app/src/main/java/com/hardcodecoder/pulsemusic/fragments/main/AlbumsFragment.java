@@ -26,6 +26,7 @@ public class AlbumsFragment extends PMBGridFragment {
 
     private GridLayoutManager mLayoutManager;
     private AlbumsAdapter mAdapter;
+    private int mFirstVisibleItemPosition;
     private boolean mAddOverlay = false;
 
     public static AlbumsFragment getInstance() {
@@ -50,12 +51,16 @@ public class AlbumsFragment extends PMBGridFragment {
             mLayoutManager = new GridLayoutManager(rv.getContext(), getCurrentSpanCount());
             rv.setLayoutManager(mLayoutManager);
             rv.setHasFixedSize(true);
-            mAdapter = new AlbumsAdapter(list, getLayoutInflater(), mAddOverlay, (sharedView, position) -> {
-                if (null != getActivity()) {
-                    AlbumModel albumModel = list.get(position);
-                    NavigationUtil.goToAlbum(getActivity(), sharedView, albumModel.getAlbumName(), albumModel.getAlbumId(), albumModel.getAlbumArt());
-                }
-            });
+            mAdapter = new AlbumsAdapter(list,
+                    getLayoutInflater(),
+                    (sharedView, position) -> {
+                        if (null != getActivity()) {
+                            AlbumModel albumModel = list.get(position);
+                            NavigationUtil.goToAlbum(getActivity(), sharedView, albumModel.getAlbumName(), albumModel.getAlbumId(), albumModel.getAlbumArt());
+                        }
+                    },
+                    () -> mLayoutManager.scrollToPosition(mFirstVisibleItemPosition),
+                    mAddOverlay);
             rv.setAdapter(mAdapter);
         } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
@@ -72,6 +77,7 @@ public class AlbumsFragment extends PMBGridFragment {
 
     @Override
     public void onSortOrderChanged(int newSortOrder) {
+        mFirstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
         mAdapter.updateSortOrder();
         if (null != getContext())
             AppSettings.saveSortOrder(getContext(), Preferences.SORT_ORDER_ALBUMS_KEY, newSortOrder);
@@ -102,7 +108,7 @@ public class AlbumsFragment extends PMBGridFragment {
     }
 
     @Override
-    public void onLayoutSpanCountChanged(int spanCount) {
+    public void onLayoutSpanCountChanged(int currentOrientation, int spanCount) {
         mLayoutManager.setSpanCount(spanCount);
     }
 }

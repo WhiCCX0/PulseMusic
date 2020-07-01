@@ -75,14 +75,15 @@ public abstract class PMBGridFragment extends Fragment {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mCurrentOrientation = Configuration.ORIENTATION_LANDSCAPE;
-            mSpanCount = getLandscapeModeSpanCount();
-            onLayoutSpanCountChanged(mSpanCount);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mCurrentOrientation = Configuration.ORIENTATION_PORTRAIT;
-            mSpanCount = getPortraitModeSpanCount();
-            onLayoutSpanCountChanged(mSpanCount);
+        final int newOrientation = newConfig.orientation;
+        if (newOrientation != mCurrentOrientation) {
+            mCurrentOrientation = newOrientation;
+            if (newOrientation == Configuration.ORIENTATION_LANDSCAPE)
+                mSpanCount = getLandscapeModeSpanCount();
+            else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+                mSpanCount = getPortraitModeSpanCount();
+
+            onLayoutSpanCountChanged(mCurrentOrientation, mSpanCount);
         }
         if (null != getActivity())
             getActivity().invalidateOptionsMenu();
@@ -109,15 +110,10 @@ public abstract class PMBGridFragment extends Fragment {
 
     private void updateGridSpanCount(int id, int spanCount) {
         saveNewSpanCount(id, spanCount);
-        if (mCurrentOrientation == Configuration.ORIENTATION_PORTRAIT)
-            onLayoutSpanCountChanged(spanCount);
-        if (mCurrentOrientation == Configuration.ORIENTATION_LANDSCAPE)
-            onLayoutSpanCountChanged(spanCount);
+        onLayoutSpanCountChanged(id, spanCount);
     }
 
     public abstract int getSortOrder();
-
-    public abstract void onSortOrderChanged(int newSortOrder);
 
     public abstract int getPortraitModeSpanCount();
 
@@ -125,5 +121,7 @@ public abstract class PMBGridFragment extends Fragment {
 
     public abstract void saveNewSpanCount(int configId, int spanCount);
 
-    public abstract void onLayoutSpanCountChanged(int spanCount);
+    public abstract void onSortOrderChanged(int newSortOrder);
+
+    public abstract void onLayoutSpanCountChanged(int currentOrientation, int spanCount);
 }
