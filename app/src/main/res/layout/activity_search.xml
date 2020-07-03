@@ -22,19 +22,6 @@
             android:contentDescription="@string/iv_btn_close_description"
             android:src="@drawable/ic_keyboard_backspace"
             android:tint="?attr/unFocusedColor" />
-        <!--
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    app:closeIcon="@drawable/ic_close"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="@string/searchHint"
-                    app:searchIcon="@android:color/transparent"
-                    app:showDividers="none"
-                    app:submitBackground="@drawable/active_item_background" />
-        -->
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/search_activity_edit_text"
@@ -55,19 +42,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar" />
-    <!--
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/result_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:gravity="center"
-            android:text="@string/search_null"
-            android:textAppearance="@style/TextViewHeadline6"
-            android:textColor="?attr/secondaryTextColor"
-            android:visibility="visible"
-            tools:visibility="visible" />
-    -->
+
     <ViewStub
         android:id="@+id/stub_no_result_found"
         android:layout_width="match_parent"

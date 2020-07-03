@@ -43,5 +43,4 @@
         app:backgroundTint="?attr/primaryColor"
         app:layout_anchorGravity="bottom"
         app:tint="?attr/colorOnPrimary" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
