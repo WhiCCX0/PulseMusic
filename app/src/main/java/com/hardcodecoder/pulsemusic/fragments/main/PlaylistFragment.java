@@ -3,13 +3,13 @@ package com.hardcodecoder.pulsemusic.fragments.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,10 +62,9 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mPlaylistNames = new ArrayList<>();
         mPlaylistNames.add(getString(R.string.playlist_current_queue));
-        Handler handler = new Handler();
         AppFileManager.getPlaylists(result -> {
             if (null != result) mPlaylistNames.addAll(result);
-            handler.post(() -> loadPlaylistCards(view));
+            loadPlaylistCards(view);
         });
     }
 
@@ -83,18 +82,15 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
     }
 
     private void loadPlaylistCards(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.playlist_cards_rv);
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
-        mAdapter = new CardsAdapter(mPlaylistNames, getLayoutInflater(), this, this);
-        recyclerView.setAdapter(mAdapter);
-
-        /*
-         * Adding swipe gesture to delete playlist card
-         */
-        ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        view.post(() -> {
+            RecyclerView recyclerView = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_playlist_cards_rv)).inflate();
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
+            mAdapter = new CardsAdapter(mPlaylistNames, getLayoutInflater(), this, this);
+            recyclerView.setAdapter(mAdapter);
+            ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+        });
     }
 
     private void addNewPlaylist(String playlistName) {
@@ -144,7 +140,6 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             });
         }
     }
-
 
     @Override
     public void onItemClick(int pos) {

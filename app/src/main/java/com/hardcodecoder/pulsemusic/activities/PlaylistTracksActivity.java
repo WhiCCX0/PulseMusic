@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
+import android.view.ViewStub;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -67,8 +68,7 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
             if (null != list && list.size() > 0) {
                 findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 mPlaylistTracks = new ArrayList<>(list);
-                RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
-                recyclerView.setVisibility(View.VISIBLE);
+                RecyclerView recyclerView = (RecyclerView) ((ViewStub) findViewById(R.id.stub_playlist_tracks_rv)).inflate();
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 mAdapter = new PlaylistDataAdapter(mPlaylistTracks, getLayoutInflater(), this, this);

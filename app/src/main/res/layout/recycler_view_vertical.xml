@@ -10,7 +10,5 @@
     android:scrollbarStyle="insideOverlay"
     android:scrollbarThumbVertical="@drawable/recycler_view_scroll_thumb"
     android:scrollbars="vertical"
-    android:visibility="gone"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:listitem="@layout/list_item_with_options"
-    tools:visibility="visible" />
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    tools:listitem="@layout/list_item_with_options" />

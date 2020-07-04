@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -57,8 +58,7 @@ public class CurrentPlaylistActivity extends MediaSessionActivity implements Pla
         if (null != list && list.size() > 0) {
             findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
             mCurrentList = new ArrayList<>(list);
-            RecyclerView recyclerView = findViewById(R.id.rv_playlist_tracks);
-            recyclerView.setVisibility(View.VISIBLE);
+            RecyclerView recyclerView = (RecyclerView) ((ViewStub) findViewById(R.id.stub_playlist_tracks_rv)).inflate();
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             mAdapter = new PlaylistDataAdapter(mCurrentList, getLayoutInflater(), this, this);

@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/rv_library_fragment"
-        layout="@layout/recycler_view_vertical" />
+    <ViewStub
+        android:id="@+id/stub_library_fragment_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/recycler_view_vertical" />
 
     <ViewStub
         android:id="@+id/stub_no_tracks_found"

@@ -2,7 +2,6 @@ package com.hardcodecoder.pulsemusic.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewStub;
 
 import androidx.annotation.Nullable;
@@ -48,14 +47,13 @@ public class TrackPickerActivity extends PMBActivity implements TrackPickerListe
         toolbar.setTitle(getString(R.string.select_tracks));
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> {
-            finish();
+            finishAfterTransition();
             overrideActivityTransition();
         });
 
         if (LoaderCache.getAllTracksList().size() > 0) {
             mMainList = new ArrayList<>(LoaderCache.getAllTracksList());
-            RecyclerView recyclerView = findViewById(R.id.track_picker_rv);
-            recyclerView.setVisibility(View.VISIBLE);
+            RecyclerView recyclerView = (RecyclerView) ((ViewStub) findViewById(R.id.stub_track_picker_rv)).inflate();
             recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             TrackPickerAdapter adapter = new TrackPickerAdapter(mMainList, getLayoutInflater(), this);
             recyclerView.setAdapter(adapter);

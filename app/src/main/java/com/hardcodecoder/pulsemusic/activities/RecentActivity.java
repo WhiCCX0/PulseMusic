@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -45,8 +46,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
             if (null != result && result.size() > 0) {
                 findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 mRecentTracks = new ArrayList<>(result);
-                RecyclerView rv = findViewById(R.id.rv_playlist_tracks);
-                rv.setVisibility(View.VISIBLE);
+                RecyclerView rv = (RecyclerView) ((ViewStub) findViewById(R.id.stub_playlist_tracks_rv)).inflate();
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
                 LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);

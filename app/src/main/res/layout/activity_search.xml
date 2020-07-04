@@ -35,11 +35,11 @@
             android:textColorHint="?secondaryTextColor" />
     </LinearLayout>
 
-    <include
-        android:id="@+id/search_rv"
-        layout="@layout/recycler_view_vertical"
+    <ViewStub
+        android:id="@+id/stub_search_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout="@layout/recycler_view_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar" />
 

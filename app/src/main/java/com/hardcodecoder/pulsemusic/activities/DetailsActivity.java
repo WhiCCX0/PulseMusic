@@ -5,6 +5,7 @@ import android.media.session.MediaController;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -112,8 +113,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
                 MaterialTextView sub = findViewById(R.id.details_activity_title_sub);
                 sub.setText(String.format(Locale.ENGLISH, "%s %d %s", getString(R.string.num_tracks), mList.size(), getString(R.string.tracks)));
 
-                RecyclerView rv = findViewById(R.id.details_activity_rv);
-                rv.setVisibility(View.VISIBLE);
+                RecyclerView rv = (RecyclerView) ((ViewStub) findViewById(R.id.stub_details_activity_rv)).inflate();
                 rv.setHasFixedSize(true);
                 rv.setVerticalFadingEdgeEnabled(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
@@ -166,7 +166,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
         Fade enterFade = new Fade();
         enterFade.excludeTarget(android.R.id.statusBarBackground, true);
         enterFade.excludeTarget(android.R.id.navigationBarBackground, true);
-        enterFade.excludeTarget(R.id.details_activity_rv, true);
+        enterFade.excludeTarget(R.id.stub_details_activity_rv, true);
         enterFade.setDuration(275);
         getWindow().setEnterTransition(enterFade);
     }

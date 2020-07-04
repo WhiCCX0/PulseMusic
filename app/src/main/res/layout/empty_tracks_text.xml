@@ -7,6 +7,6 @@
     android:gravity="center"
     android:minHeight="200dp"
     android:paddingBottom="32dp"
-    android:textAppearance="@style/TextViewBody1"
+    android:textAppearance="@style/TextViewBody2"
     android:textColor="?secondaryTextColor"
     tools:text="@string/tracks_not_found" />

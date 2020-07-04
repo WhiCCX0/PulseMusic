@@ -16,9 +16,12 @@
         <include layout="@layout/material_toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/rv_playlist_tracks"
-        layout="@layout/recycler_view_vertical" />
+    <ViewStub
+        android:id="@+id/stub_playlist_tracks_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/recycler_view_vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/no_tracks_found"

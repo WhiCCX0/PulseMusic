@@ -2,7 +2,6 @@ package com.hardcodecoder.pulsemusic.fragments.main;
 
 import android.media.session.MediaController;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,14 +61,13 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
         if (mCurrentSortOrder == Preferences.SORT_ORDER_DESC)
             Collections.reverse(mList);
         if (mList.size() > 0) {
-            new Handler().postDelayed(() -> {
-                RecyclerView recyclerView = view.findViewById(R.id.rv_library_fragment);
-                recyclerView.setVisibility(View.VISIBLE);
+            view.post(() -> {
+                RecyclerView recyclerView = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_library_fragment_rv)).inflate();
                 recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
                 recyclerView.setHasFixedSize(true);
                 mAdapter = new LibraryAdapter(mList, getLayoutInflater(), this);
                 recyclerView.setAdapter(mAdapter);
-            }, 100);
+            });
         } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));

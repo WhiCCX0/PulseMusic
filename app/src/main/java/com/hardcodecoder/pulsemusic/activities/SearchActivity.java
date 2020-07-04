@@ -31,7 +31,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     private List<String> pendingUpdates = new ArrayList<>();
     private List<MusicModel> mSearchResult;
     private MaterialTextView noResultsText;
-    private SearchAdapter adapter;
+    private SearchAdapter mAdapter;
     private TrackManager tm;
     private String mQuery = "";
 
@@ -86,7 +86,7 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
                 if (mSearchResult.size() <= 0) noResultsText.setVisibility(View.VISIBLE);
                 else noResultsText.setVisibility(View.INVISIBLE);
 
-                adapter.updateItems(result);
+                mAdapter.updateItems(result);
 
                 if (pendingUpdates.size() > 0) {
                     searchResult(pendingUpdates.get(pendingUpdates.size() - 1));
@@ -96,11 +96,10 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     }
 
     private void setRecyclerView() {
-        RecyclerView rv = findViewById(R.id.search_rv);
-        rv.setVisibility(View.VISIBLE);
+        RecyclerView rv = (RecyclerView) ((ViewStub) findViewById(R.id.stub_search_rv)).inflate();
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        adapter = new SearchAdapter(getLayoutInflater(), this);
-        rv.setAdapter(adapter);
+        mAdapter = new SearchAdapter(getLayoutInflater(), this);
+        rv.setAdapter(mAdapter);
     }
 
     @Override

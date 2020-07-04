@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/playlist_cards_rv"
-        layout="@layout/recycler_view_vertical" />
+    <ViewStub
+        android:id="@+id/stub_playlist_cards_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/recycler_view_vertical" />
 </FrameLayout>

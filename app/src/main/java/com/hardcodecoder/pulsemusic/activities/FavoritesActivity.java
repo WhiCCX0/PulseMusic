@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -46,8 +47,7 @@ public class FavoritesActivity extends MediaSessionActivity implements LibraryIt
             if (null != result && result.size() > 0) {
                 findViewById(R.id.no_tracks_found).setVisibility(View.GONE);
                 favoritesList = new ArrayList<>(result);
-                RecyclerView rv = findViewById(R.id.rv_playlist_tracks);
-                rv.setVisibility(View.VISIBLE);
+                RecyclerView rv = (RecyclerView) ((ViewStub) findViewById(R.id.stub_playlist_tracks_rv)).inflate();
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
                 LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this);
