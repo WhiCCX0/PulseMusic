@@ -8,20 +8,17 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.ViewStub;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
-import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.UIHelper;
-import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
@@ -29,7 +26,7 @@ import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentActivity extends MediaSessionActivity implements LibraryItemClickListener {
+public class RecentActivity extends MediaSessionActivity implements SimpleItemClickListener {
 
     private List<MusicModel> mRecentTracks;
     private TrackManager tm;
@@ -76,37 +73,7 @@ public class RecentActivity extends MediaSessionActivity implements LibraryItemC
 
     @Override
     public void onOptionsClick(int pos) {
-        showMenuItems(mRecentTracks.get(pos));
-    }
-
-    private void showMenuItems(MusicModel md) {
-        View view = View.inflate(this, R.layout.library_item_menu, null);
-        BottomSheetDialog bottomSheetDialog = new RoundedBottomSheetDialog(view.getContext());
-
-        view.findViewById(R.id.track_play_next)
-                .setOnClickListener(v -> {
-                    tm.playNext(md);
-                    Toast.makeText(v.getContext(), getString(R.string.play_next_toast), Toast.LENGTH_SHORT).show();
-                    if (bottomSheetDialog.isShowing())
-                        bottomSheetDialog.dismiss();
-                });
-
-        view.findViewById(R.id.add_to_queue)
-                .setOnClickListener(v -> {
-                    tm.addToActiveQueue(md);
-                    Toast.makeText(v.getContext(), getString(R.string.add_to_queue_toast), Toast.LENGTH_SHORT).show();
-                    if (bottomSheetDialog.isShowing())
-                        bottomSheetDialog.dismiss();
-                });
-
-        view.findViewById(R.id.song_info).setOnClickListener(v -> {
-            UIHelper.buildSongInfoDialog(this, md);
-            if (bottomSheetDialog.isShowing())
-                bottomSheetDialog.dismiss();
-        });
-
-        bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
+        UIHelper.buildAndShowOptionsMenu(this, getSupportFragmentManager(), mRecentTracks.get(pos));
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
@@ -29,10 +29,10 @@ import java.util.List;
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsSVH> {
 
     private List<MusicModel> mList;
-    private LibraryItemClickListener listener;
+    private SimpleItemClickListener listener;
     private LayoutInflater mInflater;
 
-    public DetailsAdapter(List<MusicModel> mList, LibraryItemClickListener listener, LayoutInflater mInflater) {
+    public DetailsAdapter(List<MusicModel> mList, SimpleItemClickListener listener, LayoutInflater mInflater) {
         this.mList = mList;
         this.listener = listener;
         this.mInflater = mInflater;
@@ -61,7 +61,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsS
         private ImageView albumArt;
         private MaterialTextView title, subTitle;
 
-        DetailsSVH(@NonNull View itemView, LibraryItemClickListener mListener) {
+        DetailsSVH(@NonNull View itemView, SimpleItemClickListener mListener) {
             super(itemView);
             albumArt = itemView.findViewById(R.id.list_item_option_album_art);
             title = itemView.findViewById(R.id.list_item_option_title);

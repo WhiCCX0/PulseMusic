@@ -24,7 +24,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.DiffCb;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
@@ -37,11 +37,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     protected List<MusicModel> list = new ArrayList<>();
     private Deque<List<MusicModel>> pendingUpdates = new ArrayDeque<>();
-    private ItemClickListener.Simple mListener;
+    private SimpleItemClickListener mListener;
     private LayoutInflater mInflater;
     private Handler mMainHandler = new Handler();
 
-    public SearchAdapter(LayoutInflater inflater, ItemClickListener.Simple clickListener) {
+    public SearchAdapter(LayoutInflater inflater, SimpleItemClickListener clickListener) {
         this.mListener = clickListener;
         this.mInflater = inflater;
     }
@@ -113,14 +113,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         private MaterialTextView title, subTitle;
         private ImageView albumArt;
 
-        MyViewHolderLibrary(View itemView, ItemClickListener.Simple listener) {
+        MyViewHolderLibrary(View itemView, SimpleItemClickListener listener) {
             super(itemView);
             albumArt = itemView.findViewById(R.id.list_item_option_album_art);
             title = itemView.findViewById(R.id.list_item_option_title);
             subTitle = itemView.findViewById(R.id.list_item_option_sub_title);
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
             itemView.findViewById(R.id.list_item_option_options_btn)
-                    .setOnClickListener(v -> listener.onOptionsClick(v, getAdapterPosition()));
+                    .setOnClickListener(v -> listener.onOptionsClick(getAdapterPosition()));
         }
 
         void setItemData(MusicModel md) {

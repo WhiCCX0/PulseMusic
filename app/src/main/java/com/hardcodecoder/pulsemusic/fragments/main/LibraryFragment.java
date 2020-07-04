@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,14 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.LibraryAdapter;
-import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.UIHelper;
-import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
@@ -34,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LibraryFragment extends Fragment implements LibraryItemClickListener {
+public class LibraryFragment extends Fragment implements SimpleItemClickListener {
 
     private MediaController.TransportControls mTransportControl;
     private List<MusicModel> mList;
@@ -111,7 +108,9 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
 
     @Override
     public void onOptionsClick(int pos) {
-        showMenuItems(mList.get(pos));
+        if (null != getActivity()) {
+            UIHelper.buildAndShowOptionsMenu(getActivity(), getActivity().getSupportFragmentManager(), mList.get(pos));
+        }
     }
 
     private void play() {
@@ -121,37 +120,5 @@ public class LibraryFragment extends Fragment implements LibraryItemClickListene
             mTransportControl = getActivity().getMediaController().getTransportControls();
             mTransportControl.play();
         }
-    }
-
-    private void showMenuItems(MusicModel md) {
-        View view = View.inflate(getContext(), R.layout.library_item_menu, null);
-        BottomSheetDialog bottomSheetDialog = new RoundedBottomSheetDialog(view.getContext());
-
-        view.findViewById(R.id.track_play_next)
-                .setOnClickListener(v -> {
-                    tm.playNext(md);
-                    Toast.makeText(v.getContext(), getString(R.string.play_next_toast), Toast.LENGTH_SHORT).show();
-                    dismiss(bottomSheetDialog);
-                });
-
-        view.findViewById(R.id.add_to_queue)
-                .setOnClickListener(v -> {
-                    tm.addToActiveQueue(md);
-                    Toast.makeText(v.getContext(), getString(R.string.add_to_queue_toast), Toast.LENGTH_SHORT).show();
-                    dismiss(bottomSheetDialog);
-                });
-
-        view.findViewById(R.id.song_info).setOnClickListener(v -> {
-            UIHelper.buildSongInfoDialog(getContext(), md);
-            dismiss(bottomSheetDialog);
-        });
-
-        bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
-    }
-
-    private void dismiss(BottomSheetDialog dialog) {
-        if (dialog.isShowing())
-            dialog.dismiss();
     }
 }

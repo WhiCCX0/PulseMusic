@@ -21,7 +21,7 @@ import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
@@ -30,13 +30,13 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
     private List<MusicModel> mList;
-    private ItemClickListener.Simple mListener;
+    private SimpleItemClickListener mListener;
     @LayoutRes
     private int mLayout;
     private LayoutStyle mLayoutStyle;
     private LayoutInflater mInflater;
 
-    public HomeAdapter(LayoutInflater inflater, List<MusicModel> list, ItemClickListener.Simple clickListener, LayoutStyle style) {
+    public HomeAdapter(LayoutInflater inflater, List<MusicModel> list, SimpleItemClickListener clickListener, LayoutStyle style) {
         this.mListener = clickListener;
         this.mList = list;
         this.mLayoutStyle = style;
@@ -76,7 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         private MaterialTextView title, text;
         private ImageView albumArt;
 
-        MyViewHolder(View itemView, ItemClickListener.Simple listener) {
+        MyViewHolder(View itemView, SimpleItemClickListener listener) {
             super(itemView);
 
             title = itemView.findViewById(R.id.home_rv_list_item_title);
@@ -84,7 +84,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             albumArt = itemView.findViewById(R.id.home_rv_list_item_album_art);
 
             itemView.setOnLongClickListener(v -> {
-                listener.onOptionsClick(v, getAdapterPosition());
+                listener.onOptionsClick(getAdapterPosition());
                 return true;
             });
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));

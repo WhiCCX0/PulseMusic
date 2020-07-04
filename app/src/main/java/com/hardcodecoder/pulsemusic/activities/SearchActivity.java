@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewStub;
-import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -18,7 +17,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.SearchAdapter;
 import com.hardcodecoder.pulsemusic.helper.UIHelper;
-import com.hardcodecoder.pulsemusic.interfaces.ItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.SearchQueryLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
@@ -26,7 +25,7 @@ import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends MediaSessionActivity implements ItemClickListener.Simple {
+public class SearchActivity extends MediaSessionActivity implements SimpleItemClickListener {
 
     private List<String> pendingUpdates = new ArrayList<>();
     private List<MusicModel> mSearchResult;
@@ -103,33 +102,14 @@ public class SearchActivity extends MediaSessionActivity implements ItemClickLis
     }
 
     @Override
-    public void onItemClick(int pos) {
-        tm.buildDataList(mSearchResult, pos);
+    public void onItemClick(int position) {
+        tm.buildDataList(mSearchResult, position);
         playMedia();
     }
 
     @Override
-    public void onOptionsClick(View v, int position) {
-        PopupMenu pm = new PopupMenu(this, v);
-        pm.getMenuInflater().inflate(R.menu.menu_item_options, pm.getMenu());
-        pm.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.id_play_next:
-                    tm.playNext(mSearchResult.get(position));
-                    break;
-                case R.id.id_add_queue:
-                    tm.addToActiveQueue(mSearchResult.get(position));
-                    break;
-                case R.id.id_add_playlist:
-                    break;
-                case R.id.id_song_info:
-                    UIHelper.buildSongInfoDialog(this, mSearchResult.get(position));
-                    break;
-                default:
-            }
-            return true;
-        });
-        pm.show();
+    public void onOptionsClick(int position) {
+        UIHelper.buildAndShowOptionsMenu(this, getSupportFragmentManager(), mSearchResult.get(position));
     }
 
     @Override

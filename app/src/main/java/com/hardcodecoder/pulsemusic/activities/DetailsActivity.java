@@ -4,10 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.media.session.MediaController;
 import android.os.Bundle;
 import android.transition.Fade;
-import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,17 +16,15 @@ import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.adapters.DetailsAdapter;
-import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
 import com.hardcodecoder.pulsemusic.helper.UIHelper;
-import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.loaders.ItemsLoader;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
@@ -37,7 +33,7 @@ import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 import java.util.List;
 import java.util.Locale;
 
-public class DetailsActivity extends MediaSessionActivity implements LibraryItemClickListener {
+public class DetailsActivity extends MediaSessionActivity implements SimpleItemClickListener {
 
     public static final String KEY_ITEM_CATEGORY = "category";
     public static final String ALBUM_ID = "id";
@@ -133,33 +129,7 @@ public class DetailsActivity extends MediaSessionActivity implements LibraryItem
 
     @Override
     public void onOptionsClick(int pos) {
-        View view = View.inflate(this, R.layout.library_item_menu, null);
-        BottomSheetDialog bottomSheetDialog = new RoundedBottomSheetDialog(view.getContext());
-
-        view.findViewById(R.id.track_play_next)
-                .setOnClickListener(v -> {
-                    tm.playNext(mList.get(pos));
-                    Toast.makeText(v.getContext(), getString(R.string.play_next_toast), Toast.LENGTH_SHORT).show();
-                    if (bottomSheetDialog.isShowing())
-                        bottomSheetDialog.dismiss();
-                });
-
-        view.findViewById(R.id.add_to_queue)
-                .setOnClickListener(v -> {
-                    tm.addToActiveQueue(mList.get(pos));
-                    Toast.makeText(v.getContext(), getString(R.string.add_to_queue_toast), Toast.LENGTH_SHORT).show();
-                    if (bottomSheetDialog.isShowing())
-                        bottomSheetDialog.dismiss();
-                });
-
-        view.findViewById(R.id.song_info).setOnClickListener(v -> {
-            UIHelper.buildSongInfoDialog(this, mList.get(pos));
-            if (bottomSheetDialog.isShowing())
-                bottomSheetDialog.dismiss();
-        });
-
-        bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
+        UIHelper.buildAndShowOptionsMenu(this, getSupportFragmentManager(), mList.get(pos));
     }
 
     private void setUpTransitions() {

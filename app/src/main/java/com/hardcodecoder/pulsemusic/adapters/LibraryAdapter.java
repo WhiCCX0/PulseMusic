@@ -25,7 +25,7 @@ import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.helper.DiffCb;
 import com.hardcodecoder.pulsemusic.helper.MediaArtHelper;
-import com.hardcodecoder.pulsemusic.interfaces.LibraryItemClickListener;
+import com.hardcodecoder.pulsemusic.interfaces.SimpleItemClickListener;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
@@ -37,11 +37,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
 
     private final Handler mHandler = new Handler();
     private List<MusicModel> mList;
-    private LibraryItemClickListener mListener;
+    private SimpleItemClickListener mListener;
     private LayoutInflater mInflater;
     private int lastPosition = -1;
 
-    public LibraryAdapter(List<MusicModel> list, LayoutInflater inflater, LibraryItemClickListener listener) {
+    public LibraryAdapter(List<MusicModel> list, LayoutInflater inflater, SimpleItemClickListener listener) {
         this.mList = list;
         this.mListener = listener;
         this.mInflater = inflater;
@@ -91,7 +91,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
         private TextView songName, artist;
         private ImageView albumArt;
 
-        MyLibraryViewHolder(View itemView, LibraryItemClickListener listener) {
+        MyLibraryViewHolder(View itemView, SimpleItemClickListener listener) {
             super(itemView);
             songName = itemView.findViewById(R.id.list_item_option_title);
             artist = itemView.findViewById(R.id.list_item_option_sub_title);
