@@ -130,6 +130,25 @@ class StorageUtils {
         return playlistTracks;
     }
 
+    static void writeTrackToPlaylist(String filePath, String trackTitle) {
+        FileOutputStream fos = null;
+        try {
+            File file = new File(filePath);
+            fos = new FileOutputStream(file, true);
+            fos.write(trackTitle.concat("\n").getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (null != fos) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     static void writeTracksToPlaylist(String filePath, List<String> playlistTracks) {
         if (null != playlistTracks && playlistTracks.size() > 0) {
             StringBuilder builder = new StringBuilder();

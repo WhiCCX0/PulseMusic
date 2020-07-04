@@ -5,6 +5,7 @@
 
     <string name="iv_content_desc">Album art image</string>
     <string name="iv_btn_close_description">Close button</string>
+    <string name="iv_btn_action_description">Action button</string>
     <string name="icon_desc">Icon button</string>
 
 
@@ -91,6 +92,10 @@
     <string name="create_playlist_hint">Enter playlist\'s name</string>
     <string name="create">Okay</string>
     <string name="cancel">Cancel</string>
+    <string name="atp_title">Add track to\.\.\.</string>
+    <string name="atp_no_user_playlist_found">No playlist found\nClick on add button to create</string>
+    <string name="atp_track_added_toast">Successfully added track to playlist</string>
+    <string name="atp_track_add_error_toast">Error adding track to playlist</string>
 
 
     <!-- Playlist Activity -->
@@ -134,8 +139,6 @@
     <!-- Search Activity -->
     <string name="searchHint">Search for artist, songs or albums\.\.\.</string>
     <string name="search_null">No results found</string>
-
-    <!-- Tag Editor Activity -->
 
 
     <!-- Settings Activity -->

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        style="@style/ButtonStyle24"
+        android:contentDescription="@string/iv_content_desc"
+        android:src="@drawable/ic_playlist"
+        android:tint="?attr/unFocusedColor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/rv_item_playlist_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="@style/TextViewBody2"
+        tools:text="@tools:sample/full_names" />
+</LinearLayout>

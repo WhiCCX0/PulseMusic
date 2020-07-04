@@ -177,6 +177,12 @@ public class AppFileManager {
         });
     }
 
+    public static void addItemToPlaylist(@NonNull String playlistName, @NonNull MusicModel itemToAdd) {
+        TaskRunner.executeAsync(() -> StorageUtils.writeTrackToPlaylist(
+                StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir) +
+                        playlistName, itemToAdd.getTrackName()));
+    }
+
     public static void addItemsToPlaylist(@NonNull String playlistName,
                                           @NonNull List<MusicModel> playlistTracks,
                                           @Nullable Callback<Boolean> callback) {
@@ -210,5 +216,9 @@ public class AppFileManager {
                 mFilesDir) +
                 playlistName).delete())
             Log.e(TAG, "Error deleting playlist");
+    }
+
+    public static File getPlaylistFolderFile() {
+        return new File(StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir));
     }
 }

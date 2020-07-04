@@ -3,6 +3,7 @@ package com.hardcodecoder.pulsemusic.fragments.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.FileObserver;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import com.hardcodecoder.pulsemusic.activities.PlaylistTracksActivity;
 import com.hardcodecoder.pulsemusic.adapters.CardsAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
+import com.hardcodecoder.pulsemusic.helper.UIHelper;
 import com.hardcodecoder.pulsemusic.interfaces.PlaylistCardListener;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
 import com.hardcodecoder.pulsemusic.storage.AppFileManager;
@@ -41,6 +43,7 @@ import java.util.Objects;
 
 public class PlaylistFragment extends Fragment implements PlaylistCardListener, SimpleGestureCallback {
 
+    private FileObserver mObserver;
     private CardsAdapter mAdapter;
     private Context mContext;
     private List<String> mPlaylistNames;
@@ -66,6 +69,16 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             if (null != result) mPlaylistNames.addAll(result);
             loadPlaylistCards(view);
         });
+        mObserver = new FileObserver(AppFileManager.getPlaylistFolderFile()) {
+            @Override
+            public void onEvent(int event, @Nullable String path) {
+                if (event == FileObserver.CREATE) {
+                    mPlaylistNames.add(path);
+                    view.post(() -> mAdapter.notifyItemInserted(mPlaylistNames.size() - 1));
+                }
+            }
+        };
+        mObserver.startWatching();
     }
 
     @Override
@@ -76,7 +89,8 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_action_add_playlist) {
-            createPlaylist(false, -1);
+            if (null != getContext())
+                UIHelper.buildCreatePlaylistDialog(getContext());
         }
         return true;
     }
@@ -93,22 +107,15 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
         });
     }
 
-    private void addNewPlaylist(String playlistName) {
-        mPlaylistNames.add(playlistName);
-        mAdapter.notifyItemInserted(mPlaylistNames.size() - 1);
-        AppFileManager.savePlaylist(playlistName);
-    }
-
-    private void createPlaylist(boolean isEdit, int pos) {
+    private void showEditPlaylistDialog(int pos) {
         if (getContext() != null) {
-            View layout = View.inflate(mContext, R.layout.bottom_dialog_edit_text, null);
-
             BottomSheetDialog sheetDialog = new RoundedBottomSheetDialog(mContext);
+            View layout = View.inflate(mContext, R.layout.bottom_dialog_edit_text, null);
             sheetDialog.setContentView(layout);
             sheetDialog.show();
 
             TextView header = layout.findViewById(R.id.header);
-            header.setText(getResources().getString(isEdit ? R.string.edit_playlist : R.string.create_playlist));
+            header.setText(getResources().getString(R.string.edit_playlist));
 
             TextInputLayout til = layout.findViewById(R.id.edit_text_container);
             til.setHint(getResources().getString(R.string.create_playlist_hint));
@@ -118,13 +125,11 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             Button create = layout.findViewById(R.id.confirm_btn);
             create.setOnClickListener(v -> {
                 if (et.getText() != null && et.getText().toString().length() > 0) {
-                    if (isEdit) {
-                        String oldName = mPlaylistNames.remove(pos);
-                        String newName = et.getText().toString();
-                        mPlaylistNames.add(pos, newName);
-                        mAdapter.notifyItemChanged(pos);
-                        AppFileManager.renamePlaylist(oldName, newName);
-                    } else addNewPlaylist(et.getText().toString());
+                    String oldName = mPlaylistNames.remove(pos);
+                    String newName = et.getText().toString();
+                    mPlaylistNames.add(pos, newName);
+                    mAdapter.notifyItemChanged(pos);
+                    AppFileManager.renamePlaylist(oldName, newName);
                 } else {
                     Toast.makeText(mContext, getString(R.string.create_playlist_hint), Toast.LENGTH_SHORT).show();
                     return;
@@ -154,7 +159,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
 
     @Override
     public void onItemEdit(int pos) {
-        createPlaylist(true, pos);
+        showEditPlaylistDialog(pos);
     }
 
     @Override
@@ -166,8 +171,9 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
                     .setMessage(getString(R.string.playlist_delete_dialog_title))
                     .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                        AppFileManager.deletePlaylist(mPlaylistNames.get(position));
+                        AppFileManager.deletePlaylist(mPlaylistNames.remove(position));
                         Toast.makeText(getContext(), getString(R.string.playlist_deleted_toast), Toast.LENGTH_SHORT).show();
+                        mAdapter.notifyItemRemoved(position);
                     }).setNegativeButton(getString(R.string.no), (dialog, which) -> mAdapter.notifyItemChanged(position));
             alertDialog.create().show();
         }
@@ -175,5 +181,11 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
 
     @Override
     public void onItemMoved(int fromPosition, int toPosition) {
+    }
+
+    @Override
+    public void onDestroyView() {
+        mObserver.stopWatching();
+        super.onDestroyView();
     }
 }

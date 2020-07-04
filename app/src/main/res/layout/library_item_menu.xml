@@ -18,6 +18,7 @@
         android:text="@string/add_to_queue" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/add_to_playlist"
         style="@style/BottomDialogOptionsMenuTextStyle"
         android:text="@string/add_to_playlist" />
 
