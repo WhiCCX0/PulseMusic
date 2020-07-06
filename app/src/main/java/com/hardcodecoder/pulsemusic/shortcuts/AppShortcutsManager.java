@@ -30,7 +30,9 @@ public class AppShortcutsManager {
         Objects.requireNonNull(context.getSystemService(ShortcutManager.class)).reportShortcutUsed(shortcutId);
     }
 
-    public void initDynamicShortcuts() {
+    public void initDynamicShortcuts(boolean recreate) {
+        if (recreate)
+            shortcutManager.removeAllDynamicShortcuts();
         if (shortcutManager.getDynamicShortcuts().size() == 0)
             shortcutManager.setDynamicShortcuts(getDefaultShortcuts());
     }

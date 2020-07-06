@@ -71,6 +71,10 @@ public class ThemeManagerUtils {
         return ThemeStore.getAccentById(mAccentsId, mDesaturatedAccents);
     }
 
+    public static int getAccentById(int id) {
+        return ThemeStore.getAccentById(id, false);
+    }
+
     private static boolean needToChangeTheme() {
         return ((isNight() && !mDarkMode) || (!isNight() && mDarkMode));
     }
