@@ -109,8 +109,6 @@
     <string name="now_playing">Now Playing</string>
     <string name="added_to_fav">Track added to favorites</string>
     <string name="removed_from_fav">Track removed from favorites</string>
-    <string name="repeat_enabled">Current track will be repeated once</string>
-    <string name="repeat_disabled">Repeat mode turned off</string>
 
 
     <!-- TrackPickerActivity -->
