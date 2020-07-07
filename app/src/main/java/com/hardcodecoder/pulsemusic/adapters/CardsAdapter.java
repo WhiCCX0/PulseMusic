@@ -91,7 +91,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsSVH> im
 
         @Override
         public void onItemClear() {
-            itemView.setBackground(itemView.getContext().getDrawable(R.drawable.bck_item_artist));
+            itemView.setBackground(itemView.getContext().getDrawable(R.drawable.overlay_color_bck_drawable));
         }
     }
 }

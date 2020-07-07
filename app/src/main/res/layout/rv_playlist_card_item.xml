@@ -4,7 +4,7 @@
     android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
-    android:background="@drawable/bck_item_artist"
+    android:background="@drawable/overlay_color_bck_drawable"
     android:gravity="center">
 
     <ImageView
