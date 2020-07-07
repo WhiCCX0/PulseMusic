@@ -1,36 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="84dp"
+    android:layout_height="64dp"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginBottom="4dp"
-    android:clickable="true"
-    android:clipToPadding="false"
-    android:focusable="true"
-    app:cardBackgroundColor="?attr/surfaceColor"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="3dp">
+    android:background="@drawable/bck_item_artist"
+    android:gravity="center">
+
+    <ImageView
+        style="@style/ButtonStyle24"
+        android:contentDescription="@string/iv_content_desc"
+        android:src="@drawable/ic_playlist"
+        android:tint="?unFocusedColor" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/playlist_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
         android:text="@string/playlist_current_queue"
-        android:textAppearance="@style/TextViewHeadline6" />
+        android:textAppearance="@style/TextViewBody1" />
 
     <ImageView
         android:id="@+id/edit_btn"
         style="@style/ButtonStyle24"
-        android:layout_gravity="end|center_vertical"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/iv_btn_action_description"
         android:src="@drawable/ic_round_edit"
-        android:visibility="visible"
-        tools:ignore="contentDescription" />
-
-</com.google.android.material.card.MaterialCardView>
+        android:visibility="visible" />
+</LinearLayout>

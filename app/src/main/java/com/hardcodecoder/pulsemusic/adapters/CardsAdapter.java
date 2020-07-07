@@ -14,6 +14,7 @@ import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperAdapter;
 import com.hardcodecoder.pulsemusic.interfaces.ItemTouchHelperViewHolder;
 import com.hardcodecoder.pulsemusic.interfaces.PlaylistCardListener;
 import com.hardcodecoder.pulsemusic.interfaces.SimpleGestureCallback;
+import com.hardcodecoder.pulsemusic.utils.ImageUtil;
 
 import java.util.List;
 
@@ -85,12 +86,12 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsSVH> im
 
         @Override
         public void onItemSelected() {
-            itemView.setBackground(itemView.getContext().getDrawable(R.drawable.active_item_background));
+            itemView.setBackground(ImageUtil.getTintedGradientOverlay(itemView.getContext()));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackground(itemView.getContext().getDrawable(android.R.color.transparent));
+            itemView.setBackground(itemView.getContext().getDrawable(R.drawable.bck_item_artist));
         }
     }
 }
