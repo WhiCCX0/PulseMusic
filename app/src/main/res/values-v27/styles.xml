@@ -34,7 +34,7 @@
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColor">?secondaryTextColor</item>
-        <item name="android:fontFamily">@font/circular</item>
+        <item name="android:fontFamily">@font/product</item>
         <item name="android:textStyle">bold</item>
         <item name="android:navigationBarColor">?windowBackgroundColor</item>
         <item name="android:windowLightNavigationBar">?isLightMode</item>

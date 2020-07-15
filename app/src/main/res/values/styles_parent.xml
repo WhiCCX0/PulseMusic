@@ -2,13 +2,13 @@
 <resources>
 
     <style name="ProductRegularTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/circular</item>
-        <item name="fontFamily">@font/circular</item>
+        <item name="android:fontFamily">@font/product</item>
+        <item name="fontFamily">@font/product</item>
     </style>
 
     <style name="ProductRegularButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:fontFamily">@font/circular</item>
-        <item name="fontFamily">@font/circular</item>
+        <item name="android:fontFamily">@font/product</item>
+        <item name="fontFamily">@font/product</item>
     </style>
     -
 
