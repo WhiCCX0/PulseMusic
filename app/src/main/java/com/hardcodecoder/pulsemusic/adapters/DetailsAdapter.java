@@ -64,8 +64,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsS
         DetailsSVH(@NonNull View itemView, SimpleItemClickListener mListener) {
             super(itemView);
             albumArt = itemView.findViewById(R.id.list_item_option_album_art);
-            title = itemView.findViewById(R.id.list_item_option_title);
-            subTitle = itemView.findViewById(R.id.list_item_option_sub_title);
+            title = itemView.findViewById(R.id.list_item_title);
+            subTitle = itemView.findViewById(R.id.list_item_sub_title);
             itemView.findViewById(R.id.list_item_option_options_btn).setOnClickListener(v -> mListener.onOptionsClick(getAdapterPosition()));
             itemView.setOnClickListener(v -> mListener.onItemClick(getAdapterPosition()));
         }

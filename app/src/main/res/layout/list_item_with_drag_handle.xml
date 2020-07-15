@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,32 +21,21 @@
         tools:scaleType="centerCrop"
         tools:src="@tools:sample/backgrounds/scenic" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/list_item_drag_title"
+    <include
+        layout="@layout/list_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/list_item_drag_album_art"
-        android:layout_marginTop="2dp"
         android:layout_toStartOf="@id/list_item_drag_drag_handle"
-        android:layout_toEndOf="@id/list_item_drag_album_art"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
-        android:textColor="?primaryTextColor"
-        tools:text="@tools:sample/lorem/random" />
+        android:layout_toEndOf="@id/list_item_drag_album_art" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/list_item_drag_sub_title"
+    <include
+        layout="@layout/list_item_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/list_item_drag_album_art"
         android:layout_toStartOf="@id/list_item_drag_drag_handle"
-        android:layout_toEndOf="@id/list_item_drag_album_art"
-        android:gravity="bottom"
-        android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
-        android:textColor="?secondaryTextColor"
-        tools:text="@tools:sample/lorem/random" />
+        android:layout_toEndOf="@id/list_item_drag_album_art" />
 
     <ImageView
         android:id="@+id/list_item_drag_drag_handle"
@@ -55,5 +43,4 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_drag_handle"
         tools:ignore="contentDescription" />
-
 </RelativeLayout>

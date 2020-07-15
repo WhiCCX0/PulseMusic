@@ -116,8 +116,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         MyViewHolderLibrary(View itemView, SimpleItemClickListener listener) {
             super(itemView);
             albumArt = itemView.findViewById(R.id.list_item_option_album_art);
-            title = itemView.findViewById(R.id.list_item_option_title);
-            subTitle = itemView.findViewById(R.id.list_item_option_sub_title);
+            title = itemView.findViewById(R.id.list_item_title);
+            subTitle = itemView.findViewById(R.id.list_item_sub_title);
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
             itemView.findViewById(R.id.list_item_option_options_btn)
                     .setOnClickListener(v -> listener.onOptionsClick(getAdapterPosition()));

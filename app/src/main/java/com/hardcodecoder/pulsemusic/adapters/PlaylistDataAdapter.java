@@ -111,8 +111,8 @@ public class PlaylistDataAdapter extends RecyclerView.Adapter<PlaylistDataAdapte
 
         PlaylistDataSVH(@NonNull View itemView, PlaylistItemListener listener) {
             super(itemView);
-            title = itemView.findViewById(R.id.list_item_drag_title);
-            subTitle = itemView.findViewById(R.id.list_item_drag_sub_title);
+            title = itemView.findViewById(R.id.list_item_title);
+            subTitle = itemView.findViewById(R.id.list_item_sub_title);
             albumArt = itemView.findViewById(R.id.list_item_drag_album_art);
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
             //noinspection AndroidLintClickableViewAccessibility

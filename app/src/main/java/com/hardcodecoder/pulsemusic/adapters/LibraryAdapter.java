@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +18,7 @@ import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.GlideConstantArtifacts;
 import com.hardcodecoder.pulsemusic.R;
@@ -88,13 +88,13 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.MyLibrar
      */
     static class MyLibraryViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView songName, artist;
+        private MaterialTextView songName, artist;
         private ImageView albumArt;
 
         MyLibraryViewHolder(View itemView, SimpleItemClickListener listener) {
             super(itemView);
-            songName = itemView.findViewById(R.id.list_item_option_title);
-            artist = itemView.findViewById(R.id.list_item_option_sub_title);
+            songName = itemView.findViewById(R.id.list_item_title);
+            artist = itemView.findViewById(R.id.list_item_sub_title);
             albumArt = itemView.findViewById(R.id.list_item_option_album_art);
 
             itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
