@@ -9,6 +9,6 @@
     android:paddingStart="16dp"
     android:paddingTop="0dp"
     android:paddingEnd="0dp"
-    android:paddingBottom="16dp"
+    android:paddingBottom="24dp"
     android:clipChildren="false"
     tools:listitem="@layout/rv_home_item_sq" />

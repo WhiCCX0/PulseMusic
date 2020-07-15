@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="128dp"
+    android:layout_width="148dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"
     android:background="@drawable/overlay_color_bck_drawable"
     android:orientation="vertical"
-    android:paddingBottom="8dp">
+    android:paddingBottom="12dp">
 
     <ImageView
         android:id="@+id/home_rv_artist_list_item_art"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="20dp"
@@ -19,7 +19,9 @@
         android:src="@drawable/ic_artist_art"
         tools:ignore="contentDescription" />
 
-    <include layout="@layout/rv_home_item_title_text_view" />
+    <include
+        layout="@layout/rv_home_item_title_text_view"
+        android:maxLines="2" />
 
     <include layout="@layout/rv_home_item_sub_text_view" />
 </LinearLayout>
