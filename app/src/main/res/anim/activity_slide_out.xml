@@ -2,14 +2,14 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
-        android:duration="@android:integer/config_shortAnimTime"
+        android:duration="@integer/now_playing_screen_exit"
         android:fromYDelta="0"
-        android:interpolator="@android:interpolator/accelerate_quad"
+        android:interpolator="@android:interpolator/linear_out_slow_in"
         android:toYDelta="100%p" />
 
     <alpha
-        android:duration="@android:integer/config_shortAnimTime"
+        android:duration="@integer/now_playing_screen_exit_fade"
         android:fromAlpha="1"
-        android:interpolator="@android:interpolator/accelerate_quad"
+        android:interpolator="@android:interpolator/linear"
         android:toAlpha="0" />
 </set>

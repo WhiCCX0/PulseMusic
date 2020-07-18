@@ -2,13 +2,13 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="@integer/now_playing_screen_album_cover_enter"
         android:fromXDelta="100%"
-        android:interpolator="@android:interpolator/decelerate_quad"
+        android:interpolator="@android:interpolator/linear_out_slow_in"
         android:toXDelta="0" />
 
     <alpha
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="@integer/now_playing_screen_album_cover_enter"
         android:fromAlpha="0"
         android:interpolator="@android:interpolator/fast_out_slow_in"
         android:toAlpha="1" />

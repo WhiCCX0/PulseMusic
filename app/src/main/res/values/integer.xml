@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="item_falls_down_duration">200</integer>
+    <integer name="now_playing_screen_enter">375</integer>
+    <integer name="now_playing_screen_exit">275</integer>
+    <integer name="now_playing_screen_exit_fade">200</integer>
+    <integer name="now_playing_screen_album_cover_enter">300</integer>
 </resources>
