@@ -88,21 +88,15 @@ public class NowPlayingScreen extends MediaSessionActivity implements MediaProgr
         // guarantees that views are initialized before any callback
         // from MediaProgressUpdateHelper#Callback
         initializeViews();
+        setUpOnClickListeners();
         if (null == mUpdateHelper)
             mUpdateHelper = new MediaProgressUpdateHelper(controller, this);
         mTransportControls = controller.getTransportControls();
-        setUpOnClickListeners();
-        mUpdateHelper.start();
     }
 
     @Override
     public void onMetadataDataChanged(MediaMetadata metadata) {
         if (metadata != null) {
-            GlideApp.with(this)
-                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
-                    .transition(GenericTransitionOptions.with(R.anim.now_playing_album_card))
-                    .into((ImageView) findViewById(R.id.activity_np_album_art));
-
             long seconds = metadata.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
             mSeekBar.setMax((int) seconds);
             mSeekBar.setProgress(0);
@@ -110,6 +104,12 @@ public class NowPlayingScreen extends MediaSessionActivity implements MediaProgr
             mEndTime.setText(DateUtils.formatElapsedTime(seconds));
             mArtistText.setText(metadata.getString(MediaMetadata.METADATA_KEY_ARTIST));
             mTrackTitle.setText(metadata.getText(MediaMetadata.METADATA_KEY_TITLE));
+
+            GlideApp.with(this)
+                    .load(metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART))
+                    .transition(GenericTransitionOptions.with(R.anim.now_playing_album_card))
+                    .into((ImageView) findViewById(R.id.activity_np_album_art));
+
             updateFavoriteBtn();
             updateRepeatBtn();
         }

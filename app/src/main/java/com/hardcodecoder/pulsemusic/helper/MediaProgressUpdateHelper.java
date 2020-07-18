@@ -39,13 +39,16 @@ public class MediaProgressUpdateHelper extends Handler {
         // Make a callbacks so that the receiver initialises itself with current data
         mCallback.onMetadataDataChanged(mController.getMetadata());
         mCallback.onPlaybackStateChanged(mController.getPlaybackState());
+        if (null != mController.getPlaybackState())
+            mCallback.updateSeekBarProgress((int) mController.getPlaybackState().getPosition() / 1000);
+        start();
     }
 
     public MediaProgressUpdateHelper(@NonNull MediaController controller, @NonNull Callback callback) {
         this(controller, callback, DEFAULT_UPDATE_INTERVAL_MILLS);
     }
 
-    public void start() {
+    private void start() {
         queueNextRefresh(mUpdateIntervalMills);
     }
 
