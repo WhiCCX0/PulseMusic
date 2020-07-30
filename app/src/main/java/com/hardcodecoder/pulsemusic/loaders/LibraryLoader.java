@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
 
 import com.hardcodecoder.pulsemusic.model.MusicModel;
@@ -42,12 +43,13 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
         List<MusicModel> libraryList = new ArrayList<>();
         final Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         final String[] cursor_cols = {
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM,
-                MediaStore.Audio.Media.ALBUM_ID,
-                MediaStore.Audio.Media.DURATION};
+                BaseColumns._ID,
+                MediaStore.Audio.AudioColumns.TITLE,
+                MediaStore.Audio.AudioColumns.ARTIST,
+                MediaStore.Audio.AudioColumns.ALBUM,
+                MediaStore.Audio.AudioColumns.DATA,
+                MediaStore.Audio.AudioColumns.ALBUM_ID,
+                MediaStore.Audio.AudioColumns.DURATION};
 
         final Cursor cursor = contentResolver.query(
                 uri,
@@ -57,26 +59,35 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
                 mSortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
-            int idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-            int titleColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-            int artistColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
-            int albumColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM);
-            int albumIdColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
-            int durationColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
+            int idColumnIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+            int titleColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+            int artistColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST);
+            int albumColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM);
+            int albumIdColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM_ID);
+            int durationColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION);
 
             final Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
 
             do {
-                int _id = cursor.getInt(idColumnIndex);
                 String songName = cursor.getString(titleColumnIndex);
-                String artist = cursor.getString(artistColumnIndex);
-                String album = cursor.getString(albumColumnIndex);
-                String songPath = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, _id).toString();
-                long albumId = cursor.getLong(albumIdColumnIndex);
-                int duration = cursor.getInt(durationColumnIndex);
-                String albumArt = ContentUris.withAppendedId(sArtworkUri, albumId).toString();
-
-                libraryList.add(new MusicModel(_id, songName, songPath, album, artist, albumArt, albumId, duration));
+                if (null != songName) {
+                    int _id = cursor.getInt(idColumnIndex);
+                    String artist = cursor.getString(artistColumnIndex);
+                    String album = cursor.getString(albumColumnIndex);
+                    String songPath = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, _id).toString();
+                    long albumId = cursor.getLong(albumIdColumnIndex);
+                    int duration = cursor.getInt(durationColumnIndex);
+                    String albumArt = ContentUris.withAppendedId(sArtworkUri, albumId).toString();
+                    libraryList.add(new MusicModel(
+                            _id,
+                            songName,
+                            songPath,
+                            album == null ? "" : album,
+                            artist == null ? "" : artist,
+                            albumArt,
+                            albumId,
+                            duration));
+                }
             } while (cursor.moveToNext());
             cursor.close();
         }
@@ -85,11 +96,11 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
 
     private String getSelection() {
         return "("
-                + "(" + MediaStore.Audio.Media.IS_MUSIC + "==?)"
-                + "AND (" + MediaStore.Audio.Media.IS_ALARM + "==?)"
-                + "AND (" + MediaStore.Audio.Media.IS_NOTIFICATION + "==?)"
-                + "AND (" + MediaStore.Audio.Media.IS_PODCAST + "==?)"
-                + "AND (" + MediaStore.Audio.Media.IS_RINGTONE + "==?)"
+                + "(" + MediaStore.Audio.AudioColumns.IS_MUSIC + "==?)"
+                + "AND (" + MediaStore.Audio.AudioColumns.IS_ALARM + "==?)"
+                + "AND (" + MediaStore.Audio.AudioColumns.IS_NOTIFICATION + "==?)"
+                + "AND (" + MediaStore.Audio.AudioColumns.IS_PODCAST + "==?)"
+                + "AND (" + MediaStore.Audio.AudioColumns.IS_RINGTONE + "==?)"
                 + ")";
     }
 
