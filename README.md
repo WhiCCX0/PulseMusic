@@ -1,6 +1,6 @@
 # PulseMusic
 
- A simple modern looking music player that gets the work done without disturbing you
+ An offline music player android app, with modern UI and powerful features
 
 ## Pre-requisites
 - Minimum SDK Version v21 (Lollipop)
@@ -17,35 +17,42 @@ This sample uses the Gradle build system. To build this project, use the
 
 See LICENSE file or [GNU GENERAL PUBLIC LICENSE](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
-# Features
+## Screens
 
-## Home
+### Home
 Rediscover your offline collection with new suggestions based on your music preference
 and mood.
 
-## Library
+### Library
 Get your entire collection in one place
 
-## Albums
+### Albums
 Discover all the albums you have collected so far.
 
-## Artist
+### Artist
 Get to know all the tracks from your favorite artist
 
-## Playlist
+### Playlist
 A powerful and customizable playlist manager where you can create your own playlist,
 add tracks, change order and even add and remove tracks from your active playing queue.
 But wait there's even more check it out yourself.
 
 ## Theme your music
-With 3 different dark and light themes to choose from, you can choose what suits you.
-**Auto theme** : Let Pulse decide which theme to apply based on time of day
+With 3 different dark themes to and several accents to choose from, customize your music player your way.
+<br></br>
+**Manual dark theme toggle** : Enable dark theme whenever you want
+<br></br>
+**Auto theme** : Pulse Music decides which theme to apply based on time of day
+<br></br>
+**Desaturated colors** : Make accent colors desaturated to better suit the dark theme (works only in dark theme)
 
-## Download
+<br></br>
+## Downloads
 [<img alt="Get it on Github" height="70" src="https://raw.githubusercontent.com/flocke/andOTP/master/assets/badges/get-it-on-github.png">](https://github.com/HardcodeCoder/PulseMusic/releases/)
+### Latest release: [Here](https://github.com/HardcodeCoder/PulseMusic/releases/latest/download/PulseMusic_v2.0.0_release.apk)
 
 
-**NOTE : *App is currently in active development (not so active though) so more features will be added in the future*.**
+**NOTE : *App development is currently on half so no more features will be added in the near future*.**
 
 ## Bugs
 To report a bug create a new issue.
