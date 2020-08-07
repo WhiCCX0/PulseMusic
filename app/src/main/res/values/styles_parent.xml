@@ -54,6 +54,7 @@
 
     <style name="Theme.PulseMusic.Light" parent="ThemeLight">
         <item name="android:windowBackground">@color/lightColorBackground</item>
+        <item name="primaryColor">@color/exodus_fruit</item>
         <item name="colorOnPrimary">@color/lightColorOnPrimary</item>
         <item name="windowBackgroundColor">@color/lightColorBackground</item>
         <item name="surfaceColor">@color/lightColorSurface</item>
@@ -73,6 +74,7 @@
 
     <style name="Theme.PulseMusic.Dark" parent="ThemeDark">
         <item name="android:windowBackground">@color/darkColorBackground</item>
+        <item name="primaryColor">@color/exodus_fruit_desaturated</item>
         <item name="colorOnPrimary">@color/darkColorOnPrimary</item>
         <item name="windowBackgroundColor">@color/darkColorBackground</item>
         <item name="surfaceColor">@color/darkColorSurface</item>
