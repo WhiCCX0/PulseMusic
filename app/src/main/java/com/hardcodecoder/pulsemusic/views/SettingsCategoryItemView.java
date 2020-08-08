@@ -45,8 +45,7 @@ public class SettingsCategoryItemView extends FrameLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingsCategoryItemView);
 
         if (title.getTypeface() != null && typedArray.hasValue(R.styleable.SettingsCategoryItemView_android_textStyle)) {
-            title.setTextAppearance(context, R.style.TextViewSubtitle1);
-            title.setTypeface(title.getTypeface(), typedArray.getInteger(R.styleable.SettingsCategoryItemView_android_textStyle, Typeface.BOLD));
+            title.setTypeface(title.getTypeface(), typedArray.getInteger(R.styleable.SettingsCategoryItemView_android_textStyle, Typeface.NORMAL));
         }
 
         if (typedArray.hasValue(R.styleable.SettingsCategoryItemView_settingItemIcon)) {

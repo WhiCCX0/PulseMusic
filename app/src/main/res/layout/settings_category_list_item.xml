@@ -28,11 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/settings_list_item_icon"
-        android:ellipsize="marquee"
-        android:requiresFadingEdge="horizontal"
-        android:singleLine="true"
         android:textAppearance="@style/TextViewSubtitle1"
-        android:textStyle="bold"
         tools:text="@tools:sample/full_names" />
 
     <com.google.android.material.textview.MaterialTextView
