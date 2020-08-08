@@ -95,7 +95,7 @@ public class AppSettings {
                 .getBoolean(Preferences.ACCENTS_COLOR_DESATURATED_KEY, false);
     }
 
-    public static void setAlbumCardOverlayEnabled(@NonNull Context context, boolean enabled) {
+    /*public static void setAlbumCardOverlayEnabled(@NonNull Context context, boolean enabled) {
         SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE).edit();
         editor.putBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, enabled);
         editor.apply();
@@ -104,7 +104,7 @@ public class AppSettings {
     public static boolean isAlbumCardOverlayEnabled(@NonNull Context context) {
         return context.getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
                 .getBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, false);
-    }
+    }*/
 
     public static void setNowPlayingAlbumCardStyle(@NonNull Context context, int id) {
         SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Context.MODE_PRIVATE).edit();

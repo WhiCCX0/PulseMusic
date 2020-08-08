@@ -47,25 +47,25 @@ public class SettingsThemeFragment extends Fragment {
 
         updateThemeSection(view);
 
-        SettingsToggleableItem albumOverlaySelectorLayout = view.findViewById(R.id.laf_select_album_art_overlay);
-        SwitchMaterial albumOverlaySwitch = albumOverlaySelectorLayout.findViewById(R.id.setting_toggleable_item_switch);
+        //SettingsToggleableItem albumOverlaySelectorLayout = view.findViewById(R.id.laf_select_album_art_overlay);
+        //SwitchMaterial albumOverlaySwitch = albumOverlaySelectorLayout.findViewById(R.id.setting_toggleable_item_switch);
 
         SettingsToggleableItem desaturatedAccentSwitchLayout = view.findViewById(R.id.laf_enable_desaturated);
         SwitchMaterial desaturatedAccentSwitch = desaturatedAccentSwitchLayout.findViewById(R.id.setting_toggleable_item_switch);
 
-        boolean albumOverlayEnabled = false;
+        //boolean albumOverlayEnabled = false;
         boolean desaturatedAccents = false;
         if (null != getContext()) {
-            albumOverlayEnabled = AppSettings.isAlbumCardOverlayEnabled(getContext());
+            //albumOverlayEnabled = AppSettings.isAlbumCardOverlayEnabled(getContext());
             desaturatedAccents = AppSettings.getAccentDesaturatedColor(getContext());
         }
 
-        albumOverlaySwitch.setChecked(albumOverlayEnabled);
+        /*albumOverlaySwitch.setChecked(albumOverlayEnabled);
         albumOverlaySwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
                 AppSettings.setAlbumCardOverlayEnabled(buttonView.getContext(), isChecked));
 
         albumOverlaySelectorLayout.setOnClickListener(v ->
-                albumOverlaySwitch.setChecked(!albumOverlaySwitch.isChecked()));
+                albumOverlaySwitch.setChecked(!albumOverlaySwitch.isChecked()));*/
 
         desaturatedAccentSwitch.setChecked(desaturatedAccents);
         desaturatedAccentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {

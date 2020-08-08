@@ -17,16 +17,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/backgrounds/scenic" />
 
-    <ViewStub
-        android:id="@+id/stub_album_art_overlay"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout="@layout/album_art_overlay"
-        app:layout_constraintBottom_toBottomOf="@id/grid_item_iv"
-        app:layout_constraintEnd_toEndOf="@id/grid_item_iv"
-        app:layout_constraintStart_toStartOf="@id/grid_item_iv"
-        app:layout_constraintTop_toTopOf="@id/grid_item_iv" />
+    <!--
+        <ViewStub
+            android:id="@+id/stub_album_art_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout="@layout/album_art_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/grid_item_iv"
+            app:layout_constraintEnd_toEndOf="@id/grid_item_iv"
+            app:layout_constraintStart_toStartOf="@id/grid_item_iv"
+            app:layout_constraintTop_toTopOf="@id/grid_item_iv" />
 
+       -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/grid_item_tv"
         android:layout_width="match_parent"

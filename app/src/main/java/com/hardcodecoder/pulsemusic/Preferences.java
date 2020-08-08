@@ -49,7 +49,7 @@ public class Preferences {
     public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";
 
     // True or false
-    public static final String ALBUM_CARD_OVERLAY_KEY = "AlbumCardOverlayKey";
+    //public static final String ALBUM_CARD_OVERLAY_KEY = "AlbumCardOverlayKey";
 
     // True of false
     public static final String ACCENTS_COLOR_KEY = "AccentsColor";

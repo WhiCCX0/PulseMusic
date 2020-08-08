@@ -75,20 +75,22 @@
             app:settingItemTitle="@string/laf_category_select_color"
             app:settingToggleableItemEnabled="true" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/laf_category_album_art_decoration"
-            android:textAppearance="@style/TextViewOverline"
-            android:textColor="?primaryColor" />
+        <!--
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/laf_category_album_art_decoration"
+                    android:textAppearance="@style/TextViewOverline"
+                    android:textColor="?primaryColor" />
 
-        <com.hardcodecoder.pulsemusic.views.SettingsToggleableItem
-            android:id="@+id/laf_select_album_art_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:settingToggleableItemText="@string/laf_category_album_art_decoration_desc"
-            app:settingToggleableItemTitle="@string/laf_category_album_art_decoration_title" />
+                <com.hardcodecoder.pulsemusic.views.SettingsToggleableItem
+                    android:id="@+id/laf_select_album_art_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:settingToggleableItemText="@string/laf_category_album_art_decoration_desc"
+                    app:settingToggleableItemTitle="@string/laf_category_album_art_decoration_title" />
+          -->
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

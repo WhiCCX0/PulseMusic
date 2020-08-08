@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,26 +40,26 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
     private LayoutInflater mInflater;
     private SimpleTransitionClickListener mListener;
     private GridAdapterCallback mCallback;
-    private boolean mAddOverlay;
+    //private boolean mAddOverlay;
 
     public AlbumsAdapter(List<AlbumModel> list,
                          LayoutInflater inflater,
                          SimpleTransitionClickListener listener,
-                         GridAdapterCallback callback,
-                         boolean addOverlay) {
+                         GridAdapterCallback callback
+            /*boolean addOverlay*/) {
         mList = list;
         mInflater = inflater;
         mListener = listener;
         mCallback = callback;
-        mAddOverlay = addOverlay;
+        //mAddOverlay = addOverlay;
     }
 
-    public void changeOverlayOption(boolean changed) {
+    /*public void changeOverlayOption(boolean changed) {
         if (mAddOverlay != changed) {
             mAddOverlay = changed;
             notifyItemRangeChanged(0, mList.size());
         }
-    }
+    }*/
 
     public void updateSortOrder(SortOrder.ALBUMS sortOrder) {
         final Handler handler = new Handler();
@@ -83,7 +82,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
     @NonNull
     @Override
     public AlbumsSVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AlbumsSVH(mInflater.inflate(R.layout.rv_grid_item_album, parent, false), mAddOverlay, mListener);
+        return new AlbumsSVH(mInflater.inflate(R.layout.rv_grid_item_album, parent, false), /*mAddOverlay,*/ mListener);
     }
 
     @Override
@@ -103,10 +102,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsSVH>
         private ImageView albumArt;
         private TextView title;
 
-        AlbumsSVH(@NonNull View itemView, boolean addOverlay, SimpleTransitionClickListener mListener) {
+        AlbumsSVH(@NonNull View itemView, /*boolean addOverlay,*/ SimpleTransitionClickListener mListener) {
             super(itemView);
-            if (addOverlay)
-                ((ViewStub) itemView.findViewById(R.id.stub_album_art_overlay)).inflate();
+            /*if (addOverlay)
+                ((ViewStub) itemView.findViewById(R.id.stub_album_art_overlay)).inflate();*/
             albumArt = itemView.findViewById(R.id.grid_item_iv);
             title = itemView.findViewById(R.id.grid_item_tv);
             itemView.setOnClickListener(v -> mListener.onItemClick(albumArt, getAdapterPosition()));
