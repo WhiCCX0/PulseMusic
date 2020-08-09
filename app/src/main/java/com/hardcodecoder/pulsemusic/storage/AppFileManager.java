@@ -4,6 +4,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -134,9 +135,10 @@ public class AppFileManager {
 
     public static void isItemAFavorite(@NonNull MusicModel item, @NonNull Callback<Boolean> callback) {
         if (null == mFavoritesSet) {
+            Handler handler = new Handler();
             TaskRunner.executeAsync(() -> {
                 loadFavorites();
-                callback.onComplete(mFavoritesSet.contains(item.getTrackName()));
+                handler.post(() -> callback.onComplete(mFavoritesSet.contains(item.getTrackName())));
             });
             loadFavorites();
         } else callback.onComplete(mFavoritesSet.contains(item.getTrackName()));
