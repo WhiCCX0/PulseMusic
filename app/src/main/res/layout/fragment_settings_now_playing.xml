@@ -27,7 +27,7 @@
         app:settingItemIconBackgroundColor="?windowBackgroundColor"
         app:settingItemIconColor="?unFocusedColor"
         app:settingItemText="@string/now_playing_album_style_desc"
-        app:settingItemTitle="@string/now_playing_album_style_title" />
+        app:settingItemTitle="@string/now_playing_screen_selector_title" />
 
     <com.hardcodecoder.pulsemusic.views.SettingsToggleableItem
         android:id="@+id/now_playing_album_decoration"
