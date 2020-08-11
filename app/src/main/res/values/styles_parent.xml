@@ -93,19 +93,20 @@
     </style>
 
     <style name="Theme.PulseMusic.Kinda" parent="Theme.PulseMusic.Dark">
-        <item name="android:windowBackground">@color/window_background_kinda_dark</item>
-        <item name="windowBackgroundColor">@color/window_background_kinda_dark</item>
-        <item name="surfaceColor">@color/surface_color_kinda_dark</item>
-        <item name="android:navigationBarColor">@color/window_background_kinda_dark</item>
+        <item name="android:windowBackground">@color/signatureColorBackground</item>
+        <item name="windowBackgroundColor">@color/signatureColorBackground</item>
+        <item name="surfaceColor">@color/signatureColorSurface</item>
+        <item name="android:navigationBarColor">@color/signatureColorBackground</item>
     </style>
 
 
     <style name="Theme.PulseMusic.Dark.BLACK">
-        <item name="android:windowBackground">@color/window_background_black_dark</item>
-        <item name="colorOnPrimary">@color/on_primary_black_dark_variant</item>
-        <item name="windowBackgroundColor">@color/window_background_black_dark</item>
-        <item name="surfaceColor">@color/surface_color_black_dark</item>
-        <item name="android:navigationBarColor">@color/window_background_black_dark</item>
+        <item name="android:windowBackground">@color/blackColorBackground</item>
+        <item name="colorOnPrimary">@color/blackColorOnPrimary</item>
+        <item name="windowBackgroundColor">@color/blackColorBackground</item>
+        <item name="surfaceColor">@color/blackColorSurface</item>
+        <item name="android:navigationBarColor">@color/blackColorBackground</item>
+        <item name="overlayColor">@color/blackColorOverlay</item>
     </style>
 
 </resources>

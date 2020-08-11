@@ -38,22 +38,18 @@
     <!-- To create branded dark surfaces, overlay the primary
     brand color at a low opacity over the recommended dark theme
     surface color (#121212). The color #1F1B24 -->
-    <color name="window_background_kinda_dark">#1F1B24</color>
+    <color name="signatureColorBackground">#1F1B24</color>
 
     <!--4dp elevated surface 9% alpha over white -->
-    <color name="surface_color_kinda_dark">#121F1B24</color>
+    <color name="signatureColorSurface">#121F1B24</color>
 
 
 
     <!-- ******************************************************** -->
-    <!-- *************** COLORS FOR CHARCOAL ******************** -->
+    <!-- *************** COLORS FOR BLACK ******************** -->
 
-    <color name="window_background_black_dark">#000000</color>
-
-    <!-- Color that appear over primary -->
-    <color name="on_primary_black_dark_variant">#202020</color>
-
-    <!--4dp elevated surface 10% alpha over white -->
-    <color name="surface_color_black_dark">@color/md_grey_1000</color>
-
+    <color name="blackColorBackground">#000000</color>
+    <color name="blackColorOnPrimary">#202020</color>
+    <color name="blackColorSurface">@color/md_grey_1000</color>
+    <color name="blackColorOverlay">#1AFFFFFF</color>
 </resources>
