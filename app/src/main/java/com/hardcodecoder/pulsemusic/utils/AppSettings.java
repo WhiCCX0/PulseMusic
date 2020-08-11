@@ -112,19 +112,19 @@ public class AppSettings {
         editor.apply();
     }
 
-    public static void setNowPlayingAlbumCardOverlayEnabled(@NonNull Context context, boolean enabled) {
+    /*public static void setNowPlayingAlbumCardOverlayEnabled(@NonNull Context context, boolean enabled) {
         SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE).edit();
         editor.putBoolean(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, enabled);
         editor.apply();
-    }
+    }*/
 
     public static int getNowPlayingScreenStyle(@NonNull Context context) {
         return context.getSharedPreferences(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Context.MODE_PRIVATE)
                 .getInt(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Preferences.NOW_PLAYING_SCREEN_MODERN);
     }
 
-    public static boolean isNowPlayingAlbumCardOverlayEnabled(@NonNull Context context) {
+    /*public static boolean isNowPlayingAlbumCardOverlayEnabled(@NonNull Context context) {
         return context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
                 .getBoolean(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, false);
-    }
+    }*/
 }

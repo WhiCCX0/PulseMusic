@@ -9,15 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
 import com.hardcodecoder.pulsemusic.dialog.NowPlayingStyleChooser;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
-import com.hardcodecoder.pulsemusic.utils.AppSettings;
-import com.hardcodecoder.pulsemusic.views.SettingsToggleableItem;
-
-import java.util.Objects;
 
 public class SettingsNowPlayingFragment extends Fragment {
 
@@ -39,12 +34,14 @@ public class SettingsNowPlayingFragment extends Fragment {
         if (mListener instanceof SettingsActivity)
             mListener.setToolbarTitle(R.string.now_playing_title);
 
-        view.findViewById(R.id.now_playing_album_style).setOnClickListener(v -> {
-            NowPlayingStyleChooser dialog = NowPlayingStyleChooser.getInstance();
-            dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), NowPlayingStyleChooser.TAG);
+        view.findViewById(R.id.now_playing_screen_style).setOnClickListener(v -> {
+            if (null != getActivity()) {
+                NowPlayingStyleChooser dialog = NowPlayingStyleChooser.getInstance();
+                dialog.show(getActivity().getSupportFragmentManager(), NowPlayingStyleChooser.TAG);
+            }
         });
 
-        boolean enabled = false;
+        /*boolean enabled = false;
         if (null != getContext())
             enabled = AppSettings.isNowPlayingAlbumCardOverlayEnabled(getContext());
 
@@ -55,7 +52,7 @@ public class SettingsNowPlayingFragment extends Fragment {
         albumCardDecorationSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
                 AppSettings.setNowPlayingAlbumCardOverlayEnabled(buttonView.getContext(), isChecked));
         albumCardDecorationLayout.setOnClickListener(v ->
-                albumCardDecorationSwitch.setChecked(!albumCardDecorationSwitch.isChecked()));
+                albumCardDecorationSwitch.setChecked(!albumCardDecorationSwitch.isChecked()));*/
 
     }
 }

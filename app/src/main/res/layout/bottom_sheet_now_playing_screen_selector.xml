@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/now_playing_screen_selector_title"
+        android:text="@string/now_playing_screen_style_title"
         android:textAppearance="@style/TextViewBody1"
         android:textColor="?attr/primaryColor"
         android:textStyle="bold" />

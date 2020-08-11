@@ -16,23 +16,24 @@
         android:textColor="?primaryColor" />
 
     <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView
-        android:id="@+id/now_playing_album_style"
+        android:id="@+id/now_playing_screen_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="0dp"
         android:paddingEnd="64dp"
         android:textStyle="normal"
         app:settingItemDesaturatedColorsInDarkMode="false"
-        app:settingItemIcon="@drawable/ic_album_style"
+        app:settingItemIcon="@drawable/ic_now_playing_style"
         app:settingItemIconBackgroundColor="?windowBackgroundColor"
         app:settingItemIconColor="?unFocusedColor"
-        app:settingItemText="@string/now_playing_album_style_desc"
-        app:settingItemTitle="@string/now_playing_screen_selector_title" />
-
-    <com.hardcodecoder.pulsemusic.views.SettingsToggleableItem
-        android:id="@+id/now_playing_album_decoration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:settingToggleableItemText="@string/now_playing_album_decoration_desc"
-        app:settingToggleableItemTitle="@string/now_playing_album_decoration_title" />
+        app:settingItemText="@string/now_playing_screen_style_desc"
+        app:settingItemTitle="@string/now_playing_screen_style_title" />
+    <!--
+        <com.hardcodecoder.pulsemusic.views.SettingsToggleableItem
+            android:id="@+id/now_playing_album_decoration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:settingToggleableItemText="@string/now_playing_album_decoration_desc"
+            app:settingToggleableItemTitle="@string/now_playing_album_decoration_title" />
+      -->
 </LinearLayout>

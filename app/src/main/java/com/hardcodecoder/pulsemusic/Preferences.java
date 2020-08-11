@@ -46,7 +46,7 @@ public class Preferences {
     public static final int NOW_PLAYING_SCREEN_STYLISH = 5001;
 
     // True or false
-    public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";
+    //public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";
 
     // True or false
     //public static final String ALBUM_CARD_OVERLAY_KEY = "AlbumCardOverlayKey";
