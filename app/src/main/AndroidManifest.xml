@@ -56,7 +56,7 @@
             android:name=".shortcuts.ShortcutsLauncher"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activities.NowPlayingScreen" />
+        <activity android:name=".activities.nowplaying.NowPlayingScreenActivity" />
 
         <service
             android:name=".PMS"

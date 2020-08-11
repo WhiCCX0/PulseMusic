@@ -44,6 +44,12 @@ public class TrackManager {
         return mActiveList.get(mIndex);
     }
 
+    public MusicModel getNextQueueItem() {
+        if (mIndex + 1 < mActiveList.size())
+            return mActiveList.get(mIndex + 1);
+        return null;
+    }
+
     public void repeatCurrentTrack(boolean b) {
         mRepeatCurrentTrack = b;
     }

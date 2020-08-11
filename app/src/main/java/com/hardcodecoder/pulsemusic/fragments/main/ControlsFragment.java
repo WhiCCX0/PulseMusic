@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.activities.NowPlayingScreen;
+import com.hardcodecoder.pulsemusic.activities.nowplaying.NowPlayingScreenActivity;
 
 public class ControlsFragment extends Fragment {
 
@@ -74,7 +74,7 @@ public class ControlsFragment extends Fragment {
         skipPrev.setOnClickListener(v1 -> mTransportControl.skipToPrevious());
 
         v.setOnClickListener(v1 -> {
-            Intent intent = new Intent(getActivity(), NowPlayingScreen.class);
+            Intent intent = new Intent(getActivity(), NowPlayingScreenActivity.class);
             startActivity(intent);
         });
     }

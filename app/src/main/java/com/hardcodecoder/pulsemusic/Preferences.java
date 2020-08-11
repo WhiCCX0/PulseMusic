@@ -41,9 +41,9 @@ public class Preferences {
     public static final short ACCENT_BLUE_PINK = 707;
 
     // In range 5000 - 5100
-    public static final String NOW_PLAYING_ALBUM_CARD_STYLE_KEY = "NowPlayingAlbumStyleKey";
-    public static final int NOW_PLAYING_ALBUM_CARD_STYLE_CIRCLE = 5000;
-    public static final int NOW_PLAYING_ALBUM_CARD_STYLE_SQUARE = 5001;
+    public static final String NOW_PLAYING_SCREEN_STYLE_KEY = "NowPlayingAlbumStyleKey";
+    public static final int NOW_PLAYING_SCREEN_MODERN = 5000;
+    public static final int NOW_PLAYING_SCREEN_STYLISH = 5001;
 
     // True or false
     public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";

@@ -14,33 +14,34 @@ import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
-public class AlbumCardStyleChooser extends RoundedBottomSheetDialogFragment {
+public class NowPlayingStyleChooser extends RoundedBottomSheetDialogFragment {
 
     public static final String TAG = "AlbumCardStyleChooser";
     private boolean mOptionChanged = false;
 
-    public static AlbumCardStyleChooser getInstance() {
-        return new AlbumCardStyleChooser();
+    public static NowPlayingStyleChooser getInstance() {
+        return new NowPlayingStyleChooser();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.bottom_sheet_album_card_style, container, false);
+        return inflater.inflate(R.layout.bottom_sheet_now_playing_screen_selector, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (null != getContext()) {
             RadioGroup radioGroup = view.findViewById(R.id.selector_radio_button_group);
-            int currentStyle = AppSettings.getNowPlayingAlbumCardStyle(getContext());
+            int currentStyle = AppSettings.getNowPlayingScreenStyle(getContext());
 
             switch (currentStyle) {
-                case Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_SQUARE:
-                    ((RadioButton) radioGroup.findViewById(R.id.selector_album_style_square)).setChecked(true);
+                case Preferences.NOW_PLAYING_SCREEN_MODERN:
+                    ((RadioButton) radioGroup.findViewById(R.id.selector_now_playing_screen_modern)).setChecked(true);
                     break;
-                case Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_CIRCLE:
-                    ((RadioButton) radioGroup.findViewById(R.id.selector_album_style_circle)).setChecked(true);
+                case Preferences.NOW_PLAYING_SCREEN_STYLISH:
+                    ((RadioButton) radioGroup.findViewById(R.id.selector_now_playing_screen_stylish)).setChecked(true);
+                    break;
             }
 
             radioGroup.setOnCheckedChangeListener((group, checkedId) -> mOptionChanged = true);
@@ -48,11 +49,11 @@ public class AlbumCardStyleChooser extends RoundedBottomSheetDialogFragment {
             view.findViewById(R.id.selector_set_btn).setOnClickListener(v1 -> {
                 if (mOptionChanged) {
                     switch (radioGroup.getCheckedRadioButtonId()) {
-                        case R.id.selector_album_style_square:
-                            AppSettings.setNowPlayingAlbumCardStyle(getContext(), Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_SQUARE);
+                        case R.id.selector_now_playing_screen_modern:
+                            AppSettings.setNowPlayingScreenStyle(getContext(), Preferences.NOW_PLAYING_SCREEN_MODERN);
                             break;
-                        case R.id.selector_album_style_circle:
-                            AppSettings.setNowPlayingAlbumCardStyle(getContext(), Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_CIRCLE);
+                        case R.id.selector_now_playing_screen_stylish:
+                            AppSettings.setNowPlayingScreenStyle(getContext(), Preferences.NOW_PLAYING_SCREEN_STYLISH);
                             break;
                     }
                 }

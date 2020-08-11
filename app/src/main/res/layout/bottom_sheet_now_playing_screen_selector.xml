@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/now_playing_selector_album_style_title"
+        android:text="@string/now_playing_screen_selector_title"
         android:textAppearance="@style/TextViewBody1"
         android:textColor="?attr/primaryColor"
         android:textStyle="bold" />
@@ -23,27 +23,26 @@
         android:orientation="vertical">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/selector_album_style_circle"
+            android:id="@+id/selector_now_playing_screen_modern"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="?primaryColor"
             android:paddingStart="32dp"
             android:paddingEnd="0dp"
-            android:text="@string/now_playing_selector_album_style_circle"
+            android:text="@string/now_playing_screen_style_modern"
             android:textAppearance="@style/TextViewSubtitle2"
             android:textColor="?primaryTextColor" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/selector_album_style_square"
+            android:id="@+id/selector_now_playing_screen_stylish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="?primaryColor"
             android:paddingStart="32dp"
             android:paddingEnd="0dp"
-            android:text="@string/now_playing_selector_album_style_square"
+            android:text="@string/now_playing_screen_style_stylish"
             android:textAppearance="@style/TextViewSubtitle2"
             android:textColor="?primaryTextColor" />
-
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton

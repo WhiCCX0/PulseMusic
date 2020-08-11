@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.slider.Slider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/modern_nps_slider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:thumbColor="?attr/primaryColor"
+    app:thumbRadius="10dp"
+    app:trackColorActive="?attr/primaryColor"
+    app:trackColorInactive="?attr/overlayColor"
+    tools:value="50.0" />

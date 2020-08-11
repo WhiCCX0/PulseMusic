@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/stylish_nps_title"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="72dp"
+        android:ellipsize="marquee"
+        android:gravity="start|bottom"
+        android:requiresFadingEdge="horizontal"
+        android:singleLine="true"
+        android:textAppearance="@style/TextViewSubtitle1"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/full_names" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/stylish_nps_up_next"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:gravity="start|top"
+        android:maxLines="1"
+        android:requiresFadingEdge="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/stylish_nps_title"
+        app:layout_constraintStart_toStartOf="@id/stylish_nps_title"
+        app:layout_constraintTop_toBottomOf="@id/stylish_nps_title"
+        tools:text="@tools:sample/lorem/random" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/stylish_nps_album_cover"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="4dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="6:7.5"
+        app:layout_constraintTop_toBottomOf="@id/stylish_nps_up_next"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/stylish_nps_start_time"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/stylish_nps_slider"
+        app:layout_constraintStart_toStartOf="@id/stylish_nps_album_cover"
+        app:layout_constraintTop_toTopOf="@id/stylish_nps_slider"
+        tools:text="@tools:sample/date/hhmm" />
+
+    <include
+        android:id="@+id/stylish_nps_slider"
+        layout="@layout/nps_slider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toStartOf="@id/stylish_nps_end_time"
+        app:layout_constraintStart_toEndOf="@id/stylish_nps_start_time"
+        app:layout_constraintTop_toBottomOf="@id/stylish_nps_album_cover" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/stylish_nps_end_time"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/stylish_nps_slider"
+        app:layout_constraintEnd_toEndOf="@id/stylish_nps_album_cover"
+        app:layout_constraintTop_toTopOf="@id/stylish_nps_slider"
+        tools:text="@tools:sample/date/hhmm" />
+
+    <ImageView
+        android:id="@+id/stylish_nps_repeat_btn"
+        style="@style/ButtonStyle24"
+        android:src="@drawable/ic_repeat"
+        app:layout_constraintBottom_toBottomOf="@id/stylish_nps_play_pause_btn"
+        app:layout_constraintStart_toStartOf="@id/stylish_nps_album_cover"
+        app:layout_constraintTop_toTopOf="@id/stylish_nps_play_pause_btn"
+        tools:ignore="contentDescription" />
+
+    <ImageView
+        android:id="@+id/stylish_nps_prev_btn"
+        style="@style/ButtonStyle36"
+        android:src="@drawable/ic_round_skip_previous"
+        app:layout_constraintBottom_toBottomOf="@id/stylish_nps_play_pause_btn"
+        app:layout_constraintEnd_toStartOf="@+id/stylish_nps_play_pause_btn"
+        app:layout_constraintStart_toEndOf="@id/stylish_nps_repeat_btn"
+        app:layout_constraintTop_toTopOf="@id/stylish_nps_play_pause_btn"
+        tools:ignore="contentDescription" />
+
+    <ImageView
+        android:id="@+id/stylish_nps_play_pause_btn"
+        style="@style/ButtonStyle48"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/bck_play_pause_btn"
+        android:padding="12dp"
+        android:stateListAnimator="@animator/focused_elevation_up"
+        android:tint="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/stylish_nps_next_btn"
+        app:layout_constraintStart_toEndOf="@+id/stylish_nps_prev_btn"
+        app:layout_constraintTop_toBottomOf="@id/stylish_nps_slider"
+        tools:ignore="contentDescription"
+        tools:src="@drawable/pause_to_play" />
+
+    <ImageView
+        android:id="@+id/stylish_nps_next_btn"
+        style="@style/ButtonStyle36"
+        android:src="@drawable/ic_round_skip_next"
+        app:layout_constraintBottom_toBottomOf="@id/stylish_nps_play_pause_btn"
+        app:layout_constraintEnd_toStartOf="@id/stylish_nps_favourite_btn"
+        app:layout_constraintStart_toEndOf="@+id/stylish_nps_play_pause_btn"
+        app:layout_constraintTop_toTopOf="@id/stylish_nps_play_pause_btn"
+        tools:ignore="contentDescription" />
+
+    <ImageView
+        android:id="@+id/stylish_nps_favourite_btn"
+        style="@style/ButtonStyle24"
+        android:src="@drawable/selector_favorites_button"
+        app:layout_constraintBottom_toBottomOf="@id/stylish_nps_play_pause_btn"
+        app:layout_constraintEnd_toEndOf="@id/stylish_nps_album_cover"
+        app:layout_constraintTop_toTopOf="@id/stylish_nps_play_pause_btn"
+        tools:ignore="contentDescription" />
+
+    <ImageView
+        android:id="@+id/stylish_nps_close_btn"
+        style="@style/ButtonStyle36"
+        android:contentDescription="@string/iv_btn_close_description"
+        android:src="@drawable/ic_down_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/stylish_nps_favourite_btn"
+        app:layout_constraintTop_toBottomOf="@id/stylish_nps_favourite_btn"
+        app:layout_constraintVertical_bias="0.8" />
+</androidx.constraintlayout.widget.ConstraintLayout>

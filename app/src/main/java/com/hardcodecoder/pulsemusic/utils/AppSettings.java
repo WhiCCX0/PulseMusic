@@ -106,9 +106,9 @@ public class AppSettings {
                 .getBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, false);
     }*/
 
-    public static void setNowPlayingAlbumCardStyle(@NonNull Context context, int id) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Context.MODE_PRIVATE).edit();
-        editor.putInt(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, id);
+    public static void setNowPlayingScreenStyle(@NonNull Context context, int id) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Context.MODE_PRIVATE).edit();
+        editor.putInt(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, id);
         editor.apply();
     }
 
@@ -118,9 +118,9 @@ public class AppSettings {
         editor.apply();
     }
 
-    public static int getNowPlayingAlbumCardStyle(@NonNull Context context) {
-        return context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Context.MODE_PRIVATE)
-                .getInt(Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_KEY, Preferences.NOW_PLAYING_ALBUM_CARD_STYLE_SQUARE);
+    public static int getNowPlayingScreenStyle(@NonNull Context context) {
+        return context.getSharedPreferences(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Context.MODE_PRIVATE)
+                .getInt(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Preferences.NOW_PLAYING_SCREEN_MODERN);
     }
 
     public static boolean isNowPlayingAlbumCardOverlayEnabled(@NonNull Context context) {

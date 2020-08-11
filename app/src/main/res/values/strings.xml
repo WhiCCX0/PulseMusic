@@ -109,6 +109,8 @@
     <string name="now_playing">Now Playing</string>
     <string name="added_to_fav">Track added to favorites</string>
     <string name="removed_from_fav">Track removed from favorites</string>
+    <string name="up_next_title">Up next ●</string>
+    <string name="up_next_title_none">Playlist completed</string>
 
 
     <!-- TrackPickerActivity -->
@@ -188,13 +190,13 @@
 
     <!-- Now playing settings -->
     <string name="now_playing_album_style_section_title">Artwork</string>
-    <string name="now_playing_album_style_title">Select card style</string>
     <string name="now_playing_album_style_desc">Choose album art style</string>
     <string name="now_playing_album_decoration_title">Enable gradient overlay</string>
     <string name="now_playing_album_decoration_desc">Adds a fading overlay on top of album card</string>
     <string name="now_playing_selector_album_style_title">Select album card style</string>
-    <string name="now_playing_selector_album_style_circle">Circle</string>
-    <string name="now_playing_selector_album_style_square">Rounded square</string>
+    <string name="now_playing_screen_selector_title">Select card style</string>
+    <string name="now_playing_screen_style_modern">Modern</string>
+    <string name="now_playing_screen_style_stylish">Stylish</string>
 
     <!-- Contributors -->
     <string name="lead_developer_title">Lead developers</string>

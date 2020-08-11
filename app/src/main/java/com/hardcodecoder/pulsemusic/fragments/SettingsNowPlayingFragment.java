@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
-import com.hardcodecoder.pulsemusic.dialog.AlbumCardStyleChooser;
+import com.hardcodecoder.pulsemusic.dialog.NowPlayingStyleChooser;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 import com.hardcodecoder.pulsemusic.views.SettingsToggleableItem;
@@ -40,8 +40,8 @@ public class SettingsNowPlayingFragment extends Fragment {
             mListener.setToolbarTitle(R.string.now_playing_title);
 
         view.findViewById(R.id.now_playing_album_style).setOnClickListener(v -> {
-            AlbumCardStyleChooser dialog = AlbumCardStyleChooser.getInstance();
-            dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), AlbumCardStyleChooser.TAG);
+            NowPlayingStyleChooser dialog = NowPlayingStyleChooser.getInstance();
+            dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), NowPlayingStyleChooser.TAG);
         });
 
         boolean enabled = false;

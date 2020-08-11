@@ -40,7 +40,7 @@ public class MediaProgressUpdateHelper extends Handler {
         mCallback.onMetadataDataChanged(mController.getMetadata());
         mCallback.onPlaybackStateChanged(mController.getPlaybackState());
         if (null != mController.getPlaybackState())
-            mCallback.updateSeekBarProgress((int) mController.getPlaybackState().getPosition() / 1000);
+            mCallback.onProgressChanged((int) mController.getPlaybackState().getPosition() / 1000);
         start();
     }
 
@@ -57,7 +57,7 @@ public class MediaProgressUpdateHelper extends Handler {
         super.handleMessage(msg);
         if (msg.what == CMD_REFRESH_PROGRESS) {
             if (null != mController.getPlaybackState())
-                mCallback.updateSeekBarProgress((int) mController.getPlaybackState().getPosition() / 1000);
+                mCallback.onProgressChanged((int) mController.getPlaybackState().getPosition() / 1000);
             queueNextRefresh(mUpdateIntervalMills);
         }
     }
@@ -82,6 +82,6 @@ public class MediaProgressUpdateHelper extends Handler {
 
         void onPlaybackStateChanged(PlaybackState state);
 
-        void updateSeekBarProgress(int progressInSec);
+        void onProgressChanged(int progressInSec);
     }
 }
