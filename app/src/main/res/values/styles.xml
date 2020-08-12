@@ -64,6 +64,7 @@
 
     <style name="MaterialTextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textAppearance">@style/TextViewNormal</item>
+        <item name="android:textColor">?attr/primaryColor</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:paddingTop">@dimen/button_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
