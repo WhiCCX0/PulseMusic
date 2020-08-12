@@ -5,4 +5,5 @@
     <integer name="now_playing_screen_exit">275</integer>
     <integer name="now_playing_screen_exit_fade">200</integer>
     <integer name="now_playing_screen_album_cover_enter">300</integer>
+    <integer name="now_playing_cover_corner_radius_max">50</integer>
 </resources>

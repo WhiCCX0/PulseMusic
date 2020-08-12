@@ -45,6 +45,13 @@ public class Preferences {
     public static final int NOW_PLAYING_SCREEN_MODERN = 5000;
     public static final int NOW_PLAYING_SCREEN_STYLISH = 5001;
 
+    public static final String NOW_PLAYING_ALBUM_COVER_CORNER_RADIUS = "NowPlayingAlbumCoverCornerRadius";
+    public static final String NOW_PLAYING_ALBUM_COVER_RADIUS_TL = "RadiusTopLeft";
+    public static final String NOW_PLAYING_ALBUM_COVER_RADIUS_TR = "RadiusTopRight";
+    public static final String NOW_PLAYING_ALBUM_COVER_RADIUS_BL = "RadiusBottomLeft";
+    public static final String NOW_PLAYING_ALBUM_COVER_RADIUS_BR = "RadiusBottomRight";
+    public static final int NOW_PLAYING_ALBUM_COVER_RADIUS_DEF = 16;
+
     // True or false
     //public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";
 

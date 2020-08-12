@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.SettingsActivity;
+import com.hardcodecoder.pulsemusic.dialog.CornerRadiusChangeDialogFragment;
 import com.hardcodecoder.pulsemusic.dialog.NowPlayingStyleChooser;
 import com.hardcodecoder.pulsemusic.interfaces.SettingsFragmentsListener;
 
@@ -54,5 +55,11 @@ public class SettingsNowPlayingFragment extends Fragment {
         albumCardDecorationLayout.setOnClickListener(v ->
                 albumCardDecorationSwitch.setChecked(!albumCardDecorationSwitch.isChecked()));*/
 
+        view.findViewById(R.id.now_playing_album_cover_corner_radius).setOnClickListener(v -> {
+            if (null != getActivity()) {
+                CornerRadiusChangeDialogFragment dialog = CornerRadiusChangeDialogFragment.getInstance();
+                dialog.show(getActivity().getSupportFragmentManager(), CornerRadiusChangeDialogFragment.TAG);
+            }
+        });
     }
 }

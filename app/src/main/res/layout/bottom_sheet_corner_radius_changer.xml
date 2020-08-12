@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/bsd_corner_radius_changer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/now_playing_cover_corner_radius_title"
+        android:textAppearance="@style/TextViewBody1"
+        android:textColor="?attr/primaryColor"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/now_playing_cover_corner_radius_tl" />
+
+    <com.hardcodecoder.pulsemusic.views.ValueSlider
+        android:id="@+id/radius_slider_tl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endValue="@integer/now_playing_cover_corner_radius_max"
+        app:startValue="0"
+        app:unit="dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/now_playing_cover_corner_radius_tr" />
+
+    <com.hardcodecoder.pulsemusic.views.ValueSlider
+        android:id="@+id/radius_slider_tr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endValue="@integer/now_playing_cover_corner_radius_max"
+        app:startValue="0"
+        app:unit="dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/now_playing_cover_corner_radius_bl" />
+
+    <com.hardcodecoder.pulsemusic.views.ValueSlider
+        android:id="@+id/radius_slider_bl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endValue="@integer/now_playing_cover_corner_radius_max"
+        app:startValue="0"
+        app:unit="dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/now_playing_cover_corner_radius_br" />
+
+    <com.hardcodecoder.pulsemusic.views.ValueSlider
+        android:id="@+id/radius_slider_br"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endValue="@integer/now_playing_cover_corner_radius_max"
+        app:startValue="0"
+        app:unit="dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/radius_changer_set_btn"
+        style="@style/MaterialTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="@string/set" />
+</LinearLayout>

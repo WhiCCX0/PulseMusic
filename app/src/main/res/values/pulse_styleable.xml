@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ValueSlider">
+        <attr name="startValue" format="integer" />
+        <attr name="endValue" format="integer" />
+        <attr name="defaultValue" format="integer" />
+        <attr name="stepSize" format="integer" />
+        <attr name="unit" format="string" />
+    </declare-styleable>
+</resources>

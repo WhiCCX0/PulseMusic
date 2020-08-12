@@ -12,6 +12,7 @@ import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.format.DateUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.slider.Slider;
 import com.hardcodecoder.pulsemusic.PMS;
 import com.hardcodecoder.pulsemusic.R;
@@ -28,7 +31,7 @@ import com.hardcodecoder.pulsemusic.helper.MediaProgressUpdateHelper;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.storage.AppFileManager;
-
+import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 public abstract class BaseNowPlayingScreen extends Fragment implements MediaProgressUpdateHelper.Callback {
 
@@ -69,6 +72,23 @@ public abstract class BaseNowPlayingScreen extends Fragment implements MediaProg
     @Override
     public void onPlaybackStateChanged(PlaybackState state) {
         updateRepeat();
+    }
+
+    protected void applyCornerRadius(@NonNull ShapeableImageView imageView) {
+        float factor = (float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT;
+        int[] radiusDP = AppSettings.getNowPlayingAlbumCoverCornerRadius(imageView.getContext());
+        float tl = radiusDP[0] * factor;
+        float tr = radiusDP[1] * factor;
+        float bl = radiusDP[2] * factor;
+        float br = radiusDP[3] * factor;
+        int cornerFamily = CornerFamily.ROUNDED;
+        imageView.setShapeAppearanceModel(imageView.getShapeAppearanceModel().toBuilder()
+                .setTopLeftCorner(cornerFamily, tl)
+                .setTopRightCorner(cornerFamily, tr)
+                .setBottomLeftCorner(cornerFamily, bl)
+                .setBottomRightCorner(cornerFamily, br)
+                .build()
+        );
     }
 
     protected void setUpSliderControls(Slider progressSlider) {

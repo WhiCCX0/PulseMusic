@@ -18,7 +18,6 @@ import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.nowplaying.base.BaseNowPlayingScreen;
-import com.hardcodecoder.pulsemusic.utils.DimensionsUtil;
 
 public class StylishNowPlayingScreen extends BaseNowPlayingScreen {
 
@@ -66,7 +65,7 @@ public class StylishNowPlayingScreen extends BaseNowPlayingScreen {
         mRepeatBtn.setOnClickListener(v -> toggleRepeatMode());
         mPlayPauseBtn.setOnClickListener(v -> togglePlayPause());
         mFavoriteBtn.setOnClickListener(v -> toggleFavorite());
-        mAlbumCover.setShapeAppearanceModel(mAlbumCover.getShapeAppearanceModel().withCornerSize(DimensionsUtil.getRoundingRadiusPixelSize16dp()));
+        applyCornerRadius(mAlbumCover);
     }
 
     @Override
