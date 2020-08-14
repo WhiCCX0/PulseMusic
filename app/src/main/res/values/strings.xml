@@ -196,6 +196,7 @@
     <string name="now_playing_screen_style_title">Select now playing style</string>
     <string name="now_playing_screen_style_modern">Modern</string>
     <string name="now_playing_screen_style_stylish">Stylish</string>
+    <string name="now_playing_screen_style_edge">Edge to edge</string>
     <string name="now_playing_cover_corner_radius_title">Corner radius</string>
     <string name="now_playing_cover_corner_radius_changer_title">Adjust corner radius</string>
     <string name="now_playing_cover_corner_radius_desc">Select album cover corner radius</string>

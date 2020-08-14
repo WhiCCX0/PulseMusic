@@ -15,11 +15,13 @@ import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.imageview.ShapeableImageView;
@@ -106,6 +108,26 @@ public abstract class BaseNowPlayingScreen extends Fragment implements MediaProg
             }
         });
         progressSlider.setLabelFormatter(value -> DateUtils.formatElapsedTime((long) value));
+    }
+
+    protected void setUpSeekBarControls(AppCompatSeekBar seekBar) {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mUpdateHelper.stop();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Pass progress in milli seconds
+                mTransportControls.seekTo((long) seekBar.getProgress() * 1000);
+                onProgressValueChanged(seekBar.getProgress());
+            }
+        });
     }
 
     protected void resetSliderValues(Slider slider, long valueTo) {

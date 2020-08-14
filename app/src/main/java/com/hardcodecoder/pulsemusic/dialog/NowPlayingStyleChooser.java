@@ -42,6 +42,9 @@ public class NowPlayingStyleChooser extends RoundedBottomSheetDialogFragment {
                 case Preferences.NOW_PLAYING_SCREEN_STYLISH:
                     ((RadioButton) radioGroup.findViewById(R.id.selector_now_playing_screen_stylish)).setChecked(true);
                     break;
+                case Preferences.NOW_PLAYING_SCREEN_EDGE:
+                    ((RadioButton) radioGroup.findViewById(R.id.selector_now_playing_screen_edge)).setChecked(true);
+                    break;
             }
 
             radioGroup.setOnCheckedChangeListener((group, checkedId) -> mOptionChanged = true);
@@ -54,6 +57,9 @@ public class NowPlayingStyleChooser extends RoundedBottomSheetDialogFragment {
                             break;
                         case R.id.selector_now_playing_screen_stylish:
                             AppSettings.setNowPlayingScreenStyle(getContext(), Preferences.NOW_PLAYING_SCREEN_STYLISH);
+                            break;
+                        case R.id.selector_now_playing_screen_edge:
+                            AppSettings.setNowPlayingScreenStyle(getContext(), Preferences.NOW_PLAYING_SCREEN_EDGE);
                             break;
                     }
                 }

@@ -43,6 +43,17 @@
             android:text="@string/now_playing_screen_style_stylish"
             android:textAppearance="@style/TextViewSubtitle2"
             android:textColor="?primaryTextColor" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/selector_now_playing_screen_edge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="?primaryColor"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"
+            android:text="@string/now_playing_screen_style_edge"
+            android:textAppearance="@style/TextViewSubtitle2"
+            android:textColor="?primaryTextColor" />
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton

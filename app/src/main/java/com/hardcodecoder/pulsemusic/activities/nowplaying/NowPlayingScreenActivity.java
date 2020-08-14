@@ -1,7 +1,11 @@
 package com.hardcodecoder.pulsemusic.activities.nowplaying;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -9,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.PMBActivity;
+import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.EdgeNowPlayingScreen;
 import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.LandscapeModeNowPlayingScreen;
 import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.ModernNowPlayingScreen;
 import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.StylishNowPlayingScreen;
@@ -33,6 +38,11 @@ public class NowPlayingScreenActivity extends PMBActivity {
                     screenFragment = StylishNowPlayingScreen.getInstance();
                     tag = StylishNowPlayingScreen.TAG;
                     break;
+                case Preferences.NOW_PLAYING_SCREEN_EDGE:
+                    setWindowFullScreen();
+                    screenFragment = EdgeNowPlayingScreen.getInstance();
+                    tag = EdgeNowPlayingScreen.TAG;
+                    break;
                 case Preferences.NOW_PLAYING_SCREEN_MODERN:
                 default:
                     screenFragment = ModernNowPlayingScreen.getInstance();
@@ -44,6 +54,14 @@ public class NowPlayingScreenActivity extends PMBActivity {
                 .beginTransaction()
                 .replace(R.id.now_playing_screen_container, screenFragment, tag)
                 .commit();
+    }
+
+    private void setWindowFullScreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            w.getDecorView().setSystemUiVisibility(w.getDecorView().getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
     }
 
     private void overrideExitTransition() {
