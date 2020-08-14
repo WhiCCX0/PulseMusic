@@ -102,7 +102,7 @@ public abstract class BaseNowPlayingScreen extends Fragment implements MediaProg
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 // Pass progress in milli seconds
                 mTransportControls.seekTo((long) slider.getValue() * 1000);
-                onProgressChanged((int) slider.getValue());
+                onProgressValueChanged((int) slider.getValue());
             }
         });
         progressSlider.setLabelFormatter(value -> DateUtils.formatElapsedTime((long) value));

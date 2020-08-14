@@ -106,7 +106,7 @@ public class LandscapeModeNowPlayingScreen extends BaseNowPlayingScreen {
     }
 
     @Override
-    public void onProgressChanged(int progressInSec) {
+    public void onProgressValueChanged(int progressInSec) {
         mProgressSlider.setValue(progressInSec);
         mStartTime.setText(getFormattedElapsedTime(progressInSec));
     }
