@@ -1,4 +1,4 @@
-package com.hardcodecoder.pulsemusic.activities.nowplaying.base;
+package com.hardcodecoder.pulsemusic.fragments.nowplaying.base;
 
 import android.content.ComponentName;
 import android.content.Context;

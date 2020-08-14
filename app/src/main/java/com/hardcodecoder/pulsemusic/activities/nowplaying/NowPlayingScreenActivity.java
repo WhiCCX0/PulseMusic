@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment;
 import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.PMBActivity;
-import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.EdgeNowPlayingScreen;
-import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.LandscapeModeNowPlayingScreen;
-import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.ModernNowPlayingScreen;
-import com.hardcodecoder.pulsemusic.activities.nowplaying.screens.StylishNowPlayingScreen;
+import com.hardcodecoder.pulsemusic.fragments.nowplaying.screens.EdgeNowPlayingScreen;
+import com.hardcodecoder.pulsemusic.fragments.nowplaying.screens.LandscapeModeNowPlayingScreen;
+import com.hardcodecoder.pulsemusic.fragments.nowplaying.screens.ModernNowPlayingScreen;
+import com.hardcodecoder.pulsemusic.fragments.nowplaying.screens.StylishNowPlayingScreen;
 import com.hardcodecoder.pulsemusic.utils.AppSettings;
 
 public class NowPlayingScreenActivity extends PMBActivity {

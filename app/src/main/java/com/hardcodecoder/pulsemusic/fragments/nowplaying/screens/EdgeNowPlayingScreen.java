@@ -1,4 +1,4 @@
-package com.hardcodecoder.pulsemusic.activities.nowplaying.screens;
+package com.hardcodecoder.pulsemusic.fragments.nowplaying.screens;
 
 import android.media.MediaMetadata;
 import android.media.session.PlaybackState;
@@ -16,7 +16,7 @@ import com.bumptech.glide.GenericTransitionOptions;
 import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.GlideApp;
 import com.hardcodecoder.pulsemusic.R;
-import com.hardcodecoder.pulsemusic.activities.nowplaying.base.BaseNowPlayingScreen;
+import com.hardcodecoder.pulsemusic.fragments.nowplaying.base.BaseNowPlayingScreen;
 
 public class EdgeNowPlayingScreen extends BaseNowPlayingScreen {
 
