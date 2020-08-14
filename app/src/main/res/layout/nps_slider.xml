@@ -9,4 +9,6 @@
     app:thumbRadius="10dp"
     app:trackColorActive="?attr/primaryColor"
     app:trackColorInactive="?attr/overlayColor"
-    tools:value="50.0" />
+    tools:value="50.0"
+    tools:valueFrom="0"
+    tools:valueTo="100" />
