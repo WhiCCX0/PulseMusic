@@ -48,7 +48,7 @@
 
     <ImageView
         android:id="@+id/details_activity_btn_close"
-        style="@style/AdaptiveButton"
+        style="@style/ButtonStyle24"
         android:layout_margin="8dp"
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
