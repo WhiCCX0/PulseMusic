@@ -10,7 +10,6 @@
         <item name="android:fontFamily">@font/product</item>
         <item name="fontFamily">@font/product</item>
     </style>
-    -
 
     <style name="WindowTransitions" parent="@android:style/Animation.Activity">
         <!-- Animations for entering activity and closing activity
@@ -24,35 +23,31 @@
         <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
     </style>
 
-
     <style name="ThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/lightColorBackground</item>
+        <item name="android:statusBarColor">@color/md_grey_500</item>
+        <item name="navigationBarColor">@color/md_grey_500</item>
+        <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="navigationBarColor">@color/md_grey_400</item>
     </style>
-
 
     <style name="ThemeDark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/darkColorBackground</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="navigationBarColor">?attr/windowBackgroundColor</item>
+        <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="navigationBarColor">?windowBackgroundColor</item>
     </style>
 
-    <style name="Theme.PulseMusic.Light" parent="ThemeLight">
+    <style name="PulseLightTheme" parent="ThemeLight">
         <item name="android:windowBackground">@color/lightColorBackground</item>
         <item name="primaryColor">@color/exodus_fruit</item>
         <item name="colorOnPrimary">@color/lightColorOnPrimary</item>
@@ -63,16 +58,12 @@
         <item name="secondaryTextColor">@color/lightColorSecondaryText</item>
         <item name="disabledTextColor">@color/lightColorDisabledText</item>
         <item name="unFocusedColor">@color/lightColorUnFocused</item>
-        <item name="inactiveColor">@color/lightColorInactive</item>
-        <item name="strokeColor">@color/lightColorStroke</item>
         <item name="overlayColor">@color/lightColorOverlay</item>
-        <item name="albumArtOverlay">@drawable/album_art_overlay_light</item>
         <item name="isLightMode">true</item>
-        <item name="statusBarColor">?windowBackgroundColor</item>
         <item name="toolbarBackground">@drawable/toolbar_background_light</item>
     </style>
 
-    <style name="Theme.PulseMusic.Dark" parent="ThemeDark">
+    <style name="PulseDarkTheme" parent="ThemeDark">
         <item name="android:windowBackground">@color/darkColorBackground</item>
         <item name="primaryColor">@color/exodus_fruit_desaturated</item>
         <item name="colorOnPrimary">@color/darkColorOnPrimary</item>
@@ -83,24 +74,19 @@
         <item name="secondaryTextColor">@color/darkColorSecondaryText</item>
         <item name="disabledTextColor">@color/darkColorDisabledText</item>
         <item name="unFocusedColor">@color/darkColorUnFocused</item>
-        <item name="inactiveColor">@color/darkColorInactive</item>
-        <item name="strokeColor">@color/darkColorStroke</item>
         <item name="overlayColor">@color/darkColorOverlay</item>
-        <item name="albumArtOverlay">@drawable/album_art_overlay_dark</item>
         <item name="isLightMode">false</item>
-        <item name="statusBarColor">?windowBackgroundColor</item>
         <item name="toolbarBackground">@drawable/toolbar_background_dark</item>
     </style>
 
-    <style name="Theme.PulseMusic.Kinda" parent="Theme.PulseMusic.Dark">
+    <style name="PulseSignatureTheme" parent="PulseDarkTheme">
         <item name="android:windowBackground">@color/signatureColorBackground</item>
         <item name="windowBackgroundColor">@color/signatureColorBackground</item>
         <item name="surfaceColor">@color/signatureColorSurface</item>
         <item name="android:navigationBarColor">@color/signatureColorBackground</item>
     </style>
 
-
-    <style name="Theme.PulseMusic.Dark.BLACK">
+    <style name="PulseDarkTheme.Black">
         <item name="android:windowBackground">@color/blackColorBackground</item>
         <item name="colorOnPrimary">@color/blackColorOnPrimary</item>
         <item name="windowBackgroundColor">@color/blackColorBackground</item>
@@ -108,5 +94,4 @@
         <item name="android:navigationBarColor">@color/blackColorBackground</item>
         <item name="overlayColor">@color/blackColorOverlay</item>
     </style>
-
 </resources>

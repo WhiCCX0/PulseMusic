@@ -1,13 +1,13 @@
 <resources>
 
     <!-- Specific Feed activity theme -->
-    <style name="ActivityThemeLight" parent="Theme.PulseMusic.Light" />
+    <style name="ActivityThemeLight" parent="PulseLightTheme" />
 
-    <style name="ActivityThemeDark" parent="Theme.PulseMusic.Dark" />
+    <style name="ActivityThemeDark" parent="PulseDarkTheme" />
 
-    <style name="ActivityThemeKindaDark" parent="Theme.PulseMusic.Kinda" />
+    <style name="ActivityThemeKindaDark" parent="PulseSignatureTheme" />
 
-    <style name="ActivityThemeBlack" parent="Theme.PulseMusic.Dark.BLACK" />
+    <style name="ActivityThemeBlack" parent="PulseDarkTheme.Black" />
 
     <style name="ToolbarPopupTheme">
         <item name="android:popupBackground">?surfaceColor</item>

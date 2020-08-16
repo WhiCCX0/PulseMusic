@@ -4,29 +4,29 @@
     <style name="ThemeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:statusBarColor">?attr/statusBarColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="navigationBarColor">@color/lightColorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/lightColorBackground</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
-        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:statusBarColor">?attr/statusBarColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="navigationBarColor">?attr/windowBackgroundColor</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@color/darkColorBackground</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
         <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
-        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
@@ -39,5 +39,4 @@
         <item name="android:navigationBarColor">?windowBackgroundColor</item>
         <item name="android:windowLightNavigationBar">?isLightMode</item>
     </style>
-
 </resources>
