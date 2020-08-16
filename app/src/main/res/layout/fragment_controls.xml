@@ -25,7 +25,7 @@
         android:requiresFadingEdge="horizontal"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cf_skip_prev_btn"
         app:layout_constraintStart_toStartOf="parent"

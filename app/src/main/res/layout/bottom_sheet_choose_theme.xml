@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:text="@string/select_dark_theme"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="?attr/primaryColor"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:paddingStart="32dp"
             android:paddingEnd="0dp"
             android:text="@string/dark_theme_name_gray"
-            android:textAppearance="@style/TextViewSubtitle2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?primaryTextColor" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
@@ -41,7 +41,7 @@
             android:paddingStart="32dp"
             android:paddingEnd="0dp"
             android:text="@string/dark_theme_name_kinda_dark"
-            android:textAppearance="@style/TextViewSubtitle2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?primaryTextColor" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
@@ -52,7 +52,7 @@
             android:paddingStart="32dp"
             android:paddingEnd="0dp"
             android:text="@string/dark_theme_name_pure_black"
-            android:textAppearance="@style/TextViewSubtitle2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?primaryTextColor" />
     </RadioGroup>
 

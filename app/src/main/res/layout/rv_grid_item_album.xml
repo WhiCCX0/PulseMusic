@@ -36,7 +36,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:singleLine="true"
-        android:textAppearance="@style/TextViewSubtitle1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/grid_item_iv"

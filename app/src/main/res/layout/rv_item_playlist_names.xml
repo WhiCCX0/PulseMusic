@@ -17,6 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextViewBody2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         tools:text="@tools:sample/full_names" />
 </LinearLayout>

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="@string/atp_title"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="?attr/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="@id/atp_create_playlist_btn"
         app:layout_constraintStart_toStartOf="parent"

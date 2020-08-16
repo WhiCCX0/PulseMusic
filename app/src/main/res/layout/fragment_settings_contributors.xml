@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/lead_developer_title"
-        android:textAppearance="@style/TextViewOverline"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textColor="?primaryColor" />
 
     <com.google.android.material.card.MaterialCardView
@@ -47,7 +47,7 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:text="@string/lead_developer_1"
-                android:textAppearance="@style/TextViewHeadline6"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintTop_toBottomOf="@id/lead_developer_profile_icon" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -59,7 +59,7 @@
                 android:paddingTop="0dp"
                 android:paddingBottom="32dp"
                 android:text="@string/lead_developer_user_name"
-                android:textAppearance="@style/TextViewSubtitle2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:textColor="?secondaryTextColor"
                 app:layout_constraintTop_toBottomOf="@id/lead_developer_name" />
 
@@ -111,6 +111,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/other_contributions_title"
-        android:textAppearance="@style/TextViewOverline"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textColor="?primaryColor" />
 </LinearLayout>

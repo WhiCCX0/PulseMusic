@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_info"
-        android:textAppearance="@style/TextViewOverline"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textColor="?primaryColor" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -23,13 +23,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
         android:text="@string/about_app_version"
-        android:textAppearance="@style/TextViewSubtitle1" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/about_app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textColor="?secondaryTextColor"
         tools:text="@tools:sample/us_zipcodes" />
 
@@ -39,14 +39,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
         android:text="@string/about_app_release_date"
-        android:textAppearance="@style/TextViewSubtitle1" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/about_app_release_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textColor="?secondaryTextColor"
         tools:text="@tools:sample/date/hhmmss" />
 
@@ -56,14 +56,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
         android:text="@string/about_app_build_code"
-        android:textAppearance="@style/TextViewSubtitle1" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/about_app_build_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textColor="?secondaryTextColor"
         tools:text="@tools:sample/us_zipcodes" />
 
@@ -73,13 +73,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
         android:text="@string/about_app_release_build_type"
-        android:textAppearance="@style/TextViewSubtitle1" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/about_app_build_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textColor="?secondaryTextColor"
         tools:text="@tools:sample/full_names" />
 
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/social_links"
-        android:textAppearance="@style/TextViewOverline"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textColor="?primaryColor" />
 
     <com.google.android.material.card.MaterialCardView
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/about_check_source_code"
-                android:textAppearance="@style/TextViewSubtitle2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:text="@string/now_playing_cover_corner_radius_title"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="?attr/primaryColor"
         android:textStyle="bold" />
 

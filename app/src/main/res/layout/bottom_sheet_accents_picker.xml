@@ -13,7 +13,7 @@
         android:layout_marginBottom="32dp"
         android:gravity="start"
         android:text="@string/laf_accents_picker_title"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="?attr/primaryColor"
         android:textStyle="bold" />
 

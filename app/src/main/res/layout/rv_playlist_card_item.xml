@@ -20,7 +20,7 @@
         android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:text="@string/playlist_current_queue"
-        android:textAppearance="@style/TextViewBody1" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
     <ImageView
         android:id="@+id/edit_btn"

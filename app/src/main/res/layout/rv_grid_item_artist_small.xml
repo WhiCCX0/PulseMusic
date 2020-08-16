@@ -29,7 +29,7 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="10dp"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textSize="12sp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"

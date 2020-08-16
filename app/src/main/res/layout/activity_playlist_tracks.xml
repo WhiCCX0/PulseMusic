@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:paddingBottom="32dp"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="?secondaryTextColor"
         tools:text="@string/tracks_not_found" />
 

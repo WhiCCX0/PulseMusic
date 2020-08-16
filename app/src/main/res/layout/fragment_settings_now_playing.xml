@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:text="@string/now_playing_album_style_section_title"
-        android:textAppearance="@style/TextViewOverline"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textColor="?primaryColor" />
 
     <com.hardcodecoder.pulsemusic.views.SettingsCategoryItemView

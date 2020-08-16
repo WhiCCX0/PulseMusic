@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:singleLine="true"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         tools:text="Let me love you.mp3" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:maxLines="2"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="Title: Let me love you (Deluxe)" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="2"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="Album: Let me love you" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="2"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="Artist: Selina Gomez" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="File size: 11.56 MB" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="File type: audio/mp3" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="Bit rate: 320kbps" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="Sample rate: 44100Hz" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxLines="1"
-        android:textAppearance="@style/TextViewSubtitle2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         tools:text="Number of channels: 2" />
 
     <com.google.android.material.button.MaterialButton

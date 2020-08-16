@@ -7,6 +7,6 @@
     android:layout_marginTop="2dp"
     android:gravity="bottom"
     android:maxLines="1"
-    android:textAppearance="@style/TextViewSubtitle2"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
     android:textColor="?secondaryTextColor"
     tools:text="@tools:sample/lorem/random" />
