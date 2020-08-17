@@ -2,7 +2,6 @@
 <resources>
     <color name="md_white_1000">#FFFFFF</color>
     <!-- Grey -->
-    <color name="md_grey_400">#BDBDBD</color>
     <color name="md_grey_500">#9E9E9E</color>
     <color name="md_grey_800">#424242</color>
     <color name="md_grey_900">#212121</color>
@@ -10,7 +9,6 @@
 
     <color name="md_red_A400">#FF1744</color>
     <color name="md_yellow_A400">#FFD600</color>
-    <color name="md_deep_purple_A400">#651FFF</color>
     <color name="md_deep_purple_A200">#7C4DFF</color>
     <color name="md_blue_A400">#2979FF</color>
     <color name="md_green_A700">#00C853</color>

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/now_playing_cover_corner_radius_title"
+        android:text="@string/now_playing_cover_corner_radius_changer_title"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="?attr/primaryColor"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         app:endValue="@integer/now_playing_cover_corner_radius_max"
         app:startValue="0"
-        app:unit="dp" />
+        app:unit="@string/now_playing_cover_corner_radius_unit" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         app:endValue="@integer/now_playing_cover_corner_radius_max"
         app:startValue="0"
-        app:unit="dp" />
+        app:unit="@string/now_playing_cover_corner_radius_unit" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         app:endValue="@integer/now_playing_cover_corner_radius_max"
         app:startValue="0"
-        app:unit="dp" />
+        app:unit="@string/now_playing_cover_corner_radius_unit" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         app:endValue="@integer/now_playing_cover_corner_radius_max"
         app:startValue="0"
-        app:unit="dp" />
+        app:unit="@string/now_playing_cover_corner_radius_unit" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/radius_changer_set_btn"
