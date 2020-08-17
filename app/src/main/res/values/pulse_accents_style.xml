@@ -3,83 +3,97 @@
 
     <style name="ExodusFruit">
         <item name="primaryColor">@color/exodus_fruit</item>
-        <item name="colorAccent">@color/exodus_fruit</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="ElectronBlue">
         <item name="primaryColor">@color/electron_blue</item>
-        <item name="colorAccent">@color/electron_blue</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="MintLeaf">
         <item name="primaryColor">@color/mint_leaf</item>
-        <item name="colorAccent">@color/mint_leaf</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="ChiGong">
         <item name="primaryColor">@color/chi_gong</item>
-        <item name="colorAccent">@color/chi_gong</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="SeiBar">
         <item name="primaryColor">@color/sei_bar</item>
-        <item name="colorAccent">@color/sei_bar</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="Coral">
         <item name="primaryColor">@color/coral</item>
-        <item name="colorAccent">@color/coral</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="Sunkist">
         <item name="primaryColor">@color/sunkist</item>
-        <item name="colorAccent">@color/sunkist</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="BluePink">
         <item name="primaryColor">@color/blue_pink</item>
-        <item name="colorAccent">@color/blue_pink</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
-
 
     <style name="ExodusFruitDesaturated">
         <item name="primaryColor">@color/exodus_fruit_desaturated</item>
-        <item name="colorAccent">@color/exodus_fruit_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
-
 
     <style name="ElectronBlueDesaturated">
         <item name="primaryColor">@color/electron_blue_desaturated</item>
-        <item name="colorAccent">@color/electron_blue</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="MintLeafDesaturated">
         <item name="primaryColor">@color/mint_leaf_desaturated</item>
-        <item name="colorAccent">@color/mint_leaf_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="ChiGongDesaturated">
         <item name="primaryColor">@color/chi_gong_desaturated</item>
-        <item name="colorAccent">@color/chi_gong_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="SeiBarDesaturated">
         <item name="primaryColor">@color/sei_bar_desaturated</item>
-        <item name="colorAccent">@color/sei_bar_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="CoralDesaturated">
         <item name="primaryColor">@color/coral_desaturated</item>
-        <item name="colorAccent">@color/coral_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="SunkistDesaturated">
         <item name="primaryColor">@color/sunkist_desaturated</item>
-        <item name="colorAccent">@color/sunkist_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 
     <style name="BluePinkDesaturated">
         <item name="primaryColor">@color/blue_pink_desaturated</item>
-        <item name="colorAccent">@color/blue_pink_desaturated</item>
+        <item name="colorPrimary">?attr/primaryColor</item>
+        <item name="colorAccent">?attr/primaryColor</item>
     </style>
 </resources>
