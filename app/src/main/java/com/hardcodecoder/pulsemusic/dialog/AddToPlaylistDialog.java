@@ -1,7 +1,6 @@
 package com.hardcodecoder.pulsemusic.dialog;
 
 import android.os.Bundle;
-import android.os.FileObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ public class AddToPlaylistDialog extends RoundedBottomSheetDialogFragment {
 
     public static final String TAG = "AddToPlaylistDialog";
     public static final String MUSIC_MODEL_KEY = "data";
-    private FileObserver mObserver;
     private ATPAdapter mAdapter;
     private MaterialTextView mNoItemText;
     private List<String> mPlaylistNames;
@@ -50,18 +48,11 @@ public class AddToPlaylistDialog extends RoundedBottomSheetDialogFragment {
         setUpRecyclerView(view);
         view.findViewById(R.id.atp_create_playlist_btn).setOnClickListener(v -> {
             if (null != getActivity())
-                UIHelper.buildCreatePlaylistDialog(getActivity());
-        });
-        mObserver = new FileObserver(AppFileManager.getPlaylistFolderFile()) {
-            @Override
-            public void onEvent(int event, @Nullable String path) {
-                if (event == FileObserver.CREATE && null != path) {
+                UIHelper.buildCreatePlaylistDialog(getActivity(), playlistName -> {
                     if (null == mAdapter) setUpRecyclerView(view);
-                    else view.post(() -> mAdapter.addItem(path));
-                }
-            }
-        };
-        mObserver.startWatching();
+                    else view.post(() -> mAdapter.addItem(playlistName));
+                });
+        });
     }
 
     private void setUpRecyclerView(View view) {
@@ -89,11 +80,5 @@ public class AddToPlaylistDialog extends RoundedBottomSheetDialogFragment {
                 recyclerView.setAdapter(mAdapter);
             });
         });
-    }
-
-    @Override
-    public void dismiss() {
-        mObserver.stopWatching();
-        super.dismiss();
     }
 }

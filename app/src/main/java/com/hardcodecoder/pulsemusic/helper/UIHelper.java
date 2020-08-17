@@ -21,6 +21,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.dialog.AddToPlaylistDialog;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
+import com.hardcodecoder.pulsemusic.interfaces.CreatePlaylist;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 import com.hardcodecoder.pulsemusic.singleton.TrackManager;
 import com.hardcodecoder.pulsemusic.storage.AppFileManager;
@@ -59,7 +60,7 @@ public class UIHelper {
         bottomSheetDialog.show();
     }
 
-    public static void buildCreatePlaylistDialog(@NonNull Context context) {
+    public static void buildCreatePlaylistDialog(@NonNull Context context, @NonNull CreatePlaylist callback) {
         BottomSheetDialog sheetDialog = new RoundedBottomSheetDialog(context);
         View layout = View.inflate(context, R.layout.bottom_dialog_edit_text, null);
         sheetDialog.setContentView(layout);
@@ -76,6 +77,7 @@ public class UIHelper {
             if (et.getText() != null && et.getText().toString().length() > 0) {
                 String playlistName = et.getText().toString();
                 AppFileManager.savePlaylist(playlistName);
+                callback.onPlaylistCreated(playlistName);
             } else {
                 Toast.makeText(context, context.getString(R.string.create_playlist_hint), Toast.LENGTH_SHORT).show();
                 return;

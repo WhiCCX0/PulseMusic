@@ -18,18 +18,23 @@ import com.hardcodecoder.pulsemusic.utils.ImageUtil;
 
 import java.util.List;
 
-public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsSVH> implements ItemTouchHelperAdapter {
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.CardsSVH> implements ItemTouchHelperAdapter {
 
     private List<String> mPlaylistNames;
     private PlaylistCardListener mListener;
     private LayoutInflater mInflater;
     private SimpleGestureCallback mCallback;
 
-    public CardsAdapter(List<String> playlistNames, LayoutInflater inflater, PlaylistCardListener mListener, @Nullable SimpleGestureCallback callback) {
+    public PlaylistAdapter(List<String> playlistNames, LayoutInflater inflater, PlaylistCardListener mListener, @Nullable SimpleGestureCallback callback) {
         this.mPlaylistNames = playlistNames;
         this.mInflater = inflater;
         this.mListener = mListener;
         this.mCallback = callback;
+    }
+
+    public void addPlaylist(String playlistName) {
+        mPlaylistNames.add(playlistName);
+        notifyItemInserted(mPlaylistNames.size() - 1);
     }
 
     @Override

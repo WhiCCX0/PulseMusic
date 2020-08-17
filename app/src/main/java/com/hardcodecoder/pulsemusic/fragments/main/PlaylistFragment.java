@@ -29,7 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.activities.CurrentPlaylistActivity;
 import com.hardcodecoder.pulsemusic.activities.PlaylistTracksActivity;
-import com.hardcodecoder.pulsemusic.adapters.CardsAdapter;
+import com.hardcodecoder.pulsemusic.adapters.PlaylistAdapter;
 import com.hardcodecoder.pulsemusic.dialog.RoundedBottomSheetDialog;
 import com.hardcodecoder.pulsemusic.helper.RecyclerViewGestureHelper;
 import com.hardcodecoder.pulsemusic.helper.UIHelper;
@@ -44,7 +44,7 @@ import java.util.Objects;
 public class PlaylistFragment extends Fragment implements PlaylistCardListener, SimpleGestureCallback {
 
     private FileObserver mObserver;
-    private CardsAdapter mAdapter;
+    private PlaylistAdapter mAdapter;
     private Context mContext;
     private List<String> mPlaylistNames;
 
@@ -69,13 +69,10 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
             if (null != result) mPlaylistNames.addAll(result);
             loadPlaylistCards(view);
         });
-        mObserver = new FileObserver(AppFileManager.getPlaylistFolderFile()) {
+        mObserver = new FileObserver(AppFileManager.getPlaylistFolderFile(), FileObserver.CREATE) {
             @Override
             public void onEvent(int event, @Nullable String path) {
-                if (event == FileObserver.CREATE) {
-                    mPlaylistNames.add(path);
-                    view.post(() -> mAdapter.notifyItemInserted(mPlaylistNames.size() - 1));
-                }
+                if (null != path) view.post(() -> mAdapter.addPlaylist(path));
             }
         };
         mObserver.startWatching();
@@ -90,7 +87,10 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_action_add_playlist) {
             if (null != getContext())
-                UIHelper.buildCreatePlaylistDialog(getContext());
+                UIHelper.buildCreatePlaylistDialog(getContext(), playlistName -> {
+                    // File observer monitors creation of new playlists
+                    // No need to call PlaylistAdapter#addPlaylist();
+                });
         }
         return true;
     }
@@ -99,7 +99,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCardListener, 
         view.post(() -> {
             RecyclerView recyclerView = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_playlist_cards_rv)).inflate();
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
-            mAdapter = new CardsAdapter(mPlaylistNames, getLayoutInflater(), this, this);
+            mAdapter = new PlaylistAdapter(mPlaylistNames, getLayoutInflater(), this, this);
             recyclerView.setAdapter(mAdapter);
             ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerViewGestureHelper(mAdapter);
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
