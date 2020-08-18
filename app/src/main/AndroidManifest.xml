@@ -67,11 +67,5 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".storage.MaintenanceJob"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
     </application>
 </manifest>

@@ -1,8 +1,5 @@
 package com.hardcodecoder.pulsemusic.storage;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.os.Handler;
 
@@ -12,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.hardcodecoder.pulsemusic.TaskRunner;
 import com.hardcodecoder.pulsemusic.TaskRunner.Callback;
 import com.hardcodecoder.pulsemusic.helper.DataModelHelper;
+import com.hardcodecoder.pulsemusic.loaders.LoaderCache;
 import com.hardcodecoder.pulsemusic.model.HistoryModel;
 import com.hardcodecoder.pulsemusic.model.MusicModel;
 
@@ -32,16 +30,7 @@ public class AppFileManager {
 
     public static void initDataDir(@NonNull Context context) {
         mFilesDir = context.getFilesDir().getAbsolutePath();
-        String[] fileNames = new File(StorageStructure.getAbsoluteHistoryPath(mFilesDir)).list();
-        if (null != fileNames && fileNames.length > 20) {
-            JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-            if (null != jobScheduler)
-                jobScheduler.schedule(new JobInfo.Builder(
-                        MaintenanceJob.JOB_REMOVE_OLD_FILE,
-                        new ComponentName(context, MaintenanceJob.class))
-                        .build());
-        }
-
+        deleteOldHistoryFiles();
         TaskRunner.executeAsync(() -> {
             StorageUtils.createDir(new File(StorageStructure.getAbsoluteHistoryPath(mFilesDir)));
             StorageUtils.createDir(new File(StorageStructure.getAbsoluteFavoritesPath(mFilesDir)));
@@ -207,5 +196,38 @@ public class AppFileManager {
 
     public static File getPlaylistFolderFile() {
         return new File(StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir));
+    }
+
+    public static void deleteObsoleteHistoryFiles() {
+        TaskRunner.executeAsync(() -> {
+            String hisToryDir = StorageStructure.getAbsoluteHistoryPath(mFilesDir);
+            File[] files = new File(hisToryDir).listFiles();
+            if (null != files && files.length > 0) {
+                List<MusicModel> masterList = LoaderCache.getAllTracksList();
+                if (null != masterList && masterList.size() > 0) {
+                    Set<String> currentList = new HashSet<>();
+                    for (MusicModel md : masterList) currentList.add(md.getTrackName());
+                    for (File f : files)
+                        if (!currentList.contains(f.getName())) StorageUtils.deleteFile(f);
+                } else {
+                    for (File f : files) StorageUtils.deleteFile(f);
+                }
+            }
+        });
+    }
+
+    private static void deleteOldHistoryFiles() {
+        TaskRunner.executeAsync(() -> {
+            String hisToryDir = StorageStructure.getAbsoluteHistoryPath(mFilesDir);
+            File[] files = new File(hisToryDir).listFiles();
+            int size;
+            if (null != files && (size = files.length) > 20) {
+                // Sorts in descending order by modified date
+                StorageUtils.sortFiles(files);
+                File[] deleteFiles = new File[size - 20];
+                System.arraycopy(files, 20, deleteFiles, 0, size - 20);
+                for (File deleteFile : deleteFiles) StorageUtils.deleteFile(deleteFile);
+            }
+        });
     }
 }

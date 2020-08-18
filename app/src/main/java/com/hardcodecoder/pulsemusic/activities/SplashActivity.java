@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
+import com.hardcodecoder.pulsemusic.storage.AppFileManager;
 
 public class SplashActivity extends PMBActivity {
 
@@ -57,7 +58,10 @@ public class SplashActivity extends PMBActivity {
     }
 
     private void startMusicLoader() {
-        LoaderHelper.loadAllTracks(getContentResolver(), result -> startHomeActivity());
+        LoaderHelper.loadAllTracks(getContentResolver(), result -> {
+            AppFileManager.deleteObsoleteHistoryFiles();
+            startHomeActivity();
+        });
     }
 }
 
