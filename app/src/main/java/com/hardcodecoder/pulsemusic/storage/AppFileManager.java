@@ -5,7 +5,6 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +26,6 @@ import java.util.Set;
 
 public class AppFileManager {
 
-    private static final String TAG = "AppStorageManager";
     private static final Map<String, Integer> mHistoryMap = new HashMap<>();
     private static Set<String> mFavoritesSet = null;
     private static String mFilesDir;
@@ -39,21 +37,15 @@ public class AppFileManager {
             JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
             if (null != jobScheduler)
                 jobScheduler.schedule(new JobInfo.Builder(
-                        3500,
+                        MaintenanceJob.JOB_REMOVE_OLD_FILE,
                         new ComponentName(context, MaintenanceJob.class))
                         .build());
         }
 
         TaskRunner.executeAsync(() -> {
-            File temp = new File(StorageStructure.getAbsoluteHistoryPath(mFilesDir));
-            if (!temp.exists() && !temp.mkdir())
-                Log.e(TAG, "Cannot create directory: " + temp.getAbsolutePath());
-            temp = new File(StorageStructure.getAbsoluteFavoritesPath(mFilesDir));
-            if (!temp.exists() && !temp.mkdir())
-                Log.e(TAG, "Cannot create directory: " + temp.getAbsolutePath());
-            temp = new File(StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir));
-            if (!temp.exists() && !temp.mkdir())
-                Log.e(TAG, "Cannot create directory: " + temp.getAbsolutePath());
+            StorageUtils.createDir(new File(StorageStructure.getAbsoluteHistoryPath(mFilesDir)));
+            StorageUtils.createDir(new File(StorageStructure.getAbsoluteFavoritesPath(mFilesDir)));
+            StorageUtils.createDir(new File(StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir)));
         });
     }
 
@@ -95,11 +87,9 @@ public class AppFileManager {
         if (null == mFavoritesSet)
             mFavoritesSet = new HashSet<>();
         if (mFavoritesSet.add(item.getTrackName()))
-            TaskRunner.executeAsync(() -> {
-                String filePath = StorageStructure.getAbsoluteFavoritesPath(mFilesDir).concat(item.getTrackName());
-                boolean res = StorageUtils.writeRawFavorite(filePath);
-                if (!res) Log.e(TAG, "Error writing favorites");
-            });
+            TaskRunner.executeAsync(() -> StorageUtils.writeRawFavorite(
+                    StorageStructure.getAbsoluteFavoritesPath(mFilesDir)
+                            .concat(item.getTrackName())));
     }
 
     private static void loadFavorites() {
@@ -123,14 +113,12 @@ public class AppFileManager {
     public static void deleteFavorite(@NonNull MusicModel md) {
         if (null == mFavoritesSet)
             mFavoritesSet = new HashSet<>();
-        if (mFavoritesSet.remove(md.getTrackName()))
-            TaskRunner.executeAsync(() -> {
-                // If true item has been removed successfully.
-                // Remove from database as well
-                if (!new File(StorageStructure.getAbsoluteFavoritesPath(
-                        mFilesDir) + md.getTrackName()).delete())
-                    Log.e(TAG, "Error deleting favorite");
-            });
+        if (mFavoritesSet.remove(md.getTrackName())) {
+            StorageUtils.deleteFile(
+                    new File(StorageStructure.getAbsoluteFavoritesPath(
+                            mFilesDir)
+                            + md.getTrackName()));
+        }
     }
 
     public static void isItemAFavorite(@NonNull MusicModel item, @NonNull Callback<Boolean> callback) {
@@ -145,12 +133,10 @@ public class AppFileManager {
     }
 
     public static void savePlaylist(@NonNull String playlistName) {
-        TaskRunner.executeAsync(() -> {
-            boolean res = StorageUtils.writeRawPlaylist(
-                    StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir) +
-                            playlistName);
-            if (!res) Log.e(TAG, "Error creating playlist");
-        });
+        TaskRunner.executeAsync(() ->
+                StorageUtils.writeRawPlaylist(
+                        StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir) +
+                                playlistName));
     }
 
     public static void getPlaylists(@NonNull Callback<List<String>> callback) {
@@ -174,8 +160,7 @@ public class AppFileManager {
             String playlistDir = StorageStructure.getAbsolutePlaylistsFolderPath(mFilesDir);
             File oldName = new File(playlistDir + oldPlaylistName);
             File newName = new File(playlistDir + newPlaylistName);
-            if (!oldName.renameTo(newName))
-                Log.e(TAG, "Unable to rename playlist from: " + oldName.getAbsolutePath() + ", to: " + newName.getAbsolutePath());
+            StorageUtils.renameFile(oldName, newName);
         });
     }
 
@@ -214,10 +199,10 @@ public class AppFileManager {
     }
 
     public static void deletePlaylist(@NonNull String playlistName) {
-        if (!new File(StorageStructure.getAbsolutePlaylistsFolderPath(
-                mFilesDir) +
-                playlistName).delete())
-            Log.e(TAG, "Error deleting playlist");
+        StorageUtils.deleteFile(
+                new File(StorageStructure.getAbsolutePlaylistsFolderPath(
+                        mFilesDir) +
+                        playlistName));
     }
 
     public static File getPlaylistFolderFile() {

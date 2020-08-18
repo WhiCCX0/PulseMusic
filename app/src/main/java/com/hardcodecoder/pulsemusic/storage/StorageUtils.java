@@ -2,6 +2,7 @@ package com.hardcodecoder.pulsemusic.storage;
 
 import android.annotation.SuppressLint;
 import android.os.SystemClock;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import java.util.List;
 
 class StorageUtils {
 
+    private static final String TAG = StorageUtils.class.getSimpleName();
     private static final int LINE_ID_ALBUM = 0;
     private static final int LINE_ID_ARTIST = 1;
     private static final int LINE_ID_ALBUM_ID = 2;
@@ -93,25 +95,24 @@ class StorageUtils {
         return null;
     }
 
-    static boolean writeRawFavorite(String filePath) {
+    static void writeRawFavorite(String filePath) {
         try {
             File file = new File(filePath);
-            if (file.createNewFile())
-                return true;
+            if (!file.createNewFile())
+                Log.e(TAG, "Unable to create favorite item file: " + file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    static boolean writeRawPlaylist(String filePath) {
+    static void writeRawPlaylist(String filePath) {
         try {
             File playlistFile = new File(filePath);
-            return playlistFile.createNewFile();
+            if (!playlistFile.createNewFile())
+                Log.e(TAG, "Unable to create playlist item file: " + playlistFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     @NonNull
@@ -173,5 +174,20 @@ class StorageUtils {
                 }
             }
         }
+    }
+
+    static void createDir(File file) {
+        if (!file.exists() && !file.mkdir())
+            Log.e(TAG, "Cannot create directory: " + file.getAbsolutePath());
+    }
+
+    static void renameFile(File renameFrom, File renameTo) {
+        if (!renameFrom.renameTo(renameTo))
+            Log.e(TAG, "Unable to rename file from: " + renameFrom.getAbsolutePath() + ", to: " + renameTo.getAbsolutePath());
+    }
+
+    static void deleteFile(File file) {
+        if (!file.delete())
+            Log.e(TAG, "Unable to delete file: " + file.getAbsolutePath());
     }
 }
