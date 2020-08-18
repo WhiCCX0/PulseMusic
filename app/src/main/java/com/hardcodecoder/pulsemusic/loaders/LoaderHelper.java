@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class LoaderHelper {
 
@@ -44,7 +45,13 @@ public class LoaderHelper {
                 List<MusicModel> list = new ArrayList<>(LoaderCache.getAllTracksList());
                 if (list.size() > 0) {
                     Collections.shuffle(list);
-                    final List<MusicModel> suggestionsList = list.subList(0, (int) (list.size() * 0.2));  //only top 20%
+                    int listSize = list.size();
+                    // Consider 30 of 20% of listSize whichever is smaller
+                    int minTwentyPercent = Math.min((int) (0.2 * listSize), 30);
+                    // Find a random start index such that startIndex + minTwentyPercent < listSize
+                    int startIndex = new Random().nextInt(listSize - minTwentyPercent);
+                    // sublist the list from startIndex to startIndex + minTwentyPercent
+                    final List<MusicModel> suggestionsList = list.subList(startIndex, startIndex + minTwentyPercent);
                     LoaderCache.setSuggestions(suggestionsList);
                     suggestionsList.clear();
                     list.clear();
