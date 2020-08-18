@@ -127,7 +127,6 @@ public class PlaylistTracksActivity extends MediaSessionActivity implements Play
                             if (null == mAdapter) loadPlaylist(selectedTracks);
                             else {
                                 mAdapter.addItems(selectedTracks);
-                                tm.buildDataList(mPlaylistTracks, tm.getActiveIndex());
                             }
                         }
                     }));
