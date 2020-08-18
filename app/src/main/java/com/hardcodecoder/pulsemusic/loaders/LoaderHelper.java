@@ -65,7 +65,7 @@ public class LoaderHelper {
                 for (HistoryModel hm : result)
                     recentTracks.add(map.get(hm.getTitle()));
                 callback.onComplete(recentTracks);
-            } else callback.onComplete(null);
+            }
         });
     }
 
@@ -85,7 +85,6 @@ public class LoaderHelper {
         AppFileManager.getHistory(false, history -> {
             if (null != history && history.size() > 0)
                 TaskRunner.executeAsync(new TopAlbumsLoader(history), callback);
-            else callback.onComplete(null);
         });
     }
 
@@ -93,7 +92,6 @@ public class LoaderHelper {
         AppFileManager.getHistory(false, history -> {
             if (null != history && history.size() > 0)
                 TaskRunner.executeAsync(new TopArtistsLoader(history), callback);
-            else callback.onComplete(null);
         });
     }
 }

@@ -38,10 +38,10 @@ import com.hardcodecoder.pulsemusic.utils.NavigationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
+    private static final long BASE_DELAY_MILLS = 275;
     private static final int PICK_MUSIC = 1600;
     private MediaController.TransportControls mTransportControl;
     private TrackManager tm;
@@ -60,9 +60,16 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         tm = TrackManager.getInstance();
 
-        if (LoaderCache.getAllTracksList().size() > 0)
+        if (LoaderCache.getAllTracksList().size() > 0 && null != getContext()) {
             LoaderHelper.loadTopAlbums(result -> loadTopAlbums(view, result));
-        else {
+            if (null == LoaderCache.getSuggestions())
+                LoaderHelper.loadSuggestionsList(getContext().getContentResolver(), result -> loadSuggestions(view, result));
+            else loadSuggestions(view, LoaderCache.getSuggestions());
+            if (null == LoaderCache.getLatestTracks())
+                LoaderHelper.loadLatestTracks(getContext().getContentResolver(), result -> loadLatestTracks(view, result));
+            else loadLatestTracks(view, LoaderCache.getLatestTracks());
+            LoaderHelper.loadTopArtist(result -> loadTopArtists(view, result));
+        } else {
             MaterialTextView noTracksText = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_no_tracks_found)).inflate();
             noTracksText.setText(getString(R.string.tracks_not_found));
         }
@@ -74,7 +81,7 @@ public class HomeFragment extends Fragment {
 
     private void loadTopAlbums(View view, List<TopAlbumModel> list) {
         if (null != list && list.size() > 0) {
-            view.post(() -> {
+            view.postDelayed(() -> {
                 MaterialTextView topAlbumsTitle = (MaterialTextView) ((ViewStub) view.findViewById(R.id.stub_top_albums_title)).inflate();
                 topAlbumsTitle.setText(getString(R.string.top_albums));
                 RecyclerView rv = (RecyclerView) ((ViewStub) view.findViewById(R.id.stub_top_albums_list)).inflate();
@@ -89,11 +96,8 @@ public class HomeFragment extends Fragment {
                 SnapHelper helper = new PagerSnapHelper();
                 helper.attachToRecyclerView(rv);
                 rv.setAdapter(adapter);
-            });
+            }, 0);
         }
-        if (null == LoaderCache.getSuggestions())
-            LoaderHelper.loadSuggestionsList(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadSuggestions(view, result));
-        else loadSuggestions(view, LoaderCache.getSuggestions());
     }
 
     private void loadSuggestions(View view, List<MusicModel> list) {
@@ -118,10 +122,7 @@ public class HomeFragment extends Fragment {
                     }
                 }, LayoutStyle.ROUNDED_RECTANGLE);
                 rv.setAdapter(adapter);
-                if (null == LoaderCache.getLatestTracks())
-                    LoaderHelper.loadLatestTracks(Objects.requireNonNull(getContext()).getContentResolver(), result -> loadLatestTracks(view, result));
-                else loadLatestTracks(view, LoaderCache.getLatestTracks());
-            }, 240);
+            }, BASE_DELAY_MILLS);
         }
     }
 
@@ -147,8 +148,7 @@ public class HomeFragment extends Fragment {
                     }
                 }, LayoutStyle.ROUNDED_RECTANGLE);
                 rv.setAdapter(adapter);
-                LoaderHelper.loadTopArtist(result -> loadTopArtists(view, result));
-            }, 240);
+            }, BASE_DELAY_MILLS * 2);
         }
     }
 
@@ -165,7 +165,7 @@ public class HomeFragment extends Fragment {
                         NavigationUtil.goToArtist(getActivity(), sharedView, list.get(position).getArtistName());
                 });
                 rv.setAdapter(adapter);
-            }, 240);
+            }, BASE_DELAY_MILLS * 3);
         }
     }
 
