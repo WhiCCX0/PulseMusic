@@ -12,6 +12,12 @@ public class Preferences {
 
     public static final String SPAN_COUNT = "GridSpanCount";
 
+    public static final String LIBRARY_SPAN_COUNT_PORTRAIT_KEY = "LibraryPortraitGridCount";
+    public static final String LIBRARY_SPAN_COUNT_LANDSCAPE_KEY = "LibraryLandscapeGridCount";
+
+    public static final int SPAN_COUNT_LIBRARY_PORTRAIT_DEF_VALUE = 1;
+    public static final int SPAN_COUNT_LIBRARY_LANDSCAPE_DEF_VALUE = 2;
+
     public static final String ALBUMS_SPAN_COUNT_PORTRAIT_KEY = "AlbumsPortraitGridCount";
     public static final String ALBUMS_SPAN_COUNT_LANDSCAPE_KEY = "AlbumsLandscapeGridCount";
 

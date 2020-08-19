@@ -46,7 +46,7 @@ public class RecentActivity extends MediaSessionActivity implements SimpleItemCl
                 RecyclerView rv = (RecyclerView) ((ViewStub) findViewById(R.id.stub_playlist_tracks_rv)).inflate();
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
-                LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this);
+                LibraryAdapter adapter = new LibraryAdapter(mRecentTracks, getLayoutInflater(), this, null);
                 rv.setAdapter(adapter);
             } else {
                 MaterialTextView tv = findViewById(R.id.no_tracks_found);

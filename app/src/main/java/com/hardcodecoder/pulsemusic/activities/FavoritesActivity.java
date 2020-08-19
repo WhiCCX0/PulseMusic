@@ -47,7 +47,7 @@ public class FavoritesActivity extends MediaSessionActivity implements SimpleIte
                 RecyclerView rv = (RecyclerView) ((ViewStub) findViewById(R.id.stub_playlist_tracks_rv)).inflate();
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), RecyclerView.VERTICAL, false));
-                LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this);
+                LibraryAdapter adapter = new LibraryAdapter(favoritesList, getLayoutInflater(), this, null);
                 rv.setAdapter(adapter);
             } else {
                 MaterialTextView tv = findViewById(R.id.no_tracks_found);
@@ -57,7 +57,6 @@ public class FavoritesActivity extends MediaSessionActivity implements SimpleIte
                 tv.setText(stringBuilder);
             }
         }));
-
 
         MaterialToolbar toolbar = findViewById(R.id.material_toolbar);
         toolbar.setTitle(getString(R.string.favorites));

@@ -68,6 +68,7 @@
     <string name="columns">Columns</string>
     <string name="grid_count">Grid count</string>
     <string name="grid_count_land">Grid count (landscape)</string>
+    <string name="one">One</string>
     <string name="two">Two</string>
     <string name="three">Three</string>
     <string name="four">Four</string>

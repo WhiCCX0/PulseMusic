@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:orderInCategory="2"
+        android:title="@string/grid_count_land">
+        <menu>
+            <item
+                android:id="@+id/l_two"
+                android:title="@string/two" />
+
+            <item
+                android:id="@+id/l_three"
+                android:title="@string/three" />
+
+            <item
+                android:id="@+id/l_four"
+                android:title="@string/four" />
+
+        </menu>
+    </item>
+</menu>
