@@ -14,6 +14,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.hardcodecoder.pulsemusic.Preferences;
 import com.hardcodecoder.pulsemusic.R;
 import com.hardcodecoder.pulsemusic.adapters.AlbumsAdapter;
+import com.hardcodecoder.pulsemusic.fragments.main.base.CardGridFragment;
 import com.hardcodecoder.pulsemusic.loaders.LoaderHelper;
 import com.hardcodecoder.pulsemusic.loaders.SortOrder.ALBUMS;
 import com.hardcodecoder.pulsemusic.model.AlbumModel;
@@ -22,7 +23,7 @@ import com.hardcodecoder.pulsemusic.utils.NavigationUtil;
 
 import java.util.List;
 
-public class AlbumsFragment extends PMBGridFragment {
+public class AlbumsFragment extends CardGridFragment {
 
     private GridLayoutManager mLayoutManager;
     private AlbumsAdapter mAdapter;
@@ -76,7 +77,7 @@ public class AlbumsFragment extends PMBGridFragment {
     @Override
     public int getSortOrder() {
         if (null == getContext())
-            return Preferences.SORT_ORDER_ASC;
+            return super.getSortOrder();
         return AppSettings.getSortOrder(getContext(), Preferences.SORT_ORDER_ALBUMS_KEY);
     }
 
@@ -91,15 +92,21 @@ public class AlbumsFragment extends PMBGridFragment {
     @Override
     public int getPortraitModeSpanCount() {
         if (null == getContext())
-            return Preferences.SPAN_COUNT_PORTRAIT_DEF_VALUE;
-        return AppSettings.getPortraitModeGridSpanCount(getContext(), Preferences.ALBUMS_SPAN_COUNT_PORTRAIT_KEY);
+            return super.getPortraitModeSpanCount();
+        return AppSettings.getPortraitModeGridSpanCount(
+                getContext(),
+                Preferences.ALBUMS_SPAN_COUNT_PORTRAIT_KEY,
+                Preferences.SPAN_COUNT_PORTRAIT_DEF_VALUE);
     }
 
     @Override
     public int getLandscapeModeSpanCount() {
         if (null == getContext())
-            return Preferences.SPAN_COUNT_LANDSCAPE_DEF_VALUE;
-        return AppSettings.getLandscapeModeGridSpanCount(getContext(), Preferences.ALBUMS_SPAN_COUNT_LANDSCAPE_KEY);
+            return super.getLandscapeModeSpanCount();
+        return AppSettings.getLandscapeModeGridSpanCount(
+                getContext(),
+                Preferences.ALBUMS_SPAN_COUNT_LANDSCAPE_KEY,
+                Preferences.SPAN_COUNT_LANDSCAPE_DEF_VALUE);
     }
 
     @Override

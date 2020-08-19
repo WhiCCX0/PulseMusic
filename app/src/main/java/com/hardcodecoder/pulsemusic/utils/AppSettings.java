@@ -15,9 +15,9 @@ public class AppSettings {
         editor.apply();
     }
 
-    public static int getPortraitModeGridSpanCount(@NonNull Context context, String prefId) {
+    public static int getPortraitModeGridSpanCount(@NonNull Context context, String prefId, int defValut) {
         return context.getSharedPreferences(Preferences.SPAN_COUNT, Context.MODE_PRIVATE)
-                .getInt(prefId, Preferences.SPAN_COUNT_PORTRAIT_DEF_VALUE);
+                .getInt(prefId, defValut);
     }
 
     public static void saveLandscapeModeGridSpanCount(@NonNull Context context, String prefId, int count) {
@@ -26,9 +26,9 @@ public class AppSettings {
         editor.apply();
     }
 
-    public static int getLandscapeModeGridSpanCount(@NonNull Context context, String prefId) {
+    public static int getLandscapeModeGridSpanCount(@NonNull Context context, String prefId, int defValue) {
         return context.getSharedPreferences(Preferences.SPAN_COUNT, Context.MODE_PRIVATE)
-                .getInt(prefId, Preferences.SPAN_COUNT_LANDSCAPE_DEF_VALUE);
+                .getInt(prefId, defValue);
     }
 
     public static void saveSortOrder(@NonNull Context context, String prefId, int sortOrder) {
