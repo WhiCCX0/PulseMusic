@@ -19,10 +19,10 @@ public class ArtistsLoader implements Callable<List<ArtistModel>> {
         this.mContentResolver = mContentResolver;
         switch (sortOrder) {
             case TITLE_ASC:
-                mSortOrder = MediaStore.Audio.Artists.ARTIST + " ASC";
+                mSortOrder = MediaStore.Audio.Artists.ARTIST + " COLLATE NOCASE ASC";
                 break;
             case TITLE_DESC:
-                mSortOrder = MediaStore.Audio.Artists.ARTIST + " DESC";
+                mSortOrder = MediaStore.Audio.Artists.ARTIST + " COLLATE NOCASE DESC";
                 break;
             case NUM_OF_TRACKS_ASC:
                 mSortOrder = MediaStore.Audio.Artists.NUMBER_OF_TRACKS + " ASC";

@@ -22,10 +22,10 @@ public class AlbumsLoader implements Callable<List<AlbumModel>> {
         this.mContentResolver = mContentResolver;
         switch (sortOrder) {
             case TITLE_ASC:
-                mSortOrder = MediaStore.Audio.Albums.ALBUM + " ASC";
+                mSortOrder = MediaStore.Audio.Albums.ALBUM + " COLLATE NOCASE ASC";
                 break;
             case TITLE_DESC:
-                mSortOrder = MediaStore.Audio.Albums.ALBUM + " DESC";
+                mSortOrder = MediaStore.Audio.Albums.ALBUM + " COLLATE NOCASE DESC";
                 break;
             case ALBUM_DATE_FIRST_YEAR_ASC:
                 mSortOrder = MediaStore.Audio.Albums.FIRST_YEAR + " ASC";

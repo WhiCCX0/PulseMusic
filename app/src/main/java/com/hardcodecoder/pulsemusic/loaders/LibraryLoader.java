@@ -21,10 +21,10 @@ public class LibraryLoader implements Callable<List<MusicModel>> {
         this.contentResolver = contentResolver;
         switch (sortOrder) {
             case TITLE_ASC:
-                mSortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+                mSortOrder = MediaStore.Audio.Media.TITLE + " COLLATE NOCASE ASC";
                 break;
             case TITLE_DESC:
-                mSortOrder = MediaStore.Audio.Media.TITLE + " DESC";
+                mSortOrder = MediaStore.Audio.Media.TITLE + " COLLATE NOCASE DESC";
                 break;
             case DATE_MODIFIED_ASC:
                 mSortOrder = MediaStore.Audio.Media.DATE_MODIFIED + " ASC";
