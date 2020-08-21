@@ -33,8 +33,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.CardsS
     }
 
     public void addPlaylist(String playlistName) {
-        mPlaylistNames.add(playlistName);
-        notifyItemInserted(mPlaylistNames.size() - 1);
+        mPlaylistNames.add(1, playlistName);
+        notifyItemInserted(1);
     }
 
     @Override

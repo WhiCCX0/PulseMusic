@@ -26,8 +26,8 @@ public class ATPAdapter extends RecyclerView.Adapter<ATPAdapter.ATPViewHolder> {
     }
 
     public void addItem(String name) {
-        mDataList.add(name);
-        notifyItemInserted(mDataList.size() - 1);
+        mDataList.add(0, name);
+        notifyItemInserted(0);
     }
 
     @NonNull
