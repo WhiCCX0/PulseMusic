@@ -10,8 +10,8 @@
         <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
-        <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
+        <item name="android:textViewStyle">@style/PulseTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PulseButtonStyle</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -23,7 +23,7 @@
         <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
-        <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
+        <item name="android:textViewStyle">@style/PulseTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PulseButtonStyle</item>
     </style>
 </resources>

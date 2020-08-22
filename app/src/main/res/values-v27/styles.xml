@@ -11,8 +11,8 @@
         <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
-        <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
+        <item name="android:textViewStyle">@style/PulseTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PulseButtonStyle</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -25,8 +25,8 @@
         <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
-        <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
+        <item name="android:textViewStyle">@style/PulseTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PulseButtonStyle</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
@@ -34,7 +34,7 @@
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColor">?secondaryTextColor</item>
-        <item name="android:fontFamily">@font/product</item>
+        <item name="android:fontFamily">@font/manrope</item>
         <item name="android:textStyle">bold</item>
         <item name="android:navigationBarColor">?windowBackgroundColor</item>
         <item name="android:windowLightNavigationBar">?isLightMode</item>

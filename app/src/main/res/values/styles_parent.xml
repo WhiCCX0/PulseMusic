@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ProductRegularTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/product</item>
-        <item name="fontFamily">@font/product</item>
+    <style name="PulseTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/manrope</item>
+        <item name="fontFamily">@font/manrope</item>
     </style>
 
-    <style name="ProductRegularButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:fontFamily">@font/product</item>
-        <item name="fontFamily">@font/product</item>
+    <style name="PulseButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:fontFamily">@font/manrope</item>
+        <item name="fontFamily">@font/manrope</item>
     </style>
 
     <style name="WindowTransitions" parent="@android:style/Animation.Activity">
@@ -31,8 +31,8 @@
         <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
-        <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
+        <item name="android:textViewStyle">@style/PulseTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PulseButtonStyle</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.MaterialComponents.NoActionBar">
@@ -43,8 +43,8 @@
         <item name="android:navigationBarColor">?attr/navigationBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowTransitions</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textViewStyle">@style/ProductRegularTextViewStyle</item>
-        <item name="android:buttonStyle">@style/ProductRegularButtonStyle</item>
+        <item name="android:textViewStyle">@style/PulseTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PulseButtonStyle</item>
     </style>
 
     <style name="PulseLightTheme" parent="ThemeLight">
