@@ -1,0 +1,1 @@
+A music player app to complement your offline music collection with playlist support, theme options, multiple now playing screen, quick play shortcuts, and much more.
