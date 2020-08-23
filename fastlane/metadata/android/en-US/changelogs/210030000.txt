@@ -1,0 +1,10 @@
+Pulse Music V3.0.0-Release
+
+- Redesigned Home section
+- Completely new Settings page
+- Added Now playing screens
+- Added option to change sort order and column 
+- Added launcher shortcuts
+- Added accent support
+- Fixed styling and theme issue in api <= 23
+- Lots of other bug fixes and improvements
