@@ -2,6 +2,7 @@
 /.gradle/
 /.idea/
 /app/build/
+/app/release/
 /app/app.iml
 /PulseMusic.iml
 /local.properties
