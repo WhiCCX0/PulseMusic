@@ -59,12 +59,6 @@ public class Preferences {
     public static final String NOW_PLAYING_ALBUM_COVER_RADIUS_BR = "RadiusBottomRight";
     public static final int NOW_PLAYING_ALBUM_COVER_RADIUS_DEF = 16;
 
-    // True or false
-    //public static final String NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY = "NowPlayingAlbumCardOverlay";
-
-    // True or false
-    //public static final String ALBUM_CARD_OVERLAY_KEY = "AlbumCardOverlayKey";
-
     // True of false
     public static final String ACCENTS_COLOR_KEY = "AccentsColor";
     public static final String ACCENTS_COLOR_DESATURATED_KEY = "AccentsColorDesaturated";

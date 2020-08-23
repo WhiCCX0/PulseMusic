@@ -65,7 +65,6 @@
     <string name="add_playlist">Add playlist</string>
     <string name="settings">Settings</string>
     <string name="equalizer_error">Default equalizer not found</string>
-    <string name="columns">Columns</string>
     <string name="grid_count">Grid count</string>
     <string name="grid_count_land">Grid count (landscape)</string>
     <string name="one">One</string>
@@ -175,11 +174,6 @@
 
     <string name="laf_accents_picker_desaturated_title">Desaturated colors</string>
     <string name="laf_accents_picker_accent_desaturated_desc">Makes color desaturated when dark theme is applied</string>
-
-    <string name="laf_category_album_art_decoration">Style</string>
-    <string name="laf_category_album_art_decoration_title">Enable gradient overlay</string>
-    <string name="laf_category_album_art_decoration_desc">Adds a fading overlay on top of album art in albums list</string>
-
 
     <string name="dark_theme_name_gray">Just Gray</string>
     <string name="dark_theme_name_kinda_dark">Signature dark scheme</string>

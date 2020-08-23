@@ -42,19 +42,6 @@ public class SettingsNowPlayingFragment extends Fragment {
             }
         });
 
-        /*boolean enabled = false;
-        if (null != getContext())
-            enabled = AppSettings.isNowPlayingAlbumCardOverlayEnabled(getContext());
-
-        SettingsToggleableItem albumCardDecorationLayout = view.findViewById(R.id.now_playing_album_decoration);
-        SwitchMaterial albumCardDecorationSwitch = albumCardDecorationLayout.findViewById(R.id.setting_toggleable_item_switch);
-
-        albumCardDecorationSwitch.setChecked(enabled);
-        albumCardDecorationSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
-                AppSettings.setNowPlayingAlbumCardOverlayEnabled(buttonView.getContext(), isChecked));
-        albumCardDecorationLayout.setOnClickListener(v ->
-                albumCardDecorationSwitch.setChecked(!albumCardDecorationSwitch.isChecked()));*/
-
         view.findViewById(R.id.now_playing_album_cover_corner_radius).setOnClickListener(v -> {
             if (null != getActivity()) {
                 CornerRadiusChangeDialogFragment dialog = CornerRadiusChangeDialogFragment.getInstance();

@@ -95,38 +95,16 @@ public class AppSettings {
                 .getBoolean(Preferences.ACCENTS_COLOR_DESATURATED_KEY, false);
     }
 
-    /*public static void setAlbumCardOverlayEnabled(@NonNull Context context, boolean enabled) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, enabled);
-        editor.apply();
-    }
-
-    public static boolean isAlbumCardOverlayEnabled(@NonNull Context context) {
-        return context.getSharedPreferences(Preferences.ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
-                .getBoolean(Preferences.ALBUM_CARD_OVERLAY_KEY, false);
-    }*/
-
     public static void setNowPlayingScreenStyle(@NonNull Context context, int id) {
         SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Context.MODE_PRIVATE).edit();
         editor.putInt(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, id);
         editor.apply();
     }
 
-    /*public static void setNowPlayingAlbumCardOverlayEnabled(@NonNull Context context, boolean enabled) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, enabled);
-        editor.apply();
-    }*/
-
     public static int getNowPlayingScreenStyle(@NonNull Context context) {
         return context.getSharedPreferences(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Context.MODE_PRIVATE)
                 .getInt(Preferences.NOW_PLAYING_SCREEN_STYLE_KEY, Preferences.NOW_PLAYING_SCREEN_MODERN);
     }
-
-    /*public static boolean isNowPlayingAlbumCardOverlayEnabled(@NonNull Context context) {
-        return context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, Context.MODE_PRIVATE)
-                .getBoolean(Preferences.NOW_PLAYING_ALBUM_CARD_OVERLAY_KEY, false);
-    }*/
 
     public static void saveNowPlayingAlbumCoverCornerRadius(@NonNull Context context, int tl, int tr, int bl, int br) {
         SharedPreferences.Editor editor = context.getSharedPreferences(Preferences.NOW_PLAYING_ALBUM_COVER_CORNER_RADIUS, Context.MODE_PRIVATE).edit();
